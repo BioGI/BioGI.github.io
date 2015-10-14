@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="generator" content="scholpandoc">
+  <meta name="viewport" content="width=device-width">
+  
+  <meta name="author" content="Ganesh Vijayakumar">
+  <meta name="dcterms.date" content="2015-10-13">
+  <title>How to install scholdoc</title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.7.1/modernizr.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.js"></script>
+  <style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; }
+code > span.dt { color: #902000; }
+code > span.dv { color: #40a070; }
+code > span.bn { color: #40a070; }
+code > span.fl { color: #40a070; }
+code > span.ch { color: #4070a0; }
+code > span.st { color: #4070a0; }
+code > span.co { color: #60a0b0; font-style: italic; }
+code > span.ot { color: #007020; }
+code > span.al { color: #ff0000; font-weight: bold; }
+code > span.fu { color: #06287e; }
+code > span.er { color: #ff0000; font-weight: bold; }
+  </style>
+  <link rel="stylesheet" href="css/ScholarlyMarkdown-BS3.css">
+</head>
+<body>
+<div class="scholmd-container">
+<div class="scholmd-main">
+<div class="scholmd-content">
+<header>
+<h1 class="scholmd-title">How to install scholdoc</h1>
+<div class="scholmd-author">
+Ganesh Vijayakumar
+</div>
+<div class="scholmd-date">13 Oct 2015</div>
+</header>
+<p>I have used the <a href="http://scholarlymarkdown.com/">Scholarly Markdown format</a> and <a href="http://scholdoc.scholarlymarkdown.com/">scholdoc</a>, a fork of <a href="http://pandoc.org/">Pandoc</a> to create these webpages. One of the main reasons for choosing this was having the native ability to <a href="http://scholarlymarkdown.com/Scholarly-Markdown-Guide.html#floating-subfigs">scale images</a> and having internal references to them in the text. This originally seemed fairly complicated, so here’s a sub-list of steps I followed</p>
+<ul>
+<li>I had to install <code>cabal-install</code> and <code>ghc</code> (apparently stands for Glasgow Haskell Interpreter). You might need to be <code>root</code> for this</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">apt-get</span> instll cabal-install ghc</code></pre></div>
+<ul>
+<li>Then, as a normal user, I used them to install scholdoc as</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">cabal</span> update
+<span class="kw">cabal</span> install scholdoc
+<span class="kw">cabal</span> install scholdoc-citeproc</code></pre></div>
+<ul>
+<li>Download the supporting files from the example folder. Type <code>make</code>. If you followed all steps so far, this should work.</li>
+</ul>
+<p><em>If you got this to work, you don’t need to do anything else. If you’re still interested, read further.</em></p>
+<ul>
+<li>You might notice the web page style is not the same as the one on the scholdoc website. I didn’t like the smallish container area for the theme. Hence I had to install the theme he had used at <a href="https://github.com/timtylin/Heuristically-scholmd-theme" class="uri">https://github.com/timtylin/Heuristically-scholmd-theme</a>. I changed the pixel width to 1500 in the <code>variables.less</code> file, as I was going to use this theme primarily on large screen monitors with over 1300px resolution in the horizontal.</li>
+</ul>
+<pre><code>// Large screen / wide desktop
+@container-large-desktop:      ((1500px + @grid-gutter-width));
+//** For `@screen-lg-min` and up.
+@container-lg:                 @container-large-desktop;</code></pre>
+<ul>
+<li>It turns out, it’s not quite easy to get this theme recompiled. I followed instructions on the wiki. I had to install more stuff.. yay!</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">apt-get</span> install npm
+<span class="kw">npm</span> install -g grunt-cli
+<span class="kw">npm</span> install -g bower</code></pre></div>
+<ul>
+<li>Also, I <strong>hate</strong> the Heuristica font. I prefer the default <code>serif</code> font on my computer, the beautiful Georgia. So I just removed any mention of it from the css file it generated. Did I mention that the font and the theme on the <a href="http://www.pandoc.org">Pandoc website</a> are <strong>awesome</strong> ? Hint: It uses the default serif <strong>Georgia</strong> on my firefox!</li>
+</ul>
+<div class="references">
+
+</div>
+</div>
+</div>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+      processClass: "math"
+    },
+    TeX: {
+        TagSide: "left",
+        TagIndent: "1.2em",
+        equationNumbers: {
+            autoNumber: "AMS"
+        },
+        Macros: {
+            ensuremath: ["#1",1],
+            textsf: ["\\mathsf{\\text{#1}}",1],
+            texttt: ["\\mathtt{\\text{#1}}",1]
+        }
+    },
+    "HTML-CSS": { 
+        scale: 100,
+        availableFonts: ["TeX"], 
+        preferredFont: "TeX",
+        webFont: "TeX",
+        imageFont: "TeX",
+        EqnChunk: 1000
+    }
+});
+</script>
+</div>
+</body>
+</html>

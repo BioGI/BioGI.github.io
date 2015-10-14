@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="generator" content="scholpandoc">
+  <meta name="viewport" content="width=device-width">
+  
+  <meta name="author" content="Ganesh Vijayakumar">
+  <meta name="dcterms.date" content="2015-10-11">
+  <title>Attempts to reproduce Gino’s results</title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.7.1/modernizr.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.js"></script>
+  <style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; }
+code > span.dt { color: #902000; }
+code > span.dv { color: #40a070; }
+code > span.bn { color: #40a070; }
+code > span.fl { color: #40a070; }
+code > span.ch { color: #4070a0; }
+code > span.st { color: #4070a0; }
+code > span.co { color: #60a0b0; font-style: italic; }
+code > span.ot { color: #007020; }
+code > span.al { color: #ff0000; font-weight: bold; }
+code > span.fu { color: #06287e; }
+code > span.er { color: #ff0000; font-weight: bold; }
+  </style>
+  <link rel="stylesheet" href="css/ScholarlyMarkdown-BS3.css">
+</head>
+<body>
+<div class="scholmd-container">
+<div class="scholmd-main">
+<div class="scholmd-content">
+<header>
+<h1 class="scholmd-title">Attempts to reproduce Gino’s results</h1>
+<div class="scholmd-author">
+Ganesh Vijayakumar
+</div>
+<div class="scholmd-date">11 Oct 2015</div>
+</header>
+<h1 id="selected-summary-of-ginos-simulations-and-results">Selected summary of Gino’s simulations and results</h1>
+<p>Gino Banco, in his Ph.D thesis <span class="scholmd-citation" data-cites="Banco2010">[1]</span>, simulated the nutrient absorption in the gut using 2D and 3D LBM. I’m only interested in replicating a few of his 3D results. Hence I’ll reproduce a selected summary of his numerical experiments and results.</p>
+<h2 id="modeling-of-the-intestinal-motility">Modeling of the intestinal motility</h2>
+<p>He modeled the motility of the intestinal wall using a combination of Peristalsis and Segmentation motions as 
+<span class="math scholmd-math-display" style="display: block;">\[
+\begin{equation*}
+\begin{aligned}
+h(x,t) &amp;= w_p h_p(x,t) + w_x h_s(x,t) \textrm { subject to the constraint } \\
+w_s + w_p &amp;= 1
+\end{aligned}
+\end{equation*}
+\]</span>
+ “where <span class="math scholmd-math-inline">\(h_s(x,t)\)</span> is the contribution from segmentation and <span class="math scholmd-math-inline">\(h_p(x,t)\)</span> is the contribution from peristalsis. The weighting coefficients, <span class="math scholmd-math-inline">\(w_p\)</span> and <span class="math scholmd-math-inline">\(w_s\)</span>, control the relative influence of peristalsis and segmentation respectively on the overall geometry. The geometry is symmetric about the centerline, and periodic in both space and time. A straight segment of the gut, rather than an intestinal segment, or loop, with more curvature, is used for simplicity.”</p>
+<p>Peristalsis is modeled as an infinite train of continuous sinusoidal waves propagating along the upper and lower walls from left to right with constant velocity. Segmentation is modeled as a series of alternating 180º out-of-phase contractions. The time-changing geometry was constructed using straight piecewise sections for the contracting segments, and quarter sine waves connecting the straight sections for spatial continuity. Figure <span class="scholmd-crossref"><a href="#segmentationAndPeristalsisGino">(1)</a></span> shows the segmentation and peristalsis waves as defined by Gno.</p>
+<figure class="scholmd-float scholmd-figure" id="segmentationAndPeristalsisGino">
+<div class="scholmd-float-content"><figure class="scholmd-subfig" style="display: inline-block; width: ">
+<img src="./segmentationAndPeristalsisGino.png" />
+</figure></div>
+<div class="scholmd-float-caption"><figcaption><span class="scholmd-caption-head"><span class="scholmd-caption-head-prefix">Figure</span><span class="scholmd-caption-head-label">1</span></span><span class="scholmd-caption-text">Segmentation and Peristalsis modes as defined by Gino Banco <span class="scholmd-citation" data-cites="Banco2010">[1]</span>.</span></figcaption></div>
+</figure>
+<p>This is effectively implemented in the code in <a href="https://github.com/gantech/GI/blob/intestine3D/Geometry.f90">Geometry.f90</a> as follows</p>
+<div class="sourceCode"><pre class="sourceCode fortran"><code class="sourceCode fortran"><span class="co">! Mode 1 - Peristalsis</span>
+s1                                                        <span class="co">! Peristaltic wave speed</span>
+a1        <span class="kw">=</span> (<span class="fl">0.5_dbl</span><span class="kw">*</span>D)<span class="kw">/</span>(<span class="fl">2.0_dbl</span> <span class="kw">-</span> epsOVERa1)             <span class="co">! mean half-width of wave1    </span>
+eps1      <span class="kw">=</span> epsOVERa1<span class="kw">*</span>a1                                  <span class="co">! occlusional distance</span>
+lambda1   <span class="kw">=</span> L<span class="kw">/</span>numw1                                       <span class="co">! wavelength</span>
+aOVERlam1 <span class="kw">=</span> a1<span class="kw">/</span>lambda1                                    <span class="co">! ratio of mean half-width to wavelength</span>
+kw1       <span class="kw">=</span> (<span class="fl">2.0_dbl</span><span class="kw">*</span>PI)<span class="kw">/</span>lambda1                          <span class="co">! wave number</span>
+amp1      <span class="kw">=</span> <span class="fl">0.5_dbl</span><span class="kw">*</span>((<span class="fl">0.5_dbl</span><span class="kw">*</span>D)<span class="kw">-</span>eps1)                    <span class="co">! amplitude of the wave</span>
+Tp        <span class="kw">=</span> lambda1<span class="kw">/</span>s1                                    <span class="co">! peristaltic period</span>
+Re1       <span class="kw">=</span> ((s1<span class="kw">*</span>(<span class="fl">0.5_dbl</span><span class="kw">*</span>D))<span class="kw">/</span>nu)<span class="kw">*</span>((<span class="fl">0.5_dbl</span><span class="kw">*</span>D)<span class="kw">/</span>lambda1)   <span class="co">! Reynolds number based on mode 1        </span>
+
+<span class="kw">DO</span> i<span class="kw">=</span><span class="dv">0</span>,nz<span class="kw">-</span><span class="dv">1</span>
+
+  h1(i)         <span class="kw">=</span> amp1<span class="kw">*</span>(<span class="kw">COS</span>(kw1<span class="kw">*</span>(zz(i) <span class="kw">-</span> (s1<span class="kw">*</span>time)))) <span class="kw">+</span> (<span class="fl">0.5_dbl</span><span class="kw">*</span>D <span class="kw">-</span> amp1) <span class="co">!! Yanxing&#39;s expression</span>
+<span class="co">!  h1(i)         = amp1*sin(2.0_dbl*PI*((real(i,dbl)-0.5_dbl)/real(nz,dbl)-0.1_dbl*iter/real(nz,dbl))+pi/2.0_dbl)+ (0.5_dbl*D - amp1)</span>
+
+<span class="kw">END DO</span>
+<span class="co">! since PI cannot be stored exactly, the wavelength(s) does/do not EXACTLY span the domain...</span>
+<span class="co">! set h1(nz) to h1(0) and h1(nz+1) to h(1) to ensure periodicity</span>
+
+h1(nz)  <span class="kw">=</span> h1(<span class="dv">0</span>)
+h1(nz<span class="kw">+</span><span class="dv">1</span>)<span class="kw">=</span> h1(<span class="dv">1</span>)</code></pre></div>
+<p>Translating this into readable code, the input parameters are 
+<span class="math scholmd-math-display" style="display: block;">\[
+\begin{equation*}
+\begin{aligned}
+s_1 &amp; \rightarrow \textrm{ Wave speed}\\
+D &amp; \rightarrow \textrm{ Max diameter}\\
+\frac{\epsilon}{a} &amp; \rightarrow \textrm{ Occlusion ratio}\\
+L &amp; \rightarrow \textrm{ Length of domain} \\
+num_{w1} &amp; \rightarrow \textrm{ Number of waves in the domain}
+\end{aligned}
+\end{equation*}
+\]</span>
+ The peristaltice waves get computed as 
+<span class="math scholmd-math-display" style="display: block;">\[
+\begin{equation*}
+\begin{aligned}
+a_1 &amp;= \frac{0.5 \; D}{ 2 - (\epsilon/a_1)} \longleftarrow \textrm{ Because } 2(a-\epsilon) + \epsilon = 0.5 \; D \\
+\epsilon_1 &amp;= \frac{\epsilon}{a_1} a_1 \\
+\lambda_1 &amp;= \frac{L}{num_{w1}} \\
+\textrm{self defined} \frac{a}{\lambda_1} &amp; \\
+k_{w1} &amp;= \frac{2 \pi}{\lambda_1} \\
+amp_1 &amp;= 0.5 ( 0.5 \; D - \epsilon_1) \\
+T_p &amp;= \frac{\lambda_1}{ s_1} \\
+Re_1 &amp;= \frac{s_1 (0.5 \; D)}{ \nu} \frac{0.5 \; D}{\lambda_1} \\
+h_1(z,t) &amp;= amp_1 \times cos(k_{w1} \; (z - (s_1 \; t)) \; ) + (0.5 \; D - amp_1)
+\end{aligned}
+\end{equation*}
+\]</span>
+ The segmentation part seems to be more complicated</p>
+<div class="sourceCode"><pre class="sourceCode fortran"><code class="sourceCode fortran"><span class="co">! Mode 2 - Segmental Contractions</span>
+a2        <span class="kw">=</span> (<span class="fl">0.5_dbl</span><span class="kw">*</span>D)<span class="kw">/</span>(<span class="fl">2.0_dbl</span> <span class="kw">-</span> epsOVERa2)     <span class="co">! mean half-width of wave1 (based on peristalsis definition)</span>
+eps2      <span class="kw">=</span> epsOVERa2<span class="kw">*</span>a2                          <span class="co">! occlusional distance</span>
+lambda2   <span class="kw">=</span> L<span class="kw">/</span>numw2                               <span class="co">! wavelength (physical units)</span>
+nlambda2  <span class="kw">=</span> nz<span class="kw">/</span>numw2                              <span class="co">! wavelength (nodes)</span>
+aOVERlam2 <span class="kw">=</span> a2<span class="kw">/</span>lambda2                            <span class="co">! ratio of mean half-width to wavelength </span>
+amp2      <span class="kw">=</span> <span class="fl">0.5_dbl</span><span class="kw">*</span>((<span class="fl">0.5_dbl</span><span class="kw">*</span>D)<span class="kw">-</span>eps2)            <span class="co">! amplitude of the wave</span>
+shift2    <span class="kw">=</span> <span class="fl">0.5_dbl</span><span class="kw">*</span>((<span class="fl">0.5_dbl</span><span class="kw">*</span>D)<span class="kw">+</span>eps2)            <span class="co">! amplitude of the wave</span>
+segment   <span class="kw">=</span> nlambda2<span class="kw">/</span><span class="dv">6_lng</span>                        <span class="co">! length of each segment of the segmental wave   !!!!! CAREFUL HERE WITH SYMMETRY!</span>
+seg1L     <span class="kw">=</span> <span class="dv">1_lng</span> <span class="kw">+</span> segment                       <span class="co">! left point of sloped segement 1</span>
+seg1R     <span class="kw">=</span> <span class="dv">1_lng</span> <span class="kw">+</span> <span class="dv">2_lng</span><span class="kw">*</span>segment                 <span class="co">! right point of sloped segement 1</span>
+seg2R     <span class="kw">=</span> nlambda2 <span class="kw">-</span> segment                    <span class="co">! right point of sloped segement 2</span>
+seg2L     <span class="kw">=</span> nlambda2 <span class="kw">-</span> (<span class="dv">2_lng</span><span class="kw">*</span>segment)            <span class="co">! left point of sloped segement 2</span>
+s2        <span class="kw">=</span> (<span class="fl">0.5_dbl</span><span class="kw">*</span>D)<span class="kw">/</span>Ts                        <span class="co">! speed of collapse fo segmental contraction</span>
+Re2       <span class="kw">=</span> (s2<span class="kw">*</span>(<span class="fl">0.5_dbl</span><span class="kw">*</span>D))<span class="kw">/</span>nu                   <span class="co">! Reynolds number based on mode 2</span>
+
+<span class="co">! Calculate the geometry for the first wave                                                                                          </span>
+<span class="co">! First Straight Piece                                                                                                                </span>
+<span class="kw">DO</span> i<span class="kw">=</span><span class="dv">0</span>,seg1L
+
+  h2(i) <span class="kw">=</span> amp2<span class="kw">*</span>(<span class="kw">COS</span>(((<span class="fl">2.0_dbl</span><span class="kw">*</span>PI)<span class="kw">/</span>Ts)<span class="kw">*</span>time)) <span class="kw">+</span> shift2
+
+<span class="kw">END DO</span>
+
+<span class="co">! Second Straight Piece</span>
+<span class="kw">DO</span> i<span class="kw">=</span>seg1R,seg2L
+
+  h2(i) <span class="kw">=</span> amp2<span class="kw">*</span>(<span class="kw">COS</span>(((<span class="fl">2.0_dbl</span><span class="kw">*</span>PI)<span class="kw">/</span>Ts)<span class="kw">*</span>(time<span class="kw">-</span>(Ts<span class="kw">/</span><span class="fl">2.0_dbl</span>)))) <span class="kw">+</span> shift2
+
+<span class="kw">END DO</span>
+
+<span class="co">! Third Straight Piece</span>
+<span class="kw">DO</span> i<span class="kw">=</span>seg2R,nlambda2<span class="kw">+</span><span class="dv">1</span>
+
+  h2(i) <span class="kw">=</span> amp2<span class="kw">*</span>(<span class="kw">COS</span>(((<span class="fl">2.0_dbl</span><span class="kw">*</span>PI)<span class="kw">/</span>Ts)<span class="kw">*</span>time)) <span class="kw">+</span> shift2
+
+<span class="kw">END DO</span>
+
+<span class="co">! First Cos Piece</span>
+Ac      <span class="kw">=</span> <span class="fl">0.5_dbl</span><span class="kw">*</span>(h2(seg1L)<span class="kw">-</span>h2(seg1R))
+lambdaC <span class="kw">=</span> <span class="fl">2.0_dbl</span><span class="kw">*</span>(zz(seg1L)<span class="kw">-</span>zz(seg1R))
+shiftC  <span class="kw">=</span> <span class="fl">0.5_dbl</span><span class="kw">*</span>(h2(seg1L)<span class="kw">+</span>h2(seg1R))
+<span class="kw">DO</span> i<span class="kw">=</span>seg1L<span class="kw">+</span><span class="dv">1</span>,seg1R<span class="kw">-</span><span class="dv">1</span>
+
+  h2(i) <span class="kw">=</span> Ac<span class="kw">*COS</span>((<span class="fl">2.0_dbl</span><span class="kw">*</span>PI<span class="kw">/</span>lambdaC)<span class="kw">*</span>(zz(i)<span class="kw">-</span>zz(seg1L))) <span class="kw">+</span> shiftC
+
+<span class="kw">END DO</span>
+
+<span class="co">! Second Cos Piece</span>
+Ac                      <span class="kw">=</span> <span class="fl">0.5_dbl</span><span class="kw">*</span>(h2(seg2L)<span class="kw">-</span>h2(seg2R))
+lambdaC <span class="kw">=</span> <span class="fl">2.0_dbl</span><span class="kw">*</span>(zz(seg2L)<span class="kw">-</span>zz(seg2R))
+shiftC  <span class="kw">=</span> <span class="fl">0.5_dbl</span><span class="kw">*</span>(h2(seg2L)<span class="kw">+</span>h2(seg2R))
+<span class="kw">DO</span> i<span class="kw">=</span>seg2L<span class="kw">+</span><span class="dv">1</span>,seg2R<span class="kw">-</span><span class="dv">1</span>
+
+  h2(i) <span class="kw">=</span> Ac<span class="kw">*COS</span>((<span class="fl">2.0_dbl</span><span class="kw">*</span>PI<span class="kw">/</span>lambdaC)<span class="kw">*</span>(zz(i)<span class="kw">-</span>zz(seg2L))) <span class="kw">+</span> shiftC
+
+<span class="kw">END DO</span></code></pre></div>
+<h1 id="analysis-of-the-effect-of-intestinal-motility-on-the-absorption-rate">Analysis of the effect of intestinal motility on the absorption rate</h1>
+<p>Using the 2D model, Gino conducted a preliminary sensitivity analysis to relevant geometric parameters: length scale, time scale, weighted mix of motility modes, and occlusion ratio. Gino found that length scale (wavelength) and time scale (period of contraction) within a reasonable extension of the physiological range played a negligible role in overall characteristics of absorption. The weighted mix of segmentation and peristalsis and the occlusion ratio however, have a much more significant and interesting impact on the absorption. Hence he focused his 3D numerical experiments on varying these two parameters.</p>
+<h2 id="numerical-experiments">Numerical experiments</h2>
+<ol type="1">
+<li>Vary percentage contribution of peristalsis and segmentation. <span class="math scholmd-math-inline">\(w_s = 0,0.5,1.0\)</span> with <span class="math scholmd-math-inline">\(w_p\)</span> varying appropriately.</li>
+<li>Occlusion ratio <span class="math scholmd-math-inline">\(\epsilon/a\)</span> varied from 0.1 to 1.0.</li>
+<li>Two different initial conditions for the distribution of scalar concentration, limiting cases of</li>
+</ol>
+<ul>
+<li>Homogenized Chyme - Uniform initial concentration of 1.0 at all computational nodes</li>
+<li>Localized concentration distribution far from the walls - normalized 3D Gaussian distribution in the center of the computational domain</li>
+</ul>
+<h3 id="details-of-the-domain-grid-size-and-other-lbm-parameters.">Details of the domain, grid size and other LBM parameters.</h3>
+<p>Based on the figures 
+<span class="math scholmd-math-display" style="display: block;">\[
+\begin{equation*}
+\begin{aligned}
+s_1 &amp; \rightarrow \textrm{ Wave speed}\\
+0.005m = D &amp; \rightarrow \textrm{ Max diameter}\\
+0.1 - 1.0 = \frac{\epsilon}{a} &amp; \rightarrow \textrm{ Occlusion ratio}\\
+0.01m = L &amp; \rightarrow \textrm{ Length of domain} \\
+1 = num_{w1} &amp; \rightarrow \textrm{ Number of waves in the domain}
+\end{aligned}
+\end{equation*}
+\]</span>
+</p>
+<h2 id="main-results">Main results</h2>
+<p>Gino uses the two main quantities, percentage absorbed after 20 periods and the number of periods for 90% aborption to compare the effect of the parameter variations. Figure <span class="scholmd-crossref"><a href="#absorptionVsOcclusionAndMode">(2)</a></span> shows that absorption rate goes down with increasing occlusion ratio. It also shows that the total time to 90% absorption goes up by approximately 20 time periods from the blob initial condition to the uniform initial condition (not sure if the total scalar is the same between the two).</p>
+<figure class="scholmd-float scholmd-figure" id="absorptionVsOcclusionAndMode">
+<div class="scholmd-float-content"><figure class="scholmd-subfig" style="display: inline-block; width: ">
+<img src="absorptionVsOcclusionAndMode.png" />
+</figure></div>
+<div class="scholmd-float-caption"><figcaption><span class="scholmd-caption-head"><span class="scholmd-caption-head-prefix">Figure</span><span class="scholmd-caption-head-label">2</span></span><span class="scholmd-caption-text">Effect of occlusion ratio and intestinal motility mode on the aborption rate in the intestine. (c)-(d) Percentage absorbed after 20 periods, (e)-(f) Number of periods required for 90% absorption. Images on the left are for the blob initial condition and the ones on the right are for the uniform initial condition.</span></figcaption></div>
+</figure>
+<p>Gino also analyzed the average power requirement for each motility case in Figure <span class="scholmd-crossref"><a href="#powerRequirement">(3)</a></span>. The lower occlusion ratios clearly need more power compared to the high occlusion ratio cases, while Segmentation wins out over peristalsis in the most common occlusion ratio range (0.4-0.7).</p>
+<figure class="scholmd-float scholmd-figure" id="powerRequirement">
+<div class="scholmd-float-content"><figure class="scholmd-subfig" style="display: inline-block; width: ">
+<img src="powerRequirement.png" />
+</figure></div>
+<div class="scholmd-float-caption"><figcaption><span class="scholmd-caption-head"><span class="scholmd-caption-head-prefix">Figure</span><span class="scholmd-caption-head-label">3</span></span><span class="scholmd-caption-text">Average power requirement for the different intestinal motility modes</span></figcaption></div>
+</figure>
+<div class="references">
+<h1>References</h1>
+<p>1. Banco G (2010) Multi-scale fluid mechanics of nutrient absorption in the small intestine analyzed with 2D and 3D lattice boltzmann models [PhD thesis]. Pennsylvania State University.</p>
+</div>
+</div>
+</div>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+      processClass: "math"
+    },
+    TeX: {
+        TagSide: "left",
+        TagIndent: "1.2em",
+        equationNumbers: {
+            autoNumber: "AMS"
+        },
+        Macros: {
+            ensuremath: ["#1",1],
+            textsf: ["\\mathsf{\\text{#1}}",1],
+            texttt: ["\\mathtt{\\text{#1}}",1]
+        }
+    },
+    "HTML-CSS": { 
+        scale: 100,
+        availableFonts: ["TeX"], 
+        preferredFont: "TeX",
+        webFont: "TeX",
+        imageFont: "TeX",
+        EqnChunk: 1000
+    }
+});
+</script>
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML-full" type="text/javascript"></script>
+</div>
+</body>
+</html>

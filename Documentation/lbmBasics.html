@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="generator" content="scholpandoc">
+  <meta name="viewport" content="width=device-width">
+  
+  <meta name="author" content="Ganesh Vijayakumar">
+  <meta name="dcterms.date" content="2015-10-09">
+  <title>My understanding of the Lattice Boltzmann Method</title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.7.1/modernizr.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.js"></script>
+  <style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; }
+code > span.dt { color: #902000; }
+code > span.dv { color: #40a070; }
+code > span.bn { color: #40a070; }
+code > span.fl { color: #40a070; }
+code > span.ch { color: #4070a0; }
+code > span.st { color: #4070a0; }
+code > span.co { color: #60a0b0; font-style: italic; }
+code > span.ot { color: #007020; }
+code > span.al { color: #ff0000; font-weight: bold; }
+code > span.fu { color: #06287e; }
+code > span.er { color: #ff0000; font-weight: bold; }
+  </style>
+  <link rel="stylesheet" href="css/ScholarlyMarkdown-BS3.css">
+</head>
+<body>
+<div class="scholmd-container">
+<div class="scholmd-main">
+<div class="scholmd-content">
+<header>
+<h1 class="scholmd-title">My understanding of the Lattice Boltzmann Method</h1>
+<div class="scholmd-author">
+Ganesh Vijayakumar
+</div>
+<div class="scholmd-date">09 Oct 2015</div>
+</header>
+<h1 id="basic-boltzmann-gas-concepts">Basic Boltzmann Gas concepts</h1>
+<p>The first concept to understand is that the gas is described as number of molecules interacting with one another only through collisions. A number density function <span class="scholmd-citation" data-cites="Gombosi1994">[1]</span> is defined as the number of molecules <span class="math scholmd-math-inline">\(\Delta^3 N\)</span> in a volume <span class="math scholmd-math-inline">\(\Delta^3 x\)</span> around <span class="math scholmd-math-inline">\(\vec{x}\)</span> at a given time <span class="math scholmd-math-inline">\(t\)</span>. 
+<span class="math scholmd-math-display" style="display: block;">\[
+\begin{equation*}
+n(\vec{x},t) = \lim_{\Delta^3 x \to 0} \frac{\Delta^3 N(\vec{x},t)}{\Delta^3 x}
+\end{equation*}
+\]</span>
+ This is probably related to the density through a scaling factor 
+<span class="math scholmd-math-display" style="display: block;">\[
+\begin{equation*}
+\rho(\vec{x},t) = n(\vec{x},t) \times \frac{MolecularWeight}{AvogradoNumber}
+\end{equation*}
+\]</span>
+ The Boltzmann theory further splits the number density into a distribution function in a phase space that includes the velocity of the molecules. So <span class="math scholmd-math-inline">\(f(\vec{x}, \vec{v}, t)\)</span> is distribution function of the number of molecules <span class="math scholmd-math-inline">\(\Delta^3 N\)</span> in a volume <span class="math scholmd-math-inline">\(\Delta^3 x\)</span> around <span class="math scholmd-math-inline">\(\vec{x}\)</span> and in a certain “velocity-volume” <span class="math scholmd-math-inline">\(\Delta^3 v\)</span> around a velocity <span class="math scholmd-math-inline">\(\vec{v}\)</span> at a given time <span class="math scholmd-math-inline">\(t\)</span> 
+<span class="math scholmd-math-display" style="display: block;">\[
+\begin{equation*}
+f(\vec{x},\vec{v},t) = \lim_{\Delta^3 x, \Delta^3 v \to 0} \frac{\Delta^3 N(\vec{x},\vec{v},t)}{\Delta^3 x \; \Delta^3 v}
+\end{equation*}
+\]</span>
+ <span class="math scholmd-math-inline">\(f(\vec{x}, \vec{v}, t)\)</span> is connected to <span class="math scholmd-math-inline">\(n(\vec{x}, t)\)</span> through integration over all possible velocity magnitudes and directions at the same location <span class="math scholmd-math-inline">\(\vec{x}\)</span> 
+<span class="math scholmd-math-display" style="display: block;">\[
+\begin{equation*}
+n(\vec{x},t) = \iiint_{\infty} f(\vec{x},\vec{v},t) d^3v
+\end{equation*}
+\]</span>
+ I borrow the rest of this material from Sukop and Thorne <span class="scholmd-citation" data-cites="Sukop2006">[2]</span>. Let’s say there’s an external force acting on the molecules  <span class="math scholmd-math-inline">\((\vec{F} \ll \textrm{Intermolecular forces})\)</span>. If there are no collision, The molecules at <span class="math scholmd-math-inline">\((\vec{x},\vec{v},t)\)</span> will get moved to a new position in the phase space <span class="math scholmd-math-inline">\((\vec{x} + \vec{dx}, \vec{v} + \vec{dv},t \; + \;dt)\)</span> such that <span class="math scholmd-math-inline">\(\vec{dv} = (\vec{F}/\rho)dt\)</span> and <span class="math scholmd-math-inline">\(\vec{dx} = \vec{v} \; dt\)</span>. Through the <strong>streaming process</strong>, the particle distribution function <span class="math scholmd-math-inline">\(f\)</span> also gets streamed to the new location such that 
+<span class="math scholmd-math-display" style="display: block;">\[
+\begin{equation*}
+f(\vec{x} + \vec{dx}, \vec{v} + \vec{dv},t \; + \;dt) \; \vec{dx} \; \vec{dv} = f(\vec{x}, \vec{v},t) \; \vec{dx} \; \vec{dv}
+\end{equation*}
+\]</span>
+ I have a <strong>big</strong> question here. Can’t particles arrive at <span class="math scholmd-math-inline">\((\vec{x} + \vec{dx}, \vec{v} + \vec{dv},t \; + \;dt)\)</span> from somewhere else in the phase space? I’m pretty sure it’s not impossible. According to everything I’ve read so far, they just write this for the case of no collisions. I say that even with no collisions and well.. even no forces, it’s possible for molecules from two different positions to come to one place. May be they’ll collide there, but no collision until then. Got to figure out the reasoning behind this.</p>
+<p>Moving on, there are collisions that result in some phase points starting at <span class="math scholmd-math-inline">\((\vec{x},\vec{v},t)\)</span> and not arriving at <span class="math scholmd-math-inline">\((\vec{x} + \vec{dx}, \vec{v} + \vec{dv},t \; + \;dt)\)</span> and some not starting at <span class="math scholmd-math-inline">\((\vec{x},\vec{v},t)\)</span> and arriving there (this probably answers the question above). 
+<span class="math scholmd-math-display" style="display: block;">\[
+\begin{equation*}
+\begin{aligned}
+\textrm{Number of molecules that do not arrive at } (\vec{x} + \vec{dx}, \vec{v} + \vec{dv},t \; + \;dt) \textrm{ due to collision } &amp; \longrightarrow \Gamma^- \vec{dx} \; \vec{dv} \; dt \\
+
+\textrm{Number of molecules that do arrive at } (\vec{x} + \vec{dx}, \vec{v} + \vec{dv},t \; + \;dt) \textrm{ from somewhere else } &amp; \longrightarrow \Gamma^+ \vec{dx} \; \vec{dv} \; dt \\
+\end{aligned}
+\end{equation*}
+\]</span>
+ Combining the streaming process and the model for collisions, we get the Boltzmann equation 
+<span class="math scholmd-math-display" style="display: block;">\[
+\begin{equation*}
+\begin{aligned}
+f(\vec{x} + \vec{dx}, \vec{v} + \vec{dv},t \; + \;dt) \; \vec{dx} \; \vec{dv} &amp;= f(\vec{x}, \vec{v},t) \; \vec{dx} \; \vec{dv} + (\Gamma^+ - \Gamma^-) \vec{dx} \; \vec{dv} \; dt \\
+\left ( f(\vec{x}, \vec{v},t) + \vec{dx} \cdot \nabla_x f + \vec{dv} \cdot \nabla_v f + \frac{\partial f}{\partial t} dt \right ) \; \vec{dx} \; \vec{dv} &amp;= f(\vec{x}, \vec{v},t) \; \vec{dx} \; \vec{dv} + (\Gamma^+ - \Gamma^-) \vec{dx} \; \vec{dv} \; dt \\
+\frac{\partial f}{\partial t} + \vec{v} \cdot \nabla_x f + \frac{\vec{F}}{\rho} \cdot \nabla_v f &amp;= (\Gamma^+ - \Gamma^-)
+\end{aligned}
+\end{equation*}
+\]</span>
+ The term <span class="math scholmd-math-inline">\((\Gamma^+ - \Gamma^-)\)</span> is usually modeled as a return to equilibrium using the Bhatnagar-Grossman-Krook (BGK) collision operator with a single relaxation time scale <span class="math scholmd-math-inline">\(\tau\)</span>.</p>
+<h1 id="application-to-the-lattice-boltzmann-method">Application to the Lattice Boltzmann Method</h1>
+<p>The first thing that nobody seems to mention regarding the Lattice Boltzmann Method is that they go ahead and assume that <span class="math scholmd-math-inline">\(f\)</span> already contains the scaling factor such that 
+<span class="math scholmd-math-display" style="display: block;">\[
+\begin{equation*}
+\rho(\vec{x},t) = \iiint_{\infty} f(\vec{x},\vec{v},t) d^3v
+\end{equation*}
+\]</span>
+ Instead of a continuum of possible positions and velocity for the molecules, the positions are limited to a set of points on a lattice and the velocities are restricted to a set of magnitudes and directions. The set of possible velocities are connected to the lattice and the time step. The D2Q9 and D3Q15 are very commonly used in 2D and 3D simulations respectively. The basic lattice distance <span class="math scholmd-math-inline">\(\delta x\)</span> is set to 1 as is the time step <span class="math scholmd-math-inline">\(\delta t\)</span>. Thus, the <em>grid speed</em> is <span class="math scholmd-math-inline">\(c = \delta x / \delta t = 1\)</span>. Of course, there conversion factors for each quantity like <span class="math scholmd-math-inline">\(\delta x, \delta t, c\)</span> to their corresponding physical values. Figure <span class="scholmd-crossref"><a href="#latticeDiscretization2D3D">1</a></span> shows the two basic lattice models used are the D2Q9 version for 2D and D3Q15 for 3D.</p>
+<figure class="scholmd-float scholmd-figure" id="latticeDiscretization2D3D">
+<div class="scholmd-float-content"><figure class="scholmd-subfig" style="display: inline-block; width: ">
+<img src="d2q9d3q15.png" />
+</figure></div>
+<div class="scholmd-float-caption"><figcaption><span class="scholmd-caption-head"><span class="scholmd-caption-head-prefix">Figure</span><span class="scholmd-caption-head-label">1</span></span><span class="scholmd-caption-text">Illustrations of the lattice and directional densities on a D2Q9 (left) and D3Q15 (right) arrangement (from <span class="scholmd-citation" data-cites="Nourgaliev2003117">[3]</span>).</span></figcaption></div>
+</figure>
+<p>I now explain how the choice of the discrete velocity vectors are tied to the grid and the time step. In Figure <span class="scholmd-crossref"><a href="#latticeDiscretization2D3D">1</a></span>, the red vectors are of unit distance in lattice units in both D2Q9 and D3Q15 models. The corresponding velocity vectors are lattice unit per time step. The choice of the velocity vectors is done such that that any molecule with that velocity at that point will get <em>streamed</em> to the first neighboring node along the velocity direction in one time step. Thus the green distance and velocity vectors are <span class="math scholmd-math-inline">\(\sqrt{2}\)</span> lattice units in the D2Q9 model and <span class="math scholmd-math-inline">\(\sqrt{3}\)</span> units in the D3Q15 model. Thus the continuous particle distribution <span class="math scholmd-math-inline">\(f(\vec{x}, \vec{v}, t)\)</span> becomes the discrete <em>directional densities</em> <span class="math scholmd-math-inline">\(f_{\alpha}(\vec{x},t), \, \alpha=1,b\)</span> at each lattice point/node, where <span class="math scholmd-math-inline">\(b\)</span> is the number of directions used in the lattice model (9 for the D2Q9 and 15 for the D3Q15 models). The macroscopic properties density (<span class="math scholmd-math-inline">\(\rho\)</span>) and velocity (<span class="math scholmd-math-inline">\(\vec{v}\)</span>) are recovered from the directional densities as 
+<span class="math scholmd-math-display" style="display: block;">\[
+\begin{equation*}
+\begin{aligned}
+\rho(\vec{x},t) &amp;= \Sigma_{\alpha = 1}^b f_{\alpha} (\vec{x},t) \\
+\rho(\vec{x},t) \; \vec{v}(\vec{x},t) &amp;= \Sigma_{\alpha = 1}^b f_{\alpha} (\vec{x},t) \hat{e}_{\alpha}
+\end{aligned}
+\end{equation*}
+\]</span>
+ The pressure is recovered through the equation of state, where 
+<span class="math scholmd-math-display" style="display: block;">\[
+\begin{equation*}
+P(\vec{x},t) = \rho(\vec{x},t) c_s^2 
+\end{equation*}
+\]</span>
+ where <span class="math scholmd-math-inline">\(c_s\)</span> is the speed of sound in lattice units <span class="math scholmd-math-inline">\(c_s = \sqrt{RT} = \sqrt{1/3}\)</span> in lattice units. I wonder why the ratio of specific heats <span class="math scholmd-math-inline">\(\gamma\)</span> is missing from the expression for the speed of sound. In any case, this tells us that the LBM method is essentially a compressible method.</p>
+<p>The basic LBM method for the momentum and continuity equations thus becomes 
+<span class="math scholmd-math-display" style="display: block;">\[
+\begin{equation*}
+f_{\alpha}(\vec{x} + \hat{e}_{\alpha} \; \delta t,t + \delta t) = f_{\alpha} (\vec{x},t) - \frac{1}{\tau} \left [ f_{\alpha} (\vec{x},t) - f_{\alpha}^{eq} (\vec{x},t) \right ]
+\end{equation*}
+\]</span>
+ The time advance in the LBM method is carried out algorithmically in two steps, viz.,</p>
+<ol type="1">
+<li>Collision step</li>
+</ol>
+<p>
+<span class="math scholmd-math-display" style="display: block;">\[
+\begin{equation*}
+\hat{f}_{\alpha}(\vec{x}, t) = f_{\alpha} (\vec{x},t) - \frac{1}{\tau} \left [ f_{\alpha} (\vec{x},t) - f_{\alpha}^{eq} (\vec{x},t) \right ]
+\end{equation*}
+\]</span>
+</p>
+<ol start="2" type="1">
+<li>Streaming step 
+<span class="math scholmd-math-display" style="display: block;">\[
+\begin{equation*}
+f_{\alpha}(\vec{x} + \hat{e}_{\alpha} \; \delta t,t + \delta t) = \hat{f}_{\alpha} (\vec{x},t) 
+\end{equation*}
+\]</span>
+</li>
+</ol>
+<p>where <span class="math scholmd-math-inline">\(\hat{f}_{\alpha} (\vec{x},t)\)</span> is the <em>post-collision pre-streamed</em> directional densities. The boundary conditions are typically applied on <span class="math scholmd-math-inline">\(\hat{f}\)</span>.</p>
+<h2 id="bgk-collision-operator">BGK collision operator</h2>
+<p>The rate of relaxation towards equilibrium is typically a measure of the rate of molecular mixing and is hence proportional to the kinematic viscosity. In lattice units 
+<span class="math scholmd-math-display" style="display: block;">\[
+\begin{equation*}
+\nu = (2 \tau - 1) \frac{c \; \delta x}{6}
+\end{equation*}
+\]</span>
+ The viscosity in physical units is matched to the viscosity in lattice units by matching the Reynolds numbers between the physical and lattice units. For numerical stability purposes, the choice of <span class="math scholmd-math-inline">\(\tau\)</span> is designed to be such that the viscosity is positive and hence <span class="math scholmd-math-inline">\(\tau &gt; 0.5\)</span>. The farther away it is from <span class="math scholmd-math-inline">\(0.5\)</span>, the more stable the simulation is expected to be.</p>
+<p>In the low Mach number limit, the equilibrium distribution function <span class="math scholmd-math-inline">\(f^{eq}\)</span> is written as 
+<span class="math scholmd-math-display" style="display: block;">\[
+\begin{equation*}
+f^{eq}_{\alpha} (\vec{x},t) = w_{\alpha} \rho(\vec{x},t) \left [ 1 + 3 \frac{\hat{e}_{\alpha} \cdot \vec{v}}{c^2} + \frac{9}{2} \frac{(\hat{e}_{\alpha} \cdot \vec{v})^2 }{c^4} - \frac{3}{2} \frac{(\vec{v} \cdot \vec{v})^2}{c^2}  \right ]
+\end{equation*}
+\]</span>
+ For the D2Q9 model, 
+<span class="math scholmd-math-display" style="display: block;">\[
+\begin{equation*}
+w_{\alpha} =  \left \{ \begin{aligned} 4/9 &amp; \, \alpha = 0 \\ 1/9 &amp; \, \alpha = 1,3,5,7 \\ 1/36 &amp; \, \alpha = 2,4,6,8 \end{aligned} \right.
+\end{equation*}
+\]</span>
+ The rest of the stuff to be written up are</p>
+<h1 id="conversion-of-lattice-units-to-physical-units">Conversion of lattice units to physical units</h1>
+<p>The code converts the physical units to lattice units as follows in <a href="">Geometry.f90</a></p>
+<div class="sourceCode"><pre class="sourceCode fortran"><code class="sourceCode fortran"><span class="co">! Define the lattice &lt;=&gt; physical conversion factors</span>
+<span class="kw">IF</span>(domaintype <span class="kw">.EQ.</span> <span class="dv">0</span>) <span class="kw">THEN</span>
+xcf <span class="kw">=</span> (<span class="fl">0.5_lng</span><span class="kw">*</span>D)<span class="kw">/</span>(nx<span class="kw">-</span><span class="dv">1_lng</span>)   <span class="co">! length conversion factor: x-direction</span>
+ycf <span class="kw">=</span> (<span class="fl">0.5_lng</span><span class="kw">*</span>D)<span class="kw">/</span>(ny<span class="kw">-</span><span class="dv">1_lng</span>)   <span class="co">! length conversion factor: y-direction</span>
+<span class="kw">ELSE</span>
+<span class="co">! begin Balaji added</span>
+xcf <span class="kw">=</span> (<span class="fl">1.0_lng</span><span class="kw">*</span>D)<span class="kw">/</span>(nx<span class="kw">-</span><span class="dv">1_lng</span>)   <span class="co">! length conversion factor: x-direction</span>
+ycf <span class="kw">=</span> (<span class="fl">1.0_lng</span><span class="kw">*</span>D)<span class="kw">/</span>(ny<span class="kw">-</span><span class="dv">1_lng</span>)   <span class="co">! length conversion factor: y-direction</span>
+<span class="co">! end Balaji added</span>
+<span class="kw">ENDIF</span>
+
+zcf <span class="kw">=</span> L<span class="kw">/</span>nz                     <span class="co">! length conversion factor: z-direction</span>
+tcf <span class="kw">=</span> nuL<span class="kw">*</span>((xcf<span class="kw">*</span>xcf)<span class="kw">/</span>nu)       <span class="co">! time conversion factor</span>
+dcf <span class="kw">=</span> den<span class="kw">/</span>denL                 <span class="co">! density conversion factor</span>
+vcf <span class="kw">=</span> xcf<span class="kw">/</span>tcf                  <span class="co">! velocity conversion factor</span>
+pcf <span class="kw">=</span> cs<span class="kw">*</span>cs<span class="kw">*</span>vcf<span class="kw">*</span>vcf            <span class="co">! pressure conversion factor</span>
+
+<span class="co">! Determine the number of time steps to run</span>
+nt <span class="kw">=</span> <span class="kw">ANINT</span>((nPers<span class="kw">*</span>Tmix)<span class="kw">/</span>tcf)</code></pre></div>
+<p>In human readable form, this becomes 
+<span class="math scholmd-math-display" style="display: block;">\[
+\begin{equation*}
+\begin{aligned}
+x_{cf} &amp;= \frac{D}{n_x-1} \\
+y_{cf} &amp;= \frac{D}{n_y-1} \\
+z_{cf} &amp;= \frac{L}{nz} \\
+t_{cf} &amp;= \nu_L \frac{x_{cf} \; x_{cf}}{\nu} \\
+\rho_{cf} &amp;= \frac{\rho}{\rho_L} \\
+v_{cf} &amp;= \frac{x_{cf}}{t_{cf}}
+\end{aligned}
+\end{equation*}
+\]</span>
+ The quantities with <span class="math scholmd-math-inline">\(f_L\)</span> are in lattice units. For e.g <span class="math scholmd-math-inline">\(\rho_L = 1.0\)</span> is the density in lattice units and <span class="math scholmd-math-inline">\(\nu_L\)</span> is the viscosity in lattice units defined in <code>LBM.f90</code> as <span class="math scholmd-math-inline">\(\nu_L = (2 \tau - 1)/6\)</span>.</p>
+<div class="sourceCode"><pre class="sourceCode fortran"><code class="sourceCode fortran">nuL <span class="kw">=</span> (<span class="fl">2.0_dbl</span><span class="kw">*</span>tau <span class="kw">-</span> <span class="fl">1.0_dbl</span>)<span class="kw">/</span><span class="fl">6.0_dbl</span></code></pre></div>
+<h1 id="boundary-conditions">Boundary conditions</h1>
+<h1 id="treatment-of-passive-scalar">Treatment of passive scalar</h1>
+<h1 id="multi-grid-scheme">Multi-grid scheme</h1>
+<div class="references">
+<h1>References</h1>
+<p>1. Gombosi TI (1994) Gaskinetic theory. Cambridge Academic.</p>
+<p>2. Sukop MC, Thorne Jr DT (2006) Lattice boltzmann modeling - an introduction for geoscientists and engineers. Springer.</p>
+<p>3. Nourgaliev R, Dinh T, Theofanous T, Joseph D (2003) The lattice boltzmann equation method: Theoretical interpretation, numerics and implications. International Journal of Multiphase Flow 29: 117–169. Available: <a href="http://www.sciencedirect.com/science/article/pii/S0301932202001088" class="uri">http://www.sciencedirect.com/science/article/pii/S0301932202001088</a>.</p>
+</div>
+</div>
+</div>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+      processClass: "math"
+    },
+    TeX: {
+        TagSide: "left",
+        TagIndent: "1.2em",
+        equationNumbers: {
+            autoNumber: "AMS"
+        },
+        Macros: {
+            ensuremath: ["#1",1],
+            textsf: ["\\mathsf{\\text{#1}}",1],
+            texttt: ["\\mathtt{\\text{#1}}",1]
+        }
+    },
+    "HTML-CSS": { 
+        scale: 100,
+        availableFonts: ["TeX"], 
+        preferredFont: "TeX",
+        webFont: "TeX",
+        imageFont: "TeX",
+        EqnChunk: 1000
+    }
+});
+</script>
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML-full" type="text/javascript"></script>
+</div>
+</body>
+</html>

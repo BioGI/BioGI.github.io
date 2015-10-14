@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="generator" content="scholpandoc">
+  <meta name="viewport" content="width=device-width">
+  
+  <meta name="author" content="Tim T.Y. Lin (timtylin@gmail.com)">
+  <meta name="author" content="Graham Beales">
+  <meta name="dcterms.date" content="2015-01-31">
+  <title>ScholarlyMarkdown Syntax Guide</title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.7.1/modernizr.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.js"></script>
+  <link rel="stylesheet" href="css/ScholarlyMarkdown-BS3.css">
+</head>
+<body>
+<div class="scholmd-container">
+<div class="scholmd-main">
+<div class="scholmd-content">
+<header>
+<h1 class="scholmd-title">ScholarlyMarkdown Syntax Guide</h1>
+<div class="scholmd-author">
+Tim T.Y. Lin (<script type="text/javascript">
+<!--
+h='&#x67;&#x6d;&#x61;&#x69;&#108;&#46;&#x63;&#x6f;&#x6d;';a='&#64;';n='&#116;&#x69;&#x6d;&#116;&#x79;&#108;&#x69;&#110;';e=n+a+h;
+document.write('<a h'+'ref'+'="ma'+'ilto'+':'+e+'" clas'+'s="em' + 'ail">'+e+'<\/'+'a'+'>');
+// -->
+</script><noscript>&#116;&#x69;&#x6d;&#116;&#x79;&#108;&#x69;&#110;&#32;&#x61;&#116;&#32;&#x67;&#x6d;&#x61;&#x69;&#108;&#32;&#100;&#x6f;&#116;&#32;&#x63;&#x6f;&#x6d;</noscript>)
+</div>
+<div class="scholmd-author">
+Graham Beales
+</div>
+<div class="scholmd-date">January 31, 2015</div>
+</header>
+<p>This is a copy of the document from the <a href="http://scholarlymarkdown.com/Scholarly-Markdown-Guide.html">Scholarly Markdown website</a>. I just copied this as an example of how to create a document. I have literally no contribution other than copying it.</p>
+<h2 id="summary-of-new-features-in-scholarlymarkdown">Summary of new features in ScholarlyMarkdown</h2>
+<p>The following lists major additions over the <a href="http://johnmacfarlane.net/pandoc/README.html#pandocs-markdown">Pandoc Markdown</a>:</p>
+<ul>
+<li>New <a href="#floating-env">Figure/Float convention</a></li>
+<li>Uses code and fenced code block syntax for <a href="#math">inline and display math</a></li>
+<li>Native ability to give figures/floats and display math <a href="#numbered-internal-references">identifiers</a> so they can be referenced</li>
+<li>Native ability to <a href="#floating-subfigs">specify width for images</a></li>
+<li><a href="#numbered-internal-references">Numeric references</a> to figures/display math by <code>[#id]</code> and <code>(#id)</code></li>
+<li><a href="#special-abstract">Special “Abstract:” section</a> that is automatically inserted into the metadata</li>
+</ul>
+<p><em>Future plans (as of October 2014):</em></p>
+<ul>
+<li>Special syntax/keyword for appendices</li>
+<li>Multi-lingual keyword support</li>
+<li>Text blocks that are enumerated and referenceable, in particular Theorems/Definitions/Examples, and other types of admonitions.</li>
+<li>Better handling of author metainfo (incorporating discussions <a href="https://github.com/scholmd/scholmd/wiki/Article-metadata">here</a>)</li>
+<li>Automatic RDF generation from metadata</li>
+</ul>
+<h3 id="current-tools-that-support-scholarlymarkdown">Current tools that support ScholarlyMarkdown</h3>
+<p>As much as possible, ScholarlyMarkdown is designed to fallback gracefully to most existing Markdown processor and editors, so you can write ScholarlyMarkdown using almost any text editor you want.</p>
+<p>For final conversion to HTML, LaTeX, Word Docx, and others, the reference tool that implements all of the ScholarlyMarkdown extensions is <a href="http://scholdoc.scholarlymarkdown.com">Scholdoc</a>, which is a specialized fork of <a href="http://johnmacfarlane.net/pandoc/">Pandoc</a> that is limited to reading ScholarlyMarkdown and outputting to (<em>as of January 2015</em>) HTML and LaTeX.</p>
+<h2 id="first-steps">First steps</h2>
+<h3 id="creating-a-new-document">Creating a new document</h3>
+<p>Any plain-text file is a valid ScholarlyMarkdown (Scholmd) document. Open up a plain text file, and start by typing:</p>
+<pre><code>Hello!
+¡Hola!
+Bonjour!</code></pre>
+<p>Save the file anywhere to any name you like. Typically, Markdown files are saved with a <code>.md</code> extension, but since a Markdown file is just a plaintext file, you can save it with a <code>.txt</code> extension without confusing people. Since a ScholMD file is designed to be backwards-compatible with Markdown, you can save the file as <code>.md</code> or <code>.txt</code> as you like, or as some people do with <code>.scholmd</code>.</p>
+<p>For the purposed of this tutorial, we’ll save it to a file called <code>hello.scholmd</code>.</p>
+<h3 id="rendering-output">Rendering output</h3>
+<p>Currently the reference implementation of ScholarlyMarkdown is <a href="http://scholdoc.scholarlymarkdown.com">Scholdoc</a>, which is an open source, specialized fork of <a href="http://johnmacfarlane.net/pandoc/">Pandoc</a> that is limited to reading ScholarlyMarkdown and outputting to (<em>as of January 2015</em>) HTML and LaTeX.</p>
+<p>Binary distributions are available from the <a href="http://scholdoc.scholarlymarkdown.com/download/">Scholdoc download page</a>. Currently there are builds available for Windows, OS X, and Linux.</p>
+<p>Make sure <a href="http://scholdoc.scholarlymarkdown.com">Scholdoc</a> is installed and on your execution your execution path, then run:</p>
+<pre><code>scholdoc hello.scholmd</code></pre>
+<p>Scholdoc will immediately output a file called <code>hello.html</code>. This is an HTML5 webpage. If you open it up with a web browser, you should see the following:</p>
+<blockquote>
+<p>Hello! ¡Hola! Bonjour!</p>
+</blockquote>
+<h4 id="why-is-there-no-line-break-between-the-greetings">Why is there no line-break between the greetings?</h4>
+<p>By default, Markdown (and subsequently ScholarlyMarkdown) ignores all line breaks within a paragraph. This is a common practice when dealing with plain-text documents that might not have the benefit of automatic word wrapping. To preserve the line breaks yourself (such as when writing addresses or a poem), you have two options:</p>
+<ol type="1">
+<li>Add either a <code>\</code> character or two spaces after each line</li>
+<li>Use a <a href="http://johnmacfarlane.net/pandoc/README.html#line-blocks">line block</a> instead of a paragraph</li>
+</ol>
+<h3 id="more-on-markdown">More on Markdown</h3>
+<p>The <a href="https://github.com/scholmd/scholmd/wiki/">official Scholmd wiki</a> has a great <a href="https://github.com/scholmd/scholmd/wiki/Learn-markdown-in-3-minutes">3-minute guide on plain Markdown.</a></p>
+<h3 id="changing-the-look">Changing the look</h3>
+<p>The output HTML5 file should follow a <a href="Scholarly-Markdown-HTML-Schema.html">schema described here in pseudo-HAML format</a>, which allows you to write a custom CSS file. The schema follow semantic versioning for APIs: before 0.x.x, any minor revision may be backwards-incompatible with previous versions. After 1.x.x, only major revisions may introduce incompatible changes.</p>
+<p>A custom css file can be included using the <code>--css=URL</code> flag to <code>scholdoc</code>, or by using the <code>css</code> field in the metadata.</p>
+<h4 id="standard-scholarlymarkdown-css">Standard ScholarlyMarkdown CSS</h4>
+<p>ScholarlyMarkdown also defines a default core CSS3 stylesheet that should be used for all output that follows the ScholarlyMarkdown <a href="Scholarly-Markdown-HTML-Schema.html">schema</a> (which is that <code>scholdoc</code> does).</p>
+<p>The latest ScholarlMarkdown Core CSS can be found <a href="scholdoc-distribution/css/core/scholmd-core-latest.css">here</a>.</p>
+<h2 id="math">Math</h2>
+<h3 id="inline-math">Inline Math</h3>
+<p>Inline math works exactly like any inline code in Markdown, except it is delimited by <strong>exactly two</strong> backticks. For example, <code>``a+b=c``</code>is interpreted and displayed as math: <span class="math scholmd-math-inline">\(a+b=c\)</span>.</p>
+<p>Using the Markdown code syntax for math prevents old converters and editors that doesn’t understand ScholarlyMarkdown from trying to interpret the content math code.</p>
+<p>Currently, ScholarlyMarkdown always assumes that the math content are LaTeX math commands. This allows for fairly straightforward conversion to LaTeX documents.</p>
+<p>To preserve a common use for double-backtick syntax, the math content must start <em>immediately</em> after the starting backticks. If you write<code>`` `code` ``</code>it would still be displayed as normal Markdown inline code:<code>`code`</code>.</p>
+<h3 id="math-disp">Display/Block Level Math</h3>
+<p>To create display/block level math, surround it by three backticks or tildes with the math label as follows:</p>
+<pre><code>```math #yourmathlabel
+    \textit{insert latex math code here}
+```</code></pre>
+<p>The <code>#label</code> is optional, but giving it a label will attach a number to this math expression, so you can <a href="#numbered-internal-references">refer back to it later</a>. The <code>math</code> keyword is required to distinguish the math block from the format-specification keyword used in Github-Flavoured Markdown.</p>
+<p>So the above code block is displayed as: 
+<span class="math scholmd-math-display" style="display: block;">\[
+\begin{equation}
+\label{yourmathlabel}
+    \textit{insert latex math code here}
+\end{equation}
+\]</span>
+ ScholarlyMarkdown smartly aligns and/or gathers an equation based upon the length of the equation as well as whether you have aligned it using the <code>&amp;</code> symbol, as in LaTeX.</p>
+<h4 id="citing-display-math-expressions">Citing display math expressions</h4>
+<p>Citing display equations is done using the a special reference/label syntax in ScholarlyMarkdown, using the <code>#</code> character (think “hashtags”).</p>
+<p>To show a numeric reference to the previous math expression, simply type your reference label surrounded by squared brackets <code>[#yourmathlabel]</code>. This will show up as <span class="scholmd-crossref"><span class="math scholmd-math-inline">\(\ref{yourmathlabel}\)</span></span> (the equation number). Alternatively, you can surround it in parenthesis <code>(#yourmathlabel)</code>, which will show up as <span class="scholmd-crossref"><span class="math scholmd-math-inline">\(\eqref{yourmathlabel}\)</span></span>. These numbers will also link back to the math expression in formats that support them.</p>
+<p>Numeric references are automatically prepended with non-breaking spaces, so you should not worry about line breaks occurring right before a number.</p>
+<p>See also the following section on <a href="#numbered-internal-references">Numbered internal references</a>.</p>
+<h3 id="html-math-support">HTML math support</h3>
+<p>ScholarlyMarkdown officially uses <a href="http://www.mathjax.org">Mathjax</a> exclusively for math support in HTML. In additional, every HTML5 webpage output by <code>scholdoc</code> includes the necessary markup to include the latest version of Mathjax from the official CDN. This behavior can be disabled by the <code>--no-mathjax-cdn</code> flag given to <code>scholdoc</code>.</p>
+<h3 id="differences-from-pandoc">Differences from Pandoc</h3>
+<p>The first change is that whereas ScholarlyMarkdown uses <strong>two</strong> backtick ` symbol to deliminate inline math, Pandoc uses the dollar sign $ symbol. ScholarlyMarkdown retains backwards-compatability with Pandoc by reading all text between $ symbols as LaTeX math as well.</p>
+<p>The second and most important change is that ScholarlyMarkdown provides more complete syntax for display/block level math with a seamless system for equation labeling and numbering, whereas Pandoc does not.</p>
+<h3 id="guide-for-advanced-latex-users">Guide for advanced LaTeX users</h3>
+<p>LaTeX macros can be defined in ScholarlyMarkdown using a special Math block:</p>
+<pre><code>```math_def
+    {latex math definitions}
+```</code></pre>
+<p>which will move the definitions into the beginning of the header rather than the body of the document, ensuring that all math expressions your document can use these definitions. Note that this allows you to move these definitions out of the way of the main text (and perhaps into the bottom of your document).</p>
+<p>If you include line breaks with the <code>\\</code> symbol, ScholarlyMarkdown automatically wraps your math in a <code>gathered</code> environment. If you use alignment symbols <code>&amp;</code> in addition to the line break <code>\\</code> symbol, ScholarlyMarkdown wraps your math in a <code>aligned</code> environment instead. You do not need to manually add the environment. If you want to disable this behavior, use the <code>math_plain</code> instead of the <code>math</code> keyword.</p>
+<h3 id="guide-for-word-users">Guide for Word users</h3>
+<h2 id="floating-env">Floating figure environment</h2>
+<p>ScholarlyMarkdown allows for floating figures with attached captions and references. To define a figure block, start an ATX header of <em>any</em> level by the keyword <code>Figure:</code>. On the same line you may include an description of the figure (it will be ignored by the parser), and then a finally a reference label. It will look like this:</p>
+<pre><code>#### Figure: this text is ignored {#referenceToFigure}</code></pre>
+<p>On the next lines you follow with one or more Markdown images (“subfigures”) as the content of the float (each on their own line):</p>
+<pre><code>![](image1.png)
+![](image2.png)
+![](image3.jpg)</code></pre>
+<p>Finally, a caption can be specified by a following paragraph that starts with the keyword <code>Caption:</code> (or just <code>:</code> will do)</p>
+<pre><code>Caption: This is my first figure. Hello!</code></pre>
+<p>Putting them all together, we end up with the following figure:</p>
+<figure class="scholmd-float scholmd-figure" id="figure1">
+<div class="scholmd-float-content"><figure class="scholmd-subfig" style="display: inline-block; width: 30%">
+<img src="http://i.imgur.com/T2geA8K.jpg" />
+</figure><figure class="scholmd-subfig" style="display: inline-block; width: 30%">
+<img src="http://i.imgur.com/T2geA8K.jpg" />
+</figure><figure class="scholmd-subfig" style="display: inline-block; width: 30%">
+<img src="http://i.imgur.com/T2geA8K.jpg" />
+</figure></div>
+<div class="scholmd-float-caption"><figcaption><span class="scholmd-caption-head"><span class="scholmd-caption-head-prefix">Figure</span><span class="scholmd-caption-head-label">1</span></span><span class="scholmd-caption-text">This is my first figure. Hello!</span></figcaption></div>
+</figure>
+<h3 id="floating-subfigs">Adjusting the subfigures</h3>
+<p>There are several things you can do to the images inside the float block. First of all, each image can have its own subcaption (which goes inside the alt text block). Each subfigure can also have its own label attached (within curly braces), and a width can be specified in percentage of the container width.</p>
+<pre><code>![subcaption here](image.jpg){#subfigLabel width=50%}</code></pre>
+<p>You can also force a line break by adding a <code>\</code> to the end of an image. Here’s a complete example (specifying <code>same</code> for the width will use the last <strong>user-defined</strong> width in the document):</p>
+<pre><code>#### Figure: this text is ignored {#figure2}
+
+![look at me](sealbaby.jpg){#sealA width=50%}\
+![and also me](sealbaby.jpg){#sealB width=30%}
+![](sealbaby.jpg){#sealC width=same}
+
+Caption: Look at all my baby seals!</code></pre>
+<p>The above displays as:</p>
+<figure class="scholmd-float scholmd-figure" id="figure2">
+<div class="scholmd-float-content"><figure class="scholmd-subfig" id="sealA" style="display: inline-block; width: 50%">
+<img src="http://i.imgur.com/T2geA8K.jpg" />
+<div class="scholmd-float-subcaption"><figcaption><span class="scholmd-caption-head"><span class="scholmd-caption-head-prefix"></span><span class="scholmd-caption-head-label">(a)</span></span><span class="scholmd-caption-text">look at me</span></figcaption></div>
+</figure><br /><figure class="scholmd-subfig" id="sealB" style="display: inline-block; width: 30%">
+<img src="http://i.imgur.com/T2geA8K.jpg" />
+<div class="scholmd-float-subcaption"><figcaption><span class="scholmd-caption-head"><span class="scholmd-caption-head-prefix"></span><span class="scholmd-caption-head-label">(b)</span></span><span class="scholmd-caption-text">and also me</span></figcaption></div>
+</figure><figure class="scholmd-subfig" id="sealC" style="display: inline-block; width: 30%">
+<img src="http://i.imgur.com/T2geA8K.jpg" />
+<div class="scholmd-float-subcaption"><figcaption><span class="scholmd-caption-head"><span class="scholmd-caption-head-prefix"></span><span class="scholmd-caption-head-label">(c)</span></span></figcaption></div>
+</figure></div>
+<div class="scholmd-float-caption"><figcaption><span class="scholmd-caption-head"><span class="scholmd-caption-head-prefix">Figure</span><span class="scholmd-caption-head-label">2</span></span><span class="scholmd-caption-text">Look at all my baby seals!</span></figcaption></div>
+</figure>
+<p>A few things to note:</p>
+<ul>
+<li>There can at most be <strong>one</strong> blank line between the opening line and the content of the figure, as well as the content of the figure and the caption.</li>
+<li>Figure are given a number if and only if you supply a reference label to the figure or any of the subfigures.</li>
+<li>Subfigures are automatically labelled “a, b, c” etc. if <em>any</em> subfigure reference is specified.</li>
+<li>The reference for the subfigure as well as the width attribute are included in the same set of curly braces separated only by a space.</li>
+</ul>
+<h3 id="other-kinds-of-floats-tables-code-etc">Other kinds of floats (tables, code, etc)</h3>
+<p>Other kinds of floats can be used in ScholarlyMarkdown, and is controlled by the keyword that you use to start the float. The keyword <code>Figure:</code> leads to image floats. However, if you used <code>Table:</code> instead, it will parse a following Markdown table as float content instead of images (captions still work the same).</p>
+<figure class="scholmd-float scholmd-table-float" id="table:floatKeywords">
+<div class="scholmd-float-content"><table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Keyword</th>
+<th style="text-align: left;">Expected float content</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Figure:</td>
+<td style="text-align: left;">One or more images</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Table:</td>
+<td style="text-align: left;">One table</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Textbox:</td>
+<td style="text-align: left;">One line block</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Algorithm:</td>
+<td style="text-align: left;">One line block</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Code:</td>
+<td style="text-align: left;">One indented or fenced code block</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Listing:</td>
+<td style="text-align: left;">One indented or fenced code block</td>
+</tr>
+</tbody>
+</table></div>
+<div class="scholmd-float-caption"><figcaption><span class="scholmd-caption-head"><span class="scholmd-caption-head-prefix">Table</span><span class="scholmd-caption-head-label">1</span></span><span class="scholmd-caption-text">Valid float keywords in ScholarlyMarkdown and the contents they recognize</span></figcaption></div>
+</figure>
+<h3 id="differences-from-pandoc-1">Differences from Pandoc</h3>
+<p>Pandoc’s figure environment is extremely limited. It only allows for captions, without internal references, automatic numbering, or anything similar.</p>
+<h3 id="guide-for-advanced-latex-users-1">Guide for advanced LaTeX users</h3>
+<p>Normally, ScholarlyMarkdown translates figures to the <code>\begin{figure}...\end{figure}</code> environment in LaTeX. If you have multi-column documents and you wish to use the <code>figure*</code> environment to span columns, use a <code>.wide</code> keyword at the end of the first line, within the reference’s curly braces. So, for example, the following figure opening:</p>
+<pre><code>#### Figure: {#figlabel .wide}</code></pre>
+<p>would create a figure that spans multiple columns, using the <code>figure*</code> environment. In HTML output, this would also add a <code>scholmd-widefloat</code> class to the <code>&lt;figure&gt;</code> element, so it can be appropriately targeted by CSS rules. See the <a href="Scholarly-Markdown-HTML-Schema.html">ScholarlyMarkdown HTML schema</a> for more details.</p>
+<h3 id="guide-for-word-users-1">Guide for Word users</h3>
+<h2 id="numbered-internal-references">Numbered internal references</h2>
+<p>When you specify a reference in the opening line of a Figure or Math, ScholarlyMarkdown automatically creates clickable references and numbers them by their placement in the document ignoring the name you give to the reference. So when I make the following display formula for Maxwell’s equations:</p>
+<pre><code>~~~math #maxwellEq
+\left.\begin{aligned}
+B&#39;&amp;=-\partial\times E\\
+E&#39;&amp;=\partial\times B - 4\pi j
+\end{aligned}
+\right\}
+\qquad \text{Maxwell&#39;s equations}
+~~~</code></pre>
+<p>
+<span class="math scholmd-math-display" style="display: block;">\[
+\begin{equation}
+\label{maxwellEq}
+\left.\begin{aligned}
+B&#39;&amp;=-\partial\times E\\
+E&#39;&amp;=\partial\times B - 4\pi j
+\end{aligned}
+\right\}
+\qquad \text{Maxwell&#39;s equations}
+\end{equation}
+\]</span>
+</p>
+<p>I can refer back to it by using the syntax <code>(#maxwellEq)</code>, which shows <span class="scholmd-crossref"><span class="math scholmd-math-inline">\(\eqref{maxwellEq}\)</span></span>. I can also get just the number and omit the parenthesis by <code>[#maxwellEq]</code> which just gives <span class="scholmd-crossref"><span class="math scholmd-math-inline">\(\ref{maxwellEq}\)</span></span>. The figure number is automatically calculated and displayed.</p>
+<p>References to figures also work the same way. I can refer to Figure <span class="scholmd-crossref"><a href="#figure2">2</a></span> using <code>[#figure2]</code>, and subfigure <span class="scholmd-crossref"><a href="#sealB">2b</a></span> using <code>[#sealB]</code>. The syntax is the same regardless. I can also use the parenthesis version <span class="scholmd-crossref"><a href="#figure2">(2)</a></span> and <span class="scholmd-crossref"><a href="#sealB">(2b)</a></span>.</p>
+<p>Whenever possible, the numbered reference will always generate a clickable link to the original equation or figure.</p>
+<h3 id="guide-for-advanced-latex-users-2">Guide for advanced LaTeX users</h3>
+<p>Numerical references translate to either the <code>\eqref</code> or <code>\ref</code> commands in LaTeX:</p>
+<pre><code>- (#maxwellEq) maps to `\eqref{label}` in LaTeX
+- [#maxwellEq] maps to `\ref{label}` in LaTeX</code></pre>
+<p>which are displayed as follows:</p>
+<ul>
+<li><span class="scholmd-crossref"><span class="math scholmd-math-inline">\(\eqref{maxwellEq}\)</span></span> maps to <code>\eqref{maxwellEq}</code> in LaTeX</li>
+<li><span class="scholmd-crossref"><span class="math scholmd-math-inline">\(\ref{maxwellEq}\)</span></span> maps to <code>\ref{maxwellEq}</code> in LaTeX</li>
+</ul>
+<p>Note that only the numbers are displayed. There is currently no native support for things like <code>\autoref</code> in LaTeX. However, ScholarlyMarkdown automatically converts whitespace in front of a numbered reference into a non-breaking space (unless it was preceded by a punctuation mark). No more typing things like <code>figure~\ref{fig5}</code>!</p>
+<h3 id="guide-for-word-users-2">Guide for Word users</h3>
+<h2 id="including-metadata">Including Metadata</h2>
+<p>To include metadata in your file, ScholarlyMarkdown uses the YAML standard, for which you can see more details at the Official YAML website <a href="http://www.yaml.org/spec/1.2/spec.html">here</a>. A YAML section can be placed anywhere in a Markdown file without breaking the output. As an example, the YAML data for this document is as follows:</p>
+<pre><code>---
+title: ScholarlyMarkdown Syntax Guide
+author:
+        - Time Lin
+        - Graham Beales
+subject: The differences between ScholarlyMarkdown and Pandoc&#39;s implementation of Markdown.
+date: October 01, 2014
+company: University of British Columbia
+keywords: markdown, scholarly, scholmd, latex, html, word, docx, guide
+---</code></pre>
+<p>which is automatically parsed to include the title and the author at the top of this document. The subject, company, and keywords fields were included for testing, but are not yet handled by the ScholarlyMarkdown program.</p>
+<p>Current meaningful (in terms of document information) fields include:</p>
+<ul>
+<li>title</li>
+<li>author</li>
+<li>date</li>
+<li>bibliography</li>
+</ul>
+<p>with the author field being the only one that accepts a list as input.</p>
+<h3 id="special-abstract">Abstracts</h3>
+<p>An abstract can be included as metadata in a field <code>abstract:</code> in your ScholarlyMarkdown file. However, there is a second way to include abstracts besides the YAML format. Instead, you include an abstract by using a second level header ‘Abstract’ with a colon after it as follows:</p>
+<pre><code>## Abstract:
+This is an abstract!</code></pre>
+<p>Currently ScholarlyMarkdown limits the abstract to a single paragraph. It is planned in the future to also support multiple paragraphs and structured abstracts.</p>
+<p>The abstract can be included anywhere in the Markdown file, and will be inserted into the metadata. Whether it displays or not depends upon the template used to create the output from ScholarlyMarkdown.</p>
+<h3 id="differences-from-pandoc-markdown">Differences from Pandoc Markdown</h3>
+<p>ScholarlyMarkdown offers the second “section title” format to include an abstract.</p>
+<h2 id="header-levels">Header levels</h2>
+<p>ScholarlyMarkdown has a fixed definition of how header levels translate to the different formats. This is to avoid semantic confusion when authoring.</p>
+<figure class="scholmd-float scholmd-table-float" id="table:scholmdHeaders">
+<div class="scholmd-float-content"><table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">HTML Level</th>
+<th style="text-align: left;">LaTeX/Word meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Header 1</td>
+<td style="text-align: left;">Chapter</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Header 2</td>
+<td style="text-align: left;">Section</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Header 3</td>
+<td style="text-align: left;">Subsection</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Header 4</td>
+<td style="text-align: left;">Subsubsection</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Header 5</td>
+<td style="text-align: left;">Paragraph</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Header 6</td>
+<td style="text-align: left;">Subparagraph</td>
+</tr>
+</tbody>
+</table></div>
+<div class="scholmd-float-caption"><figcaption><span class="scholmd-caption-head"><span class="scholmd-caption-head-prefix">Table</span><span class="scholmd-caption-head-label">2</span></span><span class="scholmd-caption-text">all header levels and their implied semantic meaning</span></figcaption></div>
+</figure>
+<h2 id="templating-system">Templating System</h2>
+<h3 id="differences-from-pandoc-2">Differences from Pandoc</h3>
+<h2 id="html-output-reference">HTML Output Reference</h2>
+<h3 id="guide-to-scholarlymarkdown-dom-schema">Guide to ScholarlyMarkdown DOM schema</h3>
+<h2 id="latex-output-reference">LaTeX Output Reference</h2>
+<h3 id="latex-math-and-float-models">LaTeX math and float models</h3>
+<h2 id="word-output-reference">Word Output Reference</h2>
+<h2 id="scholdoc-usage">Scholdoc usage</h2>
+<h3 id="differences-from-pandoc-3">Differences from Pandoc</h3>
+<p><code>Scholdoc</code> accepts all of the options that Pandoc does, with a few different defaults:</p>
+<ul>
+<li>The –standalone option is on by default for .html output.</li>
+</ul>
+<div class="references">
+<h2>Suggestions and guidelines</h2>
+</div>
+</div>
+</div>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+      processClass: "math"
+    },
+    TeX: {
+        TagSide: "left",
+        TagIndent: "1.2em",
+        equationNumbers: {
+            autoNumber: "AMS"
+        },
+        Macros: {
+            ensuremath: ["#1",1],
+            textsf: ["\\mathsf{\\text{#1}}",1],
+            texttt: ["\\mathtt{\\text{#1}}",1]
+        }
+    },
+    "HTML-CSS": { 
+        scale: 100,
+        availableFonts: ["TeX"], 
+        preferredFont: "TeX",
+        webFont: "TeX",
+        imageFont: "TeX",
+        EqnChunk: 1000
+    }
+});
+</script>
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML-full" type="text/javascript"></script>
+</div>
+</body>
+</html>

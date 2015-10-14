@@ -1,1 +1,1 @@
-# BioGI.github.io
+# GI
