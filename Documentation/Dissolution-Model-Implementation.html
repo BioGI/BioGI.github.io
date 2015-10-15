@@ -140,7 +140,22 @@ S(\vec{x},t)=\dfrac{d \phi_s(\vec{x},t)}{dt},
 \end{equation}
 \]</span>
  Where <span class="math scholmd-math-inline">\(f(\vec{x})\)</span> has support <span class="math scholmd-math-inline">\(\forall_{\Delta} = \Delta^3\)</span> and <span class="math scholmd-math-inline">\(\int f(\vec{x}) d \vec{x} = \forall_{\Delta}\)</span></p>
-<p>Combining these equations</p>
+<p>Applying equation <span class="scholmd-crossref"><span class="math scholmd-math-inline">\(\eqref{Equation10}\)</span></span> to equation <span class="scholmd-crossref"><span class="math scholmd-math-inline">\(\eqref{Equation8}\)</span></span> we get: 
+<span class="math scholmd-math-display" style="display: block;">\[
+\begin{equation}
+\label{Equation11}
+\dfrac{\partial \tilde{\phi}(\vec{x}_i,t)}{\partial{t}} +\nabla . (\widetilde{\vec{u} \phi})_i = \tilde{S}(\vec{x}_i,t) + \nabla . \widetilde{\vec{q}&#39;&#39;}_{m_i}
+\end{equation}
+\]</span>
+</p>
+<p>Where, 
+<span class="math scholmd-math-display" style="display: block;">\[
+\begin{equation}
+\label{Equation12}
+\widetilde{\vec{q}&#39;&#39;}_{m_i} = - D_m \nabla  \tilde{\phi}(\vec{x}_i,t)
+\end{equation}
+\]</span>
+</p>
 <hr />
 <h1 id="evaluating-the-sgs-terms">Evaluating the SGS terms</h1>
 <p>At a grid point <code>i</code>, this is the filtered advection/diffusion equation for the scalar concentration that we’re trying to solve. 

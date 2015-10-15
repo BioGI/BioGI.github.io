@@ -103,13 +103,19 @@ At the grid scale $\forall_{\Delta}$:
 
 Where $f(\vec{x})$ has support $\forall_{\Delta} = \Delta^3$ and $\int f(\vec{x}) d \vec{x} = \forall_{\Delta}$
 
-Combining these equations
+Applying equation (#Equation10) to equation (#Equation8) we get:
+	
+~~~ math
+#Equation11
+\dfrac{\partial \tilde{\phi}(\vec{x}_i,t)}{\partial{t}} +\nabla . (\widetilde{\vec{u} \phi})_i = \tilde{S}(\vec{x}_i,t) + \nabla . \widetilde{\vec{q}''}_{m_i}
+~~~
 
 
-
-
-
-
+Where,
+~~~ math
+#Equation12
+\widetilde{\vec{q}''}_{m_i} = - D_m \nabla  \tilde{\phi}(\vec{x}_i,t)
+~~~
 
 
 
