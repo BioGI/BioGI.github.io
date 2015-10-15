@@ -9,7 +9,7 @@ I have used the [Scholarly Markdown format](http://scholarlymarkdown.com/) and [
 * I had to install `cabal-install` and `ghc` (apparently stands for Glasgow Haskell Interpreter). You might need to be `root` for this
 
 ```bash
-apt-get instll cabal-install ghc
+apt-get install cabal-install ghc
 ```
 
 * Then, as a normal user, I used them to install scholdoc as 

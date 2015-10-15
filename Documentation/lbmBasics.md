@@ -2,7 +2,7 @@
 title: My understanding of the Lattice Boltzmann Method
 author: Ganesh Vijayakumar
 date: 09 Oct 2015
-bibliography: /work2/guv106/CurrentProjects/Bio/References/references.bib
+bibliography: ../References/references.bib
 ---
 
 # Basic Boltzmann Gas concepts

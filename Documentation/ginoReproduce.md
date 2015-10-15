@@ -2,7 +2,7 @@
 title: Attempts to reproduce Gino's results
 author: Ganesh Vijayakumar
 date: 11 Oct 2015
-bibliography: ../../References/references.bib
+bibliography: ../References/references.bib 
 ---
 
 # Selected summary of Gino's simulations and results

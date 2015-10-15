@@ -1,7 +1,7 @@
 ---
 title: Wiki for the Bio GI project
 author: James Brasseur (PI), Farhad Behafarid and Ganesh Vijayakumar
-bibliography: /work2/guv106/CurrentProjects/Bio/References/references.bib
+bibliography: references.bib
 ---
 
 This page is intended to be a home page for the documentation of the Bio-GI project. This will be expanded in the future.

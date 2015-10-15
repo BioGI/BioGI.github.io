@@ -2,7 +2,7 @@
 title: Trying to understand Mono vs. Polydisperse dissolution models of Wang and Brasseur
 author: Ganesh Vijayakumar
 date: 11 Oct 2015
-bibliography: ../../References/references.bib
+bibliography: ../References/references.bib
 ---
 
 # Abstract
