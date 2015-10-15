@@ -22,22 +22,40 @@ R_j \sim (10-50) \mu m \\
 # Basic LBM equations
 
 ~~~math
-\phi_i = concentration \\
+\phi_i = concentration\\
+~~~
+
+~~~math
+#Equtaion1
 \dfrac{dN_{b_j}}{dt}=q''_{s_j} A_{s_j} \\
 ~~~
 
 Where:
 
 ~~~math
+#Equation2
 Sh_j = {\dfrac{R}{\delta}}_j = \dfrac{q''_s}{D_m \big( \dfrac{C_s-C_b}{R}\big)}=1+\Delta_{con} + \Delta_{hyd} 
 ~~~
 
 And,
 
 ~~~math
+#Equation3
 r_j = | \vec{x}- \vec{x}_j | \\
+~~~
+
+~~~math
+#Equation4
 C(r_j)= ( C_s - C_{{\infty}_j} ) \dfrac{R_j}{r_j} + C_{{\infty}_j} \\
+~~~
+
+~~~math
+#Equation5
 C_{{\infty}_j} = \dfrac{{C_b}_j-\gamma {C_s}_j}{1-\gamma_j} \\
+~~~
+
+~~~math
+#Equation6
 \gamma_j=f(\forall/\forall_C)_j \\
 ~~~
 
@@ -46,6 +64,7 @@ Therefore for $\gamma=0$, we get $C_{{\infty}_j}=C_b$.
 The basic LBM is as follows:
 
 ~~~ math
+#Equation7
 \dfrac{\partial \phi(\vec{x},t)}{\partial{t}} +\nabla . (\vec{u} \phi) = \nabla . \vec{q}''_m
 ~~~ 
 
@@ -58,12 +77,14 @@ Where $\vec{q}''_m = - D_m \nabla \phi=$ local mole flux.
 Models release of molecules $dN_b/dt$ from points at location of particles: 
 
 ~~~ math
+#Equation8
 \dfrac{\partial \phi(\vec{x},t)}{\partial{t}} +\nabla . (\vec{u} \phi) = S(\vec{x},t) + \nabla . \vec{q}''_m
 ~~~
 
 Where, 
 
 ~~~math
+#Equation9
 S(\vec{x},t)=\dfrac{d \phi_s(\vec{x},t)}{dt},
 ~~~
 
@@ -71,16 +92,38 @@ is the rate of change in local concentration field due to release of the molecul
 
 --------------------------------------------------------------------------------------------------
 
-##Simulations Evolve Filtered Concentration Field $\tilde{\phi} (\vec{x},t)$
+#Simulations Evolve Filtered Concentration Field $\tilde{\phi} (\vec{x},t)$
 
 At the grid scale $\forall_{\Delta}$:
 
 ~~~math
+#Equation10
 \tilde{\phi} (\vec{x},t)=\dfrac{1}{\forall_{\Delta}} \int \phi (\vec{x},t) f(\vec{x}_i - \vec{x} ) dx
 ~~~
 
-Where $f(\vec{x})$ has support $\forall_{\Delta} = \Delta^3$ and $\int f(\vec{x}) d \vec{x} = \forall_{\Delta} $
-=======
+Where $f(\vec{x})$ has support $\forall_{\Delta} = \Delta^3$ and $\int f(\vec{x}) d \vec{x} = \forall_{\Delta}$
+
+Combining these equations
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-------------------------------------------------------------------------------------------------
+
 #Evaluating the SGS terms
 
 At a grid point `i`, this is the filtered advection/diffusion equation for the scalar concentration that we're trying to solve.
@@ -169,7 +212,7 @@ Thus the algorithm used to determine $V_{eff}$ and $N_{b_j}$ is
 * Compute $\tau_i$ using Equation (#eqComputeTauModel)
 
 
-# My thoughts on modeling dissolution from particles in the intestine
+# Ganesh thoughts on modeling dissolution from particles in the intestine
 
 The Reynolds number of these flows is in general fairly small. If we model the drug particles as finite particles, there would be a difference between the local flow velocity and the velocity of the particle. If you consider the relative velocity between the drug particle and the flow, then the reynolds number w.r.t the particle diameter is definitely $\sim O(1)$ or smaller. At such Reynolds numbers, we can apply the Stokes flow approximation to the flow around the particle. The Stokes flow around spheres has an analytical solution for both the velocity and the scalar distribution. Dennis, Walker and Hudson reported on the heat transfer from an isothermal sphere at low Reynolds numbers in 1973 [@FLM:372733]. Kim and Karrila [@Kim2005], Happel and Brenner [@Happel1983] and [@Guazzelli2011] seem to report analytical solutions even for a Stokes flow past a sphere under a constant shear rate. May be this can be used to implement a sub-filter scale model for the interaction between the drug particle and the flow. We may be able to develop a correlation for $\widetilde{\vec{u}_i \phi_i}$ analytically using some approximations.
 
