@@ -21,21 +21,60 @@
 <div class="scholmd-content">
 <h1 id="how-to-implement-the-dissolution-model-in-gi-code">How to implement the dissolution model in GI code</h1>
 <p>Dissolution from small particles within simulation</p>
-<p>Some basic parameters are defined below: 
+<p>Some magnitude ranges for particle and lattice cell sizes: 
+<span class="math scholmd-math-display" style="display: block;">\[
+\begin{equation*}
+\begin{split}
+\forall_{\Delta}= \Delta^3=cell \hskip {0.1in} volume \\
+\Delta \sim (100-1000) \mu m \\
+R_j \sim (10-50) \mu m \\
+\dfrac{R_j}{\Delta} \sim (0.01-0.5) &lt; 1 \\
+\dfrac{dN_{b_j}}{dt}=q&#39;&#39;_{s_j} A_{s_j} \\
+\end{split}
+\end{equation*}
+\]</span>
+ Basic equations are defined below: 
 <span class="math scholmd-math-display" style="display: block;">\[
 \begin{equation*}
 \begin{split}
 \phi_i = concentration \\
-
-\forall_{\Delta}= \Delta^3=cell volume \\
-
-\Delta \sim 100-1000 \mu m \\
-
-\dfrac{R_j}{\Delta} \sim (0.01-0.5) &lt; 1 \\
+\dfrac{dN_{b_j}}{dt}=q&#39;&#39;_{s_j} A_{s_j} \\
 \end{split}
 \end{equation*}
 \]</span>
-</p>
+ Where: 
+<span class="math scholmd-math-display" style="display: block;">\[
+\begin{equation*}
+Sh_j = {\dfrac{R}{\delta}}_j = \dfrac{q&#39;&#39;_s}{D_m \big( \dfrac{C_s-C_b}{R}\big)}=1+\Delta_{con} + \Delta_{hyd} 
+\end{equation*}
+\]</span>
+ And, 
+<span class="math scholmd-math-display" style="display: block;">\[
+\begin{equation*}
+\begin{split}
+r_j = | \vec{x}- \vec{x}_j | \\
+C(r_j)= ( C_s - C_{{\infty}_j} ) \dfrac{R_j}{r_j} + C_{{\infty}_j} \\
+C_{{\infty}_j} = \dfrac{{C_b}_j-\gamma {C_s}_j}{1-\gamma_j} \\
+\gamma_j=f(\forall/\forall)_j \\
+\end{split}
+\end{equation*}
+\]</span>
+ Therefore for <span class="math scholmd-math-inline">\(\gamma=0\)</span>, we get <span class="math scholmd-math-inline">\(C_{{\infty}_j}=C_b\)</span>.</p>
+<p>The basci LBM is as follows: 
+<span class="math scholmd-math-display" style="display: block;">\[
+\begin{equation*}
+\dfrac{\partial \phi(\vec{x},t)}{\partial{t}} +\nabla . (\vec{u} \phi) = \nabla . \vec{q}&#39;&#39;_m
+\end{equation*}
+\]</span>
+ Where <span class="math scholmd-math-inline">\(\vec{q}&#39;&#39;_m = - D_m \nabla \phi=\)</span> local mole flux.</p>
+<h2 id="continuum-point-particle-model">Continuum Point Particle Model</h2>
+<p>Models release of molecules <span class="math scholmd-math-inline">\(dN_b/dt\)</span> from points at location of particles: 
+<span class="math scholmd-math-display" style="display: block;">\[
+\begin{equation*}
+\dfrac{\partial \phi(\vec{x},t)}{\partial{t}} +\nabla . (\vec{u} \phi) = S(\vec{x},t) + \nabla . \vec{q}&#39;&#39;_m
+\end{equation*}
+\]</span>
+ Where, <span class="math scholmd-math-inline">\(S(\vec{x},t)=\dfrac{d \phi_s(\vec{x},t)}{dt}\)</span> is the rate of change in local concentration field due to release of the molecules from particle j, or in other words, “source” to <span class="math scholmd-math-inline">\(\phi(\vec{x},t)\)</span> in local volume <span class="math scholmd-math-inline">\(\delta \forall_j\)</span></p>
 <div class="references">
 
 </div>
