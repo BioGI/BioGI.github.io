@@ -73,6 +73,8 @@ We have been able to run both codes and visualize their output.
 
 Please see [Understanding of Mono vs. Polydisperse dissolution models](Documentation/monoVsPolydisperse.html) for our current understanding of the dissolution models.
 
+We are working on the implementation of the dissolution model in the numerical code [see Implementation od dissolution model](Documentation/Dissolution-Model-Implementation.html)
+
 ## Attempts to reproduce Gino's 3D results
 
 Please see [Attempts to reproduce Gino's results](Documentation/ginoReproduce.html) for our attempts to reproduce a few of Gino's results.
