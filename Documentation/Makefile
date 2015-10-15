@@ -3,6 +3,7 @@ html:
 	scholdoc webpage-settings.yml ginoReproduce.md --citeproc --output=ginoReproduce.html
 	scholdoc webpage-settings.yml monoVsPolydisperse.md --citeproc --output=monoVsPolydisperse.html
 	scholdoc webpage-settings.yml howToInstallScholdoc.md --citeproc --output=howToInstallScholdoc.html
+	scholdoc webpage-settings.yml HowToModifyWiki.md --citeproc --output=HowToModifyWiki.html
 
 latex:
 	scholdoc plos-one-settings.yml lbmBasics.md --natbib --output=lbmBasics.tex

@@ -6,7 +6,7 @@ bibliography: references.bib
 
 This page is intended to be a home page for the documentation of the Bio-GI project. This will be expanded in the future.
 
-I have used the [Scholarly Markdown format](http://scholarlymarkdown.com/) and [scholdoc](http://scholdoc.scholarlymarkdown.com/), a fork of [Pandoc](http://pandoc.org/) to create these webpages. One of the main reasons for choosing this was having the native ability to [scale images](http://scholarlymarkdown.com/Scholarly-Markdown-Guide.html#floating-subfigs) and having internal references to them in the text. Please see [How to install scholdoc](Documentation/howToInstallScholdoc.html) to understand how you can replicate this..
+To generate a new page or modify the contents, please follow the instructions [(How to contribute)](Documentation/HowToModifyWiki.html)
 
 
 # Summary of previous work done on the Bio project
@@ -50,22 +50,22 @@ Please see [Basics of Lattice Boltzmann Method](Documentation/lbmBasics.html) fo
 
 ## LBM codes from Balaji, Yang Xing and Gino
 
-We have two code in our possession. We got both from Balaji.
+We have two codes in our possession. We got both from Balaji.
 
 * 3D Intestine code
 
  ** Based off Gino and Yang Xing's 3D codes
- ** Contains capability to model intestinal motility using combination of Peristalsis and Segmentation
+ ** Models intestinal motility using combination of Peristalsis and Segmentation
  ** Can model villi motion
  ** Not sure if it contains multi-grid capability
- ** Models scalar advection/diffusion using Moment propagation method
- ** Contains elementary particle dissolution and tracking implmentation in serial
+ ** Models scalar advection/diffusion using "Moment Propagation Method"
+ ** Contains elementary particle dissolution and tracking implmentation (in serial)
 
 * Couette flow device code
 
  ** Based off Gino and Yang Xing's 3D codes
- ** Contains capability to model dissolution of particles in Couette flow device
- ** Contains capability to track particles in parallel
+ ** Contains most advanced dissolution model for particles in Couette flow device
+ ** Has parallel particle tracking capability 
 
 We have been able to run both codes and visualize their output.
 
