@@ -46,12 +46,12 @@ r_j = | \vec{x}- \vec{x}_j | \\
 
 ~~~math
 #Equation4
-C(r_j)= ( C_s - C_{{\infty}_j} ) \dfrac{R_j}{r_j} + C_{{\infty}_j} \\
+C(r_j)= ( C_s - C_{\infty_j} ) \dfrac{R_j}{r_j} + C_{\infty_j} \\
 ~~~
 
 ~~~math
 #Equation5
-C_{{\infty}_j} = \dfrac{{C_b}_j-\gamma {C_s}_j}{1-\gamma_j} \\
+C_{\infty_j} = \dfrac{{C_b}_j-\gamma {C_s}_j}{1-\gamma_j} \\
 ~~~
 
 ~~~math
@@ -59,7 +59,7 @@ C_{{\infty}_j} = \dfrac{{C_b}_j-\gamma {C_s}_j}{1-\gamma_j} \\
 \gamma_j=f(\forall/\forall_C)_j \\
 ~~~
 
-Therefore for $\gamma=0$, we get $C_{{\infty}_j}=C_b$.
+Therefore for $\gamma=0$, we get $C_{\infty_j}=C_b$.
 
 The basic LBM is as follows:
 
