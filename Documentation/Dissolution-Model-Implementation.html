@@ -78,6 +78,98 @@ C_{{\infty}_j} = \dfrac{{C_b}_j-\gamma {C_s}_j}{1-\gamma_j} \\
 \end{equation*}
 \]</span>
  Where, <span class="math scholmd-math-inline">\(S(\vec{x},t)=\dfrac{d \phi_s(\vec{x},t)}{dt}\)</span> is the rate of change in local concentration field due to release of the molecules from particle j, or in other words, “source” to <span class="math scholmd-math-inline">\(\phi(\vec{x},t)\)</span> in local volume <span class="math scholmd-math-inline">\(\delta \forall_j\)</span></p>
+<h1 id="evaluating-the-sgs-terms">Evaluating the SGS terms</h1>
+<p>At a grid point <code>i</code>, this is the filtered advection/diffusion equation for the scalar concentration that we’re trying to solve. 
+<span class="math scholmd-math-display" style="display: block;">\[
+\begin{equation}
+\label{eqFilteredScalar}
+\underbrace{ \frac{\partial \tilde{\phi}_i}{\partial t} + \nabla \cdot ( \tilde{\vec{u}}_i \tilde{\phi}_i ) = \nabla \cdot \tilde{\vec{q}}_{m_i} }_{LBM, Moment propagation method} + \tilde{S_i} + \nabla \cdot \vec{\tau}_i
+\end{equation}
+\]</span>
+ where <span class="math scholmd-math-inline">\(\vec{\tau}_i = \tilde{\vec{u}}_i \tilde{\phi}_i - \widetilde{\vec{u}_i \phi_i}\)</span> and <span class="math scholmd-math-inline">\(\tilde{\vec{q}}_{m_i} = -D_m \nabla \tilde{\phi}_i\)</span>. The SFS term in Equation <span class="scholmd-crossref"><span class="math scholmd-math-inline">\(\eqref{eqFilteredScalar}\)</span></span> is <span class="math scholmd-math-inline">\(\nabla \cdot \vec{\tau}_i\)</span>. Balaji developed an analysis of this term on 11/15/2014 as 
+<span class="math scholmd-math-display" style="display: block;">\[
+\begin{equation}
+\label{eqBalajiSFSterm}
+\nabla \cdot \vec{\tau}_i = \tilde{F}_sfs = \frac{1}{V_i} \sum_{CGF} \left ( \underbrace{\sum_{\textrm{SGF in CGF}} \vec{q}_{bf} A_{bf}}_{\widetilde{\vec{u}_i \phi_i}}  - \underbrace{\vec{q}^{CGC} A_F}_{\tilde{\vec{u}}_i \tilde{\phi}_i}  \right ) \cdot \hat{n}_b
+\end{equation}
+\]</span>
+ While I don’t understand this completely, here’s what I do. Balaji’s formulation is based on converting the volume integral to a surface integral and using the fluxes to compute it. According to Dr. Brasseur, Balaji’s formulation includes both the diffusive and the advective flux. The diffusive flux from the molecule surface is already modeled through <span class="math scholmd-math-inline">\(\tilde{S}_i\)</span>. Instead Dr. Brasseur claims to evaluate <span class="math scholmd-math-inline">\(\widetilde{\vec{u}_i \phi_i}\)</span> by integrating it around the particles. According to Dr. Brasseur, 
+<span class="math scholmd-math-display" style="display: block;">\[
+\begin{equation*}
+\begin{aligned}
+\widetilde{\vec{u}_i \phi_i} &amp;= \widetilde{\sum_{\textrm{particles j in } V_i } \vec{u}_i C_j(r)} \\
+\end{aligned}
+\end{equation*}
+\]</span>
+ where <span class="math scholmd-math-inline">\(C_j(r)\)</span> is the concentration profile around the particle derived from the QSM model as 
+<span class="math scholmd-math-display" style="display: block;">\[
+\begin{equation}
+\label{eqQSMconcProfile}
+ C_j(r) = \left ( \frac{C_{b_j} - \gamma_j C_s}{ 1 - \gamma_j} \right ) \left [ 1 + \left ( \frac{C_s - C_{b_j}}{ C_{b_j} - \gamma_j C_s} \right ) \frac{R_j}{r}  \right ]
+\end{equation}
+\]</span>
+ <span class="math scholmd-math-inline">\(r\)</span> is defined from the center of the particle <span class="math scholmd-math-inline">\(j\)</span> of radius <span class="math scholmd-math-inline">\(R_j\)</span>. This is further simplified as (<strong>I don’t seem to quite understand this.</strong>) 
+<span class="math scholmd-math-display" style="display: block;">\[
+\begin{equation}
+\label{eqComputeTauModel}
+\widetilde{ \sum_{\textrm{particles j in } V_i } \vec{u}_i C_j(r) } = \sum_{j \in V_i} \vec{u}_j \tilde{C}_j
+\end{equation}
+\]</span>
+ where <span class="math scholmd-math-inline">\(\vec{u}_j\)</span> is the local velocity predicted by the LBM interpolated to the particle location and _j is the local concentration surrounding particle <span class="math scholmd-math-inline">\(j\)</span>. 
+<span class="math scholmd-math-display" style="display: block;">\[
+\begin{equation*}
+ \tilde{C}_j = \frac{1}{V_i} \int_{V_i} C_j(r) dV
+\end{equation*}
+\]</span>
+ Further the term inside the integral is 
+<span class="math scholmd-math-display" style="display: block;">\[
+\begin{equation*}
+\int_{V_i} C_j(r) dV = N_{b_j} = \textrm{ Number of moles surrouding particle j}
+\end{equation*}
+\]</span>
+ Dr. Brasseur aims to approximate this integral using an effective volume <span class="math scholmd-math-inline">\(V_{eff}\)</span> around the particles as 
+<span class="math scholmd-math-display" style="display: block;">\[
+\begin{equation*}
+N_{b_j} \int_{V_{eff}} C_j(r) dV =  \int_{R_j}^{R_{eff_j}} C_j(r) 4 \pi r^2 dr 
+\end{equation*}
+\]</span>
+ The estimate for <span class="math scholmd-math-inline">\(V_{eff}\)</span> and hence <span class="math scholmd-math-inline">\(R_{eff}\)</span> is based on the central model estimate for ** <span class="math scholmd-math-inline">\(C_{b_j}\)</span> as the coarse-grained LBM prediction for concentration at the position of the point particle**. i.e. 
+<span class="math scholmd-math-display" style="display: block;">\[
+\begin{equation*}
+C_{b_j} = \tilde{\phi}(\vec{x}_j,t) = \frac{N_{b_j}}{V_{eff_j}}
+\end{equation*}
+\]</span>
+ In other words, adjust the volume of integration around the particle such that the average concentration inside that is the same as that predicted by the LBM. While the full expression for <span class="math scholmd-math-inline">\(C_j(r)\)</span> is given in Equation <span class="scholmd-crossref"><span class="math scholmd-math-inline">\(\eqref{eqQSMconcProfile}\)</span></span>, it is restated as 
+<span class="math scholmd-math-display" style="display: block;">\[
+\begin{equation*}
+\begin{aligned}
+C_j(r) &amp;= A \left [ 1 + B \left( \frac{R_j}{r} \right) \right ] \\
+\textrm{where } A &amp;= \frac{C_{b_j} - \gamma_j C_s}{ 1 - \gamma_j} \\
+\textrm{and } B &amp;= \frac{C_s - C_{b_j}}{ C_{b_j} - \gamma_j C_s} 
+\end{aligned}
+\end{equation*}
+\]</span>
+ Thus the integral for <span class="math scholmd-math-inline">\(N_{b_j}\)</span> becomes 
+<span class="math scholmd-math-display" style="display: block;">\[
+\begin{equation*}
+C_{b_j} \frac{4}{3} \pi R_{eff_j}^3 =  N_{b_j} = \int_{R_j}^{R_{eff_j}}  A \left [ 1 + B \left( \frac{R_j}{r} \right) \right ]  4 \pi r^2 dr
+\end{equation*}
+\]</span>
+ It’s only important to know that A and B are functions of <span class="math scholmd-math-inline">\(C_{b_j}\)</span>. 
+<span class="math scholmd-math-display" style="display: block;">\[
+\begin{equation}
+\label{eqRefCb}
+C_{b_j} = A + 3 B \left [ \left ( \frac{R_j}{R_{eff_j}} \right ) - \left ( \frac{R_j}{R_{eff_j}} \right )^3 \right ]
+\end{equation}
+\]</span>
+ Thus the algorithm used to determine <span class="math scholmd-math-inline">\(V_{eff}\)</span> and <span class="math scholmd-math-inline">\(N_{b_j}\)</span> is</p>
+<ul>
+<li>From LBM at time <span class="math scholmd-math-inline">\(t\)</span>, determine <span class="math scholmd-math-inline">\(C_{b_j} = \tilde{\phi}_j = \tilde{\phi}(\vec{x}_j,t)\)</span> for all particles j</li>
+<li>Compute <span class="math scholmd-math-inline">\(A\)</span> and <span class="math scholmd-math-inline">\(B\)</span> for each particle</li>
+<li>Use Newton-Raphson to solve Equation <span class="scholmd-crossref"><span class="math scholmd-math-inline">\(\eqref{eqRefCb}\)</span></span> for <span class="math scholmd-math-inline">\(R_{eff}\)</span></li>
+<li>Determine <span class="math scholmd-math-inline">\(N_b\)</span> as <span class="math scholmd-math-inline">\(C_{b_j} (4/3) \pi R_{eff_j}^3\)</span></li>
+<li>Compute <span class="math scholmd-math-inline">\(\tau_i\)</span> using Equation <span class="scholmd-crossref"><span class="math scholmd-math-inline">\(\eqref{eqComputeTauModel}\)</span></span></li>
+</ul>
 <div class="references">
 
 </div>

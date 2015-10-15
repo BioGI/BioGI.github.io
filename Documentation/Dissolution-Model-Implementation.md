@@ -52,3 +52,93 @@ Models release of molecules $dN_b/dt$ from points at location of particles:
 
 Where, $S(\vec{x},t)=\dfrac{d \phi_s(\vec{x},t)}{dt}$ is the rate of change in local concentration field due to release of the molecules from particle j, or in other words, "source" to $\phi(\vec{x},t)$ in local volume $\delta \forall_j$
 
+#Evaluating the SGS terms
+
+At a grid point `i`, this is the filtered advection/diffusion equation for the scalar concentration that we're trying to solve.
+
+~~~math 
+#eqFilteredScalar
+\underbrace{ \frac{\partial \tilde{\phi}_i}{\partial t} + \nabla \cdot ( \tilde{\vec{u}}_i \tilde{\phi}_i ) = \nabla \cdot \tilde{\vec{q}}_{m_i} }_{LBM, Moment propagation method} + \tilde{S_i} + \nabla \cdot \vec{\tau}_i
+~~~
+
+where $\vec{\tau}_i = \tilde{\vec{u}}_i \tilde{\phi}_i - \widetilde{\vec{u}_i \phi_i}$ and $\tilde{\vec{q}}_{m_i} = -D_m \nabla \tilde{\phi}_i$. The SFS term in Equation (#eqFilteredScalar) is $\nabla \cdot \vec{\tau}_i$. Balaji developed an analysis of this term on 11/15/2014 as
+
+~~~math
+#eqBalajiSFSterm
+\nabla \cdot \vec{\tau}_i = \tilde{F}_sfs = \frac{1}{V_i} \sum_{CGF} \left ( \underbrace{\sum_{\textrm{SGF in CGF}} \vec{q}_{bf} A_{bf}}_{\widetilde{\vec{u}_i \phi_i}}  - \underbrace{\vec{q}^{CGC} A_F}_{\tilde{\vec{u}}_i \tilde{\phi}_i}  \right ) \cdot \hat{n}_b
+~~~
+
+While I don't understand this completely, here's what I do. Balaji's formulation is based on converting the volume integral to a surface integral and using the fluxes to compute it. According to Dr. Brasseur, Balaji's formulation includes both the diffusive and the advective flux. The diffusive flux from the molecule surface is already modeled through $\tilde{S}_i$. Instead Dr. Brasseur claims to evaluate $\widetilde{\vec{u}_i \phi_i}$ by integrating it around the particles. According to Dr. Brasseur,
+
+~~~math
+\widetilde{\vec{u}_i \phi_i} &= \widetilde{\sum_{\textrm{particles j in } V_i } \vec{u}_i C_j(r)} \\
+~~~
+
+where $C_j(r)$ is the concentration profile around the particle derived from the QSM model as
+
+~~~math
+#eqQSMconcProfile
+ C_j(r) = \left ( \frac{C_{b_j} - \gamma_j C_s}{ 1 - \gamma_j} \right ) \left [ 1 + \left ( \frac{C_s - C_{b_j}}{ C_{b_j} - \gamma_j C_s} \right ) \frac{R_j}{r}  \right ]
+~~~
+
+$r$ is defined from the center of the particle $j$ of radius $R_j$. This is further simplified as (**I don't seem to quite understand this.**)
+
+~~~math
+#eqComputeTauModel
+\widetilde{ \sum_{\textrm{particles j in } V_i } \vec{u}_i C_j(r) } = \sum_{j \in V_i} \vec{u}_j \tilde{C}_j
+~~~
+
+where $\vec{u}_j$ is the local velocity predicted by the LBM interpolated to the particle location and \tilde{C}_j is the local concentration surrounding particle $j$. 
+
+~~~math
+ \tilde{C}_j = \frac{1}{V_i} \int_{V_i} C_j(r) dV
+~~~
+
+Further the term inside the integral is
+~~~math
+\int_{V_i} C_j(r) dV = N_{b_j} = \textrm{ Number of moles surrouding particle j}
+~~~
+
+Dr. Brasseur aims to approximate this integral using an effective volume $V_{eff}$ around the particles as 
+
+~~~math
+N_{b_j} \int_{V_{eff}} C_j(r) dV =  \int_{R_j}^{R_{eff_j}} C_j(r) 4 \pi r^2 dr 
+~~~
+
+The estimate for $V_{eff}$ and hence $R_{eff}$ is based on the central model estimate for ** $C_{b_j}$ as the coarse-grained LBM prediction for concentration at the position of the point particle**. i.e.
+
+~~~math
+C_{b_j} = \tilde{\phi}(\vec{x}_j,t) = \frac{N_{b_j}}{V_{eff_j}}
+~~~
+
+In other words, adjust the volume of integration around the particle such that the average concentration inside that is the same as that predicted by the LBM. While the full expression for $C_j(r)$ is given in Equation (#eqQSMconcProfile), it is restated as 
+
+~~~math
+C_j(r) &= A \left [ 1 + B \left( \frac{R_j}{r} \right) \right ] \\
+\textrm{where } A &= \frac{C_{b_j} - \gamma_j C_s}{ 1 - \gamma_j} \\
+\textrm{and } B &= \frac{C_s - C_{b_j}}{ C_{b_j} - \gamma_j C_s} 
+~~~
+
+Thus the integral for $N_{b_j}$ becomes 
+
+~~~math 
+C_{b_j} \frac{4}{3} \pi R_{eff_j}^3 =  N_{b_j} = \int_{R_j}^{R_{eff_j}}  A \left [ 1 + B \left( \frac{R_j}{r} \right) \right ]  4 \pi r^2 dr
+~~~
+
+It's only important to know that A and B are functions of $C_{b_j}$.
+
+~~~math #eqRefCb
+C_{b_j} = A + 3 B \left [ \left ( \frac{R_j}{R_{eff_j}} \right ) - \left ( \frac{R_j}{R_{eff_j}} \right )^3 \right ]
+~~~
+
+Thus the algorithm used to determine $V_{eff}$ and $N_{b_j}$ is 
+
+* From LBM at time $t$, determine $C_{b_j} = \tilde{\phi}_j = \tilde{\phi}(\vec{x}_j,t)$ for all particles j
+* Compute $A$ and $B$ for each particle
+* Use Newton-Raphson to solve Equation (#eqRefCb) for $R_{eff}$
+* Determine $N_b$ as $C_{b_j} (4/3) \pi R_{eff_j}^3$
+* Compute $\tau_i$ using Equation (#eqComputeTauModel)
+
+
+
+
