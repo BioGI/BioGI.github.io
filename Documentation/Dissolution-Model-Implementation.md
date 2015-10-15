@@ -1,8 +1,11 @@
-# How to implement the dissolution model in GI code
+---
+title: How to implement the dissolution model in GI code - Dissolution from small particles in numerical simulation
+author: Farhad Behafarid and Ganesh Vijayakumar
+date: 15 Oct 2015
+bibliography: ../References/references.bib
+---
 
-Dissolution from small particles in numerical simulation
-
-## Mmagnitude ranges for particle and lattice cell sizes
+# Magnitude ranges for particle and lattice cell sizes
 
 ~~~math
 \forall_{\Delta}= \Delta^3=cell \hskip {0.1in} volume \\
@@ -11,7 +14,7 @@ R_j \sim (10-50) \mu m \\
 \dfrac{R_j}{\Delta} \sim (0.01-0.5) < 1 \\
 ~~~
 
-## Basic LBM equations
+# Basic LBM equations
 
 ~~~math
 \phi_i = concentration \\
@@ -34,7 +37,7 @@ C_{{\infty}_j} = \dfrac{{C_b}_j-\gamma {C_s}_j}{1-\gamma_j} \\
 
 Therefore for $\gamma=0$, we get $C_{{\infty}_j}=C_b$.
 
-The basci LBM is as follows:
+The basic LBM is as follows:
 
 ~~~ math
 \dfrac{\partial \phi(\vec{x},t)}{\partial{t}} +\nabla . (\vec{u} \phi) = \nabla . \vec{q}''_m
@@ -42,7 +45,7 @@ The basci LBM is as follows:
 
 Where $\vec{q}''_m = - D_m \nabla \phi=$ local mole flux.
 
-##Continuum Point Particle Model
+#Continuum Point Particle Model
 
 Models release of molecules $dN_b/dt$ from points at location of particles: 
 
@@ -140,5 +143,9 @@ Thus the algorithm used to determine $V_{eff}$ and $N_{b_j}$ is
 * Compute $\tau_i$ using Equation (#eqComputeTauModel)
 
 
+# My thoughts on modeling dissolution from particles in the intestine
+
+The Reynolds number of these flows is in general fairly small. If we model the drug particles as finite particles, there would be a difference between the local flow velocity and the velocity of the particle. If you consider the relative velocity between the drug particle and the flow, then the reynolds number w.r.t the particle diameter is definitely $\sim O(1)$ or smaller. At such Reynolds numbers, we can apply the Stokes flow approximation to the flow around the particle. The Stokes flow around spheres has an analytical solution for both the velocity and the scalar distribution. Dennis, Walker and Hudson reported on the heat transfer from an isothermal sphere at low Reynolds numbers in 1973 [@FLM:372733]. Kim and Karrila [@Kim2005], Happel and Brenner [@Happel1983] and [@Guazzelli2011] seem to report analytical solutions even for a Stokes flow past a sphere under a constant shear rate. May be this can be used to implement a sub-filter scale model for the interaction between the drug particle and the flow. We may be able to develop a correlation for $\widetilde{\vec{u}_i \phi_i}$ analytically using some approximations.
 
 
+# References

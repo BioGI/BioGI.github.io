@@ -9,7 +9,9 @@
   <meta name="generator" content="scholpandoc">
   <meta name="viewport" content="width=device-width">
   
-  <title></title>
+  <meta name="author" content="Farhad Behafarid and Ganesh Vijayakumar">
+  <meta name="dcterms.date" content="2015-10-15">
+  <title>How to implement the dissolution model in GI code - Dissolution from small particles in numerical simulation</title>
   <style type="text/css">code{white-space: pre;}</style>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.7.1/modernizr.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.js"></script>
@@ -19,9 +21,14 @@
 <div class="scholmd-container">
 <div class="scholmd-main">
 <div class="scholmd-content">
-<h1 id="how-to-implement-the-dissolution-model-in-gi-code">How to implement the dissolution model in GI code</h1>
-<p>Dissolution from small particles in numerical simulation</p>
-<h2 id="mmagnitude-ranges-for-particle-and-lattice-cell-sizes">Mmagnitude ranges for particle and lattice cell sizes</h2>
+<header>
+<h1 class="scholmd-title">How to implement the dissolution model in GI code - Dissolution from small particles in numerical simulation</h1>
+<div class="scholmd-author">
+Farhad Behafarid and Ganesh Vijayakumar
+</div>
+<div class="scholmd-date">15 Oct 2015</div>
+</header>
+<h1 id="magnitude-ranges-for-particle-and-lattice-cell-sizes">Magnitude ranges for particle and lattice cell sizes</h1>
 <p>
 <span class="math scholmd-math-display" style="display: block;">\[
 \begin{equation*}
@@ -34,7 +41,7 @@ R_j \sim (10-50) \mu m \\
 \end{equation*}
 \]</span>
 </p>
-<h2 id="basic-lbm-equations">Basic LBM equations</h2>
+<h1 id="basic-lbm-equations">Basic LBM equations</h1>
 <p>
 <span class="math scholmd-math-display" style="display: block;">\[
 \begin{equation*}
@@ -63,14 +70,14 @@ C_{{\infty}_j} = \dfrac{{C_b}_j-\gamma {C_s}_j}{1-\gamma_j} \\
 \end{equation*}
 \]</span>
  Therefore for <span class="math scholmd-math-inline">\(\gamma=0\)</span>, we get <span class="math scholmd-math-inline">\(C_{{\infty}_j}=C_b\)</span>.</p>
-<p>The basci LBM is as follows: 
+<p>The basic LBM is as follows: 
 <span class="math scholmd-math-display" style="display: block;">\[
 \begin{equation*}
 \dfrac{\partial \phi(\vec{x},t)}{\partial{t}} +\nabla . (\vec{u} \phi) = \nabla . \vec{q}&#39;&#39;_m
 \end{equation*}
 \]</span>
  Where <span class="math scholmd-math-inline">\(\vec{q}&#39;&#39;_m = - D_m \nabla \phi=\)</span> local mole flux.</p>
-<h2 id="continuum-point-particle-model">Continuum Point Particle Model</h2>
+<h1 id="continuum-point-particle-model">Continuum Point Particle Model</h1>
 <p>Models release of molecules <span class="math scholmd-math-inline">\(dN_b/dt\)</span> from points at location of particles: 
 <span class="math scholmd-math-display" style="display: block;">\[
 \begin{equation*}
@@ -170,8 +177,14 @@ C_{b_j} = A + 3 B \left [ \left ( \frac{R_j}{R_{eff_j}} \right ) - \left ( \frac
 <li>Determine <span class="math scholmd-math-inline">\(N_b\)</span> as <span class="math scholmd-math-inline">\(C_{b_j} (4/3) \pi R_{eff_j}^3\)</span></li>
 <li>Compute <span class="math scholmd-math-inline">\(\tau_i\)</span> using Equation <span class="scholmd-crossref"><span class="math scholmd-math-inline">\(\eqref{eqComputeTauModel}\)</span></span></li>
 </ul>
+<h1 id="my-thoughts-on-modeling-dissolution-from-particles-in-the-intestine">My thoughts on modeling dissolution from particles in the intestine</h1>
+<p>The Reynolds number of these flows is in general fairly small. If we model the drug particles as finite particles, there would be a difference between the local flow velocity and the velocity of the particle. If you consider the relative velocity between the drug particle and the flow, then the reynolds number w.r.t the particle diameter is definitely <span class="math scholmd-math-inline">\(\sim O(1)\)</span> or smaller. At such Reynolds numbers, we can apply the Stokes flow approximation to the flow around the particle. The Stokes flow around spheres has an analytical solution for both the velocity and the scalar distribution. Dennis, Walker and Hudson reported on the heat transfer from an isothermal sphere at low Reynolds numbers in 1973 <span class="scholmd-citation" data-cites="FLM:372733">[1]</span>. Kim and Karrila <span class="scholmd-citation" data-cites="Kim2005">[2]</span>, Happel and Brenner <span class="scholmd-citation" data-cites="Happel1983">[3]</span> and <span class="scholmd-citation" data-cites="Guazzelli2011">[4]</span> seem to report analytical solutions even for a Stokes flow past a sphere under a constant shear rate. May be this can be used to implement a sub-filter scale model for the interaction between the drug particle and the flow. We may be able to develop a correlation for <span class="math scholmd-math-inline">\(\widetilde{\vec{u}_i \phi_i}\)</span> analytically using some approximations.</p>
 <div class="references">
-
+<h1>References</h1>
+<p>1. Dennis SCR, Walker JDA, Hudson JD (1973) Heat transfer from a sphere at low reynolds numbers. Journal of Fluid Mechanics 60: 273–283. Available: <a href="http://journals.cambridge.org/article_S0022112073000169" class="uri">http://journals.cambridge.org/article_S0022112073000169</a>.</p>
+<p>2. Kim S, Karrila SJ (2005) Microhydrodynamics: Principles and selected applications. Dover Publications.</p>
+<p>3. Happel J, Brenner H (1983) Low reynolds number hydrodynamics : With special applications to particulate media. Kluwer Boston.</p>
+<p>4. Guazzelli E, Morris JF (2011) A physical introduction to suspension dynamics. Cambridge University Press.</p>
 </div>
 </div>
 </div>
