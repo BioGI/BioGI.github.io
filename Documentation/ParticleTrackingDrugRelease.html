@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="generator" content="scholpandoc">
+  <meta name="viewport" content="width=device-width">
+  
+  <meta name="author" content="Ganesh Vijayakumar">
+  <meta name="dcterms.date" content="2015-10-15">
+  <title>Attempts to understand implementation of particle tracking and dissolution in Balaji’s Couette Flow code</title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.7.1/modernizr.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.js"></script>
+  <style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; }
+code > span.dt { color: #902000; }
+code > span.dv { color: #40a070; }
+code > span.bn { color: #40a070; }
+code > span.fl { color: #40a070; }
+code > span.ch { color: #4070a0; }
+code > span.st { color: #4070a0; }
+code > span.co { color: #60a0b0; font-style: italic; }
+code > span.ot { color: #007020; }
+code > span.al { color: #ff0000; font-weight: bold; }
+code > span.fu { color: #06287e; }
+code > span.er { color: #ff0000; font-weight: bold; }
+  </style>
+  <link rel="stylesheet" href="css/ScholarlyMarkdown-BS3.css">
+</head>
+<body>
+<div class="scholmd-container">
+<div class="scholmd-main">
+<div class="scholmd-content">
+<header>
+<h1 class="scholmd-title">Attempts to understand implementation of particle tracking and dissolution in Balaji’s Couette Flow code</h1>
+<div class="scholmd-author">
+Ganesh Vijayakumar
+</div>
+<div class="scholmd-date">15 Oct 2015</div>
+</header>
+<p>The word <code>particle</code> is present in the following codes for a total of 283 lines</p>
+<ul>
+<li>ICBC.f90</li>
+<li>LBM.f90</li>
+<li>Main.f90</li>
+<li>Output.f90</li>
+<li>Parallel.f90</li>
+<li>PassiveScalar.f90</li>
+<li>SetParticle.f90</li>
+<li>Setup.f90</li>
+</ul>
+<p>All the particle tracking action is controlled from <code>Main.f90</code> as follows</p>
+<div class="sourceCode"><pre class="sourceCode fortran"><code class="sourceCode fortran">    <span class="co">!Before start of time iteration</span>
+
+    <span class="kw">IF</span>(ParticleTrack<span class="kw">.EQ.</span>ParticleOn) <span class="kw">THEN</span>    <span class="co">! If particle tracking is &#39;on&#39; then do the following</span>
+        <span class="kw">CALL</span> IniParticles
+        <span class="kw">CALL</span> Particle_Setup
+    <span class="kw">ENDIF</span>
+
+    <span class="kw">DO</span> iter <span class="kw">=</span> iter0<span class="kw">-</span><span class="dv">0_lng</span>,nt
+
+    <span class="co">!All other stuff</span>
+
+    <span class="co">!After collision before streaming</span>
+
+    <span class="kw">IF</span>(ParticleTrack<span class="kw">.EQ.</span>ParticleOn <span class="kw">.AND.</span> iter <span class="kw">.GE.</span> phiStart) <span class="kw">THEN</span> <span class="co">! If particle tracking is &#39;on&#39; then do the following</span>
+        <span class="kw">CALL</span> Calc_Global_Bulk_Scalar_Conc       <span class="co">! Estimate bluk scalar concentration in each partition</span>
+        <span class="kw">CALL</span> Collect_Distribute_Global_Bulk_Scalar_Conc <span class="co">! Collect Cb_Global from different processors, average it and distribute it to all the processors.  </span>
+        <span class="kw">CALL</span> Particle_Track
+        <span class="kw">CALL</span> Particle_MPI_Transfer
+    <span class="kw">ENDIF</span>
+
+    <span class="co">!Call stream</span>
+
+    <span class="co">!Call scalar</span>
+
+    <span class="co">!Printing stuff</span>
+
+     <span class="kw">IF</span>(ParticleTrack<span class="kw">.EQ.</span>ParticleOn <span class="kw">.AND.</span> iter <span class="kw">.GE.</span> phiStart) <span class="kw">THEN</span>                                      <span class="co">! If particle tracking is &#39;on&#39; then do the following</span>
+            <span class="kw">CALL</span> PrintParticles                                         <span class="co">! output the particle velocity, radius, position and con. [MODULE: Output]</span>
+     <span class="kw">ENDIF</span></code></pre></div>
+<p>The particles in each processor domain are controlled through a doubly linked list. This allows for the particles that are in the middle of the list to be chucked out and transferred to another processor. Some elaborate data type is defined to contain the information for each particle along with a whole host of other variables in <a href="#particleDataStructure">Setup.f90</a>.</p>
+<p>The subroutine <a href="#IniParticles">IniParticles</a> is in <code>LBM.f90</code>. Doesn’t seem to have a restart capability yet. If the code is starting from scratch, then it reads the particle.dat for all particles, determines if each particle is in the current processor domain and assigns it’s properties.</p>
+<p>The subroutine <a href="#ParticleSetup">Particle_Setup</a> is in <code>LBM.f90</code>. It seems to interpolate the velocities to the particles using trilinear interpolation.</p>
+<p><a href="#calcGlobalScalarConc">Calc_Global_Scalar_Conc and Collect_Distribute_Global_Bulk_Scalar_Conc</a> together calculate the average bulk concentration over all the processors.</p>
+<p><a href="#particleTrack">Particle_Track</a> seems to be doing most of the heavy lifting.</p>
+<ul>
+<li><p>Do the following only when the iteration number is <span class="math scholmd-math-inline">\(&gt; 0\)</span>, i.e. not the starting time step.</p></li>
+<li>Use second order interpolation to move the particle in time
+<ul>
+<li>First project particle based on current velocity at particle</li>
+<li>Interpolate velocity field to the new location by calling <code>Interp_parvel</code></li>
+<li>Use a 50-50 mix of the new and old velocities to advect the particle from the old location.</li>
+</ul></li>
+<li>Call <code>Interp_parvel</code> again to get the velocities at the new particle location.</li>
+<li>Call <code>Interp_bulkconc</code> to interpolate the bulk concentration to the new particle location.</li>
+<li>Call <code>Update_sh</code> to update the Sherwood number for the particle</li>
+<li>Call <code>Calc_Scalar_Release</code> to update the particle radius and calculate the new drug concentration release rate</li>
+<li>Call <code>Interp_ParToNodes_Conc</code> to distribute the released drug concentration to the neighboring nodes</li>
+<li>Do the following at all time steps.</li>
+<li>Update <span class="math scholmd-math-inline">\(\tau_{sgs}\)</span> for cells that have non-zero values for <span class="math scholmd-math-inline">\(\tau_{sgs}\)</span>.</li>
+<li>Wrap the new position around in periodic directions if they have crossed the domain.</li>
+<li>Estimate the new partition of the particles and flag it for <code>ParticleTransfer</code> if necessary<br /></li>
+<li><p>Write the updated particle position to the correct <code>.dat</code> file.</p></li>
+</ul>
+<p><a href="#particleMPItransfer">Particle_MPI_Transfer</a> does the transfer of particles from one processor to another in <code>Parallel.f90</code>.</p>
+<p>The subroutine <a href="#scalar">Scalar</a> just adds the drug release and the SGS terms to the scalar advection/diffusion equation.</p>
+<h1 id="particleDataStructure">Particle Data Structure</h1>
+<div class="sourceCode"><pre class="sourceCode fortran"><code class="sourceCode fortran"><span class="co">!~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Particle Tracking Variables ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~</span>
+
+<span class="dt">INTEGER(lng)</span>    <span class="dt">::</span> ParticleTrack            <span class="co">! a flag to denote if particle track is on (1) or off (0) </span>
+<span class="dt">INTEGER(lng)</span>, <span class="dt">PARAMETER</span> <span class="dt">::</span> ParticleOn<span class="kw">=</span><span class="dv">1</span>         <span class="co">! flag to signify Particle Tracking is on</span>
+<span class="dt">INTEGER(lng)</span>, <span class="dt">PARAMETER</span> <span class="dt">::</span> ParticleOff<span class="kw">=</span><span class="dv">0</span>        <span class="co">! flag for signify if particle tracking is off</span>
+<span class="dt">INTEGER(lng)</span>    <span class="dt">::</span> np                   <span class="co">! number of particles</span>
+
+<span class="dt">REAL(dbl)</span>, <span class="dt">PARAMETER</span> <span class="dt">::</span> molarvol<span class="kw">=</span><span class="fl">92.73_dbl</span>,diffm<span class="kw">=</span><span class="fl">8.47e-7_dbl</span>,R0<span class="kw">=</span><span class="fl">0.0026_dbl</span>,Cs_mol<span class="kw">=</span><span class="fl">3.14854e-6</span><span class="co">!1.2e-6     ! drug properties</span>
+<span class="dt">REAL(dbl)::</span> Cb_global       <span class="co">! Global bulk scalar Concentration</span>
+<span class="dt">INTEGER(lng)::</span> Cb_numFluids <span class="co">! Number of fluid nodes in the process for Global bulk scalar Concentration</span>
+<span class="dt">INTEGER(lng)::</span> num_particles    <span class="co">! Total number of particles in domain</span>
+
+<span class="dt">INTEGER(lng)</span>, <span class="dt">ALLOCATABLE</span> <span class="dt">::</span> iMaxDomain(:),iMinDomain(:) <span class="co">! List of starting/enning i indices for each subdomain</span>
+<span class="dt">INTEGER(lng)</span>, <span class="dt">ALLOCATABLE</span> <span class="dt">::</span> jMaxDomain(:),jMinDomain(:) <span class="co">! List of starting/enning j indices for each subdomain</span>
+<span class="dt">INTEGER(lng)</span>, <span class="dt">ALLOCATABLE</span> <span class="dt">::</span> kMaxDomain(:),kMinDomain(:) <span class="co">! List of starting/enning k indices for each subdomain</span>
+<span class="dt">REAL(dbl)</span>, <span class="dt">ALLOCATABLE</span>  <span class="dt">::</span> partransfersend(:,:),partransferrecv(:,:)
+<span class="dt">INTEGER(lng)</span>,<span class="dt">ALLOCATABLE</span> <span class="dt">::</span> parreqid(:),parwtstat(:,:)      <span class="co">! number of send/recv requests</span>
+<span class="dt">INTEGER(lng)</span>,<span class="dt">ALLOCATABLE</span> <span class="dt">::</span> probestat(:)    <span class="co">! MPI status object</span>
+<span class="dt">INTEGER(lng)</span>,<span class="dt">ALLOCATABLE</span> <span class="dt">::</span> numpartransfer(:)   <span class="co">! Particles to be transferred in each direction</span>
+<span class="dt">INTEGER(lng)</span> <span class="dt">::</span> NumCommDirsPar <span class="kw">=</span> <span class="dv">26_lng</span>
+<span class="dt">INTEGER(lng)</span> <span class="dt">::</span> NumParVar <span class="kw">=</span> <span class="dv">16_lng</span>
+
+<span class="dt">TYPE</span> ParRecordTransfer
+    <span class="dt">SEQUENCE</span>
+    <span class="dt">INTEGER(lng)</span>    <span class="dt">::</span> parid <span class="co">! particle id in the overall list - a tag that can be used to track the particle</span>
+    <span class="dt">INTEGER(lng)</span>    <span class="dt">::</span> cur_part <span class="co">! current sub-domain id / partition number</span>
+    <span class="dt">INTEGER(lng)</span>    <span class="dt">::</span> new_part <span class="co">! current sub-domain id / partition number</span>
+<span class="dt">    REAL(dbl)</span>   <span class="dt">::</span> xp   <span class="co">! particle x-position</span>
+<span class="dt">    REAL(dbl)</span>   <span class="dt">::</span> yp <span class="co">! particle y-position</span>
+<span class="dt">    REAL(dbl)</span>   <span class="dt">::</span> zp   <span class="co">! particle z-position</span>
+<span class="dt">    REAL(dbl)</span>   <span class="dt">::</span> up   <span class="co">! particle u-velocity</span>
+<span class="dt">    REAL(dbl)</span>   <span class="dt">::</span> vp   <span class="co">! particle v-velocity</span>
+<span class="dt">    REAL(dbl)</span>   <span class="dt">::</span> wp   <span class="co">! particle w-velocity</span>
+<span class="dt">    REAL(dbl)</span>   <span class="dt">::</span> rp   <span class="co">! particle radius</span>
+<span class="dt">    REAL(dbl)</span>   <span class="dt">::</span> delNBbyCV <span class="co">! particle drug release concentration </span>
+<span class="dt">    REAL(dbl)</span>   <span class="dt">::</span> par_conc <span class="co">! particle concentration</span>
+<span class="dt">    REAL(dbl)</span>   <span class="dt">::</span> bulk_conc <span class="co">! bulk concentration at particle location</span>
+<span class="dt">    REAL(dbl)</span>   <span class="dt">::</span> xpold    <span class="co">! particle x-position</span>
+<span class="dt">    REAL(dbl)</span>   <span class="dt">::</span> ypold    <span class="co">! particle y-position</span>
+<span class="dt">    REAL(dbl)</span>   <span class="dt">::</span> zpold    <span class="co">! particle z-position</span>
+<span class="dt">    REAL(dbl)</span>   <span class="dt">::</span> upold    <span class="co">! particle u-velocity</span>
+<span class="dt">    REAL(dbl)</span>   <span class="dt">::</span> vpold    <span class="co">! particle v-velocity</span>
+<span class="dt">    REAL(dbl)</span>   <span class="dt">::</span> wpold    <span class="co">! particle w-velocity</span>
+<span class="dt">    REAL(dbl)</span>   <span class="dt">::</span> rpold    <span class="co">! old particle radius</span>
+<span class="dt">    REAL(dbl)</span>   <span class="dt">::</span> sh   <span class="co">! Sherwood number</span>
+<span class="dt">    REAL(dbl)</span>   <span class="dt">::</span> gamma_cont   <span class="co">! gamma - container effect</span>
+<span class="dt">    REAL(dbl)</span>   <span class="dt">::</span> S    <span class="co">! Shear rate at particle location</span>
+<span class="dt">    REAL(dbl)</span>   <span class="dt">::</span> Sst  <span class="co">! Shear peclet number</span>
+<span class="dt">    REAL(dbl)</span>   <span class="dt">::</span> Veff <span class="co">! effective particle container volume</span>
+<span class="dt">    REAL(dbl)</span>   <span class="dt">::</span> Nbj  <span class="co">! number of moles associated with the particlnumber of moles associated with the particle</span>
+<span class="dt">END TYPE</span> ParRecordTransfer
+
+<span class="dt">TYPE</span> ParRecord
+    <span class="dt">TYPE(ParRecord)</span>, <span class="dt">POINTER</span> <span class="dt">::</span> prev <span class="kw">=&gt;</span> NULL()<span class="co">! pointer to prev record</span>
+    <span class="dt">TYPE(ParRecord)</span>, <span class="dt">POINTER</span> <span class="dt">::</span> next <span class="kw">=&gt;</span> NULL()  <span class="co">! pointer to next record</span>
+    <span class="dt">INTEGER(lng)</span>    <span class="dt">::</span> parid <span class="co">! particle id in the overall list - a tag that can be used to track the particle</span>
+    <span class="dt">TYPE(ParRecordTransfer)</span> <span class="dt">::</span> pardata
+<span class="dt">END TYPE</span> ParRecord
+
+<span class="dt">TYPE(ParRecordTransfer)</span>,<span class="dt">ALLOCATABLE</span> <span class="dt">::</span> ParSendArray(:,:),ParRecvArray(:,:)
+<span class="dt">TYPE(ParRecord)</span>, <span class="dt">POINTER</span>    <span class="dt">::</span> ParListHead,ParListEnd
+<span class="dt">TYPE(ParRecordTransfer)</span> <span class="dt">::</span> ParInit
+<span class="dt">LOGICAL</span> <span class="dt">::</span> ParticleTransfer
+<span class="dt">INTEGER</span> <span class="dt">::</span> mpipartransfertype
+<span class="dt">INTEGER</span> <span class="dt">::</span> numparticlesSub
+<span class="dt">INTEGER(lng)</span>, <span class="dt">PARAMETER</span> <span class="dt">::</span> der_type_count <span class="kw">=</span> <span class="dv">26_lng</span>,numparticlesDomain <span class="kw">=</span> <span class="dv">1000_lng</span>
+<span class="dt">INTEGER</span> <span class="dt">::</span> mpidblextent,mpiintextent
+<span class="dt">INTEGER(lng)</span>, <span class="dt">DIMENSION(der_type_count)</span> <span class="dt">::</span> der_block_len,der_block_types,der_block_offsets
+<span class="dt">REAL(dbl)</span> <span class="dt">::</span> fmovingsum,fmovingrhosum
+<span class="dt">INTEGER(lng)</span>, <span class="dt">ALLOCATABLE</span>   <span class="dt">::</span> parfilenum(:),numparticleSubfile(:) <span class="co">! array of particle output file numbers and number of particles in each of these files</span>
+<span class="dt">INTEGER(lng)</span>    <span class="dt">::</span> parfileCount             <span class="co">! current output file number (out of total number of output files)</span>
+
+
+<span class="co">!************************************************</span></code></pre></div>
+<p>While the above is where most of the major action happens for the particles, 4 other arrays are defined earlier in <code>Setup.f90</code> as</p>
+<div class="sourceCode"><pre class="sourceCode fortran"><code class="sourceCode fortran"><span class="dt">REAL(dbl)</span>, <span class="dt">ALLOCATABLE</span> <span class="dt">::</span> delphi_particle(:,:,:)    <span class="co">! passive scalar contribution from particles</span>
+<span class="dt">REAL(dbl)</span>, <span class="dt">ALLOCATABLE</span> <span class="dt">::</span> tausgs_particle_x(:,:,:)  <span class="co">! passive scalar contribution from particles</span>
+<span class="dt">REAL(dbl)</span>, <span class="dt">ALLOCATABLE</span> <span class="dt">::</span> tausgs_particle_y(:,:,:)  <span class="co">! passive scalar contribution from particles</span>
+<span class="dt">REAL(dbl)</span>, <span class="dt">ALLOCATABLE</span> <span class="dt">::</span> tausgs_particle_z(:,:,:)  <span class="co">! passive scalar contribution from particles</span></code></pre></div>
+<h1 id="IniParticles">IniParticles</h1>
+<div class="sourceCode"><pre class="sourceCode fortran"><code class="sourceCode fortran"><span class="kw">SUBROUTINE</span> IniParticles
+<span class="co">!-----------------------------------------------</span>
+<span class="kw">IMPLICIT</span> <span class="kw">NONE</span>
+<span class="dt">INTEGER(lng)</span>   <span class="dt">::</span> i, parid,particle_partition,ipartition
+<span class="dt">REAL(dbl)</span> <span class="dt">::</span> xp,yp,zp,par_radius
+<span class="dt">TYPE(ParRecord)</span>, <span class="dt">POINTER</span>    <span class="dt">::</span> CurPar
+<span class="kw">IF</span> (restart) <span class="kw">THEN</span>
+    <span class="co">! Read particle number and position along with it&#39;s radius,concentration.</span>
+    <span class="co">! Interpolate to calculate particle velocities.</span>
+    <span class="co">! Interpolate particle concentration to nodes into delphi_particle.</span>
+
+<span class="kw">ELSE</span>
+    <span class="co">! Linked list approach</span>
+    <span class="fu">OPEN(</span><span class="dv">60</span>,<span class="fu">FILE</span><span class="kw">=</span><span class="st">&#39;particle.dat&#39;</span><span class="fu">)</span>
+    <span class="fu">READ(</span><span class="dv">60</span>,<span class="fu">*)</span> np
+    num_particles <span class="kw">=</span> np
+
+    <span class="co">! Initialize Header Pointer</span>
+    
+    <span class="kw">CALL</span> list_init(ParListHead)
+    CurPar <span class="kw">=&gt;</span> ParListHead
+
+    <span class="co">! Recursively allocate all the particle records and build the linked list</span>
+    <span class="kw">DO</span> i <span class="kw">=</span> <span class="dv">1</span>, np
+        <span class="fu">READ(</span><span class="dv">60</span>,<span class="fu">*)</span> parid,xp,yp,zp,par_radius <span class="co">! read particle.dat file</span>
+
+        <span class="co">! Search the partition this particle belongs to</span>
+        <span class="kw">DO</span> ipartition <span class="kw">=</span> <span class="dv">1_lng</span>,NumSubsTotal 
+
+            <span class="kw">IF</span> ((xp<span class="kw">.GE.REAL</span>(iMinDomain(ipartition),dbl)<span class="kw">-</span><span class="fl">1.0_dbl</span>)<span class="kw">.AND.&amp;</span>
+            (xp<span class="kw">.LT.</span>(<span class="kw">REAL</span>(iMaxDomain(ipartition),dbl)<span class="kw">+</span><span class="fl">0.0_dbl</span>))<span class="kw">.AND.</span> <span class="kw">&amp;</span>
+            (yp<span class="kw">.GE.REAL</span>(jMinDomain(ipartition),dbl)<span class="kw">-</span><span class="fl">1.0_dbl</span>)<span class="kw">.AND.</span> <span class="kw">&amp;</span>
+            (yp<span class="kw">.LT.</span>(<span class="kw">REAL</span>(jMaxDomain(ipartition),dbl)<span class="kw">+</span><span class="fl">0.0_dbl</span>))<span class="kw">.AND.</span> <span class="kw">&amp;</span>
+            (zp<span class="kw">.GE.REAL</span>(kMinDomain(ipartition),dbl)<span class="kw">-</span><span class="fl">1.0_dbl</span>)<span class="kw">.AND.</span> <span class="kw">&amp;</span>
+            (zp<span class="kw">.LT.</span>(<span class="kw">REAL</span>(kMaxDomain(ipartition),dbl)<span class="kw">+</span><span class="fl">0.0_dbl</span>))) <span class="kw">THEN</span>
+
+                particle_partition <span class="kw">=</span> ipartition
+            <span class="kw">END IF</span>
+        <span class="kw">END DO</span>
+        <span class="co">! Create a particle element in the linked list only if the particles belongs to this partition</span>
+        <span class="kw">IF</span> (particle_partition<span class="kw">.EQ.</span>mySub) <span class="kw">THEN</span>
+            <span class="kw">CALL</span> list_init(CurPar%next)     
+            CurPar%next%prev <span class="kw">=&gt;</span> CurPar
+            CurPar%next%next <span class="kw">=&gt;</span> null()
+            CurPar%next%pardata%parid <span class="kw">=</span> parid
+            CurPar%next%pardata%xp <span class="kw">=</span> xp
+            CurPar%next%pardata%yp <span class="kw">=</span> yp
+            CurPar%next%pardata%zp <span class="kw">=</span> zp
+            CurPar%next%pardata%up <span class="kw">=</span> <span class="fl">0.0_dbl</span>
+            CurPar%next%pardata%vp <span class="kw">=</span> <span class="fl">0.0_dbl</span>
+            CurPar%next%pardata%wp <span class="kw">=</span> <span class="fl">0.0_dbl</span>
+            CurPar%next%pardata%rp <span class="kw">=</span> par_radius<span class="co">!R0!0.005_dbl</span>
+            CurPar%next%pardata%xpold <span class="kw">=</span> CurPar%next%pardata%xp
+            CurPar%next%pardata%ypold <span class="kw">=</span> CurPar%next%pardata%yp
+            CurPar%next%pardata%zpold <span class="kw">=</span> CurPar%next%pardata%zp
+            CurPar%next%pardata%upold <span class="kw">=</span> CurPar%next%pardata%up
+            CurPar%next%pardata%vpold <span class="kw">=</span> CurPar%next%pardata%vp
+            CurPar%next%pardata%wpold <span class="kw">=</span> CurPar%next%pardata%wp
+            CurPar%next%pardata%rpold <span class="kw">=</span> CurPar%next%pardata%rp
+            CurPar%next%pardata%par_conc <span class="kw">=</span> Cs_mol<span class="co">!3.14854e-6</span>
+            CurPar%next%pardata%gamma_cont <span class="kw">=</span> <span class="fl">0.0000_dbl</span>
+            CurPar%next%pardata%sh <span class="kw">=</span> <span class="fl">1.0000_dbl</span><span class="kw">/</span>(<span class="fl">1.0_dbl</span><span class="kw">-</span>CurPar%next%pardata%gamma_cont)
+            CurPar%next%pardata%S <span class="kw">=</span> <span class="fl">0.0_dbl</span>
+            CurPar%next%pardata%Sst <span class="kw">=</span> <span class="fl">0.0_dbl</span>
+            CurPar%next%pardata%Veff <span class="kw">=</span> <span class="fl">0.0_dbl</span>
+            CurPar%next%pardata%Nbj <span class="kw">=</span> <span class="fl">0.0_dbl</span>
+            CurPar%next%pardata%bulk_conc <span class="kw">=</span> <span class="fl">0.0000_dbl</span>
+            CurPar%next%pardata%delNBbyCV<span class="kw">=</span> <span class="fl">0.00000_dbl</span>
+            CurPar%next%pardata%cur_part<span class="kw">=</span> mySub
+            CurPar%next%pardata%new_part<span class="kw">=</span> mySub
+            <span class="co">! point to next node in the list</span>
+            CurPar <span class="kw">=&gt;</span> CurPar%next
+        <span class="kw">END IF</span>
+    <span class="kw">END DO</span>
+    
+    <span class="fu">CLOSE(</span><span class="dv">60</span><span class="fu">)</span>
+<span class="kw">ENDIF</span>
+<span class="co">!------------------------------------------------</span>
+<span class="kw">END SUBROUTINE</span> IniParticles</code></pre></div>
+<h1 id="ParticleSetup">Particle Setup</h1>
+<div class="sourceCode"><pre class="sourceCode fortran"><code class="sourceCode fortran"><span class="kw">SUBROUTINE</span> Particle_Setup
+<span class="co">!------------------------------------------------</span>
+<span class="kw">IMPLICIT</span> <span class="kw">NONE</span>
+<span class="kw">IF</span> (restart) <span class="kw">THEN</span>
+<span class="kw">ELSE</span>
+    <span class="kw">CALL</span> Interp_Parvel
+<span class="kw">ENDIF</span>
+
+<span class="kw">SUBROUTINE</span> Interp_Parvel <span class="co">! Using Trilinear interpolation</span>
+<span class="co">!------------------------------------------------</span>
+<span class="kw">IMPLICIT</span> <span class="kw">NONE</span>
+<span class="dt">INTEGER(lng)</span>  <span class="dt">::</span> i,ix0,ix1,iy0,iy1,iz0,iz1
+<span class="dt">REAL(dbl)</span>     <span class="dt">::</span> xp,yp,zp,c00,c01,c10,c11,c0,c1,c,xd,yd,zd
+<span class="dt">TYPE(ParRecord)</span>, <span class="dt">POINTER</span> <span class="dt">::</span> current
+<span class="dt">TYPE(ParRecord)</span>, <span class="dt">POINTER</span> <span class="dt">::</span> next
+
+<span class="co">current =&gt; ParListHead%next</span>
+<span class="kw">DO</span> <span class="kw">WHILE</span> (<span class="fu">ASSOCIATED</span>(current))
+    next <span class="kw">=&gt;</span> current%next <span class="co">! copy pointer of next node</span>
+
+    xp <span class="kw">=</span> current%pardata%xp <span class="kw">-</span> <span class="kw">REAL</span>(iMin<span class="kw">-</span><span class="dv">1_lng</span>,dbl)
+    yp <span class="kw">=</span> current%pardata%yp <span class="kw">-</span> <span class="kw">REAL</span>(jMin<span class="kw">-</span><span class="dv">1_lng</span>,dbl)
+    zp <span class="kw">=</span> current%pardata%zp <span class="kw">-</span> <span class="kw">REAL</span>(kMin<span class="kw">-</span><span class="dv">1_lng</span>,dbl)
+
+    ix0<span class="kw">=FLOOR</span>(xp)
+    ix1<span class="kw">=CEILING</span>(xp)
+    iy0<span class="kw">=FLOOR</span>(yp)
+    iy1<span class="kw">=CEILING</span>(yp)
+    iz0<span class="kw">=FLOOR</span>(zp)
+    iz1<span class="kw">=CEILING</span>(zp)
+    <span class="co">!!!!!! MAKE SURE THE ABOVE NODES ARE FLUID NODES</span>
+
+    <span class="kw">IF</span> (ix1 <span class="kw">/=</span> ix0) <span class="kw">THEN</span> 
+        xd<span class="kw">=</span>(xp<span class="kw">-REAL</span>(ix0,dbl))<span class="kw">/</span>(<span class="kw">REAL</span>(ix1,dbl)<span class="kw">-REAL</span>(ix0,dbl)) 
+    <span class="kw">ELSE</span>
+        xd <span class="kw">=</span> <span class="fl">0.0_dbl</span>
+    <span class="kw">END IF</span>
+    <span class="kw">IF</span> (iy1 <span class="kw">/=</span> iy0) <span class="kw">THEN</span> 
+        yd<span class="kw">=</span>(yp<span class="kw">-REAL</span>(iy0,dbl))<span class="kw">/</span>(<span class="kw">REAL</span>(iy1,dbl)<span class="kw">-REAL</span>(iy0,dbl)) 
+    <span class="kw">ELSE</span>
+        yd <span class="kw">=</span> <span class="fl">0.0_dbl</span>
+    <span class="kw">END IF</span>
+
+    <span class="kw">IF</span> (iz1 <span class="kw">/=</span> iz0) <span class="kw">THEN</span> 
+        zd<span class="kw">=</span>(zp<span class="kw">-REAL</span>(iz0,dbl))<span class="kw">/</span>(<span class="kw">REAL</span>(iz1,dbl)<span class="kw">-REAL</span>(iz0,dbl))
+    <span class="kw">ELSE</span>
+        zd <span class="kw">=</span> <span class="fl">0.0_dbl</span>
+    <span class="kw">END IF</span>
+
+    <span class="co">! u-interpolation</span>
+    <span class="co">! Do first level linear interpolation in x-direction</span>
+    c00 <span class="kw">=</span> u(ix0,iy0,iz0)<span class="kw">*</span>(<span class="fl">1.0_dbl</span><span class="kw">-</span>xd)<span class="kw">+</span>u(ix1,iy0,iz0)<span class="kw">*</span>xd 
+    c01 <span class="kw">=</span> u(ix0,iy0,iz1)<span class="kw">*</span>(<span class="fl">1.0_dbl</span><span class="kw">-</span>xd)<span class="kw">+</span>u(ix1,iy0,iz1)<span class="kw">*</span>xd 
+    c10 <span class="kw">=</span> u(ix0,iy1,iz0)<span class="kw">*</span>(<span class="fl">1.0_dbl</span><span class="kw">-</span>xd)<span class="kw">+</span>u(ix1,iy1,iz0)<span class="kw">*</span>xd 
+    c11 <span class="kw">=</span> u(ix0,iy1,iz1)<span class="kw">*</span>(<span class="fl">1.0_dbl</span><span class="kw">-</span>xd)<span class="kw">+</span>u(ix1,iy1,iz1)<span class="kw">*</span>xd 
+    <span class="co">! Do second level linear interpolation in y-direction</span>
+    c0  <span class="kw">=</span> c00<span class="kw">*</span>(<span class="fl">1.0_dbl</span><span class="kw">-</span>yd)<span class="kw">+</span>c10<span class="kw">*</span>yd
+    c1  <span class="kw">=</span> c01<span class="kw">*</span>(<span class="fl">1.0_dbl</span><span class="kw">-</span>yd)<span class="kw">+</span>c11<span class="kw">*</span>yd
+    <span class="co">! Do third level linear interpolation in z-direction</span>
+    c   <span class="kw">=</span> c0<span class="kw">*</span>(<span class="fl">1.0_dbl</span><span class="kw">-</span>zd)<span class="kw">+</span>c1<span class="kw">*</span>zd
+        current%pardata%up<span class="kw">=</span>c
+
+
+    <span class="co">! v-interpolation</span>
+    <span class="co">! Do first level linear interpolation in x-direction</span>
+    c00 <span class="kw">=</span> v(ix0,iy0,iz0)<span class="kw">*</span>(<span class="fl">1.0_dbl</span><span class="kw">-</span>xd)<span class="kw">+</span>v(ix1,iy0,iz0)<span class="kw">*</span>xd
+    c01 <span class="kw">=</span> v(ix0,iy0,iz1)<span class="kw">*</span>(<span class="fl">1.0_dbl</span><span class="kw">-</span>xd)<span class="kw">+</span>v(ix1,iy0,iz1)<span class="kw">*</span>xd
+    c10 <span class="kw">=</span> v(ix0,iy1,iz0)<span class="kw">*</span>(<span class="fl">1.0_dbl</span><span class="kw">-</span>xd)<span class="kw">+</span>v(ix1,iy1,iz0)<span class="kw">*</span>xd
+    c11 <span class="kw">=</span> v(ix0,iy1,iz1)<span class="kw">*</span>(<span class="fl">1.0_dbl</span><span class="kw">-</span>xd)<span class="kw">+</span>v(ix1,iy1,iz1)<span class="kw">*</span>xd 
+    <span class="co">! Do second level linear interpolation in y-direction</span>
+    c0  <span class="kw">=</span> c00<span class="kw">*</span>(<span class="fl">1.0_dbl</span><span class="kw">-</span>yd)<span class="kw">+</span>c10<span class="kw">*</span>yd
+    c1  <span class="kw">=</span> c01<span class="kw">*</span>(<span class="fl">1.0_dbl</span><span class="kw">-</span>yd)<span class="kw">+</span>c11<span class="kw">*</span>yd
+    <span class="co">! Do third level linear interpolation in z-direction</span>
+    c   <span class="kw">=</span> c0<span class="kw">*</span>(<span class="fl">1.0_dbl</span><span class="kw">-</span>zd)<span class="kw">+</span>c1<span class="kw">*</span>zd
+        current%pardata%vp<span class="kw">=</span>c
+
+    <span class="co">! w-interpolation</span>
+    <span class="co">! Do first level linear interpolation in x-direction</span>
+    c00 <span class="kw">=</span> w(ix0,iy0,iz0)<span class="kw">*</span>(<span class="fl">1.0_dbl</span><span class="kw">-</span>xd)<span class="kw">+</span>w(ix1,iy0,iz0)<span class="kw">*</span>xd 
+    c01 <span class="kw">=</span> w(ix0,iy0,iz1)<span class="kw">*</span>(<span class="fl">1.0_dbl</span><span class="kw">-</span>xd)<span class="kw">+</span>w(ix1,iy0,iz1)<span class="kw">*</span>xd 
+    c10 <span class="kw">=</span> w(ix0,iy1,iz0)<span class="kw">*</span>(<span class="fl">1.0_dbl</span><span class="kw">-</span>xd)<span class="kw">+</span>w(ix1,iy1,iz0)<span class="kw">*</span>xd 
+    c11 <span class="kw">=</span> w(ix0,iy1,iz1)<span class="kw">*</span>(<span class="fl">1.0_dbl</span><span class="kw">-</span>xd)<span class="kw">+</span>w(ix1,iy1,iz1)<span class="kw">*</span>xd 
+    <span class="co">! Do second level linear interpolation in y-direction</span>
+    c0  <span class="kw">=</span> c00<span class="kw">*</span>(<span class="fl">1.0_dbl</span><span class="kw">-</span>yd)<span class="kw">+</span>c10<span class="kw">*</span>yd
+    c1  <span class="kw">=</span> c01<span class="kw">*</span>(<span class="fl">1.0_dbl</span><span class="kw">-</span>yd)<span class="kw">+</span>c11<span class="kw">*</span>yd
+    <span class="co">! Do third level linear interpolation in z-direction</span>
+    c   <span class="kw">=</span> c0<span class="kw">*</span>(<span class="fl">1.0_dbl</span><span class="kw">-</span>zd)<span class="kw">+</span>c1<span class="kw">*</span>zd
+        current%pardata%wp<span class="kw">=</span>c
+
+    <span class="co">! point to next node in the list</span>
+    current <span class="kw">=&gt;</span> next
+    <span class="co">!write(*,*) i</span>
+
+<span class="kw">ENDDO</span></code></pre></div>
+<h1 id="calcGlobalScalarConc">Calc Global Scalar Conc</h1>
+<div class="sourceCode"><pre class="sourceCode fortran"><code class="sourceCode fortran"><span class="kw">SUBROUTINE</span> Calc_Global_Bulk_Scalar_Conc<span class="co">! Calculate Global Bulk SCalar COnc for use in the scalar drug relese model </span>
+<span class="co">!------------------------------------------------</span>
+<span class="kw">IMPLICIT</span> <span class="kw">NONE</span>
+<span class="dt">INTEGER(lng)</span>  <span class="dt">::</span> i,j,k
+<span class="co">! Calculate the bulk Conc = total number of moles/total domain size or it is the average conc in the domain</span>
+<span class="co">Cb_global = 0.0_dbl</span>
+<span class="co">Cb_numFluids = 0_lng</span>
+<span class="kw">DO</span> k<span class="kw">=</span><span class="dv">1</span>,nzSub
+  <span class="kw">DO</span> j<span class="kw">=</span><span class="dv">1</span>,nySub
+    <span class="kw">DO</span> i<span class="kw">=</span><span class="dv">1</span>,nxSub
+      <span class="kw">IF</span>(node(i,j,k) <span class="kw">.EQ.</span> FLUID) <span class="kw">THEN</span>
+        Cb_global <span class="kw">=</span> Cb_global <span class="kw">+</span> phi(i,j,k)
+        Cb_numFluids <span class="kw">=</span> Cb_numFluids <span class="kw">+</span> <span class="dv">1_lng</span>
+      <span class="kw">END IF</span>
+    <span class="kw">END DO</span>
+  <span class="kw">END DO</span>
+<span class="kw">END DO</span>
+<span class="kw">END SUBROUTINE</span> Calc_Global_Bulk_Scalar_Conc</code></pre></div>
+<p><code>Collect_Distribute_Global_Bulk_Scalar_Conc</code> from <code>Parallel.f90</code> then averages it over all the processors.</p>
+<div class="sourceCode"><pre class="sourceCode fortran"><code class="sourceCode fortran"><span class="kw">SUBROUTINE</span>  Collect_Distribute_Global_Bulk_Scalar_Conc
+<span class="co">! This subroutine does the</span>
+<span class="co">!parallel communication needed to collect all the bulk concentration in each of</span>
+<span class="co">!the processes and computeѕ an average, which is the distributed to the various</span>
+<span class="co">!process for computing the drug concentration. </span>
+<span class="co">!--------------------------------------------------------------------------------------------------</span>
+<span class="kw">IMPLICIT</span> <span class="kw">NONE</span>
+<span class="dt">REAL(dbl)</span> <span class="dt">::</span> Cb_global_temp
+<span class="dt">INTEGER(lng)::</span> Cb_numFluids_temp,mpierr
+<span class="co">!CALL MPI_BARRIER(MPI_COMM_WORLD,mpierr)                    ! synchronize all processing units before next loop [Intrinsic]</span>
+<span class="co">!CALL MPI_GATHER......</span>
+<span class="co">!write(*,*)  &#39;In Collect and Distribute before reduce&#39;, iter,mySub,Cb_global,Cb_numFluids</span>
+<span class="co">Cb_global_temp = 0.0_dbl</span>
+<span class="co">Cb_numFluids_temp = 0_lng</span>
+<span class="kw">CALL</span> MPI_REDUCE(Cb_global,Cb_global_temp,<span class="dv">1</span>,MPI_DOUBLE_PRECISION,MPI_SUM,master,MPI_COMM_WORLD,mpierr)
+<span class="kw">CALL</span> MPI_REDUCE(Cb_numFluids,Cb_numFluids_temp,<span class="dv">1</span>,MPI_INTEGER,MPI_SUM,master,MPI_COMM_WORLD,mpierr)
+<span class="co">Cb_global = Cb_global_temp/Cb_numFluids_temp</span>
+<span class="co">Cb_numFLuids = Cb_numFluids_temp</span>
+<span class="co">!write(*,*) &#39;In Collect and Distribute before bcas&#39;,iter,mySub,Cb_global,Cb_global_temp,Cb_numFluids,Cb_numFluids_temp</span>
+<span class="kw">CALL</span> MPI_BCast(Cb_global,<span class="dv">1</span>,MPI_DOUBLE_PRECISION,master,MPI_COMM_WORLD,mpierr)
+<span class="kw">CALL</span> MPI_BCast(Cb_numFluids,<span class="dv">1</span>,MPI_INTEGER,master,MPI_COMM_WORLD,mpierr)
+<span class="co">!CALL MPI_BARRIER(MPI_COMM_WORLD,mpierr)                    ! synchronize all processing units before next loop [Intrinsic]</span>
+<span class="co">!write(*,*) &#39;In Collect and Distribute after Bcast&#39;,iter,mySub,Cb_global,Cb_numFluids,Cb_numFluids*xcf*ycf*zcf,Cb_numFluids_temp</span>
+
+<span class="co">!--------------------------------------------------------------------------------------------------</span>
+<span class="kw">END SUBROUTINE</span>  Collect_Distribute_Global_Bulk_Scalar_Conc</code></pre></div>
+<h1 id="particleTrack">Particle Track</h1>
+<div class="sourceCode"><pre class="sourceCode fortran"><code class="sourceCode fortran"><span class="kw">SUBROUTINE</span> Particle_Track
+<span class="co">!------------------------------------------------</span>
+<span class="kw">IMPLICIT</span> <span class="kw">NONE</span>
+<span class="dt">INTEGER(lng)</span>   <span class="dt">::</span> i,ipartition,ii,jj,kk
+<span class="dt">REAL(dbl)</span>      <span class="dt">::</span> xpold(<span class="dv">1</span>:np),ypold(<span class="dv">1</span>:np),zpold(<span class="dv">1</span>:np) <span class="co">! old particle coordinates (working coordinates are stored in xp,yp,zp)</span>
+<span class="co">!REAL(dbl)      :: xp(1:np),yp(1:np),zp(1:np)         ! working particle coordinates (working coordinates are stored in xp,yp,zp)</span>
+<span class="co">!REAL(dbl)      :: xpnew(1:np),ypnew(1:np),zpnew(1:np) ! new particle coordinates (working coordinates are stored in xp,yp,zp)</span>
+<span class="dt">REAL(dbl)</span>      <span class="dt">::</span> upold(<span class="dv">1</span>:np),vpold(<span class="dv">1</span>:np),wpold(<span class="dv">1</span>:np) <span class="co">! old particle velocity components (new vales are stored in up, vp, wp)</span>
+<span class="co">!REAL(dbl)      :: up(1:np),vp(1:np),wp(1:np)         ! working particle velocity (working coordinates are stored in xp,yp,zp)</span>
+<span class="dt">TYPE(ParRecord)</span>, <span class="dt">POINTER</span> <span class="dt">::</span> current
+<span class="dt">TYPE(ParRecord)</span>, <span class="dt">POINTER</span> <span class="dt">::</span> next
+
+ParticleTransfer <span class="kw">=</span> <span class="ot">.FALSE.</span> <span class="co">! AT this time we do not know if any particles need to be transferred.</span>
+delphi_particle <span class="kw">=</span> <span class="fl">0.0_dbl</span> <span class="co">! set delphi_particle to 0.0 before every time step, when the particle drug release happens. </span>
+tausgs_particle_x <span class="kw">=</span> <span class="fl">0.0_dbl</span>
+tausgs_particle_y <span class="kw">=</span> <span class="fl">0.0_dbl</span>
+tausgs_particle_z <span class="kw">=</span> <span class="fl">0.0_dbl</span>
+    
+<span class="kw">IF</span> (iter<span class="kw">.GT.</span>iter0<span class="kw">+</span><span class="dv">0_lng</span>) <span class="kw">THEN</span> <span class="co">! IF condition ensures that at the first step, the only part of this subroutine that operates is computing the partitions the particles belong to without releasing any drug.  </span>
+<span class="co">! Second order interpolation in time</span>
+<span class="co">!Backup particle data from previous time step</span>
+<span class="co">! Using a linked list of particle records</span>
+<span class="co">current =&gt; ParListHead%next</span>
+<span class="kw">DO</span> <span class="kw">WHILE</span> (<span class="fu">ASSOCIATED</span>(current))
+    next <span class="kw">=&gt;</span> current%next <span class="co">! copy pointer of next node</span>
+
+    current%pardata%xpold <span class="kw">=</span> current%pardata%xp
+    current%pardata%ypold <span class="kw">=</span> current%pardata%yp
+    current%pardata%zpold <span class="kw">=</span> current%pardata%zp
+    
+    current%pardata%upold <span class="kw">=</span> current%pardata%up
+    current%pardata%vpold <span class="kw">=</span> current%pardata%vp
+    current%pardata%wpold <span class="kw">=</span> current%pardata%wp
+    
+    current%pardata%xp<span class="kw">=</span>current%pardata%xpold<span class="kw">+</span>current%pardata%up
+    current%pardata%yp<span class="kw">=</span>current%pardata%ypold<span class="kw">+</span>current%pardata%vp
+    current%pardata%zp<span class="kw">=</span>current%pardata%zpold<span class="kw">+</span>current%pardata%wp
+    
+    <span class="co">! point to next node in the list</span>
+    current <span class="kw">=&gt;</span> next
+<span class="kw">ENDDO</span>
+
+<span class="kw">CALL</span> Interp_Parvel
+<span class="co">! Using a linked list of particle records</span>
+<span class="co">current =&gt; ParListHead%next</span>
+<span class="kw">DO</span> <span class="kw">WHILE</span> (<span class="fu">ASSOCIATED</span>(current))
+    next <span class="kw">=&gt;</span> current%next <span class="co">! copy pointer of next node</span>
+
+    current%pardata%xp<span class="kw">=</span>current%pardata%xpold<span class="kw">+</span><span class="fl">0.5</span><span class="kw">*</span>(current%pardata%up<span class="kw">+</span>current%pardata%upold)
+    current%pardata%yp<span class="kw">=</span>current%pardata%ypold<span class="kw">+</span><span class="fl">0.5</span><span class="kw">*</span>(current%pardata%vp<span class="kw">+</span>current%pardata%vpold)
+    current%pardata%zp<span class="kw">=</span>current%pardata%zpold<span class="kw">+</span><span class="fl">0.5</span><span class="kw">*</span>(current%pardata%wp<span class="kw">+</span>current%pardata%wpold)
+
+    <span class="co">! point to next node in the list</span>
+    current <span class="kw">=&gt;</span> next
+<span class="kw">ENDDO</span>
+
+<span class="kw">CALL</span> Interp_Parvel <span class="co">! interpolate final particle velocities after the final position is ascertained. </span>
+<span class="kw">CALL</span> Interp_bulkconc <span class="co">! interpolate final bulk_concentration after the final position is ascertained.</span>
+<span class="kw">CALL</span> Update_Sh <span class="co">! Update the Sherwood number for each particle depending on the shear rate at the particle location. </span>
+<span class="kw">CALL</span> Calc_Scalar_Release <span class="co">! Updates particle radius, calculates new drug conc release rate delNBbyCV. </span>
+<span class="kw">CALL</span> Interp_ParToNodes_Conc <span class="co">! distributes released drug concentration to neightbouring nodes </span>
+<span class="co">!drug molecules released by the particle at this new position</span>
+<span class="kw">ENDIF</span>
+
+<span class="co">! Now update tausgs only for those cells that have non-zero values of tausgs</span>
+<span class="kw">DO</span> kk<span class="kw">=</span><span class="dv">0</span>,nzSub<span class="kw">+</span><span class="dv">1</span>
+        <span class="kw">DO</span> jj<span class="kw">=</span><span class="dv">0</span>,nySub<span class="kw">+</span><span class="dv">1</span>
+                <span class="kw">DO</span> ii<span class="kw">=</span><span class="dv">0</span>,nxSub<span class="kw">+</span><span class="dv">1</span>
+            <span class="kw">if</span> (tausgs_particle_x(ii,jj,kk)<span class="kw">.ne.</span><span class="fl">0.0_dbl</span>) <span class="kw">then</span>
+                            tausgs_particle_x(ii,jj,kk) <span class="kw">=</span> u(ii,jj,kk)<span class="kw">*</span>phi(ii,jj,kk)
+            <span class="kw">endif</span>
+            <span class="kw">if</span> (tausgs_particle_y(ii,jj,kk)<span class="kw">.ne.</span><span class="fl">0.0_dbl</span>) <span class="kw">then</span>
+                            tausgs_particle_y(ii,jj,kk) <span class="kw">=</span> v(ii,jj,kk)<span class="kw">*</span>phi(ii,jj,kk)
+            <span class="kw">endif</span>
+            <span class="kw">if</span> (tausgs_particle_z(ii,jj,kk)<span class="kw">.ne.</span><span class="fl">0.0_dbl</span>) <span class="kw">then</span>
+                            tausgs_particle_z(ii,jj,kk) <span class="kw">=</span> w(ii,jj,kk)<span class="kw">*</span>phi(ii,jj,kk)
+            <span class="kw">endif</span>
+                <span class="kw">ENDDO</span>
+        <span class="kw">ENDDO</span>
+<span class="kw">ENDDO</span>
+
+<span class="co">current =&gt; ParListHead%next</span>
+<span class="kw">DO</span> <span class="kw">WHILE</span> (<span class="fu">ASSOCIATED</span>(current))
+    next <span class="kw">=&gt;</span> current%next <span class="co">! copy pointer of next node</span>
+    
+    <span class="co">! Wrappign around in z-direction for periodic BC in z</span>
+    <span class="kw">IF</span>(current%pardata%zp<span class="kw">.GE.REAL</span>(nz,dbl)) <span class="kw">THEN</span>
+        current%pardata%zp <span class="kw">=</span> <span class="kw">MOD</span>(current%pardata%zp,<span class="kw">REAL</span>(nz,dbl))
+    <span class="kw">ENDIF</span>
+    <span class="kw">IF</span>(current%pardata%zp<span class="kw">.LE.</span><span class="fl">0.0_dbl</span>) <span class="kw">THEN</span>
+        current%pardata%zp <span class="kw">=</span> current%pardata%zp<span class="kw">+REAL</span>(nz,dbl)
+    <span class="kw">ENDIF</span>
+
+    <span class="co">! Wrappign around in y-direction for periodic BC in y</span>
+    <span class="kw">IF</span>(current%pardata%yp<span class="kw">.GE.REAL</span>(ny,dbl)) <span class="kw">THEN</span>
+        current%pardata%yp <span class="kw">=</span> <span class="kw">MOD</span>(current%pardata%yp,<span class="kw">REAL</span>(ny,dbl))
+    <span class="kw">ENDIF</span>
+    <span class="kw">IF</span>(current%pardata%yp<span class="kw">.LT.</span><span class="fl">1.0_dbl</span>) <span class="kw">THEN</span>
+        current%pardata%yp <span class="kw">=</span> current%pardata%yp<span class="kw">+REAL</span>(ny,dbl)
+    <span class="kw">ENDIF</span>
+
+
+    <span class="co">! Estimate to which partition the updated position belongs to.</span>
+    <span class="kw">DO</span> ipartition <span class="kw">=</span> <span class="dv">1_lng</span>,NumSubsTotal 
+
+        <span class="kw">IF</span> ((current%pardata%xp<span class="kw">.GE.REAL</span>(iMinDomain(ipartition),dbl)<span class="kw">-</span><span class="fl">1.0_dbl</span>)<span class="kw">.AND.&amp;</span>
+        (current%pardata%xp<span class="kw">.LT.</span>(<span class="kw">REAL</span>(iMaxDomain(ipartition),dbl)<span class="kw">+</span><span class="fl">0.0_dbl</span>))<span class="kw">.AND.</span> <span class="kw">&amp;</span>
+        (current%pardata%yp<span class="kw">.GE.REAL</span>(jMinDomain(ipartition),dbl)<span class="kw">-</span><span class="fl">1.0_dbl</span>)<span class="kw">.AND.</span> <span class="kw">&amp;</span>
+        (current%pardata%yp<span class="kw">.LT.</span>(<span class="kw">REAL</span>(jMaxDomain(ipartition),dbl)<span class="kw">+</span><span class="fl">0.0_dbl</span>))<span class="kw">.AND.</span> <span class="kw">&amp;</span>
+        (current%pardata%zp<span class="kw">.GE.REAL</span>(kMinDomain(ipartition),dbl)<span class="kw">-</span><span class="fl">1.0_dbl</span>)<span class="kw">.AND.</span> <span class="kw">&amp;</span>
+        (current%pardata%zp<span class="kw">.LT.</span>(<span class="kw">REAL</span>(kMaxDomain(ipartition),dbl)<span class="kw">+</span><span class="fl">0.0_dbl</span>))) <span class="kw">THEN</span>
+
+            current%pardata%new_part <span class="kw">=</span> ipartition
+        <span class="kw">END IF</span>
+    <span class="kw">END DO</span>
+    
+    <span class="kw">IF</span> ((<span class="kw">.NOT.</span>ParticleTransfer)<span class="kw">.AND.</span>(current%pardata%new_part <span class="kw">.NE.</span> current%pardata%cur_part)) <span class="kw">THEN</span>
+        ParticleTransfer <span class="kw">=</span> <span class="ot">.TRUE.</span>
+    <span class="kw">END IF</span>
+    
+    <span class="kw">SELECT</span> <span class="kw">CASE</span>(current%pardata%parid)
+    <span class="kw">CASE</span>(<span class="dv">1_lng</span>)
+      <span class="fu">open(</span><span class="dv">72</span>,<span class="fu">file</span><span class="kw">=</span><span class="st">&#39;particle1-history.dat&#39;</span>,<span class="fu">position</span><span class="kw">=</span><span class="st">&#39;append&#39;</span><span class="fu">)</span>
+      <span class="fu">write(</span><span class="dv">72</span>,<span class="fu">*)</span> iter,iter<span class="kw">*</span>tcf,current%pardata%xp,current%pardata%yp,current%pardata%zp,current%pardata%up<span class="kw">*</span>vcf,current%pardata%vp<span class="kw">*</span>vcf,current%pardata%wp<span class="kw">*</span>vcf,current%pardata%sh,current%pardata%rp,current%pardata%bulk_conc,current%pardata%delNBbyCV,current%pardata%cur_part,current%pardata%new_part
+      <span class="fu">close(</span><span class="dv">72</span><span class="fu">)</span>
+    <span class="kw">CASE</span>(<span class="dv">3_lng</span>)
+      <span class="fu">open(</span><span class="dv">73</span>,<span class="fu">file</span><span class="kw">=</span><span class="st">&#39;particle3-history.dat&#39;</span>,<span class="fu">position</span><span class="kw">=</span><span class="st">&#39;append&#39;</span><span class="fu">)</span>
+      <span class="fu">write(</span><span class="dv">73</span>,<span class="fu">*)</span> iter,iter<span class="kw">*</span>tcf,current%pardata%xp,current%pardata%yp,current%pardata%zp,current%pardata%up,current%pardata%vp,current%pardata%wp,current%pardata%sh,current%pardata%rp,current%pardata%bulk_conc,current%pardata%delNBbyCV,current%pardata%cur_part,current%pardata%new_part
+      <span class="fu">close(</span><span class="dv">73</span><span class="fu">)</span> 
+    <span class="kw">CASE</span>(<span class="dv">5_lng</span>)
+      <span class="fu">open(</span><span class="dv">74</span>,<span class="fu">file</span><span class="kw">=</span><span class="st">&#39;particle5-history.dat&#39;</span>,<span class="fu">position</span><span class="kw">=</span><span class="st">&#39;append&#39;</span><span class="fu">)</span>
+      <span class="fu">write(</span><span class="dv">74</span>,<span class="fu">*)</span> iter,iter<span class="kw">*</span>tcf,current%pardata%xp,current%pardata%yp,current%pardata%zp,current%pardata%up,current%pardata%vp,current%pardata%wp,current%pardata%sh,current%pardata%rp,current%pardata%bulk_conc,current%pardata%delNBbyCV,current%pardata%cur_part,current%pardata%new_part
+      <span class="fu">close(</span><span class="dv">74</span><span class="fu">)</span>
+    <span class="kw">CASE</span>(<span class="dv">7_lng</span>)
+      <span class="fu">open(</span><span class="dv">75</span>,<span class="fu">file</span><span class="kw">=</span><span class="st">&#39;particle7-history.dat&#39;</span>,<span class="fu">position</span><span class="kw">=</span><span class="st">&#39;append&#39;</span><span class="fu">)</span>
+      <span class="fu">write(</span><span class="dv">75</span>,<span class="fu">*)</span> iter,iter<span class="kw">*</span>tcf,current%pardata%xp,current%pardata%yp,current%pardata%zp,current%pardata%up,current%pardata%vp,current%pardata%wp,current%pardata%sh,current%pardata%rp,current%pardata%bulk_conc,current%pardata%delNBbyCV,current%pardata%cur_part,current%pardata%new_part
+      <span class="fu">close(</span><span class="dv">75</span><span class="fu">)</span>
+    <span class="kw">CASE</span>(<span class="dv">9_lng</span>)
+      <span class="fu">open(</span><span class="dv">76</span>,<span class="fu">file</span><span class="kw">=</span><span class="st">&#39;particle9-history.dat&#39;</span>,<span class="fu">position</span><span class="kw">=</span><span class="st">&#39;append&#39;</span><span class="fu">)</span>
+      <span class="fu">write(</span><span class="dv">76</span>,<span class="fu">*)</span> iter,iter<span class="kw">*</span>tcf,current%pardata%xp,current%pardata%yp,current%pardata%zp,current%pardata%up,current%pardata%vp,current%pardata%wp,current%pardata%sh,current%pardata%rp,current%pardata%bulk_conc,current%pardata%delNBbyCV,current%pardata%cur_part,current%pardata%new_part
+      <span class="fu">close(</span><span class="dv">76</span><span class="fu">)</span> 
+    <span class="kw">CASE</span>(<span class="dv">10_lng</span>)
+      <span class="fu">open(</span><span class="dv">77</span>,<span class="fu">file</span><span class="kw">=</span><span class="st">&#39;particle10-history.dat&#39;</span>,<span class="fu">position</span><span class="kw">=</span><span class="st">&#39;append&#39;</span><span class="fu">)</span>
+      <span class="fu">write(</span><span class="dv">77</span>,<span class="fu">*)</span> iter,iter<span class="kw">*</span>tcf,current%pardata%xp,current%pardata%yp,current%pardata%zp,current%pardata%up,current%pardata%vp,current%pardata%wp,current%pardata%sh,current%pardata%rp,current%pardata%bulk_conc,current%pardata%delNBbyCV,current%pardata%cur_part,current%pardata%new_part
+      <span class="fu">close(</span><span class="dv">77</span><span class="fu">)</span>
+    <span class="kw">CASE</span>(<span class="dv">8_lng</span>)
+      <span class="fu">open(</span><span class="dv">78</span>,<span class="fu">file</span><span class="kw">=</span><span class="st">&#39;particle8-history.dat&#39;</span>,<span class="fu">position</span><span class="kw">=</span><span class="st">&#39;append&#39;</span><span class="fu">)</span>
+      <span class="fu">write(</span><span class="dv">78</span>,<span class="fu">*)</span> iter,iter<span class="kw">*</span>tcf,current%pardata%xp,current%pardata%yp,current%pardata%zp,current%pardata%up,current%pardata%vp,current%pardata%wp,current%pardata%sh,current%pardata%rp,current%pardata%bulk_conc,current%pardata%delNBbyCV,current%pardata%cur_part,current%pardata%new_part
+      <span class="fu">close(</span><span class="dv">78</span><span class="fu">)</span>
+    <span class="kw">CASE</span>(<span class="dv">6_lng</span>)
+      <span class="fu">open(</span><span class="dv">79</span>,<span class="fu">file</span><span class="kw">=</span><span class="st">&#39;particle6-history.dat&#39;</span>,<span class="fu">position</span><span class="kw">=</span><span class="st">&#39;append&#39;</span><span class="fu">)</span>
+      <span class="fu">write(</span><span class="dv">79</span>,<span class="fu">*)</span> iter,iter<span class="kw">*</span>tcf,current%pardata%xp,current%pardata%yp,current%pardata%zp,current%pardata%up,current%pardata%vp,current%pardata%wp,current%pardata%sh,current%pardata%rp,current%pardata%bulk_conc,current%pardata%delNBbyCV,current%pardata%cur_part,current%pardata%new_part
+      <span class="fu">close(</span><span class="dv">79</span><span class="fu">)</span>
+    <span class="kw">CASE</span>(<span class="dv">4_lng</span>)
+      <span class="fu">open(</span><span class="dv">80</span>,<span class="fu">file</span><span class="kw">=</span><span class="st">&#39;particle4-history.dat&#39;</span>,<span class="fu">position</span><span class="kw">=</span><span class="st">&#39;append&#39;</span><span class="fu">)</span>
+      <span class="fu">write(</span><span class="dv">80</span>,<span class="fu">*)</span> iter,iter<span class="kw">*</span>tcf,current%pardata%xp,current%pardata%yp,current%pardata%zp,current%pardata%up,current%pardata%vp,current%pardata%wp,current%pardata%sh,current%pardata%rp,current%pardata%bulk_conc,current%pardata%delNBbyCV,current%pardata%cur_part,current%pardata%new_part
+      <span class="fu">close(</span><span class="dv">80</span><span class="fu">)</span>
+    <span class="kw">CASE</span>(<span class="dv">2_lng</span>)
+      <span class="fu">open(</span><span class="dv">81</span>,<span class="fu">file</span><span class="kw">=</span><span class="st">&#39;particle2-history.dat&#39;</span>,<span class="fu">position</span><span class="kw">=</span><span class="st">&#39;append&#39;</span><span class="fu">)</span>
+      <span class="fu">write(</span><span class="dv">81</span>,<span class="fu">*)</span> iter,iter<span class="kw">*</span>tcf,current%pardata%xp,current%pardata%yp,current%pardata%zp,current%pardata%up,current%pardata%vp,current%pardata%wp,current%pardata%sh,current%pardata%rp,current%pardata%bulk_conc,current%pardata%delNBbyCV,current%pardata%cur_part,current%pardata%new_part
+      <span class="fu">close(</span><span class="dv">81</span><span class="fu">)</span>
+    <span class="kw">END SELECT</span>
+    <span class="co">! point to next node in the list</span>
+    current <span class="kw">=&gt;</span> next
+<span class="kw">ENDDO</span>
+
+<span class="kw">END SUBROUTINE</span> Particle_Track</code></pre></div>
+<h1 id="particleMPItransfer">Particle MPI Transfer</h1>
+<div class="sourceCode"><pre class="sourceCode fortran"><code class="sourceCode fortran"><span class="kw">SUBROUTINE</span> Particle_MPI_Transfer        <span class="co">! transfer the particles to neighbouring partitions</span>
+<span class="co">!--------------------------------------------------------------------------------------------------</span>
+<span class="kw">IMPLICIT</span> <span class="kw">NONE</span>
+<span class="dt">TYPE(ParRecord)</span>, <span class="dt">POINTER</span> <span class="dt">::</span> current  <span class="kw">=&gt;</span> NULL()
+<span class="dt">TYPE(ParRecord)</span>, <span class="dt">POINTER</span> <span class="dt">::</span> next <span class="kw">=&gt;</span> NULL()
+<span class="dt">INTEGER(lng)</span> <span class="dt">::</span> nreqs,source,sendtag,dest,recvtag       <span class="co">! number of send/recv requests</span>
+<span class="dt">INTEGER(lng)</span> <span class="dt">::</span> mpierr,commdir,iComm,par_num<span class="co">!,numparticlesDomain            ! MPI standard error object</span>
+<span class="dt">LOGICAL</span> <span class="dt">::</span> probeflag
+<span class="dt">INTEGER(lng)</span> <span class="dt">::</span> parsendindex(NumCommDirsPar), parrecvindex(NumCommDirsPar)
+
+<span class="co">!write(*,*) &#39;In Particle_MPI    &#39;,&#39;FLAG=&#39;,ParticleTransfer,&#39;SUBID = &#39;,mySub,&#39;iter = &#39;,iter</span>
+
+<span class="co">! IMPORTANT NOTE: It is important for the partransfersend and partransferrecv arrays to store the particle data in columns, i.e. of </span>
+<span class="co">! dimenions NumParVar x NumCommDirsPar as against NumCommDirsPar x  NumParVar as we are planning to send packets of data </span>
+<span class="co">! corresponding to an entire particle across processors. In fortran and MPI, this requires that the entire particle data </span>
+<span class="co">!(all NumParVar  variables given by partransfersend(:,iComm)) need to be in column format so that they can be passed as a single array.</span>
+<span class="co">! For some yet-to-be understood reason, MPI dopes not accept passing an entire row of data, say, partransfersend(iComm,:) </span>
+<span class="co">!as a contiguous array into MPI_SEND or MPI_RECV. Hence the convetion used below. </span>
+
+nreqs <span class="kw">=</span> <span class="dv">0_lng</span>
+partransfersend <span class="kw">=</span> <span class="fl">0.0_dbl</span>
+partransferrecv <span class="kw">=</span> <span class="fl">0.0_dbl</span>
+sendtag <span class="kw">=</span> <span class="dv">0_lng</span>
+
+
+
+<span class="co">!Identify how many particles need to be transfererd in each direction</span>
+numpartransfer <span class="kw">=</span> <span class="dv">0_lng</span>
+<span class="co">current =&gt; ParListHead%next</span>
+<span class="kw">DO</span> <span class="kw">WHILE</span> (<span class="fu">ASSOCIATED</span>(current))
+    next <span class="kw">=&gt;</span> current%next <span class="co">! copy pointer of next node</span>
+    <span class="kw">IF</span> (current%pardata%cur_part <span class="kw">/=</span> current%pardata%new_part) <span class="kw">THEN</span> <span class="co">! Transfer only if the particle has moved to another partition</span>
+        <span class="kw">DO</span> iComm <span class="kw">=</span> <span class="dv">1</span>,NumCommDirsPar
+            <span class="kw">IF</span> (SubID(iComm)<span class="kw">.EQ.</span>current%pardata%new_part) <span class="kw">THEN</span>
+                numpartransfer(iComm) <span class="kw">=</span> numpartransfer(iComm)<span class="kw">+</span><span class="dv">1_lng</span>
+            <span class="kw">END IF</span>
+        <span class="kw">END DO</span>
+    <span class="kw">END IF</span>
+    <span class="co">! point to next node in the list</span>
+    current <span class="kw">=&gt;</span> next
+    <span class="co">!write(*,*) current%parid</span>
+<span class="kw">ENDDO</span>
+<span class="co">! Now &#39;numpartransfer&#39; contains the number of particles in each direction</span>
+
+
+<span class="co">!numparticlesDomain = 1_lng!MAXVAL(numpartransfer)</span>
+<span class="kw">ALLOCATE</span>(ParSendArray(numparticlesDomain,NumCommDirsPar))
+<span class="kw">ALLOCATE</span>(ParRecvArray(numparticlesDomain,NumCommDirsPar))
+<span class="co">!ALLOCATE(ParSendArray(1,NumCommDirsPar))</span>
+<span class="co">!ALLOCATE(ParRecvArray(1,NumCommDirsPar))</span>
+<span class="kw">DO</span> iComm <span class="kw">=</span> <span class="dv">1</span>,NumCommDirsPar
+    <span class="kw">DO</span> par_num <span class="kw">=</span> <span class="dv">1</span>,numparticlesDomain
+        ParSendArray(par_num,iComm) <span class="kw">=</span> ParInit
+        ParRecvArray(par_num,iComm) <span class="kw">=</span> ParInit
+    <span class="kw">END DO</span>
+<span class="kw">END DO</span>
+
+<span class="co">!write(*,*) &#39;In MPI_Particle_transfer - allocated particle send and recv arrays&#39;,mySub,iter</span>
+<span class="co">!CALL MPI_BARRIER(MPI_COMM_WORLD,mpierr)                    ! synchronize all processing units before next loop [Intrinsic]</span>
+
+<span class="co">! Pack data</span>
+parsendindex <span class="kw">=</span> <span class="dv">0_lng</span>
+<span class="co">current =&gt; ParListHead%next</span>
+<span class="kw">DO</span> <span class="kw">WHILE</span> (<span class="fu">ASSOCIATED</span>(current))
+    next <span class="kw">=&gt;</span> current%next <span class="co">! copy pointer of next node</span>
+    <span class="kw">IF</span> (current%pardata%cur_part <span class="kw">/=</span> current%pardata%new_part) <span class="kw">THEN</span> <span class="co">! Transfer only if the particle has moved to another partition</span>
+        <span class="kw">DO</span> iComm <span class="kw">=</span> <span class="dv">1</span>,NumCommDirsPar
+            <span class="kw">IF</span> (SubID(iComm)<span class="kw">.EQ.</span>current%pardata%new_part) <span class="kw">THEN</span>
+                commdir <span class="kw">=</span> iComm
+                parsendindex(commdir) <span class="kw">=</span> parsendindex(commdir) <span class="kw">+</span> <span class="dv">1_lng</span>
+                <span class="co">!write(*,*) &#39;data being packed in &#39;,mySub,&#39;for direction &#39;,commdir</span>
+            <span class="kw">END IF</span>
+        <span class="kw">END DO</span>
+        <span class="co">! PACK DATA INTO AN ARRAY</span>
+        ParSendArray(parsendindex(commdir),commdir)     <span class="kw">=</span> current%pardata
+
+    <span class="kw">END IF</span>
+    <span class="co">! point to next node in the list</span>
+    current <span class="kw">=&gt;</span> next
+    <span class="co">!write(*,*) current%parid</span>
+<span class="kw">ENDDO</span>
+
+<span class="co">! Post send</span>
+<span class="kw">DO</span> iComm <span class="kw">=</span> <span class="dv">1</span>,NumCommDirsPar
+    <span class="co">!write(*,*) &#39;In post send &#39;,mySub,iComm,SubID(iComm)</span>
+    <span class="kw">IF</span>(SubID(iComm) <span class="kw">.NE.</span> <span class="dv">0</span>) <span class="kw">THEN</span>
+        nreqs   <span class="kw">=</span> nreqs <span class="kw">+</span> <span class="dv">1_lng</span>
+        dest    <span class="kw">=</span> SubID(iComm) <span class="kw">-</span> <span class="dv">1_lng</span> <span class="co">! rank of processing unit sending message TO this processing unit</span>
+        sendtag <span class="kw">=</span> iComm <span class="kw">+</span> <span class="dv">20_lng</span>
+        <span class="kw">CALL</span> MPI_ISEND(ParSendArray(<span class="dv">1</span>:<span class="kw">max</span>(parsendindex(iComm),<span class="dv">1</span>),iComm),<span class="kw">max</span>(parsendindex(iComm),<span class="dv">1</span>),mpipartransfertype,dest,sendtag,MPI_COMM_WORLD,parreqid(nreqs),mpierr)   <span class="co">! send data</span>
+    <span class="kw">END IF</span>
+<span class="kw">END DO</span>
+
+
+<span class="co">! Post receives</span>
+parrecvindex <span class="kw">=</span> <span class="dv">0_lng</span>
+<span class="kw">DO</span> iComm <span class="kw">=</span> <span class="dv">1</span>,NumCommDirsPar
+    <span class="co">!write(*,*) &#39;In post receive &#39;, mySub,iComm,SubID(OppCommDir(iComm))</span>
+    <span class="kw">IF</span>(SubID(OppCommDir(iComm)) <span class="kw">.NE.</span> <span class="dv">0</span>) <span class="kw">THEN</span>
+        nreqs   <span class="kw">=</span> nreqs <span class="kw">+</span> <span class="dv">1_lng</span>
+        source  <span class="kw">=</span> SubID(OppCommDir(iComm)) <span class="kw">-</span> <span class="dv">1_lng</span> <span class="co">! rank of processing unit sending message TO this processing unit</span>
+        recvtag <span class="kw">=</span> iComm <span class="kw">+</span> <span class="dv">20_lng</span>
+        <span class="co">!recvtag = source*1000_lng + iComm*1000_lng + 20_lng</span>
+<span class="co">!10     CALL MPI_IPROBE(source,recvtag,MPI_COMM_WORLD,probeflag,probestat,mpierr)</span>
+<span class="dv">10</span>      <span class="kw">CALL</span> MPI_PROBE(source,recvtag,MPI_COMM_WORLD,probestat,mpierr)
+        <span class="kw">CALL</span> MPI_GET_COUNT(probestat,mpipartransfertype,parrecvindex(iComm),mpierr) 
+        <span class="kw">IF</span> (parrecvindex(iComm)<span class="kw">.LT.</span><span class="dv">1_lng</span>) <span class="kw">THEN</span>
+            <span class="kw">GOTO</span> <span class="dv">10</span>
+        <span class="kw">END IF</span>
+
+    <span class="kw">END IF</span>
+<span class="kw">END DO</span>
+
+<span class="co">!write(*,*) &#39;In MPI_Particle_transfer - post receives&#39;,mySub,iter</span>
+<span class="co">!CALL MPI_BARRIER(MPI_COMM_WORLD,mpierr)                    ! synchronize all processing units before next loop [Intrinsic]</span>
+
+<span class="co">! Wait for all communication to complete</span>
+<span class="kw">CALL</span> MPI_WAITALL(nreqs,parreqid(<span class="dv">1</span>:nreqs),parwtstat,mpierr)
+
+
+<span class="co">! Unpack data if recd.</span>
+<span class="kw">DO</span> iComm <span class="kw">=</span> <span class="dv">1</span>,NumCommDirsPar
+    <span class="kw">DO</span> par_num <span class="kw">=</span> <span class="dv">1</span>,parrecvindex(iComm)
+        <span class="co">!IF (partransferrecv(1,iComm).GT.0_lng) THEN</span>
+        <span class="kw">IF</span> (ParRecvArray(par_num,iComm)%parid<span class="kw">.GT.</span><span class="dv">0_lng</span>) <span class="kw">THEN</span>
+            <span class="kw">CALL</span> list_insert(ParListHead)
+            current <span class="kw">=&gt;</span> ParListHead%next
+    
+            <span class="co">! UNPACK DATA</span>
+ 
+            current%pardata         <span class="kw">=</span>ParRecvArray(par_num,iComm)
+
+            current%pardata%cur_part    <span class="kw">=</span> mySub<span class="co">!current%pardata%new_part</span>
+        <span class="kw">END IF</span>
+    <span class="kw">END DO</span>
+<span class="kw">END DO</span>
+
+<span class="co">! If data was sent then remove sent particle from list</span>
+<span class="co">current =&gt; ParListHead%next</span>
+<span class="kw">DO</span> <span class="kw">WHILE</span> (<span class="fu">ASSOCIATED</span>(current))
+    next <span class="kw">=&gt;</span> current%next <span class="co">! copy pointer of next node</span>
+    <span class="co">!write(*,*) &#39;traverse node&#39;,mySub,current%pardata%parid,current%pardata%cur_part,current%pardata%new_part,iter</span>
+    <span class="co">!write(*,*) current%prev%next%pardata%parid,current%pardata%parid,iter</span>
+    <span class="kw">IF</span> (current%pardata%cur_part <span class="kw">.NE.</span> current%pardata%new_part) <span class="kw">THEN</span> <span class="co">! Transfer only if the particle has moved to another partition</span>
+        <span class="co">!write(*,*) &#39;In delete node&#39;,mySub,current%pardata%parid,current%pardata%cur_part,current%pardata%new_part,iter</span>
+        <span class="co">!PAUSE</span>
+        <span class="kw">CALL</span> list_delete(current)
+        <span class="kw">NULLIFY</span>(current)
+    <span class="kw">END IF</span>
+<span class="kw">ENDDO</span>
+<span class="co">!write(*,*) mySub,ParListHead%next%pardata%parid</span>
+numparticlesSub <span class="kw">=</span> <span class="dv">0_lng</span>
+<span class="co">current =&gt; ParListHead%next</span>
+<span class="kw">DO</span> <span class="kw">WHILE</span> (<span class="fu">ASSOCIATED</span>(current))
+    numparticlesSub <span class="kw">=</span> numparticlesSub <span class="kw">+</span> <span class="dv">1_lng</span>
+    next <span class="kw">=&gt;</span> current%next <span class="co">! copy pointer of next node</span>
+    <span class="co">!write(*,*) &#39;leftover node&#39;,mySub,current%pardata%parid,current%pardata%cur_part,current%pardata%new_part</span>
+    <span class="co">! point to next node in the list</span>
+    current <span class="kw">=&gt;</span> next
+    <span class="co">!write(*,*) current%pardata%parid</span>
+<span class="kw">ENDDO</span>
+<span class="co">!write(*,*) &#39;In MPIParticleTransfer  &#39;,iter,mySub,numparticlesSub</span>
+
+<span class="kw">DEALLOCATE</span>(ParSendArray)
+<span class="kw">DEALLOCATE</span>(ParRecvArray)
+
+<span class="co">! Rough outline of the algorithm</span>
+<span class="co">! PACK DATA INTO OPTIMAL NUMBER OF PACKETS</span>
+<span class="co">! POST RECEIVE</span>
+<span class="co">! SEND DATA</span>
+<span class="co">! MPI_WAITALL - make sure all the data transfer is completed</span>
+<span class="co">! UNPACK DATA AND ADD DATA TO THE PARTICLE LINKED LIST</span>
+
+<span class="co">!------------------------------------------------</span>
+<span class="kw">END SUBROUTINE</span> Particle_MPI_Transfer</code></pre></div>
+<h1 id="scalar">Scalar</h1>
+<div class="sourceCode"><pre class="sourceCode fortran"><code class="sourceCode fortran">    phi(i,j,k) <span class="kw">=</span> phi(i,j,k)<span class="kw">+</span> delphi_particle(i,j,k) <span class="co">! Balaji added to introduce drug concentration release</span>
+    tausgs <span class="kw">=</span> ((tausgs_particle_x(i<span class="kw">+</span><span class="dv">1</span>,j,k)<span class="kw">-</span>tausgs_particle_x(i<span class="kw">-</span><span class="dv">1</span>,j,k)) <span class="kw">+</span> <span class="kw">&amp;</span>
+         (tausgs_particle_y(i,j<span class="kw">+</span><span class="dv">1</span>,k)<span class="kw">-</span>tausgs_particle_y(i,j<span class="kw">-</span><span class="dv">1</span>,k)) <span class="kw">+</span> <span class="kw">&amp;</span>
+         (tausgs_particle_z(i,j,k<span class="kw">+</span><span class="dv">1</span>)<span class="kw">-</span>tausgs_particle_z(i,j,k<span class="kw">-</span><span class="dv">1</span>)))<span class="kw">*</span><span class="fl">0.5_dbl</span>
+    phi(i,j,k) <span class="kw">=</span> phi(i,j,k)<span class="kw">+</span> tausgs <span class="co">! Balaji added - to handle SGS particle effects.</span></code></pre></div>
+<div class="references">
+
+</div>
+</div>
+</div>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+      processClass: "math"
+    },
+    TeX: {
+        TagSide: "left",
+        TagIndent: "1.2em",
+        equationNumbers: {
+            autoNumber: "AMS"
+        },
+        Macros: {
+            ensuremath: ["#1",1],
+            textsf: ["\\mathsf{\\text{#1}}",1],
+            texttt: ["\\mathtt{\\text{#1}}",1]
+        }
+    },
+    "HTML-CSS": { 
+        scale: 100,
+        availableFonts: ["TeX"], 
+        preferredFont: "TeX",
+        webFont: "TeX",
+        imageFont: "TeX",
+        EqnChunk: 1000
+    }
+});
+</script>
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML-full" type="text/javascript"></script>
+</div>
+</body>
+</html>
