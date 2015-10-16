@@ -155,6 +155,47 @@ S(\vec{x},t)=\dfrac{d \phi_s(\vec{x},t)}{dt},
 \widetilde{\vec{q}&#39;&#39;}_{m_i} = - D_m \nabla  \tilde{\phi}(\vec{x}_i,t)
 \end{equation}
 \]</span>
+ This expression applies at each node on the lattice, <span class="math scholmd-math-inline">\(\vec{x}_i\)</span>.</p>
+<p>The LBM solves equation <span class="scholmd-crossref"><span class="math scholmd-math-inline">\(\eqref{Equation11}\)</span></span> with <span class="math scholmd-math-inline">\((\widetilde{\vec{u} \phi})_i\)</span> replaced by <span class="math scholmd-math-inline">\((\tilde{\vec{u}}_i \tilde{\phi}_i)\)</span> and <span class="math scholmd-math-inline">\(\tilde{S}_i\)</span> that is: 
+<span class="math scholmd-math-display" style="display: block;">\[
+\begin{equation}
+\label{Equation13}
+\underbrace{  [ \dfrac{\partial \tilde{\phi}_i}{\partial{t}} +\nabla . (\tilde{\vec{u}}_i \tilde{\phi}_i) = \nabla . \widetilde{\vec{q}&#39;&#39;}_{m_i}  \Bigg ] }_{LBM:Moment-propagation-method}  +  \tilde{S}_i + \nabla . \vec{\tau}_i
+\end{equation}
+\]</span>
+ Where, 
+<span class="math scholmd-math-display" style="display: block;">\[
+\begin{equation}
+\label{Equation14}
+\vec{\tau}_i= (\tilde{\vec{u}}_i \tilde{\phi}_i) - (\widetilde{\vec{u} \phi})_i
+\end{equation}
+\]</span>
+ and 
+<span class="math scholmd-math-display" style="display: block;">\[
+\begin{equation}
+\label{Equation15}
+\widetilde{\vec{q}&#39;&#39;}_{m_i} = - D_m \nabla  \tilde{\phi}_i
+\end{equation}
+\]</span>
+ The LBM Moment Propagation Method advances both velocity and concentration fields through the mass distribution function.</p>
+<p>Over the time <span class="math scholmd-math-inline">\(\delta t\)</span>: 
+<span class="math scholmd-math-display" style="display: block;">\[
+\begin{equation}
+\label{Equation16}
+f_{\alpha}( \vec{x}+\vec{e}_{\alpha}  \delta t, t + \delta t) - f_{\alpha} (\vec{x}, t) = - \dfrac{1}{\tau} \big[        f_{\alpha} (\vec{x}, t) - f_{\alpha}^{eq} (\vec{x}, t)  \big]
+\end{equation}
+\]</span>
+ Where, 
+<span class="math scholmd-math-display" style="display: block;">\[
+\begin{equation}
+\label{Equation17}
+f_{\alpha}^{eq} (\vec{x}, t)= w_{\alpha} \rho(\vec{x},t) \Bigg[ 1+ 
+3  \dfrac{\vec{e}_\alpha . \vec{u}}{ c^2}
++ \dfrac{9}{2} \dfrac{(\vec{e}_\alpha . \vec{u})^2}{ c^4}
+- \dfrac{3}{2} \dfrac{(\vec{u} . \vec{u})^2}{ c^2}  
+  \Bigg] 
+\end{equation}
+\]</span>
 </p>
 <hr />
 <h1 id="evaluating-the-sgs-terms">Evaluating the SGS terms</h1>

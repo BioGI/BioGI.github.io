@@ -112,14 +112,54 @@ Applying equation (#Equation10) to equation (#Equation8) we get:
 
 
 Where,
+
 ~~~ math
 #Equation12
 \widetilde{\vec{q}''}_{m_i} = - D_m \nabla  \tilde{\phi}(\vec{x}_i,t)
 ~~~
 
+This expression applies at each node on the lattice, $\vec{x}_i$. 
 
+The LBM solves equation (#Equation11) with $(\widetilde{\vec{u} \phi})_i$ replaced by $(\tilde{\vec{u}}_i \tilde{\phi}_i)$ and $\tilde{S}_i$ that is:
 
+~~~ math
+#Equation13
+\underbrace{  [ \dfrac{\partial \tilde{\phi}_i}{\partial{t}} +\nabla . (\tilde{\vec{u}}_i \tilde{\phi}_i) = \nabla . \widetilde{\vec{q}''}_{m_i}  \Bigg ] }_{LBM:Moment-propagation-method}  +  \tilde{S}_i + \nabla . \vec{\tau}_i
+~~~
 
+Where,
+
+~~~ math
+#Equation14
+\vec{\tau}_i= (\tilde{\vec{u}}_i \tilde{\phi}_i) - (\widetilde{\vec{u} \phi})_i
+~~~
+
+and 
+
+~~~ math
+#Equation15
+\widetilde{\vec{q}''}_{m_i} = - D_m \nabla  \tilde{\phi}_i
+~~~
+
+The LBM Moment Propagation Method advances both velocity and concentration fields through the mass distribution function. 
+
+Over the time $\delta t$:
+
+~~~math
+#Equation16
+f_{\alpha}( \vec{x}+\vec{e}_{\alpha}  \delta t, t + \delta t) - f_{\alpha} (\vec{x}, t) = - \dfrac{1}{\tau} \big[        f_{\alpha} (\vec{x}, t) - f_{\alpha}^{eq} (\vec{x}, t)  \big]
+~~~
+
+Where,
+
+~~~math
+#Equation17
+f_{\alpha}^{eq} (\vec{x}, t)= w_{\alpha} \rho(\vec{x},t) \Bigg[ 1+ 
+3  \dfrac{\vec{e}_\alpha . \vec{u}}{ c^2}
++ \dfrac{9}{2} \dfrac{(\vec{e}_\alpha . \vec{u})^2}{ c^4}
+- \dfrac{3}{2} \dfrac{(\vec{u} . \vec{u})^2}{ c^2}  
+  \Bigg] 
+~~~
 
 
 
