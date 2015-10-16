@@ -73,7 +73,7 @@ We have been able to run both codes and visualize their output.
 
 Please see [Understanding of Mono vs. Polydisperse dissolution models](Documentation/monoVsPolydisperse.html) for our current understanding of the dissolution models.
 
-We are working on the implementation of the dissolution model in the numerical code [see Implementation od dissolution model](Documentation/Dissolution-Model-Implementation.html)
+We are working on the implementation of the dissolution model in the numerical code [see Implementation of dissolution model](Documentation/Dissolution-Model-Implementation.html) for the physics/mathematical model and [Particle Tracking and Drug Release](Documentation/ParticleTrackingDrugRelease.html) for the implementation in the Couette flow code.
 
 ## Attempts to reproduce Gino's 3D results
 
