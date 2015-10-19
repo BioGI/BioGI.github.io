@@ -54,18 +54,18 @@ We have two codes in our possession. We got both from Balaji.
 
 * 3D Intestine code
 
- ** Based off Gino and Yang Xing's 3D codes
- ** Models intestinal motility using combination of Peristalsis and Segmentation
- ** Can model villi motion
- ** Not sure if it contains multi-grid capability
- ** Models scalar advection/diffusion using "Moment Propagation Method"
- ** Contains elementary particle dissolution and tracking implmentation (in serial)
+    * Based off Gino and Yang Xing's 3D codes
+    * Models intestinal motility using combination of Peristalsis and Segmentation
+    * Can model villi motion
+    * Not sure if it contains multi-grid capability
+    * Models scalar advection/diffusion using "Moment Propagation Method"
+    * Contains elementary particle dissolution and tracking implmentation (in serial)
 
 * Couette flow device code
 
- ** Based off Gino and Yang Xing's 3D codes
- ** Contains most advanced dissolution model for particles in Couette flow device
- ** Has parallel particle tracking capability 
+    * Based off Gino and Yang Xing's 3D codes
+    * Contains most advanced dissolution model for particles in Couette flow device
+    * Has parallel particle tracking capability 
 
 We have been able to run both codes and visualize their output.
 
