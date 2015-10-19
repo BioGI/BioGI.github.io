@@ -215,6 +215,49 @@ v_{cf} &amp;= \frac{x_{cf}}{t_{cf}}
 \]</span>
  The quantities with <span class="math scholmd-math-inline">\(f_L\)</span> are in lattice units. For e.g <span class="math scholmd-math-inline">\(\rho_L = 1.0\)</span> is the density in lattice units and <span class="math scholmd-math-inline">\(\nu_L\)</span> is the viscosity in lattice units defined in <code>LBM.f90</code> as <span class="math scholmd-math-inline">\(\nu_L = (2 \tau - 1)/6\)</span>.</p>
 <div class="sourceCode"><pre class="sourceCode fortran"><code class="sourceCode fortran">nuL <span class="kw">=</span> (<span class="fl">2.0_dbl</span><span class="kw">*</span>tau <span class="kw">-</span> <span class="fl">1.0_dbl</span>)<span class="kw">/</span><span class="fl">6.0_dbl</span></code></pre></div>
+<h2 id="example">Example</h2>
+<p>For the conditions in the <code>input.txt</code> given by Balaji, 
+<span class="math scholmd-math-display" style="display: block;">\[
+\begin{equation*}
+\begin{aligned}
+\tau &amp;= 1.0 \\
+\nu_L &amp;= \frac{2-1}{6} = 0.16667 \\
+n_x = n_y &amp;= 81 \\
+D &amp;= 0.012m \\
+x_{cf} = y_{cf} &amp;= 1.5 \times 10^{-4}m \\
+L &amp;= 0.024m \\
+n_z &amp;= 160 \\
+z_{cf} &amp;= 1.5 \times 10^{-4}m \\
+\nu &amp;= 2.4 \times 10^{-6} m^2/s \\
+t_{cf} &amp;= 0.1667 \frac{1.5 \times 10^{-4} \times 1.5 \times 10^{-4}}{2.4 \times 10^{-6}} = 1.5628 \times 10^{-3}s \\
+v_{cf} &amp;= \frac{1.5 \times 10^{-4}m}{ 1.5628 \times 10^{-3}} = 0.09598 m/s
+\end{aligned}
+\end{equation*}
+\]</span>
+ The motility parameters are 
+<span class="math scholmd-math-display" style="display: block;">\[
+\begin{equation*}
+\begin{aligned}
+s_1 &amp;= 0.004m/s \textrm{ Wave speed for Peristalsis}\\
+D &amp;= 0.012m \textrm{ Max diameter}\\
+num_{w1} &amp;= 1 \textrm{ Number of waves in the domain} \\
+\lambda_1 &amp;= \frac{L}{num_{w1}} = 0.024m \textrm{ Wavelength of peristaltic wave}\\
+Re_1 &amp;= \frac{s_1 (0.5 \; D)}{ \nu} \frac{0.5 \; D}{\lambda_1} = \frac{0.004 \times 0.006}{2.4 \times 10^{-6}} \frac{0.006}{0.024} = 2.5 \\
+\end{aligned}
+\end{equation*}
+\]</span>
+ Trying to estimate Reynolds number in lattice units 
+<span class="math scholmd-math-display" style="display: block;">\[
+\begin{equation*}
+\begin{aligned}
+\textrm{Wave speed in lattice units } &amp;=  s_1/v_{cf} = 0.004/0.09598 = 0.040568 \\
+\textrm{Radius in lattice units } &amp;= 40 \\
+\textrm{Length in lattice units } &amp;= 160 \\
+\textrm{Reynolds number in lattice units } &amp;= \frac{0.040568 \times 40}{0.16667} \frac{40}{160} = 2.434
+\end{aligned}
+\end{equation*}
+\]</span>
+ Thus, the Reynolds number in lattice units is made to match up with the one in physical units. I still don’t understand completely as to why the two Reynolds numbers need to match.</p>
 <h1 id="boundary-conditions">Boundary conditions</h1>
 <h1 id="treatment-of-passive-scalar">Treatment of passive scalar</h1>
 <h1 id="multi-grid-scheme">Multi-grid scheme</h1>

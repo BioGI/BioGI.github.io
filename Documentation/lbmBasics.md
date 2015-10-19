@@ -175,6 +175,45 @@ The quantities with $f_L$ are in lattice units. For e.g $\rho_L = 1.0$ is the de
 nuL = (2.0_dbl*tau - 1.0_dbl)/6.0_dbl
 ~~~
 
+## Example
+
+For the conditions in the `input.txt` given by Balaji,
+
+~~~math
+\tau &= 1.0 \\
+\nu_L &= \frac{2-1}{6} = 0.16667 \\
+n_x = n_y &= 81 \\
+D &= 0.012m \\
+x_{cf} = y_{cf} &= 1.5 \times 10^{-4}m \\
+L &= 0.024m \\
+n_z &= 160 \\
+z_{cf} &= 1.5 \times 10^{-4}m \\
+\nu &= 2.4 \times 10^{-6} m^2/s \\
+t_{cf} &= 0.1667 \frac{1.5 \times 10^{-4} \times 1.5 \times 10^{-4}}{2.4 \times 10^{-6}} = 1.5628 \times 10^{-3}s \\
+v_{cf} &= \frac{1.5 \times 10^{-4}m}{ 1.5628 \times 10^{-3}} = 0.09598 m/s
+~~~
+
+The motility parameters are
+
+~~~math
+s_1 &= 0.004m/s \textrm{ Wave speed for Peristalsis}\\
+D &= 0.012m \textrm{ Max diameter}\\
+num_{w1} &= 1 \textrm{ Number of waves in the domain} \\
+\lambda_1 &= \frac{L}{num_{w1}} = 0.024m \textrm{ Wavelength of peristaltic wave}\\
+Re_1 &= \frac{s_1 (0.5 \; D)}{ \nu} \frac{0.5 \; D}{\lambda_1} = \frac{0.004 \times 0.006}{2.4 \times 10^{-6}} \frac{0.006}{0.024} = 2.5 \\
+~~~
+
+Trying to estimate Reynolds number in lattice units
+
+~~~math
+\textrm{Wave speed in lattice units } &=  s_1/v_{cf} = 0.004/0.09598 = 0.040568 \\
+\textrm{Radius in lattice units } &= 40 \\
+\textrm{Length in lattice units } &= 160 \\
+\textrm{Reynolds number in lattice units } &= \frac{0.040568 \times 40}{0.16667} \frac{40}{160} = 2.434
+~~~
+
+ Thus, the Reynolds number in lattice units is made to match up with the one in physical units. I still don't understand completely as to why the two Reynolds numbers need to match.
+
 # Boundary conditions
 
 # Treatment of passive scalar
