@@ -143,17 +143,19 @@ f_{\alpha}(\vec{x} + \hat{e}_{\alpha} \; \delta t,t + \delta t) = f_{\alpha} (\v
 </ol>
 <p>
 <span class="math scholmd-math-display" style="display: block;">\[
-\begin{equation*}
+\begin{equation}
+\label{eq:LBMcollision}
 \hat{f}_{\alpha}(\vec{x}, t) = f_{\alpha} (\vec{x},t) - \frac{1}{\tau} \left [ f_{\alpha} (\vec{x},t) - f_{\alpha}^{eq} (\vec{x},t) \right ]
-\end{equation*}
+\end{equation}
 \]</span>
 </p>
 <ol start="2" type="1">
 <li>Streaming step 
 <span class="math scholmd-math-display" style="display: block;">\[
-\begin{equation*}
+\begin{equation}
+\label{eq:LBMstreaming}
 f_{\alpha}(\vec{x} + \hat{e}_{\alpha} \; \delta t,t + \delta t) = \hat{f}_{\alpha} (\vec{x},t) 
-\end{equation*}
+\end{equation}
 \]</span>
 </li>
 </ol>
@@ -261,11 +263,130 @@ Re_1 &amp;= \frac{s_1 (0.5 \; D)}{ \nu} \frac{0.5 \; D}{\lambda_1} = \frac{0.004
 <h1 id="boundary-conditions">Boundary conditions</h1>
 <h1 id="treatment-of-passive-scalar">Treatment of passive scalar</h1>
 <h1 id="multi-grid-scheme">Multi-grid scheme</h1>
+<p>Yangxing Wang <span class="scholmd-citation" data-cites="Wang2010">[4]</span> and Gino Banco <span class="scholmd-citation" data-cites="Banco2010">[5]</span> had implemented the multiple-grid scheme of Yu, Mei and Shyy <span class="scholmd-citation" data-cites="Yu2002">[6]</span> and extended them to scalars transport using the Moment propagation method. Yangxing’s validation study of the method using the lid driven cavity was in 2D while Banco extended the method to 3D. As of now, we do not have a code that contains the implementation of the multiple grid strategy. This section will describe our understanding of the method as described by Wang et. al. <span class="scholmd-citation" data-cites="Wang2010">[4]</span>, Banco <span class="scholmd-citation" data-cites="Banco2010">[5]</span> and Yu et. al. <span class="scholmd-citation" data-cites="Yu2002">[6]</span>.</p>
+<p>The main puupose of the multiple grid scheme is to preseve the required resolution near complicated boundaries without paying the penalty of using the same resolution away from these boundaries. While this strategy could be generalized to a series of smaller and smaller grids until the required resolution is reached, the implementation is discussed only for one level of refinement between a coarse and fine grid. The overlap between the coarse and the fine grids is no more than 1 coarse lattice unit as shown in Figure <span class="scholmd-crossref"><a href="#fig:coarseToFineGridInterface">(2)</a></span>.</p>
+<figure class="scholmd-float scholmd-figure" id="fig:coarseToFineGridInterface">
+<div class="scholmd-float-content"><figure class="scholmd-subfig" style="display: inline-block; width: 75%">
+<img src="./coarseToFineGridInterface.png" />
+</figure></div>
+<div class="scholmd-float-caption"><figcaption><span class="scholmd-caption-head"><span class="scholmd-caption-head-prefix">Figure</span><span class="scholmd-caption-head-label">2</span></span><span class="scholmd-caption-text">Interface structure betwee two blocks of different lattice spacing as shown by Yu et. al. <span class="scholmd-citation" data-cites="Yu2002">[6]</span>.</span></figcaption></div>
+</figure>
+<p>The grid-speed in lattice units is retained between the two grids. The lattice unit distance and the time step between the two grids is of ratio <span class="math scholmd-math-inline">\(m = \delta x_c/\delta x_f\)</span>, where <span class="math scholmd-math-inline">\(c\)</span> and <span class="math scholmd-math-inline">\(f\)</span> indicate the coarse and the fine grids respectively. <span class="math scholmd-math-inline">\(m\)</span> should preferably be an integer, such that the streaming process over 1 coarse grid lattice unit <span class="math scholmd-math-inline">\(\delta x_c\)</span> takes <span class="math scholmd-math-inline">\(m\)</span> lattice time steps in the fine grid. To maintain continuity of viscosity across the grid interface 
+<span class="math scholmd-math-display" style="display: block;">\[
+\begin{equation*}
+\begin{aligned}
+(2 \tau_f - 1) \frac{c \; \delta x_f}{6} &amp; = \nu = (2 \tau_c - 1) \frac{c \; \delta x_c}{6} \\
+\rightarrow (2 \tau_f - 1) &amp;= m (2 \tau_c - 1) \\
+\rightarrow \tau_f &amp;= \frac{1}{2} + m \left ( \tau_c - \frac{1}{2} \right )
+\end{aligned}
+\end{equation*}
+\]</span>
+ Yu et. al. split the directional density distribution at each lattice node into an equilibrium and a non-equilibrium part. This is mathematically represented as 
+<span class="math scholmd-math-display" style="display: block;">\[
+\begin{equation*}
+\begin{split}
+f_{\alpha}(\vec{x},t) = f_{\alpha}^{(eq)}(\vec{x},t) + f_{\alpha}^{(neq)}(\vec{x},t) \\
+\end{split}
+\end{equation*}
+\]</span>
+ They argue that, for velocity and density to be continuous across the interface 
+<span class="math scholmd-math-display" style="display: block;">\[
+\begin{equation}
+\label{eq:rhoVContinuityInterface}
+f_{\alpha}^{(eq,c)}(\vec{x},t) = f_{\alpha}^{(eq,f)}(\vec{x},t)
+\end{equation}
+\]</span>
+ They also write a formula to compute the deviatoric stresses from the non-equilibrium part of the directional density in 2D as 
+<span class="math scholmd-math-display" style="display: block;">\[
+\begin{equation}
+\label{eq:deviatoricStressFromNonEqDirectionalDensity}
+\tau_{ij} = \left ( 1 - \frac{1}{2 \tau} \right ) \sum_{\alpha} f_{\alpha}^{(neq)} \left ( \vec{e}_{\alpha i} \vec{e}_{\alpha j} - \frac{1}{2} \vec{e}_{\alpha} \cdot \vec{e}_{\alpha} \delta_{ij} \right )
+\end{equation}
+\]</span>
+ Hence for the deviatoric stresses to be continuous across the interface, they argue that 
+<span class="math scholmd-math-display" style="display: block;">\[
+\begin{equation}
+\label{eq:continuityDeviatoricStress}
+\begin{aligned}
+\left ( 1 - \frac{1}{2 \tau_c} \right ) f_{\alpha}^{(neq,c)} &amp;= \left ( 1 - \frac{1}{2 \tau_f} \right ) f_{\alpha}^{(neq,f)} \\
+\rightarrow f_{\alpha}^{(neq,c)} &amp;= m \frac{\tau_c}{\tau_f} f_{\alpha}^{(neq,f)}
+\end{aligned}
+\end{equation}
+\]</span>
+ As a reminder, the collision process is modeled as a return to equilibrium with a single time scale <span class="math scholmd-math-inline">\(\tau\)</span> using the BGK model (see Equation <span class="scholmd-crossref"><span class="math scholmd-math-inline">\(\eqref{eq:LBMcollision}\)</span></span>). Hence, 
+<span class="math scholmd-math-display" style="display: block;">\[
+\begin{equation*}
+\begin{aligned}
+\hat{f}_{\alpha}(\vec{x},t + \delta t) &amp;= \left (1 - \frac{1}{\tau} \right ) f_{\alpha}(\vec{x},t) + \frac{1}{\tau} f_{\alpha}^{(eq)}(\vec{x},t) \\
+&amp;= \left (1 - \frac{1}{\tau} \right ) \left [ f_{\alpha}^{(eq)}(\vec{x},t) + f_{\alpha}^{(neq)}(\vec{x},t) \right ] + \frac{1}{\tau} f_{\alpha}^{(eq)}(\vec{x},t)
+\end{aligned}
+\end{equation*}
+\]</span>
+ This tells us in a very nice form that the effect of the collision operator is to reduce the contribution of the non-equilibrium directional density as 
+<span class="math scholmd-math-display" style="display: block;">\[
+\begin{equation}
+\label{eq:LBMcollisionEqNonEq}
+\hat{f}_{\alpha} = f_{\alpha}^{(eq)} + \frac{\tau - 1}{\tau}  f_{\alpha}^{(neq)}
+\end{equation}
+\]</span>
+ Using Equation <span class="scholmd-crossref"><span class="math scholmd-math-inline">\(\eqref{eq:LBMcollisionEqNonEq}\)</span></span> for the coarse grid and substituting Equation <span class="scholmd-crossref"><span class="math scholmd-math-inline">\(\eqref{eq:continuityDeviatoricStress}\)</span></span> into it 
+<span class="math scholmd-math-display" style="display: block;">\[
+\begin{equation*}
+\begin{aligned}
+\hat{f}_{\alpha}^{c} &amp;= f_{\alpha}^{(eq,c)} + \frac{\tau_c - 1}{\tau_c}  f_{\alpha}^{(neq,c)} \\
+&amp;= f_{\alpha}^{(eq,f)} + \frac{\tau_c - 1}{\tau_c}  f_{\alpha}^{(neq,c)} \\
+&amp;= f_{\alpha}^{(eq,f)} + m \frac{\tau_c - 1}{\tau_f}  f_{\alpha}^{(neq,f)} \\
+&amp;= f_{\alpha}^{(eq,f)} + m \frac{\tau_c - 1}{\tau_f} \frac{\tau_f}{\tau_f - 1} \left [ \hat{f}_{\alpha}^{f} - f_{\alpha}^{(eq,f)} \right ]
+\end{aligned}
+\end{equation*}
+\]</span>
+ This kind of jumping around with algebra essentially allows us to write the post collision directional density on the coarse grid <span class="math scholmd-math-inline">\(\hat{f}_{\alpha}^{c}\)</span> in terms of the equilibrium <span class="math scholmd-math-inline">\(f_{\alpha}^{eq,f}\)</span> and post collision directional density <span class="math scholmd-math-inline">\(\hat{f}_{\alpha}^{f}\)</span> on the fine grid. 
+<span class="math scholmd-math-display" style="display: block;">\[
+\begin{equation}
+\label{eqfineToCoarseDD}
+\rightarrow \hat{f}_{\alpha}^{c} = f_{\alpha}^{(eq,f)} + m \frac{\tau_c - 1}{\tau_f - 1} \left [ \hat{f}_{\alpha}^{f} - f_{\alpha}^{(eq,f)} \right ]
+\end{equation}
+\]</span>
+ Doing a similar algebraic manipulation the other way around, 
+<span class="math scholmd-math-display" style="display: block;">\[
+\begin{equation}
+\label{eq:coarseToFineDD}
+\hat{f}_{\alpha}^{f} = f_{\alpha}^{(eq,f)} + \frac{1}{m} \frac{\tau_f - 1}{\tau_c - 1} \left [ \hat{f}_{\alpha}^{c} - f_{\alpha}^{(eq,c)} \right ]
+\end{equation}
+\]</span>
+ Equations <span class="scholmd-crossref"><span class="math scholmd-math-inline">\(\eqref{eq:rhoVContinuityInterface}\)</span></span>, <span class="scholmd-crossref"><span class="math scholmd-math-inline">\(\eqref{eqfineToCoarseDD}\)</span></span> and <span class="scholmd-crossref"><span class="math scholmd-math-inline">\(\eqref{eq:coarseToFineDD}\)</span></span> are used to make an algorithm for LBM with multiple grids</p>
+<h2 id="an-algorithm-for-lbm-with-multiple-grids">An algorithm for LBM with multiple grids</h2>
+<p>Figure <span class="scholmd-crossref"><a href="#fig:coarseToFineGridAlgorithm">(3)</a></span> shows the LBM Algorithm using multiple grids as described by Wang et. al. <span class="scholmd-citation" data-cites="Wang2010">[4]</span>. The essential steps are as follows and correlate with the darkened arrows and numbers in the figure.</p>
+<ol type="1">
+<li>Begin with a collision step on the coarse grid.</li>
+<li>Interpolate the post-collision directional densities to the fine grid using Equation <span class="scholmd-crossref"><span class="math scholmd-math-inline">\(\eqref{eq:coarseToFineDD}\)</span></span>. Perform a series of <span class="math scholmd-math-inline">\(m\)</span> streaming and collision steps on the fine grid.</li>
+</ol>
+<ul>
+<li>This starts from the streaming step at time <span class="math scholmd-math-inline">\(t = (n - 1 + \frac{1}{m}) \delta t_c\)</span>. This is basically <span class="math scholmd-math-inline">\(\delta t_c/m\)</span> coarse grid time steps after the <span class="math scholmd-math-inline">\(n^{th}\)</span> time step.</li>
+<li>This ends with the collision step at time <span class="math scholmd-math-inline">\(t = (n + \frac{1}{m}) \delta t_c\)</span>. This is basically <span class="math scholmd-math-inline">\(\delta t_c/m\)</span> coarse grid time steps after the <span class="math scholmd-math-inline">\((n+1)^{th}\)</span> time step.</li>
+</ul>
+<ol start="3" type="1">
+<li>Interpolate the post-collision directional densities to the coarse grid using Equation <span class="scholmd-crossref"><span class="math scholmd-math-inline">\(\eqref{eqfineToCoarseDD}\)</span></span>.</li>
+<li>Perform a streaming step on the coarse grid to reach the <span class="math scholmd-math-inline">\((n+1)^{th}\)</span> time step.</li>
+</ol>
+<figure class="scholmd-float scholmd-figure" id="fig:coarseToFineGridAlgorithm">
+<div class="scholmd-float-content"><figure class="scholmd-subfig" style="display: inline-block; width: 75%">
+<img src="./coarseToFineGridAlgorithm.png" />
+</figure></div>
+<div class="scholmd-float-caption"><figcaption><span class="scholmd-caption-head"><span class="scholmd-caption-head-prefix">Figure</span><span class="scholmd-caption-head-label">3</span></span><span class="scholmd-caption-text">LBM Algorithm using multiple grids as shown in Wang et. al. <span class="scholmd-citation" data-cites="Wang2010">[4]</span></span></figcaption></div>
+</figure>
+<p>Yu et. al. comment that</p>
+<blockquote>
+<p>Generally speaking, it is difficult to maintain simultaneously the continuity of mass, momentum, and stresses across the interface between neighboring blocks because interpolations are applied to each dependent variable. In the present multi-block LBE method, the continuities of mass and stresses are ensured through … The most important point is that interpolations are only applied to <span class="math scholmd-math-inline">\(f_i\)</span>’s along the interface and this automatically ensures consistency in the transfer of various terms across the interface.</p>
+</blockquote>
 <div class="references">
 <h1>References</h1>
 <p>1. Gombosi TI (1994) Gaskinetic theory. Cambridge Academic.</p>
 <p>2. Sukop MC, Thorne Jr DT (2006) Lattice boltzmann modeling - an introduction for geoscientists and engineers. Springer.</p>
 <p>3. Nourgaliev R, Dinh T, Theofanous T, Joseph D (2003) The lattice boltzmann equation method: Theoretical interpretation, numerics and implications. International Journal of Multiphase Flow 29: 117–169. Available: <a href="http://www.sciencedirect.com/science/article/pii/S0301932202001088" class="uri">http://www.sciencedirect.com/science/article/pii/S0301932202001088</a>.</p>
+<p>4. Wang Y, Brasseur JG, Banco GG, Webb AG, Ailiani AC, et al. (2010) A multiscale lattice boltzmann model of macro- to micro-scale transport, with applications to gut function. Philosophical transactions Series A, Mathematical, physical, and engineering sciences 368: 2863–2880. Available: <a href="http://www.ncbi.nlm.nih.gov/pmc/articles/PMC3263792/" class="uri">http://www.ncbi.nlm.nih.gov/pmc/articles/PMC3263792/</a>.</p>
+<p>5. Banco G (2010) Multi-scale fluid mechanics of nutrient absorption in the small intestine analyzed with 2D and 3D lattice boltzmann models [PhD thesis]. Pennsylvania State University.</p>
+<p>6. Yu D, Mei R, Shyy W (2002) A multi-block lattice boltzmann method for viscous fluid flows. International Journal for Numerical Methods in Fluids 39: 99–120. Available: <a href="http://dx.doi.org/10.1002/fld.280" class="uri">http://dx.doi.org/10.1002/fld.280</a>.</p>
 </div>
 </div>
 </div>

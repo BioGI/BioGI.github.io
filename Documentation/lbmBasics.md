@@ -98,11 +98,13 @@ The time advance in the LBM method is carried out algorithmically in two steps, 
 1. Collision step
 
 ~~~math
+#eq:LBMcollision
 \hat{f}_{\alpha}(\vec{x}, t) = f_{\alpha} (\vec{x},t) - \frac{1}{\tau} \left [ f_{\alpha} (\vec{x},t) - f_{\alpha}^{eq} (\vec{x},t) \right ]
 ~~~
 
 2. Streaming step
 ~~~math
+#eq:LBMstreaming
 f_{\alpha}(\vec{x} + \hat{e}_{\alpha} \; \delta t,t + \delta t) = \hat{f}_{\alpha} (\vec{x},t) 
 ~~~
 
@@ -219,6 +221,114 @@ Trying to estimate Reynolds number in lattice units
 # Treatment of passive scalar
 
 # Multi-grid scheme
+
+Yangxing Wang [@Wang2010] and Gino Banco [@Banco2010] had implemented the multiple-grid scheme of Yu, Mei and Shyy [@Yu2002] and extended them to scalars transport using the Moment propagation method. Yangxing's validation study of the method using the lid driven cavity was in 2D while Banco extended the method to 3D. As of now, we do not have a code that contains the implementation of the multiple grid strategy. This section will describe our understanding of the method as described by Wang et. al. [@Wang2010], Banco [@Banco2010] and Yu et. al. [@Yu2002].
+
+The main puupose of the multiple grid scheme is to preseve the required resolution near complicated boundaries without paying the penalty of using the same resolution away from these boundaries. While this strategy could be generalized to a series of smaller and smaller grids until the required resolution is reached, the implementation is discussed only for one level of refinement between a coarse and fine grid. The overlap between the coarse and the fine grids is no more than 1 coarse lattice unit as shown in Figure (#fig:coarseToFineGridInterface). 
+
+#### Figure: {#fig:coarseToFineGridInterface}
+
+![](./coarseToFineGridInterface.png){width=75%}
+
+Caption: Interface structure betwee two blocks of different lattice spacing as shown by Yu et. al. [@Yu2002].
+
+The grid-speed in lattice units is retained between the two grids. The lattice unit distance and the time step between the two grids is of ratio $m = \delta x_c/\delta x_f$, where $c$ and $f$ indicate the coarse and the fine grids respectively. $m$ should preferably be an integer, such that the streaming process over 1 coarse grid lattice unit $\delta x_c$ takes $m$ lattice time steps in the fine grid. To maintain continuity of viscosity across the grid interface
+
+~~~math
+(2 \tau_f - 1) \frac{c \; \delta x_f}{6} & = \nu = (2 \tau_c - 1) \frac{c \; \delta x_c}{6} \\
+\rightarrow (2 \tau_f - 1) &= m (2 \tau_c - 1) \\
+\rightarrow \tau_f &= \frac{1}{2} + m \left ( \tau_c - \frac{1}{2} \right )
+~~~
+
+Yu et. al. split the directional density distribution at each lattice node into an equilibrium and a non-equilibrium part. This is mathematically represented as
+
+~~~math
+f_{\alpha}(\vec{x},t) = f_{\alpha}^{(eq)}(\vec{x},t) + f_{\alpha}^{(neq)}(\vec{x},t) \\
+~~~
+
+They argue that, for velocity and density to be continuous across the interface
+
+~~~math
+#eq:rhoVContinuityInterface
+f_{\alpha}^{(eq,c)}(\vec{x},t) = f_{\alpha}^{(eq,f)}(\vec{x},t)
+~~~
+
+They also write a formula to compute the deviatoric stresses from the non-equilibrium part of the directional density in 2D as
+~~~math
+#eq:deviatoricStressFromNonEqDirectionalDensity
+\tau_{ij} = \left ( 1 - \frac{1}{2 \tau} \right ) \sum_{\alpha} f_{\alpha}^{(neq)} \left ( \vec{e}_{\alpha i} \vec{e}_{\alpha j} - \frac{1}{2} \vec{e}_{\alpha} \cdot \vec{e}_{\alpha} \delta_{ij} \right )
+~~~
+
+Hence for the deviatoric stresses to be continuous across the interface, they argue that
+
+~~~math
+#eq:continuityDeviatoricStress
+\left ( 1 - \frac{1}{2 \tau_c} \right ) f_{\alpha}^{(neq,c)} &= \left ( 1 - \frac{1}{2 \tau_f} \right ) f_{\alpha}^{(neq,f)} \\
+\rightarrow f_{\alpha}^{(neq,c)} &= m \frac{\tau_c}{\tau_f} f_{\alpha}^{(neq,f)}
+~~~
+
+As a reminder, the collision process is modeled as a return to equilibrium with a single time scale $\tau$ using the BGK model (see Equation (#eq:LBMcollision)). Hence,
+
+~~~math
+\hat{f}_{\alpha}(\vec{x},t + \delta t) &= \left (1 - \frac{1}{\tau} \right ) f_{\alpha}(\vec{x},t) + \frac{1}{\tau} f_{\alpha}^{(eq)}(\vec{x},t) \\
+&= \left (1 - \frac{1}{\tau} \right ) \left [ f_{\alpha}^{(eq)}(\vec{x},t) + f_{\alpha}^{(neq)}(\vec{x},t) \right ] + \frac{1}{\tau} f_{\alpha}^{(eq)}(\vec{x},t)
+~~~
+This tells us in a very nice form that the effect of the collision operator is to reduce the contribution of the non-equilibrium directional density as
+
+~~~math
+#eq:LBMcollisionEqNonEq
+\hat{f}_{\alpha} = f_{\alpha}^{(eq)} + \frac{\tau - 1}{\tau}  f_{\alpha}^{(neq)}
+~~~
+
+Using Equation (#eq:LBMcollisionEqNonEq) for the coarse grid and substituting Equation (#eq:continuityDeviatoricStress) into it
+
+~~~math 
+\hat{f}_{\alpha}^{c} &= f_{\alpha}^{(eq,c)} + \frac{\tau_c - 1}{\tau_c}  f_{\alpha}^{(neq,c)} \\
+&= f_{\alpha}^{(eq,f)} + \frac{\tau_c - 1}{\tau_c}  f_{\alpha}^{(neq,c)} \\
+&= f_{\alpha}^{(eq,f)} + m \frac{\tau_c - 1}{\tau_f}  f_{\alpha}^{(neq,f)} \\
+&= f_{\alpha}^{(eq,f)} + m \frac{\tau_c - 1}{\tau_f} \frac{\tau_f}{\tau_f - 1} \left [ \hat{f}_{\alpha}^{f} - f_{\alpha}^{(eq,f)} \right ]
+~~~
+
+This kind of jumping around with algebra essentially allows us to write the post collision directional density on the coarse grid $\hat{f}_{\alpha}^{c}$ in terms of the equilibrium $f_{\alpha}^{eq,f}$ and post collision directional density $\hat{f}_{\alpha}^{f}$ on the fine grid.
+
+~~~math #eqfineToCoarseDD
+\rightarrow \hat{f}_{\alpha}^{c} = f_{\alpha}^{(eq,f)} + m \frac{\tau_c - 1}{\tau_f - 1} \left [ \hat{f}_{\alpha}^{f} - f_{\alpha}^{(eq,f)} \right ]
+~~~
+
+Doing a similar algebraic manipulation the other way around,
+
+~~~math
+#eq:coarseToFineDD
+\hat{f}_{\alpha}^{f} = f_{\alpha}^{(eq,f)} + \frac{1}{m} \frac{\tau_f - 1}{\tau_c - 1} \left [ \hat{f}_{\alpha}^{c} - f_{\alpha}^{(eq,c)} \right ]
+~~~
+
+Equations (#eq:rhoVContinuityInterface), (#eqfineToCoarseDD) and (#eq:coarseToFineDD) are used to make an algorithm for LBM with multiple grids
+
+## An algorithm for LBM with multiple grids
+
+Figure (#fig:coarseToFineGridAlgorithm) shows the LBM Algorithm using multiple grids as described by Wang et. al. [@Wang2010]. The essential steps are as follows and correlate with the darkened arrows and numbers in the figure. 
+
+1. Begin with a collision step on the coarse grid.
+2. Interpolate the post-collision directional densities to the fine grid using Equation (#eq:coarseToFineDD). Perform a series of $m$ streaming and collision steps on the fine grid.
+   * This starts from the streaming step at time $t = (n - 1 + \frac{1}{m}) \delta t_c$. This is basically $\delta t_c/m$ coarse grid time steps after the $n^{th}$ time step.
+   * This ends with the collision step at time $t = (n + \frac{1}{m}) \delta t_c$. This is basically $\delta t_c/m$ coarse grid time steps after the $(n+1)^{th}$ time step.
+3. Interpolate the post-collision directional densities to the coarse grid using Equation (#eqfineToCoarseDD).
+4. Perform a streaming step on the coarse grid to reach the $(n+1)^{th}$ time step. 
+   
+   
+#### Figure: {#fig:coarseToFineGridAlgorithm}
+
+![](./coarseToFineGridAlgorithm.png){width=75%}
+
+Caption: LBM Algorithm using multiple grids as shown in Wang et. al. [@Wang2010]
+
+
+Yu et. al. comment that
+
+> Generally speaking, it is difficult to maintain simultaneously the continuity of mass, momentum, and stresses across the interface between neighboring blocks because interpolations are applied to each dependent variable. In the present multi-block LBE method, the continuities of mass and stresses are ensured through ... The most important point is that interpolations are only applied to $f_i$’s along the interface and this automatically ensures consistency in the transfer of various terms across the interface.
+
+
+
 
 
 # References
