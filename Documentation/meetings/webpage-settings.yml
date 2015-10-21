@@ -1,0 +1,7 @@
+---
+csl: resources/plos.csl
+// css: css/scholmd-heuristically-latest.css
+// css: css/bootstrap.css
+css: css/ScholarlyMarkdown-BS3.css
+...
+
