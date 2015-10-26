@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="generator" content="scholpandoc">
+  <meta name="viewport" content="width=device-width">
+  
+  <meta name="author" content="Ganesh Vijayakumar">
+  <title>My attempt at implementing a multi-block method in the intestine code</title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.7.1/modernizr.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.js"></script>
+  <style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; }
+code > span.dt { color: #902000; }
+code > span.dv { color: #40a070; }
+code > span.bn { color: #40a070; }
+code > span.fl { color: #40a070; }
+code > span.ch { color: #4070a0; }
+code > span.st { color: #4070a0; }
+code > span.co { color: #60a0b0; font-style: italic; }
+code > span.ot { color: #007020; }
+code > span.al { color: #ff0000; font-weight: bold; }
+code > span.fu { color: #06287e; }
+code > span.er { color: #ff0000; font-weight: bold; }
+  </style>
+  <link rel="stylesheet" href="css/ScholarlyMarkdown-BS3.css">
+</head>
+<body>
+<div class="scholmd-container">
+<div class="scholmd-main">
+<div class="scholmd-content">
+<header>
+<h1 class="scholmd-title">My attempt at implementing a multi-block method in the intestine code</h1>
+<div class="scholmd-author">
+Ganesh Vijayakumar
+</div>
+<div class="scholmd-date">21-26 Oct 2015</div>
+</header>
+<p>I’ll document my attempts at implementing a multi-block method in the intestine code.</p>
+<p>The main reason for implemeting a multi-block method in the intestine code is to be able to simulate fasting states, where the occlusion ratio for intestinal motility can go really small. The occlusion ratio is not quite the ratio of the occluded diameter to the total diameter of the domain. 
+<span class="math scholmd-math-display" style="display: block;">\[
+\begin{equation*}
+\begin{aligned}
+a &amp;= \frac{0.5 \; D}{ 2 - (\epsilon/a)} \\
+\rightarrow \frac{a}{0.5 D} &amp;= \frac{1}{ 2 - (\epsilon/a)} \\
+\rightarrow \frac{\epsilon}{0.5 D} &amp;= \frac{\epsilon}{a} \frac{a}{0.5 D} =  \frac{\epsilon}{a} \frac{1}{ 2 - (\epsilon/a)}
+\end{aligned}
+\end{equation*}
+\]</span>
+ When <span class="math scholmd-math-inline">\(\epsilon/a \ll 2\)</span>, <span class="math scholmd-math-inline">\(\epsilon/(0.5D)\)</span> will become half of <span class="math scholmd-math-inline">\((\epsilon/a)\)</span>.</p>
+<p>A rule of thumb is that the the occluded region should be resolved with about <span class="math scholmd-math-inline">\(\sim 10\)</span> cells. The estimate of the maximum gut diameter we’ve been using so far is <span class="math scholmd-math-inline">\(D = 0.005m\)</span>. Lets say this is resolved with a 100 cells in the <span class="math scholmd-math-inline">\(x\)</span> and <span class="math scholmd-math-inline">\(y\)</span> directions. The resolution will be <span class="math scholmd-math-inline">\(\Delta x = 0.005/100 = 5 \times 10^{-5}m\)</span>. Table <span class="scholmd-crossref"><a href="#table:resolutionRequirements">(1)</a></span> shows that the resolution requirements increase severely as the occlusion ratio is dropped. It may not be feasible to acheive a reduction of the grid spacing of <span class="math scholmd-math-inline">\(\sim O(20-200)\)</span> times with just two grids. I suspect that we will need atleast 3 grids with a reduction ratio of <span class="math scholmd-math-inline">\(m-5\)</span> to simulate the occlusion ratio of 0.01 and may be 4 grids with a similar reduction ratio to simulate the occlusion ratio of 0.001.</p>
+<figure class="scholmd-float scholmd-table-float" id="table:resolutionRequirements">
+<div class="scholmd-float-content"><table>
+<thead>
+<tr class="header">
+<th style="text-align: left;"><span class="math scholmd-math-inline">\(\epsilon/a\)</span></th>
+<th style="text-align: left;"><span class="math scholmd-math-inline">\(\epsilon/R\)</span></th>
+<th style="text-align: left;"><span class="math scholmd-math-inline">\(\Delta x_f\)</span></th>
+<th style="text-align: left;">Ratio <span class="math scholmd-math-inline">\(\Delta x_c / \Delta x_f\)</span></th>
+<th style="text-align: left;">$nx_f, <span class="math scholmd-math-inline">\(ny_f = 0.1 D / \Delta x_f\)</span></th>
+<th style="text-align: left;"><span class="math scholmd-math-inline">\(nz_f = L/\Delta x_f\)</span></th>
+<th style="text-align: left;"><span class="math scholmd-math-inline">\(nx_f \times ny_f \times nz_f\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">0.5</td>
+<td style="text-align: left;">0.32</td>
+<td style="text-align: left;"><span class="math scholmd-math-inline">\(1.667 \times 10^{-4}\)</span>m</td>
+<td style="text-align: left;">0.3</td>
+<td style="text-align: left;">-</td>
+<td style="text-align: left;">-</td>
+<td style="text-align: left;">-</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">0.1</td>
+<td style="text-align: left;">0.0527</td>
+<td style="text-align: left;"><span class="math scholmd-math-inline">\(2.631 \times 10^{-5}\)</span>m</td>
+<td style="text-align: left;">1.9</td>
+<td style="text-align: left;">19</td>
+<td style="text-align: left;">380</td>
+<td style="text-align: left;">137k</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">0.01</td>
+<td style="text-align: left;">0.005</td>
+<td style="text-align: left;"><span class="math scholmd-math-inline">\(2.512 \times 10^{-6}\)</span>m</td>
+<td style="text-align: left;">20</td>
+<td style="text-align: left;">200</td>
+<td style="text-align: left;">4000</td>
+<td style="text-align: left;">157M</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">0.001</td>
+<td style="text-align: left;">0.0005</td>
+<td style="text-align: left;"><span class="math scholmd-math-inline">\(2.501 \times 10^{-7}\)</span>m</td>
+<td style="text-align: left;">200</td>
+<td style="text-align: left;">2000</td>
+<td style="text-align: left;">40000</td>
+<td style="text-align: left;">159B</td>
+</tr>
+</tbody>
+</table></div>
+<div class="scholmd-float-caption"><figcaption><span class="scholmd-caption-head"><span class="scholmd-caption-head-prefix">Table</span><span class="scholmd-caption-head-label">1</span></span><span class="scholmd-caption-text">Demonstration of resolution requirement in the occluded region as the occlusion ratio <span class="math scholmd-math-inline">\(\epsilon/a\)</span> is reduced.</span></figcaption></div>
+</figure>
+<h2 id="how-to-design-the-extent-of-the-fine-mesh">How to design the extent of the fine mesh</h2>
+<p>Let’s say that we require only two grids. Figure <span class="scholmd-crossref"><a href="#multiblockDomainDecomposition">(1)</a></span> shows the proposed design of a slice of (<span class="math scholmd-math-inline">\(x=0\)</span> plane) a cylindrical computational domain and the fine mesh within.</p>
+<figure class="scholmd-float scholmd-figure" id="multiblockDomainDecomposition">
+<div class="scholmd-float-content"><figure class="scholmd-subfig" style="display: inline-block; width: ">
+<img src="./multiblockDomainDecomposition.png" />
+</figure></div>
+<div class="scholmd-float-caption"><figcaption><span class="scholmd-caption-head"><span class="scholmd-caption-head-prefix">Figure</span><span class="scholmd-caption-head-label">1</span></span><span class="scholmd-caption-text">Proposed design of the computational domain and the fine mesh and it’s domain decomposition.</span></figcaption></div>
+</figure>
+<p>The rule of thumb reg. 10 grid points in the occluded region need to be applied uniformly across the entire gut. Thus, if the max diameter of the gut is resolved with 100 points, the inner 10% of the domain needs to be refined at all times as it would have less than 10 cells by definition. If the fine mesh has been designed according to the rule of thumb, the resolution requirements would start to become astronomical very quickly as shown in the last column in Table <span class="scholmd-crossref"><a href="#table:resolutionRequirements">(1)</a></span>.</p>
+<h1 id="actual-design-of-the-multi-blockgrid-algorithm">Actual design of the multi-block/grid algorithm</h1>
+<p>All these issues , not withstanding, I’m still going ahead with designing the multi-grid algorithm. I had to print out and study the Intestine code in detail. I’ll branch off the Intestine code and not the COuette code as I’m not sure of the readiness of this code to simulate intestinal motility. When Farhad makes the merge between the two codes, my mods to the Intestine code should transfer straight away to the merged code.</p>
+<h2 id="diagrams-that-help-understanding-the-basics-of-the-intestine-3d-code">Diagrams that help understanding the basics of the intestine 3D code</h2>
+<p>This will probably belong in it’s own section. But I’ll just make a brief description of the Intestine 3D code here.</p>
+<p>Most of the LBM algorithm is fairly straight forward. The complicated parts involve the communication between processors to exchange information. This is first done by creating local arrays that are padded on the boundaries in each direction like so in <code>Setup.f90</code></p>
+<div class="sourceCode"><pre class="sourceCode fortran"><code class="sourceCode fortran"><span class="co">! Distribution Functions</span>
+<span class="kw">ALLOCATE</span>(f(<span class="dv">0</span>:NumDistDirs,<span class="dv">0</span>:nxSub<span class="kw">+</span><span class="dv">1</span>,<span class="dv">0</span>:nySub<span class="kw">+</span><span class="dv">1</span>,<span class="dv">0</span>:nzSub<span class="kw">+</span><span class="dv">1</span>),                        <span class="kw">&amp;</span>
+fplus(<span class="dv">0</span>:NumDistDirs,<span class="dv">0</span>:nxSub<span class="kw">+</span><span class="dv">1</span>,<span class="dv">0</span>:nySub<span class="kw">+</span><span class="dv">1</span>,<span class="dv">0</span>:nzSub<span class="kw">+</span><span class="dv">1</span>))
+<span class="co">! Velocity, Density</span>
+<span class="kw">ALLOCATE</span>(u(<span class="dv">0</span>:nxSub<span class="kw">+</span><span class="dv">1</span>,<span class="dv">0</span>:nySub<span class="kw">+</span><span class="dv">1</span>,<span class="dv">0</span>:nzSub<span class="kw">+</span><span class="dv">1</span>),                                                      <span class="kw">&amp;</span>
+v(<span class="dv">0</span>:nxSub<span class="kw">+</span><span class="dv">1</span>,<span class="dv">0</span>:nySub<span class="kw">+</span><span class="dv">1</span>,<span class="dv">0</span>:nzSub<span class="kw">+</span><span class="dv">1</span>),                                                      <span class="kw">&amp;</span>
+w(<span class="dv">0</span>:nxSub<span class="kw">+</span><span class="dv">1</span>,<span class="dv">0</span>:nySub<span class="kw">+</span><span class="dv">1</span>,<span class="dv">0</span>:nzSub<span class="kw">+</span><span class="dv">1</span>))
+<span class="kw">ALLOCATE</span>(rho(<span class="dv">0</span>:nxSub<span class="kw">+</span><span class="dv">1</span>,<span class="dv">0</span>:nySub<span class="kw">+</span><span class="dv">1</span>,<span class="dv">0</span>:nzSub<span class="kw">+</span><span class="dv">1</span>))</code></pre></div>
+<p>The numbering scheme for the density distribution function and the lattice velocity vectors are shown in Figure <span class="scholmd-crossref"><a href="#densityDistribution">(2)</a></span>.</p>
+<figure class="scholmd-float scholmd-figure" id="densityDistribution">
+<div class="scholmd-float-content"><figure class="scholmd-subfig" style="display: inline-block; width: ">
+<img src="./densityDistribution.png" />
+</figure></div>
+<div class="scholmd-float-caption"><figcaption><span class="scholmd-caption-head"><span class="scholmd-caption-head-prefix">Figure</span><span class="scholmd-caption-head-label">2</span></span><span class="scholmd-caption-text">Numbering scheme of the density distribution directions and lattice velocity vectors in the Intestine 3D code.</span></figcaption></div>
+</figure>
+<p>Now for the complicated second part. The nodes on the boundaries of each processor could potentially interact with another processor in a variety of directions. To understand this, simply think of the information that a node on the faces, edges and corners of the processor boundaries. This is controlled by the temporary arrays <code>CDx, CDy and CDz</code> in the subroutine <code>SubDomainSetup</code> inside <code>Setup.f90</code>. Figure <span class="scholmd-crossref"><a href="#commDirs">(3)</a></span> shows the communication direction vector numbering scheme.</p>
+<figure class="scholmd-float scholmd-figure" id="commDirs">
+<div class="scholmd-float-content"><figure class="scholmd-subfig" style="display: inline-block; width: ">
+<img src="./commDirs.png" />
+</figure></div>
+<div class="scholmd-float-caption"><figcaption><span class="scholmd-caption-head"><span class="scholmd-caption-head-prefix">Figure</span><span class="scholmd-caption-head-label">3</span></span><span class="scholmd-caption-text">Numbering scheme of the communication direction vectors in the Intestine 3D code.</span></figcaption></div>
+</figure>
+<p>This is then used to setup the array <code>SubID</code> that contains the neighboring processor in each communication direction through the subroutine <code>SetSubID</code>.</p>
+<p>All of this information is then used to carefully setup the main arrays <code>msgSend</code> and <code>msgRecv</code> that is transferred across processors. There are a whole host of supporting arrays and variables that describe the structure of the the two main arrays and how to pack it before sending and unpack it after receiving. The optimization of this array is done pretty well and only information that is absolutely required is transferred. For instance, only certain components of the density distribution function is transferred depending upon the communication direction.</p>
+<ul>
+<li><code>OppCommDir</code></li>
+<li><code>f_Comps</code></li>
+<li><code>fSize</code></li>
+<li><code>dsSize</code></li>
+<li><code>uvwSize</code></li>
+<li><code>YZ_FaceSize</code></li>
+<li><code>ZX_FaceSize</code></li>
+<li><code>XY_FaceSize</code></li>
+<li><code>msgSize</code></li>
+<li><code>f_SendSize</code></li>
+<li><code>ds_SendSize</code></li>
+<li><code>uvw_SendSize</code></li>
+<li><code>total_SendSize</code></li>
+<li><code>XY_SendIndex</code></li>
+<li><code>YZ_SendIndex</code></li>
+<li><code>XZ_SendIndex</code></li>
+<li><code>X_SendIndex</code></li>
+<li><code>Y_SendIndex</code></li>
+<li><code>Z_SendIndex</code></li>
+<li><code>Corner_SendIndex</code></li>
+<li><code>XY_RecvIndex</code></li>
+<li><code>YZ_RecvIndex</code></li>
+<li><code>XZ_RecvIndex</code></li>
+<li><code>X_RecvIndex</code></li>
+<li><code>Y_RecvIndex</code></li>
+<li><code>Z_RecvIndex</code></li>
+<li><code>Corner_RecvIndex</code></li>
+<li><code>CommDataStart_f</code></li>
+<li><code>CommDataStart_rho</code></li>
+<li><code>CommDataStart_phi</code></li>
+<li><code>CommDataStart_u</code></li>
+<li><code>CommDataStart_v</code></li>
+<li><code>CommDataStart_w</code></li>
+</ul>
+<h2 id="current-plan-to-modify-the-intestine-code">Current plan to modify the Intestine code</h2>
+<p>This is the current list of steps to modify the Intestine code to a multigrid code.</p>
+<ol type="1">
+<li>Copy <code>Setup, LBM, Geometry, ICBC, Parallel.f90</code> files into corresponding <code>_fine</code> files.</li>
+<li>Change the variable names in these files to <code>_fine</code></li>
+<li>In the mani <code>Geometry.f90</code> file, introduce a new type of node called <code>REFINEMESH</code>. Identify/Flag the required nodes as <code>REFINEMESH</code>.</li>
+<li>Set the geometry parameters for the fine mesh in <code>Geometry_fine.f90</code> and the identify the outer nodes as <code>COARSEMESH</code>.</li>
+<li>In the <code>Main.f90</code>, change the algorithm to include the sub-iterations for the fine mesh.</li>
+<li>Introduce interpolation subroutines to transfer density distribution and other stuff between coarse and fine meshes.</li>
+</ol>
+<p>The progress on this can be tracked on the <a href="https://github.com/BioGI/Codes/commits/attemptedMultigrid">attemptedMultiGrid</a> branch of the Github repository.</p>
+<div class="references">
+
+</div>
+</div>
+</div>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+      processClass: "math"
+    },
+    TeX: {
+        TagSide: "left",
+        TagIndent: "1.2em",
+        equationNumbers: {
+            autoNumber: "AMS"
+        },
+        Macros: {
+            ensuremath: ["#1",1],
+            textsf: ["\\mathsf{\\text{#1}}",1],
+            texttt: ["\\mathtt{\\text{#1}}",1]
+        }
+    },
+    "HTML-CSS": { 
+        scale: 100,
+        availableFonts: ["TeX"], 
+        preferredFont: "TeX",
+        webFont: "TeX",
+        imageFont: "TeX",
+        EqnChunk: 1000
+    }
+});
+</script>
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML-full" type="text/javascript"></script>
+</div>
+</body>
+</html>
