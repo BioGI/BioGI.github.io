@@ -1,11 +1,12 @@
 html:
-	scholdoc webpage-settings.yml lbmBasics.md --citeproc --output=lbmBasics.html
+#	scholdoc webpage-settings.yml lbmBasics.md --citeproc --output=lbmBasics.html
 #	scholdoc webpage-settings.yml ginoReproduce.md --citeproc --output=ginoReproduce.html
 #	scholdoc webpage-settings.yml monoVsPolydisperse.md --citeproc --output=monoVsPolydisperse.html
 #	scholdoc webpage-settings.yml howToInstallScholdoc.md --citeproc --output=howToInstallScholdoc.html
 #	scholdoc webpage-settings.yml HowToModifyWiki.md --citeproc --output=HowToModifyWiki.html
 #	scholdoc webpage-settings.yml Dissolution-Model-Implementation.md --citeproc --output=Dissolution-Model-Implementation.html
 #	scholdoc webpage-settings.yml ParticleTrackingDrugRelease.md --citeproc --output=ParticleTrackingDrugRelease.html
+	scholdoc webpage-settings.yml plannedMultiblockImplementation.md --citeproc --output=plannedMultiblockImplementation.html
 
 latex:
 	scholdoc plos-one-settings.yml lbmBasics.md --natbib --output=lbmBasics.tex
@@ -27,3 +28,5 @@ clean:
 	-[[ -f "lbmBasics_generatedByScholdoc.pdf" ]] && rm lbmBasics_generatedByScholdoc.pdf
 
 .PHONY: html latex pdf autopdf clean
+
+
