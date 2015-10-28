@@ -1,30 +1,34 @@
 ---
-title: Understanding particle tracking and dissolution in Balaji's Couette Flow code
+title: Particle Tracking and Dissolution Model in  Couette Flow Code
 bibliography: ../References/references.bib
 ---
 ## ICBC.f90
 
-* SUBROUTINE IniParticles 
+* **SUBROUTINE IniParticles** 
 	* 	Reads parid,xp,yp,zp,par_radius from particle.dat file
 	*	Finds which partition each particle belongs
 	*	Create a particle element in the linked list for each partition
-	* 	Is called only by Main.f90
+	* 	<span style="color: red"> Is called only by Main.f90 </span>	
 
 
-* SUBROUTINE IniParticles_Old 
-	*	Is never called
+* **SUBROUTINE IniParticles_Old** 
+	*	<span style="color: red"> Is never called </span>
+
 
 ## LBM.f90
 
-* SUBROUTINE Particle_Setup 
+* **SUBROUTINE Particle_Setup** 
 	*	Only calls Interp_Parvel
-	* 	Is called by Main.f90
+	* 	<span style="color: red"> Is called by Main.f90 </span>
 
-* SUBROUTINE Interp_ParToNodes_Conc 
+
+
+* **SUBROUTINE Interp_ParToNodes_Conc**
 	*	Interpolate Particle concentration release to node locations
-	*	Is called by Particle_Track(LBM.f90)
+	*	<span style="color: red"> Is called by Particle_Track(LBM.f90)</span> 
 
-* SUBROUTINE Particle_Track 
+
+* **SUBROUTINE Particle_Track** 
 	*	Cpmputes the new locations of the particles
 	*	Interpolates the particle velocities and bulk concentrations
 	*	Updates Sherwood number, particle radius, delNBbuCV
@@ -33,43 +37,49 @@ bibliography: ../References/references.bib
 	*	Wrapping periodic BC in Y and Z directiosn 
 	*	Decides if particle should be transferred to another partition
 	*	Writes out particle_history.dat fiels (only 10 files?)
-	*	Is called only by Main.f90
+	*	<span style="color: red"> Is called only by Main.f90 </span>
 
-* SUBROUTINE Interp_Parvel_1 
+
+* **SUBROUTINE Interp_Parvel_1** 
 	*	Computing particle velocity using a crude interpolation approach
-	*	Is never called
+	*	<span style="color: red"> Is never called </span>
 
-* SUBROUTINE Interp_Parvel 
+
+* **SUBROUTINE Interp_Parvel** 
 	*	Computing the velocity at particle location using trilinear interpolation for u, v and w.
-	*	Is called by Particle_Setup(LBM.f90)
-	*	IS called twice by Particle_Track(LBM.f90)
+	*	<span style="color: red"> Is called by Particle_Setup(LBM.f90) </span>
+	*	<span style="color: red"> IS called twice by Particle_Track(LBM.f90) </span>
 
-* SUBROUTINE Interp_Parvel_Crude 
+
+* **SUBROUTINE Interp_Parvel_Crude** 
 	*	Computing particle velocity using a crde interpolation approach
-	*	Is never called
+	*	<span style="color: red"> Is never called </span>
 
-* SUBROUTINE Interp_bulkconc 
+
+* **SUBROUTINE Interp_bulkconc** 
 	*	Computing Bulk Concentration using Trilinear interpolation
-	*	Is called only by Particle_Track(LBM.f90)
+	*	<span style="color: red"> Is called only by Particle_Track(LBM.f90) </span>
 
 
-* SUBROUTINE Calc_Global_Bulk_Scalar_Conc 
+* **SUBROUTINE Calc_Global_Bulk_Scalar_Conc** 
 	*	Calculates "Global Bulk SCalar Concentration" for use in the scalar drug relese model
 	*	Loops over all Fluid nodes and computes total number of moles/total domain size (average concentration)
-	* 	Is called only by Main.f90
+	* 	<span style="color: red"> Is called only by Main.f90 </span>
 
-* SUBROUTINE Calc_Scalar_Release
+
+* **SUBROUTINE Calc_Scalar_Release**
 	*	Updates particle radius, calculates new drug conc release rate delNBbyCV
- 	*	Is called only by Particle_Trak(LBM.f90)
+ 	*	<span style="color: red"> Is called only by Particle_Trak(LBM.f90) </span>
 
-* SUBROUTINE Update_Sh
+
+* **SUBROUTINE Update_Sh**
 	*	Incporate hierarchical mdoel to Sh(t) to include effect of shear/hydrodynamics and container effect 	
 	*	Called by Particle_Track (LBM.f90) to get Calc_SCalar_Release, delNBbyCV, update particle radius
 	*	Calculates delNBbyCV for each particle in the domain
-	*	Is called only by Particle_Track(LBM.f90)
-	
-* SUBROUTINE Find_Root 
+	*	<span style="color: red"> Is called only by Particle_Track(LBM.f90) </span>
 
+
+* **SUBROUTINE Find_Root** 
 	*
 
 
@@ -78,21 +88,33 @@ bibliography: ../References/references.bib
 
 ## Output.f90
 
-* SUBROUTINE PrintParticle 
+* **SUBROUTINE PrintParticle** 
 	*	Print particle position, velocity, radius, and concentrationto output files
 
-* SUBROUTINE MergeParticleOutput 
+
+
+* **SUBROUTINE MergeParticleOutput** 
 	* 	Combines the subdomain particle output into an output file for the entire computational domain
 
-## Parallel.f90
-* Collect_Distribute_Global_Bulk_Scalar_Conc
-	* 
-	
 
-* SUBROUTINE Particle_MPI_Transfer 
+
+## Parallel.f90
+
+* **Collect_Distribute_Global_Bulk_Scalar_Conc**
+	*	parallel communication to collect all the bulk concentration in each of the processes and computeѕ an average, which is then distributed to the various process for computing the drug concentration.  
+
+	
+* **SUBROUTINE Particle_MPI_Transfer**
 	*	Transfer the particles to neighbouring partitions
 
 
+
+
+
+
+
+
+# Some Code Samples
 
 
 

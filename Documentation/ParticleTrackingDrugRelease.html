@@ -9,7 +9,7 @@
   <meta name="generator" content="scholpandoc">
   <meta name="viewport" content="width=device-width">
   
-  <title>Understanding particle tracking and dissolution in Balaji’s Couette Flow code</title>
+  <title>Particle Tracking and Dissolution Model in Couette Flow Code</title>
   <style type="text/css">code{white-space: pre;}</style>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.7.1/modernizr.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.js"></script>
@@ -40,35 +40,35 @@ code > span.er { color: #ff0000; font-weight: bold; }
 <div class="scholmd-main">
 <div class="scholmd-content">
 <header>
-<h1 class="scholmd-title">Understanding particle tracking and dissolution in Balaji’s Couette Flow code</h1>
+<h1 class="scholmd-title">Particle Tracking and Dissolution Model in Couette Flow Code</h1>
 </header>
 <h2 id="icbc.f90">ICBC.f90</h2>
 <ul>
-<li>SUBROUTINE IniParticles
+<li><strong>SUBROUTINE IniParticles</strong>
 <ul>
 <li>Reads parid,xp,yp,zp,par_radius from particle.dat file</li>
 <li>Finds which partition each particle belongs</li>
 <li>Create a particle element in the linked list for each partition</li>
-<li>Is called only by Main.f90</li>
+<li><span style="color: red"> Is called only by Main.f90 </span></li>
 </ul></li>
-<li>SUBROUTINE IniParticles_Old
+<li><strong>SUBROUTINE IniParticles_Old</strong>
 <ul>
-<li>Is never called</li>
+<li><span style="color: red"> Is never called </span></li>
 </ul></li>
 </ul>
 <h2 id="lbm.f90">LBM.f90</h2>
 <ul>
-<li>SUBROUTINE Particle_Setup
+<li><strong>SUBROUTINE Particle_Setup</strong>
 <ul>
 <li>Only calls Interp_Parvel</li>
-<li>Is called by Main.f90</li>
+<li><span style="color: red"> Is called by Main.f90 </span></li>
 </ul></li>
-<li>SUBROUTINE Interp_ParToNodes_Conc
+<li><strong>SUBROUTINE Interp_ParToNodes_Conc</strong>
 <ul>
 <li>Interpolate Particle concentration release to node locations</li>
-<li>Is called by Particle_Track(LBM.f90)</li>
+<li><span style="color: red"> Is called by Particle_Track(LBM.f90)</span></li>
 </ul></li>
-<li>SUBROUTINE Particle_Track
+<li><strong>SUBROUTINE Particle_Track</strong>
 <ul>
 <li>Cpmputes the new locations of the particles</li>
 <li>Interpolates the particle velocities and bulk concentrations</li>
@@ -78,74 +78,75 @@ code > span.er { color: #ff0000; font-weight: bold; }
 <li>Wrapping periodic BC in Y and Z directiosn</li>
 <li>Decides if particle should be transferred to another partition</li>
 <li>Writes out particle_history.dat fiels (only 10 files?)</li>
-<li>Is called only by Main.f90</li>
+<li><span style="color: red"> Is called only by Main.f90 </span></li>
 </ul></li>
-<li>SUBROUTINE Interp_Parvel_1
+<li><strong>SUBROUTINE Interp_Parvel_1</strong>
 <ul>
 <li>Computing particle velocity using a crude interpolation approach</li>
-<li>Is never called</li>
+<li><span style="color: red"> Is never called </span></li>
 </ul></li>
-<li>SUBROUTINE Interp_Parvel
+<li><strong>SUBROUTINE Interp_Parvel</strong>
 <ul>
 <li>Computing the velocity at particle location using trilinear interpolation for u, v and w.</li>
-<li>Is called by Particle_Setup(LBM.f90)</li>
-<li>IS called twice by Particle_Track(LBM.f90)</li>
+<li><span style="color: red"> Is called by Particle_Setup(LBM.f90) </span></li>
+<li><span style="color: red"> IS called twice by Particle_Track(LBM.f90) </span></li>
 </ul></li>
-<li>SUBROUTINE Interp_Parvel_Crude
+<li><strong>SUBROUTINE Interp_Parvel_Crude</strong>
 <ul>
 <li>Computing particle velocity using a crde interpolation approach</li>
-<li>Is never called</li>
+<li><span style="color: red"> Is never called </span></li>
 </ul></li>
-<li>SUBROUTINE Interp_bulkconc
+<li><strong>SUBROUTINE Interp_bulkconc</strong>
 <ul>
 <li>Computing Bulk Concentration using Trilinear interpolation</li>
-<li>Is called only by Particle_Track(LBM.f90)</li>
+<li><span style="color: red"> Is called only by Particle_Track(LBM.f90) </span></li>
 </ul></li>
-<li>SUBROUTINE Calc_Global_Bulk_Scalar_Conc
+<li><strong>SUBROUTINE Calc_Global_Bulk_Scalar_Conc</strong>
 <ul>
 <li>Calculates “Global Bulk SCalar Concentration” for use in the scalar drug relese model</li>
 <li>Loops over all Fluid nodes and computes total number of moles/total domain size (average concentration)</li>
-<li>Is called only by Main.f90</li>
+<li><span style="color: red"> Is called only by Main.f90 </span></li>
 </ul></li>
-<li>SUBROUTINE Calc_Scalar_Release
+<li><strong>SUBROUTINE Calc_Scalar_Release</strong>
 <ul>
 <li>Updates particle radius, calculates new drug conc release rate delNBbyCV</li>
-<li>Is called only by Particle_Trak(LBM.f90)</li>
+<li><span style="color: red"> Is called only by Particle_Trak(LBM.f90) </span></li>
 </ul></li>
-<li>SUBROUTINE Update_Sh
+<li><strong>SUBROUTINE Update_Sh</strong>
 <ul>
 <li>Incporate hierarchical mdoel to Sh(t) to include effect of shear/hydrodynamics and container effect<br /></li>
 <li>Called by Particle_Track (LBM.f90) to get Calc_SCalar_Release, delNBbyCV, update particle radius</li>
 <li>Calculates delNBbyCV for each particle in the domain</li>
-<li>Is called only by Particle_Track(LBM.f90)</li>
+<li><span style="color: red"> Is called only by Particle_Track(LBM.f90) </span></li>
 </ul></li>
-<li><p>SUBROUTINE Find_Root</p>
+<li><strong>SUBROUTINE Find_Root</strong>
 <ul>
 <li></li>
 </ul></li>
 </ul>
 <h2 id="output.f90">Output.f90</h2>
 <ul>
-<li>SUBROUTINE PrintParticle
+<li><strong>SUBROUTINE PrintParticle</strong>
 <ul>
 <li>Print particle position, velocity, radius, and concentrationto output files</li>
 </ul></li>
-<li>SUBROUTINE MergeParticleOutput
+<li><strong>SUBROUTINE MergeParticleOutput</strong>
 <ul>
 <li>Combines the subdomain particle output into an output file for the entire computational domain</li>
 </ul></li>
 </ul>
 <h2 id="parallel.f90">Parallel.f90</h2>
 <ul>
-<li>Collect_Distribute_Global_Bulk_Scalar_Conc
+<li><strong>Collect_Distribute_Global_Bulk_Scalar_Conc</strong>
 <ul>
-<li></li>
+<li>parallel communication to collect all the bulk concentration in each of the processes and computeѕ an average, which is then distributed to the various process for computing the drug concentration.</li>
 </ul></li>
-<li>SUBROUTINE Particle_MPI_Transfer
+<li><strong>SUBROUTINE Particle_MPI_Transfer</strong>
 <ul>
 <li>Transfer the particles to neighbouring partitions</li>
 </ul></li>
 </ul>
+<h1 id="some-code-samples">Some Code Samples</h1>
 <p>All the particle tracking action is controlled from <code>Main.f90</code> as follows</p>
 <div class="sourceCode"><pre class="sourceCode fortran"><code class="sourceCode fortran">    <span class="co">!Before start of time iteration</span>
 
