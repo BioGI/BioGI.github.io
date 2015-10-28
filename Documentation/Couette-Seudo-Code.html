@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="generator" content="scholpandoc">
+  <meta name="viewport" content="width=device-width">
+  
+  <title></title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.7.1/modernizr.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.js"></script>
+  <link rel="stylesheet" href="css/ScholarlyMarkdown-BS3.css">
+</head>
+<body>
+<div class="scholmd-container">
+<div class="scholmd-main">
+<div class="scholmd-content">
+<h1 id="main.f90">Main.f90</h1>
+<pre><code>Setup [MPI, LBM, Geometry, Scalar, Output]
+
+CALL ICs                
+
+CALL OpenOutputFiles    
+CALL PrintParams        
+CALL PrintFields        
+CALL PrintStatus        
+
+CALL IniParticles
+CALL Particle_Setup
+
+DO iter = iter0, nt
+   CALL AdvanceGeometry                 
+   CALL Collision                      
+   CALL MPI_Transfer                   
+   CALL Stream   
+   CALL Particle_Track
+   CALL Scalar      
+   Writing History file
+   Print [Fields, Particles,  Scalar,  Mass, Volume]
+   Print [PeriodicRestart, Status]
+   MPI_BARRIER 
+END
+
+CALL PrintTime
+CALL PrintFinalRestart
+Closing</code></pre>
+<h1 id="setparticle.f90">SetParticle.f90</h1>
+<pre><code>CALL RANDOM_SEED (size --&gt; get --&gt; put)
+Defining Monodisperse Collection: 
+        Same size, random location
+Defining Polydisperse Collection:
+        Different sizes, random locations</code></pre>
+<h1 id="geometry-module-contains">Geometry Module Contains:</h1>
+<pre><code>Geometry_Setup
+AdvanceGeometry
+BoundaryPosition
+SurfaceArea
+VilliPosition
+VilliBase
+VilliMove
+VilliTip
+BoundaryVelocity
+SetNodes
+SetNodesVilli
+CalcC
+NeighborVelocity
+SetProperties   </code></pre>
+<h1 id="icbc-module-contains">ICBC Module Contains:</h1>
+<pre><code>ICs           
+IniParticles 
+IniParticles_Old        
+ScalarDistribution 
+BounceBackL       
+BounceBack2  
+BounceBack2New 
+qCalc         
+BounceBackVL 
+BounceBackV2 
+VilliVelocity
+qCalcV 
+PrintFieldsTEST 
+SymmetryBC 
+SymmetryBC_NODE 
+ScalarBC 
+ScalarBC2
+GetPhiWallNew
+InterpolateProp
+GetPhiWall
+GetPerturbedVector
+RotateVector
+RotateVectorAboutAxis
+IntersectSurface
+Gauss
+ScalarBCV
+Equilibrium_LOCAL </code></pre>
+<h1 id="ics-inside-icbc.f90">ICs (inside ICBC.f90):</h1>
+<pre><code>IF (restart) --&gt; Get node locations and fields form restart files
+ELSE         --&gt; set u=1,v=0, w=w(z)</code></pre>
+<h1 id="advancegeometry">AdvanceGeometry</h1>
+<pre><code>CALL BoundaryPosition
+CALL VilliPosition
+CALL BoundaryVelocity
+CALL SetNodes</code></pre>
+<div class="references">
+
+</div>
+</div>
+</div>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+      processClass: "math"
+    },
+    TeX: {
+        TagSide: "left",
+        TagIndent: "1.2em",
+        equationNumbers: {
+            autoNumber: "AMS"
+        },
+        Macros: {
+            ensuremath: ["#1",1],
+            textsf: ["\\mathsf{\\text{#1}}",1],
+            texttt: ["\\mathtt{\\text{#1}}",1]
+        }
+    },
+    "HTML-CSS": { 
+        scale: 100,
+        availableFonts: ["TeX"], 
+        preferredFont: "TeX",
+        webFont: "TeX",
+        imageFont: "TeX",
+        EqnChunk: 1000
+    }
+});
+</script>
+</div>
+</body>
+</html>

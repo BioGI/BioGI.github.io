@@ -9,9 +9,7 @@
   <meta name="generator" content="scholpandoc">
   <meta name="viewport" content="width=device-width">
   
-  <meta name="author" content="Ganesh Vijayakumar">
-  <meta name="dcterms.date" content="2015-10-15">
-  <title>Attempts to understand implementation of particle tracking and dissolution in Balaji’s Couette Flow code</title>
+  <title>Understanding particle tracking and dissolution in Balaji’s Couette Flow code</title>
   <style type="text/css">code{white-space: pre;}</style>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.7.1/modernizr.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.js"></script>
@@ -42,22 +40,111 @@ code > span.er { color: #ff0000; font-weight: bold; }
 <div class="scholmd-main">
 <div class="scholmd-content">
 <header>
-<h1 class="scholmd-title">Attempts to understand implementation of particle tracking and dissolution in Balaji’s Couette Flow code</h1>
-<div class="scholmd-author">
-Ganesh Vijayakumar
-</div>
-<div class="scholmd-date">15 Oct 2015</div>
+<h1 class="scholmd-title">Understanding particle tracking and dissolution in Balaji’s Couette Flow code</h1>
 </header>
-<p>The word <code>particle</code> is present in the following codes for a total of 283 lines</p>
+<h2 id="icbc.f90">ICBC.f90</h2>
 <ul>
-<li>ICBC.f90</li>
-<li>LBM.f90</li>
-<li>Main.f90</li>
-<li>Output.f90</li>
-<li>Parallel.f90</li>
-<li>PassiveScalar.f90</li>
-<li>SetParticle.f90</li>
-<li>Setup.f90</li>
+<li>SUBROUTINE IniParticles
+<ul>
+<li>Reads parid,xp,yp,zp,par_radius from particle.dat file</li>
+<li>Finds which partition each particle belongs</li>
+<li>Create a particle element in the linked list for each partition</li>
+<li>Is called only by Main.f90</li>
+</ul></li>
+<li>SUBROUTINE IniParticles_Old
+<ul>
+<li>Is never called</li>
+</ul></li>
+</ul>
+<h2 id="lbm.f90">LBM.f90</h2>
+<ul>
+<li>SUBROUTINE Particle_Setup
+<ul>
+<li>Only calls Interp_Parvel</li>
+<li>Is called by Main.f90</li>
+</ul></li>
+<li>SUBROUTINE Interp_ParToNodes_Conc
+<ul>
+<li>Interpolate Particle concentration release to node locations</li>
+<li>Is called by Particle_Track(LBM.f90)</li>
+</ul></li>
+<li>SUBROUTINE Particle_Track
+<ul>
+<li>Cpmputes the new locations of the particles</li>
+<li>Interpolates the particle velocities and bulk concentrations</li>
+<li>Updates Sherwood number, particle radius, delNBbuCV</li>
+<li>Distributes released drug concentration to neightbouring nodes</li>
+<li>Updates tausgs only for those cells that have non-zero values of tausgs</li>
+<li>Wrapping periodic BC in Y and Z directiosn</li>
+<li>Decides if particle should be transferred to another partition</li>
+<li>Writes out particle_history.dat fiels (only 10 files?)</li>
+<li>Is called only by Main.f90</li>
+</ul></li>
+<li>SUBROUTINE Interp_Parvel_1
+<ul>
+<li>Computing particle velocity using a crude interpolation approach</li>
+<li>Is never called</li>
+</ul></li>
+<li>SUBROUTINE Interp_Parvel
+<ul>
+<li>Computing the velocity at particle location using trilinear interpolation for u, v and w.</li>
+<li>Is called by Particle_Setup(LBM.f90)</li>
+<li>IS called twice by Particle_Track(LBM.f90)</li>
+</ul></li>
+<li>SUBROUTINE Interp_Parvel_Crude
+<ul>
+<li>Computing particle velocity using a crde interpolation approach</li>
+<li>Is never called</li>
+</ul></li>
+<li>SUBROUTINE Interp_bulkconc
+<ul>
+<li>Computing Bulk Concentration using Trilinear interpolation</li>
+<li>Is called only by Particle_Track(LBM.f90)</li>
+</ul></li>
+<li>SUBROUTINE Calc_Global_Bulk_Scalar_Conc
+<ul>
+<li>Calculates “Global Bulk SCalar Concentration” for use in the scalar drug relese model</li>
+<li>Loops over all Fluid nodes and computes total number of moles/total domain size (average concentration)</li>
+<li>Is called only by Main.f90</li>
+</ul></li>
+<li>SUBROUTINE Calc_Scalar_Release
+<ul>
+<li>Updates particle radius, calculates new drug conc release rate delNBbyCV</li>
+<li>Is called only by Particle_Trak(LBM.f90)</li>
+</ul></li>
+<li>SUBROUTINE Update_Sh
+<ul>
+<li>Incporate hierarchical mdoel to Sh(t) to include effect of shear/hydrodynamics and container effect<br /></li>
+<li>Called by Particle_Track (LBM.f90) to get Calc_SCalar_Release, delNBbyCV, update particle radius</li>
+<li>Calculates delNBbyCV for each particle in the domain</li>
+<li>Is called only by Particle_Track(LBM.f90)</li>
+</ul></li>
+<li><p>SUBROUTINE Find_Root</p>
+<ul>
+<li></li>
+</ul></li>
+</ul>
+<h2 id="output.f90">Output.f90</h2>
+<ul>
+<li>SUBROUTINE PrintParticle
+<ul>
+<li>Print particle position, velocity, radius, and concentrationto output files</li>
+</ul></li>
+<li>SUBROUTINE MergeParticleOutput
+<ul>
+<li>Combines the subdomain particle output into an output file for the entire computational domain</li>
+</ul></li>
+</ul>
+<h2 id="parallel.f90">Parallel.f90</h2>
+<ul>
+<li>Collect_Distribute_Global_Bulk_Scalar_Conc
+<ul>
+<li></li>
+</ul></li>
+<li>SUBROUTINE Particle_MPI_Transfer
+<ul>
+<li>Transfer the particles to neighbouring partitions</li>
+</ul></li>
 </ul>
 <p>All the particle tracking action is controlled from <code>Main.f90</code> as follows</p>
 <div class="sourceCode"><pre class="sourceCode fortran"><code class="sourceCode fortran">    <span class="co">!Before start of time iteration</span>
@@ -69,7 +156,7 @@ Ganesh Vijayakumar
 
     <span class="kw">DO</span> iter <span class="kw">=</span> iter0<span class="kw">-</span><span class="dv">0_lng</span>,nt
 
-    <span class="co">!All other stuff</span>
+    <span class="fu">All</span> other stuff
 
     <span class="co">!After collision before streaming</span>
 
