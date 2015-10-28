@@ -69,11 +69,14 @@ We have two codes in our possession. We got both from Balaji.
 
 We have been able to run both codes and visualize their output.
 
-## Dissolution Physics
+## Parallel Particle Tracking and Dissolution Physics
 
 Please see [Understanding of Mono vs. Polydisperse dissolution models](Documentation/monoVsPolydisperse.html) for our current understanding of the dissolution models.
 
-We are working on the implementation of the dissolution model in the numerical code [see Implementation of dissolution model](Documentation/Dissolution-Model-Implementation.html) for the physics/mathematical model and [Particle Tracking and Drug Release](Documentation/ParticleTrackingDrugRelease.html) for the implementation in the Couette flow code.
+We are working on the implementation of the dissolution model in the numerical code [see Implementation of dissolution model](Documentation/Dissolution-Model-Implementation.html) for the physics/mathematical model
+
+The details of Particle tracking and dissolution models implemented in Couette Flow Code are also documented ([See Particle Tracking and Dissolution Model in Couette Flow Code](Documentation/ParticleTrackingDrugRelease.html)). These features are going to be implemented in the Intestine code.
+
 
 ## Attempts to reproduce Gino's 3D results
 
