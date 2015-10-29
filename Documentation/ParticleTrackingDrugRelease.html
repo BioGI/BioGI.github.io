@@ -139,13 +139,23 @@ code > span.er { color: #ff0000; font-weight: bold; }
 <ul>
 <li><strong>Collect_Distribute_Global_Bulk_Scalar_Conc</strong>
 <ul>
-<li>parallel communication to collect all the bulk concentration in each of the processes and computeѕ an average, which is then distributed to the various process for computing the drug concentration.</li>
+<li>parallel communication to collect all the bulk concentration in each of the processes and computeѕ an average, which is then distributed to the various processors for computing the drug concentration.<br /></li>
+<li><span style="color: red"> Is only called by Miain.f90 </spain></li>
 </ul></li>
 <li><strong>SUBROUTINE Particle_MPI_Transfer</strong>
 <ul>
 <li>Transfer the particles to neighbouring partitions</li>
+<li><span style="color: red"> Is only called by Miain.f90 </spain></li>
 </ul></li>
 </ul>
+<h2 id="code-diagram-for-particle-tracking-and-drug-dissolution-couette-code">Code Diagram for Particle Tracking and Drug Dissolution (Couette Code)</h2>
+<p>Figure <span class="scholmd-crossref"><a href="#ParticlTrackingCodeSchematic">1</a></span> presents a simple diagram of the subroutines involved in trakcking the particles in parallel and estimating the bulk concentration and drug dissolution rates from each particle.</p>
+<figure class="scholmd-float scholmd-figure" id="ParticlTrackingCodeSchematic">
+<div class="scholmd-float-content"><figure class="scholmd-subfig" style="display: inline-block; width: ">
+<img src="ParticleTrackingCodeSchematic.png" />
+</figure></div>
+<div class="scholmd-float-caption"><figcaption><span class="scholmd-caption-head"><span class="scholmd-caption-head-prefix">Figure</span><span class="scholmd-caption-head-label">1</span></span><span class="scholmd-caption-text">Schematic of particl tracking and drug dissolution subroutines</span></figcaption></div>
+</figure>
 <h1 id="some-code-samples">Some Code Samples</h1>
 <p>All the particle tracking action is controlled from <code>Main.f90</code> as follows</p>
 <div class="sourceCode"><pre class="sourceCode fortran"><code class="sourceCode fortran">    <span class="co">!Before start of time iteration</span>

@@ -101,12 +101,24 @@ bibliography: ../References/references.bib
 ## Parallel.f90
 
 * **Collect_Distribute_Global_Bulk_Scalar_Conc**
-	*	parallel communication to collect all the bulk concentration in each of the processes and computeѕ an average, which is then distributed to the various process for computing the drug concentration.  
-
+	*	parallel communication to collect all the bulk concentration in each of the processes and computeѕ an average, which is then distributed to the various processors for computing the drug concentration.  
+	* 	<span style="color: red"> Is only called by Miain.f90 </spain>
 	
 * **SUBROUTINE Particle_MPI_Transfer**
 	*	Transfer the particles to neighbouring partitions
+	*	<span style="color: red"> Is only called by Miain.f90 </spain>
 
+
+## Code Diagram for Particle Tracking and Drug Dissolution (Couette Code)
+
+
+Figure [#ParticlTrackingCodeSchematic] presents a simple diagram of the subroutines involved in trakcking the particles in parallel and estimating the bulk concentration and drug dissolution rates from each particle.
+
+#### Figure: {#ParticlTrackingCodeSchematic}
+
+![](ParticleTrackingCodeSchematic.png)
+ 
+Caption: Schematic of particl tracking and drug dissolution subroutines 
 
 
 
