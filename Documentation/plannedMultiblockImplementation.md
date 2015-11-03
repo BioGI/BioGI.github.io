@@ -134,3 +134,82 @@ This is the current list of steps to modify the Intestine code to a multigrid co
 6. Introduce interpolation subroutines to transfer density distribution and other stuff between coarse and fine meshes.
 
 The progress on this can be tracked on the [attemptedMultiGrid](https://github.com/BioGI/Codes/commits/attemptedMultigrid) branch of the Github repository.
+
+#Psuedo-code for multigrid implementation in the Main algorithm
+
+The current outline of the time-stepping in Main.f90 looks like this
+
+```fortran
+DO iter = iter0-0_lng,nt
+
+      CALL AdvanceGeometry            ! advance the geometry to the next time step [MODULE: Geometry]
+      CALL Collision                  ! collision step [MODULE: Algorithm]
+      CALL MPI_Transfer               ! transfer the data (distribution functions, density, scalar) [MODULE: Parallel]
+
+      CALL Stream                     ! perform the streaming operation (with Lallemand 2nd order BB) [MODULE: Algorithm]
+
+      CALL Macro                      ! calcuate the macroscopic quantities [MODULE: Algorithm]
+
+      IF(iter .GE. phiStart) THEN
+          CALL Scalar             ! calcuate the evolution of scalar in the domain [MODULE: Algorithm]
+      END IF
+
+      CALL PrintFields                   ! output the velocity, density, and scalar fields [MODULE: Output]
+      CALL PrintScalar                   ! print the total absorbed/entering/leaving scalar as a function of time [MODULE: Output]
+      CALL PrintMass                     ! print the total mass in the system (TEST)
+      CALL PrintVolume                   ! print the volume in the system (TEST)
+
+      !   CALL PrintPeriodicRestart     ! print periodic restart files (SAFE GUARD) [MODULE: Output]
+
+      CALL PrintStatus              ! print current status [MODULE: Output]
+
+      CALL MPI_BARRIER(MPI_COMM_WORLD,mpierr)       ! synchronize all processing units before next loop [Intrinsic]
+
+END DO
+```
+
+This should become
+
+```fortran90
+DO iter = iter0-0_lng,nt
+
+      CALL AdvanceGeometry            ! advance the geometry to the next time step [MODULE: Geometry]
+      CALL Collision                  ! collision step [MODULE: Algorithm]
+      CALL MPI_Transfer               ! transfer the data (distribution functions, density, scalar) [MODULE: Parallel]
+
+      CALL InterpolateToFineGrid      ! Interpolate required variables to fine grid
+      DO subIter=1,ratio
+          CALL AdvanceGeometry_Fine   ! Advance the geometry on the fine grid
+     	  IF (subIter .gt. 1) THEN
+     		  CALL Collision_Fine     ! Collision step on the fine grid
+	          CALL MPI_Transfer_Fine  ! Transfer the data across processor boundaries on the fine grid
+          END IF
+     	  IF (subIter .lt. ratio) THEN
+         	  CALL Stream_Fine            ! Stream fine grid
+	     	  CALL Macro_Fine             ! Calculate Macro properties on fine grid
+			  !    CALL Scalar_Fine       ! Calculate Scalar stuff on fine grid
+		  END IF
+      END DO
+	  CALL InterpolateToCoarseGrid    ! Interpolate required variable to coarse grid
+	  
+      CALL Stream                     ! perform the streaming operation (with Lallemand 2nd order BB) [MODULE: Algorithm]
+
+      CALL Macro                      ! calcuate the macroscopic quantities [MODULE: Algorithm]
+
+      IF(iter .GE. phiStart) THEN
+          CALL Scalar             ! calcuate the evolution of scalar in the domain [MODULE: Algorithm]
+      END IF
+
+      CALL PrintFields                   ! output the velocity, density, and scalar fields [MODULE: Output]
+      CALL PrintScalar                   ! print the total absorbed/entering/leaving scalar as a function of time [MODULE: Output]
+      CALL PrintMass                     ! print the total mass in the system (TEST)
+      CALL PrintVolume                   ! print the volume in the system (TEST)
+
+      !   CALL PrintPeriodicRestart     ! print periodic restart files (SAFE GUARD) [MODULE: Output]
+
+      CALL PrintStatus              ! print current status [MODULE: Output]
+
+      CALL MPI_BARRIER(MPI_COMM_WORLD,mpierr)       ! synchronize all processing units before next loop [Intrinsic]
+
+END DO
+```
