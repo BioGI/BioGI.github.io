@@ -98,6 +98,7 @@ bibliography: ../References/references.bib
 
 
 
+
 ## Parallel.f90
 
 * **Collect_Distribute_Global_Bulk_Scalar_Conc**
@@ -123,12 +124,24 @@ Caption: Schematic of particl tracking and drug dissolution subroutines
 
 
 
+# Issues
+
+## Bulk Concentration:
+
+*	SUBROUTINE Interp_bulkconc: Computes bulk concentration interpolating the concentration at the location of the particle (trilinear, only using the 9 lattice nodes around it)
+*	SUBROUTINE Calc_Scalar_Release: does not use the bulk_conc from Interp_bulkconc. Instead it uses the average concentration (on the whole domain) computed by Calc_Global_Bulk_Scalar_Conc and Collect_Distribute_Global_Bulk_Scalar_Conc.
+
+## Distributing the drug released from particles to  nodes:
+
+*	SUBROUTINE Interp_ParToNodes_Conc: Computes the contribution to each lattice node around the particle based on the total drug released from each particle.
+ 	 
+
+
+
 
 
 
 # Some Code Samples
-
-
 
 All the particle tracking action is controlled from `Main.f90` as follows
 

@@ -156,6 +156,16 @@ code > span.er { color: #ff0000; font-weight: bold; }
 </figure></div>
 <div class="scholmd-float-caption"><figcaption><span class="scholmd-caption-head"><span class="scholmd-caption-head-prefix">Figure</span><span class="scholmd-caption-head-label">1</span></span><span class="scholmd-caption-text">Schematic of particl tracking and drug dissolution subroutines</span></figcaption></div>
 </figure>
+<h1 id="issues">Issues</h1>
+<h2 id="bulk-concentration">Bulk Concentration:</h2>
+<ul>
+<li>SUBROUTINE Interp_bulkconc: Computes bulk concentration interpolating the concentration at the location of the particle (trilinear, only using the 9 lattice nodes around it)</li>
+<li>SUBROUTINE Calc_Scalar_Release: does not use the bulk_conc from Interp_bulkconc. Instead it uses the average concentration (on the whole domain) computed by Calc_Global_Bulk_Scalar_Conc and Collect_Distribute_Global_Bulk_Scalar_Conc.</li>
+</ul>
+<h2 id="distributing-the-drug-released-from-particles-to-nodes">Distributing the drug released from particles to nodes:</h2>
+<ul>
+<li>SUBROUTINE Interp_ParToNodes_Conc: Computes the contribution to each lattice node around the particle based on the total drug released from each particle.</li>
+</ul>
 <h1 id="some-code-samples">Some Code Samples</h1>
 <p>All the particle tracking action is controlled from <code>Main.f90</code> as follows</p>
 <div class="sourceCode"><pre class="sourceCode fortran"><code class="sourceCode fortran">    <span class="co">!Before start of time iteration</span>
