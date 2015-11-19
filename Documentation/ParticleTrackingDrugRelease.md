@@ -126,15 +126,72 @@ Caption: Schematic of particl tracking and drug dissolution subroutines
 
 # Issues
 
+## Drug Release
+
+* 	In Calc_Scalar_Release: Why not computing "dR" and "delNBbyCV" directly? 
+	
+~~~ math
+#Equation1
+tmp= R^2 -4 \nu_m D_m Sh (C_s-C_b) dt
+~~~
+
+~~~ math
+#Equation2
+R_{new}= \dfrac{1}{2} \big[ R+ \sqrt{tmp} \big]   
+~~~
+
+Notice that tmp can be negative, therfore an extra step is taken into account to chcek if "tmp" is negative, and if it is, change it to zero. Having the $R_{new}$: 
+
+~~~ math
+#Equation3
+dR= R_{new}-R_{old} 
+~~~
+
+While dR could be calculated directly as:
+
+~~~ math
+#Equation4
+dR= - \nu_m D_m Sh (C_s-C_b) dt
+~~~
+
+
+
 ## Bulk Concentration:
+*	Why $C_b$ is computed as the average concentration in the whole domain?
+*	SUBROUTINE **Interp_bulkconc**: Computes bulk concentration, $C_b$, by interpolating the concentration at the location of the particle (trilinear, only using the 9 lattice nodes around particle)
+*	SUBROUTINE Calc_Scalar_Release: does not use $C_b$ from **Interp_bulkconc**. Instead it uses the average concentration (in the whole domain) computed by **Calc_Global_Bulk_Scalar_Conc** and **Collect_Distribute_Global_Bulk_Scalar_Conc**.
 
-*	SUBROUTINE Interp_bulkconc: Computes bulk concentration interpolating the concentration at the location of the particle (trilinear, only using the 9 lattice nodes around it)
-*	SUBROUTINE Calc_Scalar_Release: does not use the bulk_conc from Interp_bulkconc. Instead it uses the average concentration (on the whole domain) computed by Calc_Global_Bulk_Scalar_Conc and Collect_Distribute_Global_Bulk_Scalar_Conc.
+## Distributing the drug released from the particles to the lattice  nodes:
 
-## Distributing the drug released from particles to  nodes:
+*	SUBROUTINE **Interp_ParToNodes_Conc**: Computes the contribution to each lattice node around the particle based on the drug released from that particle.
+*	If the particle's volume-of-influence is much alrger than the lattice cell (lets say equal to 10 lattice cells), still only the 8 lattice nodes arund the particle get contributions and nodes farther away get no contribution..
+*	In **Interp_ParToNodes_Conc**, when  assigining the share of the drug released from particle to nodes around it, if a lattice node is in another processor, the node is just moved back to the current processor, practically assining its contribution equal to that of its counterpart in the current processor.
 
-*	SUBROUTINE Interp_ParToNodes_Conc: Computes the contribution to each lattice node around the particle based on the total drug released from each particle.
- 	 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

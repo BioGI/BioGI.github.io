@@ -157,14 +157,50 @@ code > span.er { color: #ff0000; font-weight: bold; }
 <div class="scholmd-float-caption"><figcaption><span class="scholmd-caption-head"><span class="scholmd-caption-head-prefix">Figure</span><span class="scholmd-caption-head-label">1</span></span><span class="scholmd-caption-text">Schematic of particl tracking and drug dissolution subroutines</span></figcaption></div>
 </figure>
 <h1 id="issues">Issues</h1>
+<h2 id="drug-release">Drug Release</h2>
+<ul>
+<li>In Calc_Scalar_Release: Why not computing “dR” and “delNBbyCV” directly?</li>
+</ul>
+<p>
+<span class="math scholmd-math-display" style="display: block;">\[
+\begin{equation}
+\label{Equation1}
+tmp= R^2 -4 \nu_m D_m Sh (C_s-C_b) dt
+\end{equation}
+\]</span>
+ 
+<span class="math scholmd-math-display" style="display: block;">\[
+\begin{equation}
+\label{Equation2}
+R_{new}= \dfrac{1}{2} \big[ R+ \sqrt{tmp} \big]   
+\end{equation}
+\]</span>
+ Notice that tmp can be negative, therfore an extra step is taken into account to chcek if “tmp” is negative, and if it is, change it to zero. Having the <span class="math scholmd-math-inline">\(R_{new}\)</span>: 
+<span class="math scholmd-math-display" style="display: block;">\[
+\begin{equation}
+\label{Equation3}
+dR= R_{new}-R_{old} 
+\end{equation}
+\]</span>
+ While dR could be calculated directly as: 
+<span class="math scholmd-math-display" style="display: block;">\[
+\begin{equation}
+\label{Equation4}
+dR= - \nu_m D_m Sh (C_s-C_b) dt
+\end{equation}
+\]</span>
+</p>
 <h2 id="bulk-concentration">Bulk Concentration:</h2>
 <ul>
-<li>SUBROUTINE Interp_bulkconc: Computes bulk concentration interpolating the concentration at the location of the particle (trilinear, only using the 9 lattice nodes around it)</li>
-<li>SUBROUTINE Calc_Scalar_Release: does not use the bulk_conc from Interp_bulkconc. Instead it uses the average concentration (on the whole domain) computed by Calc_Global_Bulk_Scalar_Conc and Collect_Distribute_Global_Bulk_Scalar_Conc.</li>
+<li>Why <span class="math scholmd-math-inline">\(C_b\)</span> is computed as the average concentration in the whole domain?</li>
+<li>SUBROUTINE <strong>Interp_bulkconc</strong>: Computes bulk concentration, <span class="math scholmd-math-inline">\(C_b\)</span>, by interpolating the concentration at the location of the particle (trilinear, only using the 9 lattice nodes around particle)</li>
+<li>SUBROUTINE Calc_Scalar_Release: does not use <span class="math scholmd-math-inline">\(C_b\)</span> from <strong>Interp_bulkconc</strong>. Instead it uses the average concentration (in the whole domain) computed by <strong>Calc_Global_Bulk_Scalar_Conc</strong> and <strong>Collect_Distribute_Global_Bulk_Scalar_Conc</strong>.</li>
 </ul>
-<h2 id="distributing-the-drug-released-from-particles-to-nodes">Distributing the drug released from particles to nodes:</h2>
+<h2 id="distributing-the-drug-released-from-the-particles-to-the-lattice-nodes">Distributing the drug released from the particles to the lattice nodes:</h2>
 <ul>
-<li>SUBROUTINE Interp_ParToNodes_Conc: Computes the contribution to each lattice node around the particle based on the total drug released from each particle.</li>
+<li>SUBROUTINE <strong>Interp_ParToNodes_Conc</strong>: Computes the contribution to each lattice node around the particle based on the drug released from that particle.</li>
+<li>If the particle’s volume-of-influence is much alrger than the lattice cell (lets say equal to 10 lattice cells), still only the 8 lattice nodes arund the particle get contributions and nodes farther away get no contribution..</li>
+<li>In <strong>Interp_ParToNodes_Conc</strong>, when assigining the share of the drug released from particle to nodes around it, if a lattice node is in another processor, the node is just moved back to the current processor, practically assining its contribution equal to that of its counterpart in the current processor.</li>
 </ul>
 <h1 id="some-code-samples">Some Code Samples</h1>
 <p>All the particle tracking action is controlled from <code>Main.f90</code> as follows</p>
