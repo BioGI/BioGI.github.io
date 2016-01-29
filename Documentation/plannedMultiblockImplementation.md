@@ -168,48 +168,35 @@ DO iter = iter0-0_lng,nt
 END DO
 ```
 
-This should become
+Figure (#multiGridAlgorithm) shows the schematic of the multiblock algorithm for `gridRatio = 4`, i.e., the fine mesh has a resolution that is four times finer than the coarse mesh. 
+
+#### Figure: {#multiGridAlgorithm}
+
+![Schematic of the multiblock time-stepping algorithm. The resolution of the fine block is 4 times that of the coarse block.](./multiGridAlgorithm.png){width=65%}
+
+Thus, the new time stepping psuedo-code should become
 
 ```fortran90
 DO iter = iter0-0_lng,nt
 
-      CALL AdvanceGeometry            ! advance the geometry to the next time step [MODULE: Geometry]
+      CALL AdvanceGeometry		! advance the geometry to the next time step [MODULE: Geometry]
+      CALL Stream			! perform the streaming operation (with Lallemand 2nd order BB) [MODULE: Algorithm]
+      CALL Macro			! calcuate the macroscopic quantities [MODULE: Algorithm]
+      CALL Scalar             ! calcuate the evolution of scalar in the domain [MODULE: Algorithm]
       CALL Collision                  ! collision step [MODULE: Algorithm]
       CALL MPI_Transfer               ! transfer the data (distribution functions, density, scalar) [MODULE: Parallel]
 
-      CALL InterpolateToFineGrid      ! Interpolate required variables to fine grid
+      CALL SpatialInterpolateToFineGrid      ! Interpolate required variables to fine grid
       DO subIter=1,ratio
           CALL AdvanceGeometry_Fine   ! Advance the geometry on the fine grid
-     	  IF (subIter .gt. 1) THEN
-     		  CALL Collision_Fine     ! Collision step on the fine grid
-	          CALL MPI_Transfer_Fine  ! Transfer the data across processor boundaries on the fine grid
-          END IF
-     	  IF (subIter .lt. ratio) THEN
-         	  CALL Stream_Fine            ! Stream fine grid
-	     	  CALL Macro_Fine             ! Calculate Macro properties on fine grid
-			  !    CALL Scalar_Fine       ! Calculate Scalar stuff on fine grid
-		  END IF
+		  CALL TemporalInterpolateToFineGrid
+          CALL Stream_Fine            ! Stream fine grid
+	      CALL Macro_Fine             ! Calculate Macro properties on fine grid
+		  CALL Scalar_Fine       ! Calculate Scalar stuff on fine grid
+          CALL Collision_Fine     ! Collision step on the fine grid
+	      CALL MPI_Transfer_Fine  ! Transfer the data across processor boundaries on the fine grid
       END DO
 	  CALL InterpolateToCoarseGrid    ! Interpolate required variable to coarse grid
-	  
-      CALL Stream                     ! perform the streaming operation (with Lallemand 2nd order BB) [MODULE: Algorithm]
-
-      CALL Macro                      ! calcuate the macroscopic quantities [MODULE: Algorithm]
-
-      IF(iter .GE. phiStart) THEN
-          CALL Scalar             ! calcuate the evolution of scalar in the domain [MODULE: Algorithm]
-      END IF
-
-      CALL PrintFields                   ! output the velocity, density, and scalar fields [MODULE: Output]
-      CALL PrintScalar                   ! print the total absorbed/entering/leaving scalar as a function of time [MODULE: Output]
-      CALL PrintMass                     ! print the total mass in the system (TEST)
-      CALL PrintVolume                   ! print the volume in the system (TEST)
-
-      !   CALL PrintPeriodicRestart     ! print periodic restart files (SAFE GUARD) [MODULE: Output]
-
-      CALL PrintStatus              ! print current status [MODULE: Output]
-
-      CALL MPI_BARRIER(MPI_COMM_WORLD,mpierr)       ! synchronize all processing units before next loop [Intrinsic]
 
 END DO
 ```
@@ -227,214 +214,27 @@ In this section, I will describe the interface between a coarse and a fine mesh 
 
 Caption: Design of the interface between the fine and coarse meshes for the multigrid algorithm.
 
+# Design of mesh and conversion factors
 
-### Fine to coarse mesh
+It turns out that the relaxation parameter $\tau$ cannot be 1.0 for both coarse and fine meshes. This has to do with the conversion/interpolation between the coarse and the fine meshes as descirbed in [lbmBasics.html](./lbmBasics.html#multi-grid-scheme). Hence the design of the mesh requires some thought. Lets say $\tau_c = 0.75$, with a grid ratio of $m = 4$. Then,
 
-The pseudo-code for the interpolation from the fine to coarse mesh should roughly look like this.
+~~~math
+\tau_f &= \frac{1}{2} + m \left ( \tau_c - \frac{1}{2} \right \\
+&= \frac{1}{2} + 4.0 \left ( 0.75 - \frac{1}{2} \right
+&= 1.5
+~~~
 
-```fortran
-    do k=1,nzSub
-      do j=46,56,10
-         do i=46,56
-            f(i,j,k) = f_fine(closestFineIindex(x_fine(i)), closestFineJindex(y_fine(j)), closestFineKindex(z_fine(k)))
-         end do
-      end do
-    end do
+The conversion factors for each mesh will be
 
-    do k=1,nzSub
-      do j=47,55
-         do i=46,56,10
-            f(i,j,k) = f_fine(closestFineIindex(x_fine(i)), closestFineJindex(y_fine(j)), closestFineKindex(z_fine(k)))
-         end do
-      end do
-    end do
-```
+#### Table:  {#table:meshDesign}
 
-But this doesn't include the directional densities or the temporal interpolation. For temporal interpolation we need 3 time points. Hence, I will need new array(s) to store the spatial interpolation at the 3 time levels. I will use and allocate four arrays, the first two for the bottom and the top x-z planes and then the second two for the remaining points on the front and the back y-z planes. Hence this step will become $\ldots$
+|                     Coarse mesh                     |                       Fine mesh                        |
+|-----------------------------------------------------|--------------------------------------------------------|
+| $\nu_L = \frac{2 \times 0.75 - 1}{6} = 0.08333$     | $\nu_L = \frac{2 \times 1.5 - 1}{6} = 0.333333$        |
+| $x_{cf} = y_{cf} = z_{cf} = 1.2 \times 10^{-4}m$    | $x_{cf} = y_{cf} = z_{cf} = 0.3 \times 10^{-4}m$       |
+| $t_{cf} = \nu_L \frac{x_{cf} x_{cf}}{\nu} = 5e-4s$  | $t_{cf} = \nu_L \frac{x_{cf} x_{cf}}{\nu} = 1.25e-4s$  |
+| $v_{cf} = \frac{x_{cf}}{t_{cf}} = 0.24 m/s$         | $v_{cf} = \frac{x_{cf}}{t_{cf}} = 0.24 m/s$            |
+| Wave speed = $\frac{0.004}{0.24}$ = 0.016667        | Wave speed = $\frac{0.004}{0.24}$ = 0.016667           |
+| Reynolds number lattice = $\frac{0.016667 \times 50 \times 50}{0.08333 \times 200} = 2.5$ | Reynolds number lattice = $\frac{0.016667 \times 200 \times 200}{0.333333 \times 800} = 2.5$ |
 
-```fortran
-    real, allocatable, dimension(:,:,:,:) :: fFtoC_topXZ
-    real, allocatable, dimension(:,:,:,:) :: fFtoC_bottomXZ
-    real, allocatable, dimension(:,:,:,:) :: fFtoC_frontYZ
-    real, allocatable, dimension(:,:,:,:) :: fFtoC_backYZ
-
-    allocate(fFtoC_topXZ(m,1:14,3,46:56,nzSub)     !Includes the ends - Indices are directionalDensity, timeLevel, x Index, z Index
-    allocate(fFtoC_bottomXZ(m,1:14,3,46:56,nzSub)  !Includes the ends - Indices are directionalDensity, timeLevel, x Index, z Index
-    allocate(fFtoC_frontYZ(m,1:14,3,47:55,nzSub)     !Does not include the ends - Indices are directionalDensity, timeLevel, y Index, z Index
-    allocate(fFtoC_backYZ(m,1:14,3,47:55,nzSub)      !Does not include the ends - Indices are directionalDensity, timeLevel, y Index, z Index
-
-    !Initialization
-    !Do the bottom and top x-z planes first
-    do m=1,14
-      do k=1,nzSub
-         do i=46,56
-            fFtoC_bottomXZ(m,3,i,k) = f_fine(m,closestFineIindex(x(i)), closestFineJindex(y(46)), closestFineKindex(z(k))) !Add the latest value to the last(third) time step.
-            fFtoC_bottomXZ(m,1,i,k) = fFtoC_bottomXZ(m,2,i,k) !Cycle the second time step to the first time step
-			fFtoC_bottomXZ(m,2,i,k) = fFtoC_bottomXZ(m,3,i,k) !Cycle the last time step to the second time step
-            fFtoC_topXZ(m,3,i,k) = f_fine(m,closestFineIindex(x(i)), closestFineJindex(y(56)), closestFineKindex(z(k))) !Add the latest value to the last(third) time step.
-            fFtoC_topXZ(m,1,i,k) = fFtoC_topXZ(m,2,i,k) !Cycle the second time step to the first time step
-			fFtoC_topXZ(m,2,i,k) = fFtoC_topXZ(m,3,i,k) !Cycle the last time step to the second time step
-		end do
-      end do			
-    end do
-
-    !Fill out the remaining points on the front and back y-z planes
-    do m=1,14
-      do k=1,nzSub
-         do j=47,55
-            fFtoC_frontYZ(m,3,j,k) = f_fine(m,closestFineIindex(x(46)), closestFineJindex(y(j)), closestFineKindex(z(k))) !Add the latest value to the last(third) time step.
-            fFtoC_frontYZ(m,1,j,k) = fFtoC_frontYZ(m,2,j,k) !Cycle the second time step to the first time step
-			fFtoC_frontYZ(m,2,j,k) = fFtoC_frontYZ(m,3,j,k) !Cycle the last time step to the second time step
-            fFtoC_backYZ(m,3,j,k) = f_fine(m,closestFineIindex(x(56)), closestFineJindex(y(j)), closestFineKindex(z(k))) !Add the latest value to the last(third) time step.
-            fFtoC_backYZ(m,1,j,k) = fFtoC_backYZ(m,2,j,k) !Cycle the second time step to the first time step
-			fFtoC_backYZ(m,2,j,k) = fFtoC_backYZ(m,3,j,k) !Cycle the last time step to the second time step
-		end do
-      end do			
-    end do
-
-    !Do this every time step
-    !Do the bottom and top x-z planes first
-    do m=1,14
-      do k=1,nzSub
-         do i=46,56
-            fFtoC_bottomXZ(m,1,i,k) = fFtoC_bottomXZ(m,2,i,k) !Cycle the second time step to the first time step
-			fFtoC_bottomXZ(m,2,i,k) = fFtoC_bottomXZ(m,3,i,k) !Cycle the last time step to the second time step
-            fFtoC_bottomXZ(m,3,i,k) = f_fine(m,closestFineIindex(x(i)), closestFineJindex(y(46)), closestFineKindex(z(k))) !Add the latest value to the last(third) time step.
-			f(m,i,46,k) = temporalInterpolate(fFtoC_bottomXZ(1,i,k),fFtoC_bottomXZ(2,i,k), fFtoC_bottomXZ(3,i,k), desiredTime)			
-            fFtoC_topXZ(m,1,i,k) = fFtoC_topXZ(m,2,i,k) !Cycle the second time step to the first time step
-			fFtoC_topXZ(m,2,i,k) = fFtoC_topXZ(m,3,i,k) !Cycle the last time step to the second time step
-            fFtoC_topXZ(m,3,i,k) = f_fine(m,closestFineIindex(x(i)), closestFineJindex(y(56)), closestFineKindex(z(k))) !Add the latest value to the last(third) time step.
-			f(m,i,56,k) = temporalInterpolate(fFtoC_topXZ(1,i,k),fFtoC_topXZ(2,i,k), fFtoC_topXZ(3,i,k), desiredTime)
-		end do
-      end do			
-    end do
-
-    !Fill out the remaining points on the front and back y-z planes
-    do m=1,14
-      do k=1,nzSub
-         do j=47,55
-            fFtoC_frontYZ(m,1,j,k) = fFtoC_frontYZ(m,2,j,k) !Cycle the second time step to the first time step
-			fFtoC_frontYZ(m,2,j,k) = fFtoC_frontYZ(m,3,j,k) !Cycle the last time step to the second time step
-            fFtoC_frontYZ(m,3,j,k) = f_fine(m,closestFineIindex(x(46)), closestFineJindex(y(j)), closestFineKindex(z(k))) !Add the latest value to the last(third) time step.
-			f(46,j,k) = temporalInterpolate(fFtoC_frontYZ(1,j,k),fFtoC_frontYZ(2,j,k), fFtoC_frontYZ(3,j,k), desiredTime)
-            fFtoC_backYZ(m,1,j,k) = fFtoC_backYZ(m,2,j,k) !Cycle the second time step to the first time step
-			fFtoC_backYZ(m,2,j,k) = fFtoC_backYZ(m,3,j,k) !Cycle the last time step to the second time step
-            fFtoC_backYZ(m,3,j,k) = f_fine(m,closestFineIindex(x(56)), closestFineJindex(y(j)), closestFineKindex(z(k))) !Add the latest value to the last(third) time step.
-			f(m,56,j,k) = temporalInterpolate(fFtoC_backYZ(1,j,k),fFtoC_backYZ(2,j,k), fFtoC_backYZ(3,j,k), desiredTime)			
-		end do
-      end do			
-    end do
-```
-
-### Coarse to Fine mesh
-
-
-As before, temporal interpolation is required. However, this time, spatial interpolation is required as well.
-
-```fortran
-    real, allocatable, dimension(:,:,:,:) :: fCtoF_topXZ
-    real, allocatable, dimension(:,:,:,:) :: fCtoF_bottomXZ
-    real, allocatable, dimension(:,:,:,:) :: fCtoF_frontYZ
-    real, allocatable, dimension(:,:,:,:) :: fCtoF_backYZ
-
-    allocate(fCtoF_topXZ(1:14,3,nxSub_fine,nzSub_fine)     !Includes the ends - Indices are directionalDensity, timeLevel, x Index, z Index
-    allocate(fCtoF_bottomXZ(1:14,3,nxSub_fine,nzSub_fine)  !Includes the ends - Indices are directionalDensity, timeLevel, x Index, z Index
-    allocate(fCtoF_frontYZ(1:14,3,1:nySub_fine-1,nzSub_fine)   !Does not include the ends - Indices are directionalDensity, timeLevel, y Index, z Index
-    allocate(fCtoF_backYZ(1:14,3,1:nySub_fine-1,nzSub_fine)    !Does not include the ends - Indices are directionalDensity, timeLevel, y Index, z Index
-
-    !Initialization
-    !Do the bottom and top x-z planes first
-    do m=1,14
-      !x - interpolation first
-      do k=1,nzSub_fine, gridRatio
-         do i=1,nxSub_fine
-	  
-            lCxIndex = lowerCoarseXindex(x_fine(i))  ! Lower Coarse x Index
-			lCzIndex = lowerCoarseZindex(z_fine(i))  ! Lower Coarse z Index - No interpolation in z
-
-            f1 = f(m,lCxIndex-1,46,k)
-            f2 = f(m,lCxIndex,46,k)
-            f3 = f(m,lCxIndex+1,46,k)
-            f4 = f(m,lCxIndex+2,46,k)
-			xInterp = dble( (i-1) % gridRatio) / dble(gridRatio)
-			aHat = (-f1 + 3*(f2 - f3) + f4)/6.0
-			bHat = 0.5 * (f1 + f3) - f2
-			dHat = f2
-			cHat = f3 - aHat - bHat - dHat
-
-            fCtoF_bottomXZ(m,3,i,k) = dHat + xInterp * (cHat +  xInterp * (bHat + xInterp * aHat)) !Interpolate the latest value to the last(third) time step            fCtoF_bottomXZ(m,1,i,k) = fCtoF_bottomXZ(m,2,i,k) !Cycle the second time step to the first time step
-			fCtoF_bottomXZ(m,2,i,k) = fCtoF_bottomXZ(m,3,i,k) !Cycle the last time step to the second time step
-
-            f1 = f(m,lCxIndex-1,56,k)
-            f2 = f(m,lCxIndex,56,k)
-            f3 = f(m,lCxIndex+1,56,k)
-            f4 = f(m,lCxIndex+2,56,k)
-			xInterp = dble(i % gridRatio - 1) / dble(gridRatio)
-			aHat = (-f1 + 3*(f2 - f3) + f4)/6.0
-			bHat = 0.5 * (f1 + f3) - f2
-			dHat = f2
-			cHat = f3 - aHat - bHat - dHat
-
-            fCtoF_topXZ(m,3,i,k) = dHat + xInterp * (cHat +  xInterp * (bHat + xInterp * aHat)) !Interpolate the latest value to the last(third) time step               fCtoF_topXZ(m,1,i,k) = fCtoF_topXZ(m,2,i,k) !Cycle the second time step to the first time step
-			fCtoF_topXZ(m,2,i,k) = fCtoF_topXZ(m,3,i,k) !Cycle the last time step to the second time step
-
-         end do
-      end do			
-
-      !Now z - interpolation
-      do k=1,nzSub_fine
-         do i=1,nxSub_fine
-	        IF ( (k-1) % gridRatio ) THEN
-			lCzIndex = k - ((k-1) % gridRatio)  ! Lower Coarse z Index - No interpolation in z
-
-            f1 = fCtoF_bottomXZ(m,lCxIndex-1,46,k)
-            f2 = f(m,lCxIndex,46,k)
-            f3 = f(m,lCxIndex+1,46,k)
-            f4 = f(m,lCxIndex+2,46,k)
-			xInterp = dble(i % gridRatio) / dble(gridRatio)
-			aHat = (-f1 + 3*(f2 - f3) + f4)/6.0
-			bHat = 0.5 * (f1 + f3) - f2
-			dHat = f2
-			cHat = f3 - aHat - bHat - dHat
-
-            fCtoF_bottomXZ(m,3,i,k) = dHat + xInterp * (cHat +  xInterp * (bHat + xInterp * aHat)) !Interpolate the latest value to the last(third) time step            fCtoF_bottomXZ(m,1,i,k) = fCtoF_bottomXZ(m,2,i,k) !Cycle the second time step to the first time step
-			fCtoF_bottomXZ(m,2,i,k) = fCtoF_bottomXZ(m,3,i,k) !Cycle the last time step to the second time step
-
-            f1 = f(m,lCxIndex-1,56,k)
-            f2 = f(m,lCxIndex,56,k)
-            f3 = f(m,lCxIndex+1,56,k)
-            f4 = f(m,lCxIndex+2,56,k)
-			xInterp = dble(i % gridRatio) / dble(gridRatio)
-			aHat = (-f1 + 3*(f2 - f3) + f4)/6.0
-			bHat = 0.5 * (f1 + f3) - f2
-			dHat = f2
-			cHat = f3 - aHat - bHat - dHat
-
-            fCtoF_topXZ(m,3,i,k) = dHat + xInterp * (cHat +  xInterp * (bHat + xInterp * aHat)) !Interpolate the latest value to the last(third) time step               fCtoF_topXZ(m,1,i,k) = fCtoF_topXZ(m,2,i,k) !Cycle the second time step to the first time step
-			fCtoF_topXZ(m,2,i,k) = fCtoF_topXZ(m,3,i,k) !Cycle the last time step to the second time step
-			END IF
-         end do
-      end do			
-
-
-    end do
-
-    !Fill out the remaining points on the front and back y-z planes
-    do m=1,14
-      do k=1,nzSub
-         do j=47,55
-            fCtoF_frontYZ(m,3,j,k) = f_fine(m,closestFineIindex(x_fine(46)), closestFineJindex(y_fine(j)), closestFineKindex(z_fine(k))) !Add the latest value to the last(third) time step.
-            fCtoF_frontYZ(m,1,j,k) = fCtoF_frontYZ(m,2,j,k) !Cycle the second time step to the first time step
-			fCtoF_frontYZ(m,2,j,k) = fCtoF_frontYZ(m,3,j,k) !Cycle the last time step to the second time step
-            fCtoF_backYZ(m,3,j,k) = f_fine(m,closestFineIindex(x_fine(56)), closestFineJindex(y_fine(j)), closestFineKindex(z_fine(k))) !Add the latest value to the last(third) time step.
-            fCtoF_backYZ(m,1,j,k) = fCtoF_backYZ(m,2,j,k) !Cycle the second time step to the first time step
-			fCtoF_backYZ(m,2,j,k) = fCtoF_backYZ(m,3,j,k) !Cycle the last time step to the second time step
-		end do
-      end do			
-    end do
-    
-
-
-
-```
-
+Caption: Design of mesh and conversion factors for the coarse and fine mesh
