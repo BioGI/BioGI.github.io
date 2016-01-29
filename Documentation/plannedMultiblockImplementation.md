@@ -172,7 +172,9 @@ Figure (#multiGridAlgorithm) shows the schematic of the multiblock algorithm for
 
 #### Figure: {#multiGridAlgorithm}
 
-![Schematic of the multiblock time-stepping algorithm. The resolution of the fine block is 4 times that of the coarse block.](./multiGridAlgorithm.png){width=65%}
+![](./multiGridAlgorithm.png){width=65%}
+
+Caption: Schematic of the multiblock time-stepping algorithm. The resolution of the fine block is 4 times that of the coarse block.
 
 Thus, the new time stepping psuedo-code should become
 
