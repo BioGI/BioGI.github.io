@@ -272,13 +272,13 @@ END DO</code></pre>
 <div class="scholmd-float-caption"><figcaption><span class="scholmd-caption-head"><span class="scholmd-caption-head-prefix">Figure</span><span class="scholmd-caption-head-label">5</span></span><span class="scholmd-caption-text">Design of the interface between the fine and coarse meshes for the multigrid algorithm.</span></figcaption></div>
 </figure>
 <h1 id="design-of-mesh-and-conversion-factors">Design of mesh and conversion factors</h1>
-<p>It turns out that the relaxation parameter <span class="math scholmd-math-inline">\(\tau\)</span> cannot be 1.0 for both coarse and fine meshes. This has to do with the conversion/interpolation between the coarse and the fine meshes as descirbed in <a href="./lbmBasics.html#multi-grid-scheme">lbmBasics.html</a>. Hence the design of the mesh requires some thought. Lets say <span class="math scholmd-math-inline">\(\tau_c = 0.75\)</span>, with a grid ratio of <span class="math scholmd-math-inline">\(m = 4\)</span>. Then, 
+<p>It turns out that the relaxation parameter <span class="math scholmd-math-inline">\(\tau\)</span> cannot be 1.0 for both coarse and fine meshes. This has to do with the conversion/interpolation between the coarse and the fine meshes as descirbed in <a href="./lbmBasics.html#multi-grid-scheme">lbmBasics.html</a>. Hence the design of the mesh requires some thought. Lets say <span class="math scholmd-math-inline">\(\tau_c = 1.5\)</span>, with a grid ratio of <span class="math scholmd-math-inline">\(m = 4\)</span>. Then, 
 <span class="math scholmd-math-display" style="display: block;">\[
 \begin{equation*}
 \begin{aligned}
 \tau_f &amp;= \frac{1}{2} + m \left ( \tau_c - \frac{1}{2} \right \\
 &amp;= \frac{1}{2} + 4.0 \left ( 0.75 - \frac{1}{2} \right
-&amp;= 1.5
+&amp;= 4.5
 \end{aligned}
 \end{equation*}
 \]</span>
@@ -293,8 +293,8 @@ END DO</code></pre>
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: left;"><span class="math scholmd-math-inline">\(\nu_L = \frac{2 \times 0.75 - 1}{6} = 0.08333\)</span></td>
-<td style="text-align: left;"><span class="math scholmd-math-inline">\(\nu_L = \frac{2 \times 1.5 - 1}{6} = 0.333333\)</span></td>
+<td style="text-align: left;"><span class="math scholmd-math-inline">\(\nu_L = \frac{2 \times 1.5 - 1}{6} = 0.08333\)</span></td>
+<td style="text-align: left;"><span class="math scholmd-math-inline">\(\nu_L = \frac{2 \times 4.5 - 1}{6} = 0.333333\)</span></td>
 </tr>
 <tr class="even">
 <td style="text-align: left;"><span class="math scholmd-math-inline">\(x_{cf} = y_{cf} = z_{cf} = 1.2 \times 10^{-4}m\)</span></td>
@@ -320,6 +320,126 @@ END DO</code></pre>
 </table></div>
 <div class="scholmd-float-caption"><figcaption><span class="scholmd-caption-head"><span class="scholmd-caption-head-prefix">Table</span><span class="scholmd-caption-head-label">2</span></span><span class="scholmd-caption-text">Design of mesh and conversion factors for the coarse and fine mesh</span></figcaption></div>
 </figure>
+<h1 id="preliminary-validation-results">Preliminary validation results</h1>
+<p>Comparing single lattice to dual lattice in a pure peristalsis case with occlusion ratio <span class="math scholmd-math-inline">\(= 0.1\)</span>. Single lattice has same resolution as coarse mesh on dual lattice. The grid ratio between coarse and fine meshes on the dual lattice is 4. The scalar initial condition is <span class="math scholmd-math-inline">\(\phi = 1\)</span> on a line running through the center of the domain.</p>
+<figure class="scholmd-float scholmd-figure" id="singleLattice1XgridRatio4Pressure">
+<div class="scholmd-float-content"><figure class="scholmd-subfig" style="display: inline-block; width: 33%">
+<img src="./multiGridTestResults/peristalsis/occlusion0p1/singleLattice1X/t300_pressure.png" />
+<div class="scholmd-float-subcaption"><figcaption><span class="scholmd-caption-text">(a) t=300s</span></figcaption></div>
+</figure><figure class="scholmd-subfig" style="display: inline-block; width: 33%">
+<img src="./multiGridTestResults/peristalsis/occlusion0p1/singleLattice1X/t600_pressure.png" />
+<div class="scholmd-float-subcaption"><figcaption><span class="scholmd-caption-text">(b) t=600s</span></figcaption></div>
+</figure><figure class="scholmd-subfig" style="display: inline-block; width: 33%">
+<img src="./multiGridTestResults/peristalsis/occlusion0p1/singleLattice1X/t900_pressure.png" />
+<div class="scholmd-float-subcaption"><figcaption><span class="scholmd-caption-text">(c) t=900s</span></figcaption></div>
+</figure><br /><figure class="scholmd-subfig" style="display: inline-block; width: 33%">
+<img src="./multiGridTestResults/peristalsis/occlusion0p1/gridRatio4/t300_pressure.png" />
+<div class="scholmd-float-subcaption"><figcaption><span class="scholmd-caption-text">(d) t=300s</span></figcaption></div>
+</figure><figure class="scholmd-subfig" style="display: inline-block; width: 33%">
+<img src="./multiGridTestResults/peristalsis/occlusion0p1/gridRatio4/t600_pressure.png" />
+<div class="scholmd-float-subcaption"><figcaption><span class="scholmd-caption-text">(e) t=600s</span></figcaption></div>
+</figure><figure class="scholmd-subfig" style="display: inline-block; width: 33%">
+<img src="./multiGridTestResults/peristalsis/occlusion0p1/gridRatio4/t900_pressure.png" />
+<div class="scholmd-float-subcaption"><figcaption><span class="scholmd-caption-text">(f) t=900s</span></figcaption></div>
+</figure></div>
+<div class="scholmd-float-caption"><figcaption><span class="scholmd-caption-head"><span class="scholmd-caption-head-prefix">Figure</span><span class="scholmd-caption-head-label">6</span></span><span class="scholmd-caption-text">Comparison of evolution of flow field between single and dual lattice algorithm for a pure peristalsis case (occlusion ratio = 0.1) through pressure contours. (a)-(c) Single lattice algorithm; (d)-(f) Dual lattice algorithm.</span></figcaption></div>
+</figure>
+<figure class="scholmd-float scholmd-figure" id="singleLattice1XgridRatio4Phi">
+<div class="scholmd-float-content"><figure class="scholmd-subfig" style="display: inline-block; width: 33%">
+<img src="./multiGridTestResults/peristalsis/occlusion0p1/singleLattice1X/t300_phi.png" />
+<div class="scholmd-float-subcaption"><figcaption><span class="scholmd-caption-text">(a) t=300s</span></figcaption></div>
+</figure><figure class="scholmd-subfig" style="display: inline-block; width: 33%">
+<img src="./multiGridTestResults/peristalsis/occlusion0p1/singleLattice1X/t600_phi.png" />
+<div class="scholmd-float-subcaption"><figcaption><span class="scholmd-caption-text">(b) t=600s</span></figcaption></div>
+</figure><figure class="scholmd-subfig" style="display: inline-block; width: 33%">
+<img src="./multiGridTestResults/peristalsis/occlusion0p1/singleLattice1X/t900_phi.png" />
+<div class="scholmd-float-subcaption"><figcaption><span class="scholmd-caption-text">(c) t=900s</span></figcaption></div>
+</figure><br /><figure class="scholmd-subfig" style="display: inline-block; width: 33%">
+<img src="./multiGridTestResults/peristalsis/occlusion0p1/gridRatio4/t300_phi.png" />
+<div class="scholmd-float-subcaption"><figcaption><span class="scholmd-caption-text">(d) t=300s</span></figcaption></div>
+</figure><figure class="scholmd-subfig" style="display: inline-block; width: 33%">
+<img src="./multiGridTestResults/peristalsis/occlusion0p1/gridRatio4/t600_phi.png" />
+<div class="scholmd-float-subcaption"><figcaption><span class="scholmd-caption-text">(e) t=600s</span></figcaption></div>
+</figure><figure class="scholmd-subfig" style="display: inline-block; width: 33%">
+<img src="./multiGridTestResults/peristalsis/occlusion0p1/gridRatio4/t900_phi.png" />
+<div class="scholmd-float-subcaption"><figcaption><span class="scholmd-caption-text">(f) t=900s</span></figcaption></div>
+</figure></div>
+<div class="scholmd-float-caption"><figcaption><span class="scholmd-caption-head"><span class="scholmd-caption-head-prefix">Figure</span><span class="scholmd-caption-head-label">7</span></span><span class="scholmd-caption-text">Comparison of evolution of flow field between single and dual lattice algorithm for a pure peristalsis case (occlusion ratio = 0.1) through contours of <span class="math scholmd-math-inline">\(\phi\)</span>. (a)-(c) Single lattice algorithm; (d)-(f) Dual lattice algorithm.</span></figcaption></div>
+</figure>
+<p>It’s hard to distinguish between the two algorithms using the pressure contours in Fig. <span class="scholmd-crossref"><a href="#singleLattice1XgridRatio4Pressure">(6)</a></span>; however the contours of <span class="math scholmd-math-inline">\(\phi\)</span> look quite different between the two algorithms in Fig. <span class="scholmd-crossref"><a href="#singleLattice1XgridRatio4Phi">(7)</a></span>. The initial condition seems to persist in the single lattice case much longer leading to higher concentration of the scalar near the walls. This explains the increased absorption rate in the single lattice algorithm as shown below in Fig. <span class="scholmd-crossref"><a href="#singleLattice1XgridRatio4ScalarAbsorbed">(8)</a></span>. I need to quantify the differences between the two flow fields better.</p>
+<figure class="scholmd-float scholmd-figure" id="singleLattice1XgridRatio4ScalarAbsorbed">
+<div class="scholmd-float-content"><figure class="scholmd-subfig" style="display: inline-block; width: 75%">
+<img src="./multiGridTestResults/peristalsis/occlusion0p1/scalarAbsorbed.png" />
+</figure></div>
+<div class="scholmd-float-caption"><figcaption><span class="scholmd-caption-head"><span class="scholmd-caption-head-prefix">Figure</span><span class="scholmd-caption-head-label">8</span></span><span class="scholmd-caption-text">Comparison of scalar absorbed over time between single and dual lattice algorithm for a pure peristalsis case (occlusion ratio = 0.1).</span></figcaption></div>
+</figure>
+<p>In the dual lattice mesh itself, the pressure and scalar are continuous across the mesh interface as shown in Figs. <span class="scholmd-crossref"><a href="#dualLatticePressureLine">(9)</a></span> and <span class="scholmd-crossref"><a href="#dualLatticePhiLine">(10)</a></span></p>
+<figure class="scholmd-float scholmd-figure" id="dualLatticePressureLine">
+<div class="scholmd-float-content"><figure class="scholmd-subfig" style="display: inline-block; width: 75%">
+<img src="./multiGridTestResults/peristalsis/occlusion0p1/gridRatio4/t300_pressureLine.png" />
+<div class="scholmd-float-subcaption"><figcaption><span class="scholmd-caption-text">(a) t=300s</span></figcaption></div>
+</figure><br /><figure class="scholmd-subfig" style="display: inline-block; width: 75%">
+<img src="./multiGridTestResults/peristalsis/occlusion0p1/gridRatio4/t600_pressureLine.png" />
+<div class="scholmd-float-subcaption"><figcaption><span class="scholmd-caption-text">(a) t=600s</span></figcaption></div>
+</figure><br /><figure class="scholmd-subfig" style="display: inline-block; width: 75%">
+<img src="./multiGridTestResults/peristalsis/occlusion0p1/gridRatio4/t900_pressureLine.png" />
+<div class="scholmd-float-subcaption"><figcaption><span class="scholmd-caption-text">(a) t=900s</span></figcaption></div>
+</figure></div>
+<div class="scholmd-float-caption"><figcaption><span class="scholmd-caption-head"><span class="scholmd-caption-head-prefix">Figure</span><span class="scholmd-caption-head-label">9</span></span><span class="scholmd-caption-text">Profiles of pressure on a line through the mesh interface in the dual lattice algorithm simulation at 3 different time steps.</span></figcaption></div>
+</figure>
+<figure class="scholmd-float scholmd-figure" id="dualLatticePhiLine">
+<div class="scholmd-float-content"><figure class="scholmd-subfig" style="display: inline-block; width: 75%">
+<img src="./multiGridTestResults/peristalsis/occlusion0p1/gridRatio4/t600_phiLine.png" />
+<div class="scholmd-float-subcaption"><figcaption><span class="scholmd-caption-text">(a) t=600s</span></figcaption></div>
+</figure><br /><figure class="scholmd-subfig" style="display: inline-block; width: 75%">
+<img src="./multiGridTestResults/peristalsis/occlusion0p1/gridRatio4/t900_phiLine.png" />
+<div class="scholmd-float-subcaption"><figcaption><span class="scholmd-caption-text">(a) t=900s</span></figcaption></div>
+</figure></div>
+<div class="scholmd-float-caption"><figcaption><span class="scholmd-caption-head"><span class="scholmd-caption-head-prefix">Figure</span><span class="scholmd-caption-head-label">10</span></span><span class="scholmd-caption-text">Profiles of pressure on a line through the mesh interface in the dual lattice algorithm simulation at 2 different time steps.</span></figcaption></div>
+</figure>
+<h1 id="future-work-over-the-next-two-weeks">Future work over the next two weeks</h1>
+<ul>
+<li>Write up
+<ul>
+<li>Interpolation schemes</li>
+<li>How are cases of wall interference handled during spatial and temporal interpolation</li>
+</ul></li>
+<li><p>Correct scalar flux computation across intestine wall - Avoid double counting</p></li>
+<li><p>Make code run on clusters, setup 2 spare machines in the lab to run cases.</p></li>
+<li>Validation
+<ul>
+<li>Compare dual lattice to single lattice</li>
+<li>Single lattice should have two resolutions
+<ul>
+<li>Same as coarse mesh resolution in dual lattice</li>
+<li>2X refined compared to coarse mesh resolution in dual lattice</li>
+</ul></li>
+<li>Occlusion ratio of 0.1, 0.5, 0.9 - Peristalsis and Segmentation</li>
+<li>Compare profiles of pressure and scalar
+<ul>
+<li>On lines that cross the interface
+<ul>
+<li>One in the middle of a processor</li>
+<li>At the interface between processors</li>
+<li>At the place where the intestine wall crosses the mesh interface</li>
+</ul></li>
+<li>On an axial line through the middle of the domain</li>
+</ul></li>
+<li>Show pressure contours through the interface</li>
+<li>Compare scalar absorption profiles over time</li>
+</ul></li>
+<li>Particle tracking and dissolution
+<ul>
+<li>Reintroduction of particle tracking - Adding complexity to track particles through the interface</li>
+<li>Reintroduction of drug dissolution model
+<ul>
+<li>How to calculate bulk concentration when the particle is in the mesh interface?</li>
+<li>How to calculate drug release distribution when the particle is in the mesh interface?</li>
+<li>How to introduce the new models for both into this code?</li>
+<li>Parallelization</li>
+</ul></li>
+</ul></li>
+</ul>
 <div class="references">
 
 </div>

@@ -218,12 +218,12 @@ Caption: Design of the interface between the fine and coarse meshes for the mult
 
 # Design of mesh and conversion factors
 
-It turns out that the relaxation parameter $\tau$ cannot be 1.0 for both coarse and fine meshes. This has to do with the conversion/interpolation between the coarse and the fine meshes as descirbed in [lbmBasics.html](./lbmBasics.html#multi-grid-scheme). Hence the design of the mesh requires some thought. Lets say $\tau_c = 0.75$, with a grid ratio of $m = 4$. Then,
+It turns out that the relaxation parameter $\tau$ cannot be 1.0 for both coarse and fine meshes. This has to do with the conversion/interpolation between the coarse and the fine meshes as descirbed in [lbmBasics.html](./lbmBasics.html#multi-grid-scheme). Hence the design of the mesh requires some thought. Lets say $\tau_c = 1.5$, with a grid ratio of $m = 4$. Then,
 
 ~~~math
 \tau_f &= \frac{1}{2} + m \left ( \tau_c - \frac{1}{2} \right \\
 &= \frac{1}{2} + 4.0 \left ( 0.75 - \frac{1}{2} \right
-&= 1.5
+&= 4.5
 ~~~
 
 The conversion factors for each mesh will be
@@ -232,7 +232,7 @@ The conversion factors for each mesh will be
 
 |                     Coarse mesh                     |                       Fine mesh                        |
 |-----------------------------------------------------|--------------------------------------------------------|
-| $\nu_L = \frac{2 \times 0.75 - 1}{6} = 0.08333$     | $\nu_L = \frac{2 \times 1.5 - 1}{6} = 0.333333$        |
+| $\nu_L = \frac{2 \times 1.5 - 1}{6} = 0.08333$     | $\nu_L = \frac{2 \times 4.5 - 1}{6} = 0.333333$        |
 | $x_{cf} = y_{cf} = z_{cf} = 1.2 \times 10^{-4}m$    | $x_{cf} = y_{cf} = z_{cf} = 0.3 \times 10^{-4}m$       |
 | $t_{cf} = \nu_L \frac{x_{cf} x_{cf}}{\nu} = 5e-4s$  | $t_{cf} = \nu_L \frac{x_{cf} x_{cf}}{\nu} = 1.25e-4s$  |
 | $v_{cf} = \frac{x_{cf}}{t_{cf}} = 0.24 m/s$         | $v_{cf} = \frac{x_{cf}}{t_{cf}} = 0.24 m/s$            |
@@ -240,3 +240,96 @@ The conversion factors for each mesh will be
 | Reynolds number lattice = $\frac{0.016667 \times 50 \times 50}{0.08333 \times 200} = 2.5$ | Reynolds number lattice = $\frac{0.016667 \times 200 \times 200}{0.333333 \times 800} = 2.5$ |
 
 Caption: Design of mesh and conversion factors for the coarse and fine mesh
+
+# Preliminary validation results
+
+Comparing single lattice to dual lattice in a pure peristalsis case with occlusion ratio $= 0.1$. Single lattice has same resolution as coarse mesh on dual lattice. The grid ratio between coarse and fine meshes on the dual lattice is 4. The scalar initial condition is $\phi = 1$ on a line running through the center of the domain.
+
+#### Figure: {#singleLattice1XgridRatio4Pressure}
+
+![(a) t=300s](./multiGridTestResults/peristalsis/occlusion0p1/singleLattice1X/t300_pressure.png){width=33%}
+![(b) t=600s](./multiGridTestResults/peristalsis/occlusion0p1/singleLattice1X/t600_pressure.png){width=33%}
+![(c) t=900s](./multiGridTestResults/peristalsis/occlusion0p1/singleLattice1X/t900_pressure.png){width=33%} \
+![(d) t=300s](./multiGridTestResults/peristalsis/occlusion0p1/gridRatio4/t300_pressure.png){width=33%}
+![(e) t=600s](./multiGridTestResults/peristalsis/occlusion0p1/gridRatio4/t600_pressure.png){width=33%}
+![(f) t=900s](./multiGridTestResults/peristalsis/occlusion0p1/gridRatio4/t900_pressure.png){width=33%}
+
+Caption: Comparison of evolution of flow field between single and dual lattice algorithm for a pure peristalsis case (occlusion ratio = 0.1) through pressure contours. (a)-(c) Single lattice algorithm; (d)-(f) Dual lattice algorithm. 
+
+#### Figure: {#singleLattice1XgridRatio4Phi}
+
+![(a) t=300s](./multiGridTestResults/peristalsis/occlusion0p1/singleLattice1X/t300_phi.png){width=33%}
+![(b) t=600s](./multiGridTestResults/peristalsis/occlusion0p1/singleLattice1X/t600_phi.png){width=33%}
+![(c) t=900s](./multiGridTestResults/peristalsis/occlusion0p1/singleLattice1X/t900_phi.png){width=33%} \
+![(d) t=300s](./multiGridTestResults/peristalsis/occlusion0p1/gridRatio4/t300_phi.png){width=33%}
+![(e) t=600s](./multiGridTestResults/peristalsis/occlusion0p1/gridRatio4/t600_phi.png){width=33%}
+![(f) t=900s](./multiGridTestResults/peristalsis/occlusion0p1/gridRatio4/t900_phi.png){width=33%}
+
+Caption: Comparison of evolution of flow field between single and dual lattice algorithm for a pure peristalsis case (occlusion ratio = 0.1) through contours of $\phi$. (a)-(c) Single lattice algorithm; (d)-(f) Dual lattice algorithm. 
+
+
+It's hard to distinguish between the two algorithms using the pressure contours in Fig. (#singleLattice1XgridRatio4Pressure); however the contours of $\phi$ look quite different between the two algorithms in Fig. (#singleLattice1XgridRatio4Phi). The initial condition seems to persist in the single lattice case much longer leading to higher concentration of the scalar near the walls. This explains the increased absorption rate in the single lattice algorithm as shown below in Fig. (#singleLattice1XgridRatio4ScalarAbsorbed). I need to quantify the differences between the two flow fields better. 
+
+
+#### Figure: {#singleLattice1XgridRatio4ScalarAbsorbed}
+
+![](./multiGridTestResults/peristalsis/occlusion0p1/scalarAbsorbed.png){width=75%}
+
+Caption: Comparison of scalar absorbed over time between single and dual lattice algorithm for a pure peristalsis case (occlusion ratio = 0.1).
+
+In the dual lattice mesh itself, the pressure and scalar are continuous across the mesh interface as shown in Figs. (#dualLatticePressureLine) and (#dualLatticePhiLine)
+
+#### Figure: {#dualLatticePressureLine}
+
+![(a) t=300s](./multiGridTestResults/peristalsis/occlusion0p1/gridRatio4/t300_pressureLine.png){width=75%} \
+![(a) t=600s](./multiGridTestResults/peristalsis/occlusion0p1/gridRatio4/t600_pressureLine.png){width=75%} \
+![(a) t=900s](./multiGridTestResults/peristalsis/occlusion0p1/gridRatio4/t900_pressureLine.png){width=75%} 
+
+Caption: Profiles of pressure on a line through the mesh interface in the dual lattice algorithm simulation at 3 different time steps.
+
+#### Figure: {#dualLatticePhiLine}
+
+![(a) t=600s](./multiGridTestResults/peristalsis/occlusion0p1/gridRatio4/t600_phiLine.png){width=75%} \
+![(a) t=900s](./multiGridTestResults/peristalsis/occlusion0p1/gridRatio4/t900_phiLine.png){width=75%} 
+
+Caption: Profiles of pressure on a line through the mesh interface in the dual lattice algorithm simulation at 2 different time steps.
+
+
+# Future work over the next two weeks
+
+* Write up
+    * Interpolation schemes
+	* How are cases of wall interference handled during spatial and temporal interpolation
+
+* Correct scalar flux computation across intestine wall - Avoid double counting
+
+* Make code run on clusters, setup 2 spare machines in the lab to run cases.
+
+* Validation
+    * Compare dual lattice to single lattice 
+	* Single lattice should have two resolutions
+	    * Same as coarse mesh resolution in dual lattice
+		* 2X refined compared to coarse mesh resolution in dual lattice
+	* Occlusion ratio of 0.1, 0.5, 0.9 - Peristalsis and Segmentation 
+	* Compare profiles of pressure and scalar 
+	    * On lines that cross the interface
+		    * One in the middle of a processor
+			* At the interface between processors
+			* At the place where the intestine wall crosses the mesh interface
+		* On an axial line through the middle of the domain
+	* Show pressure contours through the interface
+	* Compare scalar absorption profiles over time
+
+* Particle tracking and dissolution
+    * Reintroduction of particle tracking - Adding complexity to track particles through the interface
+	* Reintroduction of drug dissolution model
+	    * How to calculate bulk concentration when the particle is in the mesh interface?
+		* How to calculate drug release distribution when the particle is in the mesh interface?
+		* How to introduce the new models for both into this code?
+		* Parallelization			
+ 
+
+	
+			
+
+

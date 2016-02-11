@@ -220,6 +220,55 @@ Trying to estimate Reynolds number in lattice units
 
 # Treatment of passive scalar
 
+## Scalar boundary conditions
+
+The scalar boundary condition is a little different from the typical bounce back boundary conditions because, unlike momentum, scalar does not bounce back from the wall. The wall could have a fixed value of the scalar or a fixed flux or a combination of both. Within the framework of the moment propagation method, the difficulty lies in finding the contribution $P_k(\vec{x} - \vec{e}_k \, \delta t, t + \delta t)$ at the node adjacent to the wall. We first consider the case of a specified value of scalar at the wall (Dirichlet boundary condition).
+
+
+#### Figure: {#fig:scalarBC}
+
+![](./scalarBoundaryCondition.png){width=75%}
+
+Caption: Node system used in developing the boundary conditions for scalar concentration by Wang et. al. [@Wang2010].
+
+$A^*$, $B^*$ and $C^*$ are three virtual nodes one lattice apart such that $A^*$ is the node on the boundary. The scalar boundary condition for a fixed value of the scalar at the boundary involves calculating the contribution $P_k(\vec{x} - \vec{e}_k \, \delta t, t + \delta t)$ at $B^*$ and $C^*$ and extrapolating it to A. This is done in 3 steps as shown below.
+
+1. Estimate the density and particle distribution function in the $k$ direction at $A^*$ as
+~~~math
+\rho_{A^*} = \rho_A  + (\rho_A - \rho_B) q.
+~~~
+
+The particle distribution function (post-collision) at $A^*$ is split into equilibrium and non-equilibrium parts and evaluate them separately as shown in Eq. (#fAstar). 
+
+~~~math #fAstar
+\hat{f}_{k, A^*} &= f_{k, A^*}^{eq} + f_{k, A^*}^{neq}, \\
+\textrm{Based on $\mathbf{u}_w$ wall velocity   } f_{k, A^*}^{eq} &= w_{k} \, \rho_{A^*} \, \left [ 1 + 3 \frac{\vec{e}_{k} \cdot \vec{u}_w}{c^2} + \frac{9}{2} \frac{(\hat{e}_{k} \cdot \vec{u}_w)^2 }{c^4} - \frac{3}{2} \frac{(\vec{u}_w \cdot \vec{u}_w)^2}{c^2}  \right ], \\
+\textrm{Based on extrapolation   } f_{k, A^*}^{neq} &= f_{k, A}^{neq} + ( f_{k, A}^{neq} - f_{k, B}^{neq}) q. \\
+~~~
+
+2. Calculate the contribution $P_k(\vec{x} - \vec{e}_k \, \delta t, t + \delta t)$ at $B^*$ and $C^*$ as shown in Eq. (#PkAstarBstar). While $\hat{f}_k$, $\rho$ and $\phi$ are calculated at  $A^*$ in Step 1, the corresponding quantities are interpolated to $B^*$ using the values at $A$ and $B$ at time $t$. 
+~~~math #PkAstarBstar
+(P_k)_{A^* \rightarrow B^*, t + \delta t} &= \left ( \frac{\hat{f}_k(A^*,t^+)}{\rho(A^*,t^+)} - w_k \Delta^* \right ) \phi(A^*, t) \\
+(P_k)_{B^* \rightarrow C^*, t + \delta t} &= \left ( \frac{\hat{f}_k(B^*,t^+)}{\rho(B^*,t^+)} - w_k \Delta^* \right ) \phi(B^*, t)
+~~~
+
+3. Calculate the contribution $P_k(\vec{x} - \vec{e}_k \, \delta t, t + \delta t)$ at $A$ using linear extrapolation from $B^*$ and $C^*$ as 
+
+~~~math
+P_k(\vec{x} - \vec{e}_k \, \delta t, t + \delta t)_A = (P_k)_{A^* \rightarrow B^*, t + \delta t} + \left [ (P_k)_{A^* \rightarrow B^*, t + \delta t} - (P_k)_{B^* \rightarrow C^*, t + \delta t} \right ] (1 - q).
+~~~
+
+This procedure is extended to the case with a specified scalar flux at the boundary (Neumann boundary condition).
+
+
+## Calculation of scalar flux at the boundary #scalarFluxCalc
+When using the moment propagation method for a scalar in LBM, the difference between the scalar streamed to and from the node that is adjacent to the boundary to calculate the mass flux across the boundary. As shown in Eq. (#scalarFluxAcrossBoundary), the difference when summed over all the nodes adjacent to the boundary gives the mass flux across the entire boundary.
+~~~math #scalarFluxAcrossBoundary
+\textrm{Mass flux out of domain} = \sum_{A \in \textrm{all nodes adjacent to boundary}} \left (P_{k'}(\vec{x} - \vec{e}_{k'} \, \delta t, t + \delta t)_A - P_k(\vec{x} - \vec{e}_k \, \delta t, t + \delta t)_A  \right ) \frac{\Delta^3}{t_{cf}} \; mol/s,
+~~~
+where $k$ is the direction going from the node to the boundary, $k'$ is the mirror image of $k$, $\Delta^3$ is the physical volume surrounding each node and $t_{cf}$ is the physical time corresponding to one LBM time step. 
+
+
 # Multi-grid scheme
 
 Yangxing Wang [@Wang2010] and Gino Banco [@Banco2010] had implemented the multiple-grid scheme of Yu, Mei and Shyy [@Yu2002] and extended them to scalars transport using the Moment propagation method. Yangxing's validation study of the method using the lid driven cavity was in 2D while Banco extended the method to 3D. As of now, we do not have a code that contains the implementation of the multiple grid strategy. This section will describe our understanding of the method as described by Wang et. al. [@Wang2010], Banco [@Banco2010] and Yu et. al. [@Yu2002].
@@ -327,9 +376,12 @@ Yu et. al. comment that
 
 > Generally speaking, it is difficult to maintain simultaneously the continuity of mass, momentum, and stresses across the interface between neighboring blocks because interpolations are applied to each dependent variable. In the present multi-block LBE method, the continuities of mass and stresses are ensured through ... The most important point is that interpolations are only applied to $f_i$’s along the interface and this automatically ensures consistency in the transfer of various terms across the interface.
 
+## Calculation of scalar flux at the boundary
+The method described in Sec. (#scalarFluxCalc) is extended to the multi-block algorithm to calculate the mass flux across the boundary. The mass flux is calculated separately on the two meshes and added up. There are a couple of issues however. 
 
+1. It is possible to double count the mass flux if the domain boundary passes through the overlap region between the two meshes. To avoid this, one idea is to calculate the mass flux on the coarse mesh first and then on the fine mesh. When calculating the mass flux on the coarse mesh, the fine mesh nodes that intersect with the volume surrounding a coarse mesh node will be marked depending on the degree of the overlap in the volume. Thus, when calculating the mass flux from the fine mesh, the calculated flux from each node will be reduced based on the degree of overlap with any coarse mesh node that is also adjacent to the boundary. For this to work, I have to make sure that each fine mesh node will overlap with the volume around only one coarse mesh node adjacent to the boundary.
 
-
+2. The mass flux from the fine mesh has to be summed up over one coarse mesh time step and recorded. The mass flux variable should be zeroed out only at the beginning of the coarse mesh time step. 
 
 # References
 

@@ -262,14 +262,69 @@ Re_1 &amp;= \frac{s_1 (0.5 \; D)}{ \nu} \frac{0.5 \; D}{\lambda_1} = \frac{0.004
  Thus, the Reynolds number in lattice units is made to match up with the one in physical units. I still don’t understand completely as to why the two Reynolds numbers need to match.</p>
 <h1 id="boundary-conditions">Boundary conditions</h1>
 <h1 id="treatment-of-passive-scalar">Treatment of passive scalar</h1>
+<h2 id="scalar-boundary-conditions">Scalar boundary conditions</h2>
+<p>The scalar boundary condition is a little different from the typical bounce back boundary conditions because, unlike momentum, scalar does not bounce back from the wall. The wall could have a fixed value of the scalar or a fixed flux or a combination of both. Within the framework of the moment propagation method, the difficulty lies in finding the contribution <span class="math scholmd-math-inline">\(P_k(\vec{x} - \vec{e}_k \, \delta t, t + \delta t)\)</span> at the node adjacent to the wall. We first consider the case of a specified value of scalar at the wall (Dirichlet boundary condition).</p>
+<figure class="scholmd-float scholmd-figure" id="fig:scalarBC">
+<div class="scholmd-float-content"><figure class="scholmd-subfig" style="display: inline-block; width: 75%">
+<img src="./scalarBoundaryCondition.png" />
+</figure></div>
+<div class="scholmd-float-caption"><figcaption><span class="scholmd-caption-head"><span class="scholmd-caption-head-prefix">Figure</span><span class="scholmd-caption-head-label">2</span></span><span class="scholmd-caption-text">Node system used in developing the boundary conditions for scalar concentration by Wang et. al. <span class="scholmd-citation" data-cites="Wang2010">[4]</span>.</span></figcaption></div>
+</figure>
+<p><span class="math scholmd-math-inline">\(A^*\)</span>, <span class="math scholmd-math-inline">\(B^*\)</span> and <span class="math scholmd-math-inline">\(C^*\)</span> are three virtual nodes one lattice apart such that <span class="math scholmd-math-inline">\(A^*\)</span> is the node on the boundary. The scalar boundary condition for a fixed value of the scalar at the boundary involves calculating the contribution <span class="math scholmd-math-inline">\(P_k(\vec{x} - \vec{e}_k \, \delta t, t + \delta t)\)</span> at <span class="math scholmd-math-inline">\(B^*\)</span> and <span class="math scholmd-math-inline">\(C^*\)</span> and extrapolating it to A. This is done in 3 steps as shown below.</p>
+<ol type="1">
+<li>Estimate the density and particle distribution function in the <span class="math scholmd-math-inline">\(k\)</span> direction at <span class="math scholmd-math-inline">\(A^*\)</span> as 
+<span class="math scholmd-math-display" style="display: block;">\[
+\begin{equation*}
+\rho_{A^*} = \rho_A  + (\rho_A - \rho_B) q.
+\end{equation*}
+\]</span>
+</li>
+</ol>
+<p>The particle distribution function (post-collision) at <span class="math scholmd-math-inline">\(A^*\)</span> is split into equilibrium and non-equilibrium parts and evaluate them separately as shown in Eq. <span class="scholmd-crossref"><span class="math scholmd-math-inline">\(\eqref{fAstar}\)</span></span>. 
+<span class="math scholmd-math-display" style="display: block;">\[
+\begin{equation}
+\label{fAstar}
+\begin{aligned}
+\hat{f}_{k, A^*} &amp;= f_{k, A^*}^{eq} + f_{k, A^*}^{neq}, \\
+\textrm{Based on $\mathbf{u}_w$ wall velocity   } f_{k, A^*}^{eq} &amp;= w_{k} \, \rho_{A^*} \, \left [ 1 + 3 \frac{\vec{e}_{k} \cdot \vec{u}_w}{c^2} + \frac{9}{2} \frac{(\hat{e}_{k} \cdot \vec{u}_w)^2 }{c^4} - \frac{3}{2} \frac{(\vec{u}_w \cdot \vec{u}_w)^2}{c^2}  \right ], \\
+\textrm{Based on extrapolation   } f_{k, A^*}^{neq} &amp;= f_{k, A}^{neq} + ( f_{k, A}^{neq} - f_{k, B}^{neq}) q. \\
+\end{aligned}
+\end{equation}
+\]</span>
+ 2. Calculate the contribution <span class="math scholmd-math-inline">\(P_k(\vec{x} - \vec{e}_k \, \delta t, t + \delta t)\)</span> at <span class="math scholmd-math-inline">\(B^*\)</span> and <span class="math scholmd-math-inline">\(C^*\)</span> as shown in Eq. <span class="scholmd-crossref"><span class="math scholmd-math-inline">\(\eqref{PkAstarBstar}\)</span></span>. While <span class="math scholmd-math-inline">\(\hat{f}_k\)</span>, <span class="math scholmd-math-inline">\(\rho\)</span> and <span class="math scholmd-math-inline">\(\phi\)</span> are calculated at <span class="math scholmd-math-inline">\(A^*\)</span> in Step 1, the corresponding quantities are interpolated to <span class="math scholmd-math-inline">\(B^*\)</span> using the values at <span class="math scholmd-math-inline">\(A\)</span> and <span class="math scholmd-math-inline">\(B\)</span> at time <span class="math scholmd-math-inline">\(t\)</span>. 
+<span class="math scholmd-math-display" style="display: block;">\[
+\begin{equation}
+\label{PkAstarBstar}
+\begin{aligned}
+(P_k)_{A^* \rightarrow B^*, t + \delta t} &amp;= \left ( \frac{\hat{f}_k(A^*,t^+)}{\rho(A^*,t^+)} - w_k \Delta^* \right ) \phi(A^*, t) \\
+(P_k)_{B^* \rightarrow C^*, t + \delta t} &amp;= \left ( \frac{\hat{f}_k(B^*,t^+)}{\rho(B^*,t^+)} - w_k \Delta^* \right ) \phi(B^*, t)
+\end{aligned}
+\end{equation}
+\]</span>
+ 3. Calculate the contribution <span class="math scholmd-math-inline">\(P_k(\vec{x} - \vec{e}_k \, \delta t, t + \delta t)\)</span> at <span class="math scholmd-math-inline">\(A\)</span> using linear extrapolation from <span class="math scholmd-math-inline">\(B^*\)</span> and <span class="math scholmd-math-inline">\(C^*\)</span> as 
+<span class="math scholmd-math-display" style="display: block;">\[
+\begin{equation*}
+P_k(\vec{x} - \vec{e}_k \, \delta t, t + \delta t)_A = (P_k)_{A^* \rightarrow B^*, t + \delta t} + \left [ (P_k)_{A^* \rightarrow B^*, t + \delta t} - (P_k)_{B^* \rightarrow C^*, t + \delta t} \right ] (1 - q).
+\end{equation*}
+\]</span>
+ This procedure is extended to the case with a specified scalar flux at the boundary (Neumann boundary condition).</p>
+<h2 id="calculation-of-scalar-flux-at-the-boundary-scalarfluxcalc">Calculation of scalar flux at the boundary #scalarFluxCalc</h2>
+<p>When using the moment propagation method for a scalar in LBM, the difference between the scalar streamed to and from the node that is adjacent to the boundary to calculate the mass flux across the boundary. As shown in Eq. <span class="scholmd-crossref"><span class="math scholmd-math-inline">\(\eqref{scalarFluxAcrossBoundary}\)</span></span>, the difference when summed over all the nodes adjacent to the boundary gives the mass flux across the entire boundary. 
+<span class="math scholmd-math-display" style="display: block;">\[
+\begin{equation}
+\label{scalarFluxAcrossBoundary}
+\textrm{Mass flux out of domain} = \sum_{A \in \textrm{all nodes adjacent to boundary}} \left (P_{k&#39;}(\vec{x} - \vec{e}_{k&#39;} \, \delta t, t + \delta t)_A - P_k(\vec{x} - \vec{e}_k \, \delta t, t + \delta t)_A  \right ) \frac{\Delta^3}{t_{cf}} \; mol/s,
+\end{equation}
+\]</span>
+ where <span class="math scholmd-math-inline">\(k\)</span> is the direction going from the node to the boundary, <span class="math scholmd-math-inline">\(k&#39;\)</span> is the mirror image of <span class="math scholmd-math-inline">\(k\)</span>, <span class="math scholmd-math-inline">\(\Delta^3\)</span> is the physical volume surrounding each node and <span class="math scholmd-math-inline">\(t_{cf}\)</span> is the physical time corresponding to one LBM time step.</p>
 <h1 id="multi-grid-scheme">Multi-grid scheme</h1>
 <p>Yangxing Wang <span class="scholmd-citation" data-cites="Wang2010">[4]</span> and Gino Banco <span class="scholmd-citation" data-cites="Banco2010">[5]</span> had implemented the multiple-grid scheme of Yu, Mei and Shyy <span class="scholmd-citation" data-cites="Yu2002">[6]</span> and extended them to scalars transport using the Moment propagation method. Yangxing’s validation study of the method using the lid driven cavity was in 2D while Banco extended the method to 3D. As of now, we do not have a code that contains the implementation of the multiple grid strategy. This section will describe our understanding of the method as described by Wang et. al. <span class="scholmd-citation" data-cites="Wang2010">[4]</span>, Banco <span class="scholmd-citation" data-cites="Banco2010">[5]</span> and Yu et. al. <span class="scholmd-citation" data-cites="Yu2002">[6]</span>.</p>
-<p>The main puupose of the multiple grid scheme is to preseve the required resolution near complicated boundaries without paying the penalty of using the same resolution away from these boundaries. While this strategy could be generalized to a series of smaller and smaller grids until the required resolution is reached, the implementation is discussed only for one level of refinement between a coarse and fine grid. The overlap between the coarse and the fine grids is no more than 1 coarse lattice unit as shown in Figure <span class="scholmd-crossref"><a href="#fig:coarseToFineGridInterface">(2)</a></span>.</p>
+<p>The main puupose of the multiple grid scheme is to preseve the required resolution near complicated boundaries without paying the penalty of using the same resolution away from these boundaries. While this strategy could be generalized to a series of smaller and smaller grids until the required resolution is reached, the implementation is discussed only for one level of refinement between a coarse and fine grid. The overlap between the coarse and the fine grids is no more than 1 coarse lattice unit as shown in Figure <span class="scholmd-crossref"><a href="#fig:coarseToFineGridInterface">(3)</a></span>.</p>
 <figure class="scholmd-float scholmd-figure" id="fig:coarseToFineGridInterface">
 <div class="scholmd-float-content"><figure class="scholmd-subfig" style="display: inline-block; width: 75%">
 <img src="./coarseToFineGridInterface.png" />
 </figure></div>
-<div class="scholmd-float-caption"><figcaption><span class="scholmd-caption-head"><span class="scholmd-caption-head-prefix">Figure</span><span class="scholmd-caption-head-label">2</span></span><span class="scholmd-caption-text">Interface structure betwee two blocks of different lattice spacing as shown by Yu et. al. <span class="scholmd-citation" data-cites="Yu2002">[6]</span>.</span></figcaption></div>
+<div class="scholmd-float-caption"><figcaption><span class="scholmd-caption-head"><span class="scholmd-caption-head-prefix">Figure</span><span class="scholmd-caption-head-label">3</span></span><span class="scholmd-caption-text">Interface structure betwee two blocks of different lattice spacing as shown by Yu et. al. <span class="scholmd-citation" data-cites="Yu2002">[6]</span>.</span></figcaption></div>
 </figure>
 <p>The grid-speed in lattice units is retained between the two grids. The lattice unit distance and the time step between the two grids is of ratio <span class="math scholmd-math-inline">\(m = \delta x_c/\delta x_f\)</span>, where <span class="math scholmd-math-inline">\(c\)</span> and <span class="math scholmd-math-inline">\(f\)</span> indicate the coarse and the fine grids respectively. <span class="math scholmd-math-inline">\(m\)</span> should preferably be an integer, such that the streaming process over 1 coarse grid lattice unit <span class="math scholmd-math-inline">\(\delta x_c\)</span> takes <span class="math scholmd-math-inline">\(m\)</span> lattice time steps in the fine grid. To maintain continuity of viscosity across the grid interface 
 <span class="math scholmd-math-display" style="display: block;">\[
@@ -356,7 +411,7 @@ f_{\alpha}^{(eq,c)}(\vec{x},t) = f_{\alpha}^{(eq,f)}(\vec{x},t)
 \]</span>
  Equations <span class="scholmd-crossref"><span class="math scholmd-math-inline">\(\eqref{eq:rhoVContinuityInterface}\)</span></span>, <span class="scholmd-crossref"><span class="math scholmd-math-inline">\(\eqref{eqfineToCoarseDD}\)</span></span> and <span class="scholmd-crossref"><span class="math scholmd-math-inline">\(\eqref{eq:coarseToFineDD}\)</span></span> are used to make an algorithm for LBM with multiple grids</p>
 <h2 id="an-algorithm-for-lbm-with-multiple-grids">An algorithm for LBM with multiple grids</h2>
-<p>Figure <span class="scholmd-crossref"><a href="#fig:coarseToFineGridAlgorithm">(3)</a></span> shows the LBM Algorithm using multiple grids as described by Wang et. al. <span class="scholmd-citation" data-cites="Wang2010">[4]</span>. The essential steps are as follows and correlate with the darkened arrows and numbers in the figure.</p>
+<p>Figure <span class="scholmd-crossref"><a href="#fig:coarseToFineGridAlgorithm">(4)</a></span> shows the LBM Algorithm using multiple grids as described by Wang et. al. <span class="scholmd-citation" data-cites="Wang2010">[4]</span>. The essential steps are as follows and correlate with the darkened arrows and numbers in the figure.</p>
 <ol type="1">
 <li>Begin with a collision step on the coarse grid.</li>
 <li>Interpolate the post-collision directional densities to the fine grid using Equation <span class="scholmd-crossref"><span class="math scholmd-math-inline">\(\eqref{eq:coarseToFineDD}\)</span></span>. Perform a series of <span class="math scholmd-math-inline">\(m\)</span> streaming and collision steps on the fine grid.</li>
@@ -373,12 +428,18 @@ f_{\alpha}^{(eq,c)}(\vec{x},t) = f_{\alpha}^{(eq,f)}(\vec{x},t)
 <div class="scholmd-float-content"><figure class="scholmd-subfig" style="display: inline-block; width: 75%">
 <img src="./coarseToFineGridAlgorithm.png" />
 </figure></div>
-<div class="scholmd-float-caption"><figcaption><span class="scholmd-caption-head"><span class="scholmd-caption-head-prefix">Figure</span><span class="scholmd-caption-head-label">3</span></span><span class="scholmd-caption-text">LBM Algorithm using multiple grids as shown in Wang et. al. <span class="scholmd-citation" data-cites="Wang2010">[4]</span></span></figcaption></div>
+<div class="scholmd-float-caption"><figcaption><span class="scholmd-caption-head"><span class="scholmd-caption-head-prefix">Figure</span><span class="scholmd-caption-head-label">4</span></span><span class="scholmd-caption-text">LBM Algorithm using multiple grids as shown in Wang et. al. <span class="scholmd-citation" data-cites="Wang2010">[4]</span></span></figcaption></div>
 </figure>
 <p>Yu et. al. comment that</p>
 <blockquote>
 <p>Generally speaking, it is difficult to maintain simultaneously the continuity of mass, momentum, and stresses across the interface between neighboring blocks because interpolations are applied to each dependent variable. In the present multi-block LBE method, the continuities of mass and stresses are ensured through … The most important point is that interpolations are only applied to <span class="math scholmd-math-inline">\(f_i\)</span>’s along the interface and this automatically ensures consistency in the transfer of various terms across the interface.</p>
 </blockquote>
+<h2 id="calculation-of-scalar-flux-at-the-boundary">Calculation of scalar flux at the boundary</h2>
+<p>The method described in Sec. <span class="scholmd-crossref"><a href="#scalarFluxCalc">(#scalarFluxCalc)</a></span> is extended to the multi-block algorithm to calculate the mass flux across the boundary. The mass flux is calculated separately on the two meshes and added up. There are a couple of issues however.</p>
+<ol type="1">
+<li><p>It is possible to double count the mass flux if the domain boundary passes through the overlap region between the two meshes. To avoid this, one idea is to calculate the mass flux on the coarse mesh first and then on the fine mesh. When calculating the mass flux on the coarse mesh, the fine mesh nodes that intersect with the volume surrounding a coarse mesh node will be marked depending on the degree of the overlap in the volume. Thus, when calculating the mass flux from the fine mesh, the calculated flux from each node will be reduced based on the degree of overlap with any coarse mesh node that is also adjacent to the boundary. For this to work, I have to make sure that each fine mesh node will overlap with the volume around only one coarse mesh node adjacent to the boundary.</p></li>
+<li><p>The mass flux from the fine mesh has to be summed up over one coarse mesh time step and recorded. The mass flux variable should be zeroed out only at the beginning of the coarse mesh time step.</p></li>
+</ol>
 <div class="references">
 <h1>References</h1>
 <p>1. Gombosi TI (1994) Gaskinetic theory. Cambridge Academic.</p>
