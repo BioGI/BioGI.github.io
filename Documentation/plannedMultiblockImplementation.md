@@ -216,6 +216,69 @@ In this section, I will describe the interface between a coarse and a fine mesh 
 
 Caption: Design of the interface between the fine and coarse meshes for the multigrid algorithm.
 
+
+### Symmetric cubic spline interpolation in space
+A symmetric cubic spline interpolation procedure is used in all directions when interpolating from the coarse to fine mesh. For each fine mesh node, the nearest `lower` coarse mesh node $f_2$ is identified such that the fine mesh node is always between $f_2$ and $f_3$ with $0 \le s < 1$ as shown in Fig. (#symmetricCubicSplineInterpolation).
+
+####Figure: {#symmetricCubicSplineInterpolation}
+
+![](./cubicSplineInterpolation.png){width=75%}
+
+Caption: Design of cubic spline spatial interpolation scheme to transfer data from the coarse to the fine mesh. 
+
+### Second order interpolation in time
+A second order interpolation procedure is used interpolating from the coarse to fine mesh in time. The data at the fine mesh is always wanted between time $t_n$ and $t_{n+1}$ as shown in Fig. (#multiGridAlgorithm). 
+
+####Figure: {#secondOrderTimeInterpolation}
+
+![](./secondOrderTimeInterpolation.png){width=75%}
+
+Caption: Design of second order temporal interpolation scheme to transfer data from the coarse to the fine mesh. 
+
+
+
+### Special cases - interference of wall with interpolation from coarse to fine mesh
+
+When the intestine wall goes through the interface between the coarse to the fine mesh, the 
+
+```fortran90
+FUNCTION spatialInterpolate(f1,f2,f3,f4,n1,n2,n3,n4,s)
+
+!!!Symmetric Cubic spline temporal interpolation 
+
+  REAL(dbl) :: f1, f2, f3, f4, s
+  INTEGER   :: n1,n2,n3,n4
+  REAL(dbl) :: spatialInterpolate
+  REAL(dbl) :: aHat, bHat, cHat, dHat
+
+  if (n3 .eq. SOLID) then
+     if (n2 .ne. SOLID) then
+        spatialInterpolate = spatialExtrapolate_n1n2(f1,f2,s)
+     else
+        spatialInterpolate = 0.0
+     end if
+     
+  else if (n2 .eq. SOLID) then
+     spatialInterpolate = spatialExtrapolate_n3n4(f3,f4,s)
+     
+  else if ( (n1 .ne. SOLID) .and. (n4 .eq. SOLID) ) then
+     spatialInterpolate = spatialInterpolate_n1n2n3(f1,f2,f3,s)
+
+  else if ( (n1 .eq. SOLID) .and. (n4 .ne. SOLID) ) then
+     spatialInterpolate = spatialInterpolate_n2n3n4(f2,f3,f4,s)
+     
+  else if ( (n1 .eq. SOLID) .and. (n4 .eq. SOLID) ) then
+     spatialInterpolate = spatialInterpolate_n2n3(f2,f3,s)
+
+  else if ( (n1 .ne. SOLID) .and. (n2 .ne. SOLID) .and. (n3 .ne. SOLID) .and. (n4 .ne. SOLID) ) then
+     spatialInterpolate = spatialInterpolateAllFour(f1,f2,f3,f4,s)
+  end if
+   
+  RETURN
+  
+END FUNCTION spatialInterpolate
+```
+
 # Design of mesh and conversion factors
 
 It turns out that the relaxation parameter $\tau$ cannot be 1.0 for both coarse and fine meshes. This has to do with the conversion/interpolation between the coarse and the fine meshes as descirbed in [lbmBasics.html](./lbmBasics.html#multi-grid-scheme). Hence the design of the mesh requires some thought. Lets say $\tau_c = 1.5$, with a grid ratio of $m = 4$. Then,
@@ -267,6 +330,36 @@ Caption: Comparison of evolution of flow field between single and dual lattice a
 
 Caption: Comparison of evolution of flow field between single and dual lattice algorithm for a pure peristalsis case (occlusion ratio = 0.1) through contours of $\phi$. (a)-(c) Single lattice algorithm; (d)-(f) Dual lattice algorithm. 
 
+
+#### Figure: {#singleLattice1XgridRatio4PressureA}
+
+![(a) t=0s](./multiGridTestResults/peristalsis/occlusion0p1/singleLattice1X/t0000000_vizSingleLattice1X_P.jpg){width=49%}
+![(b) t=0s](./multiGridTestResults/peristalsis/occlusion0p1/gridRatio4/t0000000_vizDualLattice_P.jpg){width=49%} \
+![(c) t=6s](./multiGridTestResults/peristalsis/occlusion0p1/singleLattice1X/t0003000_vizSingleLattice1X_P.jpg){width=49%}
+![(d) t=6s](./multiGridTestResults/peristalsis/occlusion0p1/gridRatio4/t0003000_vizDualLattice_P.jpg){width=49%} \
+![(e) t=12s](./multiGridTestResults/peristalsis/occlusion0p1/singleLattice1X/t0006000_vizSingleLattice1X_P.jpg){width=49%}
+![(f) t=12s](./multiGridTestResults/peristalsis/occlusion0p1/gridRatio4/t0006000_vizDualLattice_P.jpg){width=49%} \
+![(g) t=18s](./multiGridTestResults/peristalsis/occlusion0p1/singleLattice1X/t0009000_vizSingleLattice1X_P.jpg){width=49%}
+![(h) t=18s](./multiGridTestResults/peristalsis/occlusion0p1/gridRatio4/t0009000_vizDualLattice_P.jpg){width=49%} \
+![(i) t=24s](./multiGridTestResults/peristalsis/occlusion0p1/singleLattice1X/t0012000_vizSingleLattice1X_P.jpg){width=49%}
+![(j) t=24s](./multiGridTestResults/peristalsis/occlusion0p1/gridRatio4/t0012000_vizDualLattice_P.jpg){width=49%} \
+
+Caption: Comparison of evolution of flow field between single and dual lattice algorithm for a pure peristalsis case (occlusion ratio = 0.1) through pressure contours. (a),(c),(e),(g),(i) Single lattice algorithm; (d)-(j) Dual lattice algorithm. 
+
+#### Figure: {#singleLattice1XgridRatio4ScalarA}
+
+![(a) t=0s](./multiGridTestResults/peristalsis/occlusion0p1/singleLattice1X/t0000000_vizSingleLattice1X_phi.jpg){width=49%}
+![(b) t=0s](./multiGridTestResults/peristalsis/occlusion0p1/gridRatio4/t0000000_vizDualLattice_phi.jpg){width=49%} \
+![(c) t=6s](./multiGridTestResults/peristalsis/occlusion0p1/singleLattice1X/t0003000_vizSingleLattice1X_phi.jpg){width=49%}
+![(d) t=6s](./multiGridTestResults/peristalsis/occlusion0p1/gridRatio4/t0003000_vizDualLattice_phi.jpg){width=49%} \
+![(e) t=12s](./multiGridTestResults/peristalsis/occlusion0p1/singleLattice1X/t0006000_vizSingleLattice1X_phi.jpg){width=49%}
+![(f) t=12s](./multiGridTestResults/peristalsis/occlusion0p1/gridRatio4/t0006000_vizDualLattice_phi.jpg){width=49%} \
+![(g) t=18s](./multiGridTestResults/peristalsis/occlusion0p1/singleLattice1X/t0009000_vizSingleLattice1X_phi.jpg){width=49%}
+![(h) t=18s](./multiGridTestResults/peristalsis/occlusion0p1/gridRatio4/t0009000_vizDualLattice_phi.jpg){width=49%} \
+![(i) t=24s](./multiGridTestResults/peristalsis/occlusion0p1/singleLattice1X/t0012000_vizSingleLattice1X_phi.jpg){width=49%}
+![(j) t=24s](./multiGridTestResults/peristalsis/occlusion0p1/gridRatio4/t0012000_vizDualLattice_phi.jpg){width=49%} \
+
+Caption: Comparison of evolution of flow field between single and dual lattice algorithm for a pure peristalsis case (occlusion ratio = 0.1) through contoursof scalar. (a),(c),(e),(g),(i) Single lattice algorithm; (d)-(j) Dual lattice algorithm. 
 
 It's hard to distinguish between the two algorithms using the pressure contours in Fig. (#singleLattice1XgridRatio4Pressure); however the contours of $\phi$ look quite different between the two algorithms in Fig. (#singleLattice1XgridRatio4Phi). The initial condition seems to persist in the single lattice case much longer leading to higher concentration of the scalar near the walls. This explains the increased absorption rate in the single lattice algorithm as shown below in Fig. (#singleLattice1XgridRatio4ScalarAbsorbed). I need to quantify the differences between the two flow fields better. 
 
