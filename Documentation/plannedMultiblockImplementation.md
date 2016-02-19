@@ -308,29 +308,6 @@ Caption: Design of mesh and conversion factors for the coarse and fine mesh
 
 Comparing single lattice to dual lattice in a pure peristalsis case with occlusion ratio $= 0.1$. Single lattice has same resolution as coarse mesh on dual lattice. The grid ratio between coarse and fine meshes on the dual lattice is 4. The scalar initial condition is $\phi = 1$ on a line running through the center of the domain.
 
-#### Figure: {#singleLattice1XgridRatio4Pressure}
-
-![(a) t=300s](./multiGridTestResults/peristalsis/occlusion0p1/singleLattice1X/t300_pressure.png){width=33%}
-![(b) t=600s](./multiGridTestResults/peristalsis/occlusion0p1/singleLattice1X/t600_pressure.png){width=33%}
-![(c) t=900s](./multiGridTestResults/peristalsis/occlusion0p1/singleLattice1X/t900_pressure.png){width=33%} \
-![(d) t=300s](./multiGridTestResults/peristalsis/occlusion0p1/gridRatio4/t300_pressure.png){width=33%}
-![(e) t=600s](./multiGridTestResults/peristalsis/occlusion0p1/gridRatio4/t600_pressure.png){width=33%}
-![(f) t=900s](./multiGridTestResults/peristalsis/occlusion0p1/gridRatio4/t900_pressure.png){width=33%}
-
-Caption: Comparison of evolution of flow field between single and dual lattice algorithm for a pure peristalsis case (occlusion ratio = 0.1) through pressure contours. (a)-(c) Single lattice algorithm; (d)-(f) Dual lattice algorithm. 
-
-#### Figure: {#singleLattice1XgridRatio4Phi}
-
-![(a) t=300s](./multiGridTestResults/peristalsis/occlusion0p1/singleLattice1X/t300_phi.png){width=33%}
-![(b) t=600s](./multiGridTestResults/peristalsis/occlusion0p1/singleLattice1X/t600_phi.png){width=33%}
-![(c) t=900s](./multiGridTestResults/peristalsis/occlusion0p1/singleLattice1X/t900_phi.png){width=33%} \
-![(d) t=300s](./multiGridTestResults/peristalsis/occlusion0p1/gridRatio4/t300_phi.png){width=33%}
-![(e) t=600s](./multiGridTestResults/peristalsis/occlusion0p1/gridRatio4/t600_phi.png){width=33%}
-![(f) t=900s](./multiGridTestResults/peristalsis/occlusion0p1/gridRatio4/t900_phi.png){width=33%}
-
-Caption: Comparison of evolution of flow field between single and dual lattice algorithm for a pure peristalsis case (occlusion ratio = 0.1) through contours of $\phi$. (a)-(c) Single lattice algorithm; (d)-(f) Dual lattice algorithm. 
-
-
 #### Figure: {#singleLattice1XgridRatio4PressureA}
 
 ![(a) t=0s](./multiGridTestResults/peristalsis/occlusion0p1/singleLattice1X/t0000000_vizSingleLattice1X_P.jpg){width=49%}
@@ -361,31 +338,36 @@ Caption: Comparison of evolution of flow field between single and dual lattice a
 
 Caption: Comparison of evolution of flow field between single and dual lattice algorithm for a pure peristalsis case (occlusion ratio = 0.1) through contoursof scalar. (a),(c),(e),(g),(i) Single lattice algorithm; (d)-(j) Dual lattice algorithm. 
 
-It's hard to distinguish between the two algorithms using the pressure contours in Fig. (#singleLattice1XgridRatio4Pressure); however the contours of $\phi$ look quite different between the two algorithms in Fig. (#singleLattice1XgridRatio4Phi). The initial condition seems to persist in the single lattice case much longer leading to higher concentration of the scalar near the walls. This explains the increased absorption rate in the single lattice algorithm as shown below in Fig. (#singleLattice1XgridRatio4ScalarAbsorbed). I need to quantify the differences between the two flow fields better. 
+It's hard to distinguish between the two algorithms using the pressure contours in Fig. (#singleLattice1XgridRatio4PressureA) and contours of the scalar in Fig. (#singleLattice1XgridRatio4ScalarA). However, the amount of scalar absorbed throught the intestine wall is quite different between the single lattice and multi-block algorithms as shown below in Fig. (#singleLattice1XgridRatio4ScalarAbsorbed). The reason for this is not clear. 
 
 
 #### Figure: {#singleLattice1XgridRatio4ScalarAbsorbed}
 
-![](./multiGridTestResults/peristalsis/occlusion0p1/scalarAbsorbed.png){width=75%}
+![occlusion ratio = 0.1](./multiGridTestResults/peristalsis/occlusion0p1/scalarAbsorbed.png){width=33%} 
+![occlusion ratio = 0.25](./multiGridTestResults/peristalsis/occlusion0p25/scalarAbsorbed.png){width=33%} 
+![occlusion ratio = 0.5](./multiGridTestResults/peristalsis/occlusion0p5/scalarAbsorbed.png){width=33%}
 
-Caption: Comparison of scalar absorbed over time between single and dual lattice algorithm for a pure peristalsis case (occlusion ratio = 0.1).
+Caption: Comparison of scalar absorbed over time between single and dual lattice algorithm for a pure peristalsis case (occlusion ratio = 0.1,0.25,0.5).
 
-In the dual lattice mesh itself, the pressure and scalar are continuous across the mesh interface as shown in Figs. (#dualLatticePressureLine) and (#dualLatticePhiLine)
+## Steps to debug the scalar flux difference problem.
 
-#### Figure: {#dualLatticePressureLine}
+Definition of the problem: The multi-block algorithm yields a scalar flux that is 4 times smaller than the single lattice algorithm for pure peristalsis with an occlusion ratio of 0.1.
 
-![(a) t=300s](./multiGridTestResults/peristalsis/occlusion0p1/gridRatio4/t300_pressureLine.png){width=75%} \
-![(a) t=600s](./multiGridTestResults/peristalsis/occlusion0p1/gridRatio4/t600_pressureLine.png){width=75%} \
-![(a) t=900s](./multiGridTestResults/peristalsis/occlusion0p1/gridRatio4/t900_pressureLine.png){width=75%} 
+1. Make sure the difference is not present if the intestine wall does not pass through the mesh interface. If it does, fix this first.
 
-Caption: Profiles of pressure on a line through the mesh interface in the dual lattice algorithm simulation at 3 different time steps.
+This is clearly a problem as shown in Fig. (#debugScalarAbsorbedStep1). The difference between the two algorithms seems to be present even at the first time step. 
 
-#### Figure: {#dualLatticePhiLine}
+#### Figure: {#debugScalarAbsorbedStep1}
 
-![(a) t=600s](./multiGridTestResults/peristalsis/occlusion0p1/gridRatio4/t600_phiLine.png){width=75%} \
-![(a) t=900s](./multiGridTestResults/peristalsis/occlusion0p1/gridRatio4/t900_phiLine.png){width=75%} 
+![](./multiGridTestResults/peristalsis/debugScalarAbsorbedStep1.png)
 
-Caption: Profiles of pressure on a line through the mesh interface in the dual lattice algorithm simulation at 2 different time steps.
+Caption: Difference in scalar absorbed between the single lattice and multi-block algorithm simulations for a pure peristalsis case with occlusion of 0.5 - the intestine wall does not pass through the mesh interface.
+
+2. Run the multi-block algorithm with grid ratio of 1 when the intestine wall passes through the mesh interface, make sure the problem does not persist. If it does, fix this first.
+3. Run the multi-block algorithm with grid ratio of 2 when the intestine wall passes through the mesh interface. See how this changes the scalar flux. Hopefully the plot of scalar absorbed vs. time should be inbetween that of grid ratio of 1 and 4.
+4. Analyse the scalar flux across the coarse mesh and the fine mesh separately for a grid ratio of 4 when the intestine wall passes through the mesh interface. Which is higher? Does this offer any clues? How does the coarse mesh scalar flux compare to the single lattice case?
+5. Run the multi-block algorithm in the mode where the coarse mesh computations are carried out independently and the fine mesh calculations just tag along. In this case, the coarse mesh scalar flux should be the same as that from the single lattice meshes. Compare this result with that from step 4.
+
 
 
 # Future work over the next two weeks
@@ -396,14 +378,14 @@ Caption: Profiles of pressure on a line through the mesh interface in the dual l
 
 * Correct scalar flux computation across intestine wall - Avoid double counting
 
-* Make code run on clusters, setup 2 spare machines in the lab to run cases.
+* Setup 2 spare machines in the lab to run cases.
 
 * Validation
     * Compare dual lattice to single lattice 
 	* Single lattice should have two resolutions
 	    * Same as coarse mesh resolution in dual lattice
 		* 2X refined compared to coarse mesh resolution in dual lattice
-	* Occlusion ratio of 0.1, 0.5, 0.9 - Peristalsis and Segmentation 
+	* Occlusion ratio of 0.1, 0.25, 0.5 - Peristalsis and Segmentation 
 	* Compare profiles of pressure and scalar 
 	    * On lines that cross the interface
 		    * One in the middle of a processor
@@ -424,5 +406,6 @@ Caption: Profiles of pressure on a line through the mesh interface in the dual l
 
 	
 			
+
 
 
