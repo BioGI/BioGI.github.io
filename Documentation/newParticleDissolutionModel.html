@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="generator" content="scholpandoc">
+  <meta name="viewport" content="width=device-width">
+  
+  <meta name="author" content="Ganesh Vijayakumar, Farhad Behafarid, Yanxing Wang and James Brasseur">
+  <title>Validation of new particle dissolution model</title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.7.1/modernizr.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.js"></script>
+  <link rel="stylesheet" href="css/ScholarlyMarkdown-BS3.css">
+</head>
+<body>
+<div class="scholmd-container">
+<div class="scholmd-main">
+<div class="scholmd-content">
+<header>
+<h1 class="scholmd-title">Validation of new particle dissolution model</h1>
+<div class="scholmd-author">
+Ganesh Vijayakumar, Farhad Behafarid, Yanxing Wang and James Brasseur
+</div>
+<div class="scholmd-date">3 Feb 2016</div>
+</header>
+<h1 id="validation-dataset-from-yanxing---sphere-in-shear-flow-at-medium-re_s-0.01-le-re_s-le-1">Validation dataset from Yanxing - Sphere in shear flow at medium <span class="math scholmd-math-inline">\(Re_s (0.01 \le Re_s \le 1)\)</span></h1>
+<p>Yanxing had performed a series of computational experiments with drug releasing from a super-resolved particle in shear (Couette) flow. I’m reproducing some of the data given by him. Figure <span class="scholmd-crossref"><a href="#yanxingCasesetup">(1)</a></span> describes the case setup.</p>
+<figure class="scholmd-float scholmd-figure" id="yanxingCasesetup">
+<div class="scholmd-float-content"><figure class="scholmd-subfig" style="display: inline-block; width: ">
+<img src="./yanxingCasesetup.png" />
+</figure></div>
+<div class="scholmd-float-caption"><figcaption><span class="scholmd-caption-head"><span class="scholmd-caption-head-prefix">Figure</span><span class="scholmd-caption-head-label">1</span></span><span class="scholmd-caption-text">Setup of Yanxing’s cases.</span></figcaption></div>
+</figure>
+<p>Equation <span class="scholmd-crossref"><span class="math scholmd-math-inline">\(\eqref{nonDimParameters}\)</span></span> defines the non-dimensional parameters. 
+<span class="math scholmd-math-display" style="display: block;">\[
+\begin{equation}
+\label{nonDimParameters}
+\left.\begin{aligned}
+S    &amp; \equiv \frac{U_o}{H} \\
+Re_s &amp; \equiv \frac{S \; R^2}{ \nu} \\
+S^*  &amp; \equiv Re_s \\
+Sc   &amp; \equiv \frac{S R^2}{\nu} \\
+\frac{\nu}{D_m} &amp; = \frac{S R^2}{D_m} \\
+\end{aligned}
+\right\}
+\qquad \text{Non-dimensional parameters}
+\end{equation}
+\]</span>
+ The parameters of the cases run by Yanxing are: 
+<span class="math scholmd-math-display" style="display: block;">\[
+\begin{equation*}
+\begin{aligned}
+H/R &amp;= 20, \; L/R=50, \; W/R=20, \\
+\textrm{ Ratio of coarse grid to fine grid size - } m &amp;= 8 , \\
+\textrm{ Number of subdomains of fine grids in the axial direction - } l_x &amp;= 143 , \\
+\textrm{ Sphere radius - } R &amp;= 20.025 , \\
+\textrm{ Coarse grid resolution - } nxf &amp;= 7, \; nyf = 401, \; nzf = 52 ,\\
+\textrm{ Fine grid resolution - } nxc &amp;= 126, \; nyc = 51,  \; nzc = 44. \\
+\end{aligned}
+\end{equation*}
+\]</span>
+ Table <span class="scholmd-crossref"><a href="#table:CasesYanxing">(1)</a></span> describes the parameters of the cases run by Yanxing.</p>
+<figure class="scholmd-float scholmd-table-float" id="table:CasesYanxing">
+<div class="scholmd-float-content"><table>
+<thead>
+<tr class="header">
+<th style="text-align: left;"><span class="math scholmd-math-inline">\(U_o\)</span></th>
+<th style="text-align: left;"><span class="math scholmd-math-inline">\(Re_s\)</span></th>
+<th style="text-align: left;"><span class="math scholmd-math-inline">\(\nu\)</span></th>
+<th style="text-align: left;"><span class="math scholmd-math-inline">\(\tau_c\)</span></th>
+<th style="text-align: left;"><span class="math scholmd-math-inline">\(\tau_f = 1/2 + m \left (\tau_c - 1/2 \right )\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">0.1</td>
+<td style="text-align: left;">1</td>
+<td style="text-align: left;">0.012516</td>
+<td style="text-align: left;">0.537547</td>
+<td style="text-align: left;">0.800375</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">0.1</td>
+<td style="text-align: left;">0.8</td>
+<td style="text-align: left;">0.015645</td>
+<td style="text-align: left;">0.546934</td>
+<td style="text-align: left;">0.875469</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">0.1</td>
+<td style="text-align: left;">0.75</td>
+<td style="text-align: left;">0.016688</td>
+<td style="text-align: left;">0.550063</td>
+<td style="text-align: left;">0.9005</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">0.1</td>
+<td style="text-align: left;">0.6</td>
+<td style="text-align: left;">0.020859</td>
+<td style="text-align: left;">0.562578</td>
+<td style="text-align: left;">1.000625</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">0.1</td>
+<td style="text-align: left;">0.5</td>
+<td style="text-align: left;">0.025031</td>
+<td style="text-align: left;">0.575094</td>
+<td style="text-align: left;">1.10075</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">0.1</td>
+<td style="text-align: left;">0.4</td>
+<td style="text-align: left;">0.031289</td>
+<td style="text-align: left;">0.593867</td>
+<td style="text-align: left;">1.250938</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">0.1</td>
+<td style="text-align: left;">0.25</td>
+<td style="text-align: left;">0.050063</td>
+<td style="text-align: left;">0.650188</td>
+<td style="text-align: left;">1.7015</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">0.1</td>
+<td style="text-align: left;">0.2</td>
+<td style="text-align: left;">0.062578</td>
+<td style="text-align: left;">0.687734</td>
+<td style="text-align: left;">2.001875</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">0.1</td>
+<td style="text-align: left;">0.1</td>
+<td style="text-align: left;">0.125156</td>
+<td style="text-align: left;">0.875469</td>
+<td style="text-align: left;">3.50375</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">0.08</td>
+<td style="text-align: left;">0.08</td>
+<td style="text-align: left;">0.125156</td>
+<td style="text-align: left;">0.875469</td>
+<td style="text-align: left;">3.50735</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">0.08</td>
+<td style="text-align: left;">0.075</td>
+<td style="text-align: left;">0.1335</td>
+<td style="text-align: left;">0.9005</td>
+<td style="text-align: left;">3.704</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">0.06</td>
+<td style="text-align: left;">0.06</td>
+<td style="text-align: left;">0.125156</td>
+<td style="text-align: left;">0.875469</td>
+<td style="text-align: left;">3.50735</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">0.06</td>
+<td style="text-align: left;">0.05</td>
+<td style="text-align: left;">0.150188</td>
+<td style="text-align: left;">0.950563</td>
+<td style="text-align: left;">4.1045</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">0.04</td>
+<td style="text-align: left;">0.04</td>
+<td style="text-align: left;">0.125156</td>
+<td style="text-align: left;">0.875469</td>
+<td style="text-align: left;">3.50735</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">0.04</td>
+<td style="text-align: left;">0.025</td>
+<td style="text-align: left;">0.20025</td>
+<td style="text-align: left;">1.10075</td>
+<td style="text-align: left;">5.306</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">0.02</td>
+<td style="text-align: left;">0.02</td>
+<td style="text-align: left;">0.125156</td>
+<td style="text-align: left;">0.875469</td>
+<td style="text-align: left;">3.50735</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">0.02</td>
+<td style="text-align: left;">0.02</td>
+<td style="text-align: left;">0.250313</td>
+<td style="text-align: left;">1.250938</td>
+<td style="text-align: left;">6.5075</td>
+</tr>
+</tbody>
+</table></div>
+<div class="scholmd-float-caption"><figcaption><span class="scholmd-caption-head"><span class="scholmd-caption-head-prefix">Table</span><span class="scholmd-caption-head-label">1</span></span><span class="scholmd-caption-text">Cases run by Yanxing</span></figcaption></div>
+</figure>
+<p>Further description given by Yanxing:</p>
+<pre><code>In each case with a specific Reynolds number, a couple of scalars with different Schmidt numbers are considered. 
+The number of Schmidt numbers is denoted by “nsc”. The Schmidt numbers are given in “sc.dat”. 
+The quantities related to scalar release are stored in sca-c-01.dat, sca-c-02.dat … and sca-f-01.dat, sca-f-02.dat … 
+“c” stands for coarse grid, and “f” stands for find grid. 
+The numbers “01” “02” correspond the Schmidt number. 
+In each file, there are four variables in the DIMENSIONAL form,
+1. time; 
+2. Total scalar, the spatial integration of scalar concentration; 
+3. Amount of scalar release at the last time step, obtained by integrating the surface flux; 
+4. Total amount of scalar release, obtained by temporal integrating the scalar release at every time step.
+
+The locations of the verification cases:
+/Research/sphere-in-shear-flow/data/s-m-2/re001s/                            Re=0.01
+/Research/sphere-in-shear-flow/data/s-m-2/re01s-b/                           Re=0.1
+/Research/sphere-in-shear-flow/data/s-m-2/re1s-b/                             Re=1
+Please see “sc.dat” in each directory to find the corresponding Schmidt number.</code></pre>
+<p>That’s it for now.</p>
+<div class="references">
+
+</div>
+</div>
+</div>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+      processClass: "math"
+    },
+    TeX: {
+        TagSide: "left",
+        TagIndent: "1.2em",
+        equationNumbers: {
+            autoNumber: "AMS"
+        },
+        Macros: {
+            ensuremath: ["#1",1],
+            textsf: ["\\mathsf{\\text{#1}}",1],
+            texttt: ["\\mathtt{\\text{#1}}",1]
+        }
+    },
+    "HTML-CSS": { 
+        scale: 100,
+        availableFonts: ["TeX"], 
+        preferredFont: "TeX",
+        webFont: "TeX",
+        imageFont: "TeX",
+        EqnChunk: 1000
+    }
+});
+</script>
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML-full" type="text/javascript"></script>
+</div>
+</body>
+</html>
