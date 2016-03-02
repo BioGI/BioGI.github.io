@@ -199,7 +199,86 @@ H/R &amp;= 20, \; L/R=50, \; W/R=20, \\
 </table></div>
 <div class="scholmd-float-caption"><figcaption><span class="scholmd-caption-head"><span class="scholmd-caption-head-prefix">Table</span><span class="scholmd-caption-head-label">1</span></span><span class="scholmd-caption-text">Cases run by Yanxing</span></figcaption></div>
 </figure>
-<p>Further description given by Yanxing:</p>
+<h1 id="drug-properties">Drug Properties</h1>
+<p>Felodipine was chosen for these simulations. The drug properties are shown in Table <span class="scholmd-crossref"><a href="#table:FelodipineProperties">(2)</a></span>:</p>
+<figure class="scholmd-float scholmd-table-float" id="table:FelodipineProperties">
+<div class="scholmd-float-content"><table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Parameter</th>
+<th style="text-align: left;">Value</th>
+<th style="text-align: left;">Units</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><span class="math scholmd-math-inline">\(C_s\)</span></td>
+<td style="text-align: left;">8.9 e-10</td>
+<td style="text-align: left;"><span class="math scholmd-math-inline">\(mol/cm^3\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><span class="math scholmd-math-inline">\(v_m\)</span></td>
+<td style="text-align: left;">265</td>
+<td style="text-align: left;"><span class="math scholmd-math-inline">\(cm^3/mol\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><span class="math scholmd-math-inline">\(D_m\)</span></td>
+<td style="text-align: left;">6.7 e-6</td>
+<td style="text-align: left;"><span class="math scholmd-math-inline">\(cm^2/s\)</span></td>
+</tr>
+</tbody>
+</table></div>
+<div class="scholmd-float-caption"><figcaption><span class="scholmd-caption-head"><span class="scholmd-caption-head-prefix">Table</span><span class="scholmd-caption-head-label">2</span></span><span class="scholmd-caption-text">Felodipine Properties</span></figcaption></div>
+</figure>
+<p>to calculate the <span class="math scholmd-math-inline">\(C_{tot}\)</span> we have:</p>
+<figure class="scholmd-float scholmd-table-float" id="table:C_tot-over-C_s">
+<div class="scholmd-float-content"><table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Parameter</th>
+<th style="text-align: left;">Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><span class="math scholmd-math-inline">\(H/R\)</span></td>
+<td style="text-align: left;"><span class="math scholmd-math-inline">\(20\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><span class="math scholmd-math-inline">\(W/R\)</span></td>
+<td style="text-align: left;"><span class="math scholmd-math-inline">\(20\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><span class="math scholmd-math-inline">\(L/R\)</span></td>
+<td style="text-align: left;"><span class="math scholmd-math-inline">\(50\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><span class="math scholmd-math-inline">\(V_{container}\)</span></td>
+<td style="text-align: left;"><span class="math scholmd-math-inline">\(2000 R^3\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><span class="math scholmd-math-inline">\(V_{particler}\)</span></td>
+<td style="text-align: left;"><span class="math scholmd-math-inline">\(4/3 \pi R^3\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><span class="math scholmd-math-inline">\(\dfrac{V_{particler}}{V_{container}}\)</span></td>
+<td style="text-align: left;"><span class="math scholmd-math-inline">\(2.0944 e-4\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><span class="math scholmd-math-inline">\(C_{tot}= \Big(\dfrac{V_{particler}}{V_{container}} \dfrac{1}{v_m}\Big)\)</span></td>
+<td style="text-align: left;"><span class="math scholmd-math-inline">\(7.9 e-7\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><span class="math scholmd-math-inline">\(C_{tot} /C_s\)</span></td>
+<td style="text-align: left;"><span class="math scholmd-math-inline">\(887.6\)</span></td>
+</tr>
+</tbody>
+</table></div>
+<div class="scholmd-float-caption"><figcaption><span class="scholmd-caption-head"><span class="scholmd-caption-head-prefix">Table</span><span class="scholmd-caption-head-label">3</span></span><span class="scholmd-caption-text">Computing <span class="math scholmd-math-inline">\(C_{tot}\)</span> over <span class="math scholmd-math-inline">\(C_s\)</span> based on the given dimension and the properties of Felodipine.</span></figcaption></div>
+</figure>
+<p>To have a reasonably small <span class="math scholmd-math-inline">\(C_{tot}/C_s\)</span> (i.e. 0.1), we should use a larger <span class="math scholmd-math-inline">\(C_s\)</span> as follows:</p>
+<p><span class="math scholmd-math-inline">\(\dfrac{C_{tot}} {C_s} = 0.1 \Rightarrow C_s = 7.89 e-6\)</span></p>
+<h1 id="further-description-given-by-yanxing">Further description given by Yanxing:</h1>
 <pre><code>In each case with a specific Reynolds number, a couple of scalars with different Schmidt numbers are considered. 
 The number of Schmidt numbers is denoted by “nsc”. The Schmidt numbers are given in “sc.dat”. 
 The quantities related to scalar release are stored in sca-c-01.dat, sca-c-02.dat … and sca-f-01.dat, sca-f-02.dat … 
