@@ -90,12 +90,12 @@ to calculate the $C_{tot}$ we have:
 | $W/R$                                                                                | $20$            |
 | $L/R$                                                                                | $50$            |
 | $V_{container}$                                                                      | $2000 R^3$      |
-| $V_{particler}$                                                                      | $4/3 \pi R^3$   |
+| $V_{particler}$                                                                      | $(4/3) \pi R^3$ |
 | $\dfrac{V_{particler}}{V_{container}}$                                               | $2.0944 e-4$    |
 | $C_{tot}= \Big(\dfrac{V_{particler}}{V_{container}} \dfrac{1}{v_m}\Big)$             | $7.9 e-7$       |   
-| $C_{tot} /C_s$                                                                       | $887.6$         |
+| $C_{tot} /C_s$                                                                       | $888$           |
 
-Caption: Computing $C_{tot}$  over $C_s$ based on the given dimension and the properties of Felodipine.
+Caption: Computing $C_{tot}/C_s$  based on the given dimensions and properties of Felodipine.
 
 To have a reasonably small $C_{tot}/C_s$ (i.e. 0.1), we should use a larger $C_s$ as follows:
 
