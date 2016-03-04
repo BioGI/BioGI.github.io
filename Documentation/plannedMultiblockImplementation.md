@@ -37,7 +37,7 @@ Let's say that we require only two grids. Figure (#multiblockDomainDecomposition
 
 #### Figure: {#multiblockDomainDecomposition}
 
-![](./multiblockDomainDecomposition.png)
+![](./dualLattice/multiblockDomainDecomposition.png)
 
 Caption: Proposed design of the computational domain and the fine mesh and it's domain decomposition.
 
@@ -172,7 +172,7 @@ Figure (#multiGridAlgorithm) shows the schematic of the multiblock algorithm for
 
 #### Figure: {#multiGridAlgorithm}
 
-![](./multiGridAlgorithm.png){width=65%}
+![](./dualLattice/multiGridAlgorithm.png){width=65%}
 
 Caption: Schematic of the multiblock time-stepping algorithm. The resolution of the fine block is 4 times that of the coarse block.
 
@@ -210,9 +210,9 @@ In this section, I will describe the interface between a coarse and a fine mesh 
 
 ####Figure: {#designFineCoarseInterface}
 
-![x-y plane](./multigridPlan_xy.png){width=75%} \
-![x-z plane](./multigridPlan_xz.png){width=49%}
-![y-z plane](./multigridPlan_yz.png){width=49%}
+![x-y plane](./dualLattice/multigridPlan_xy.png){width=75%} \
+![x-z plane](./dualLattice/multigridPlan_xz.png){width=49%}
+![y-z plane](./dualLattice/multigridPlan_yz.png){width=49%}
 
 Caption: Design of the interface between the fine and coarse meshes for the multigrid algorithm.
 
@@ -222,7 +222,7 @@ A symmetric cubic spline interpolation procedure is used in all directions when 
 
 ####Figure: {#symmetricCubicSplineInterpolation}
 
-![](./cubicSplineInterpolation.png){width=75%}
+![](./dualLattice/cubicSplineInterpolation.png){width=75%}
 
 Caption: Design of cubic spline spatial interpolation scheme to transfer data from the coarse to the fine mesh. 
 
@@ -231,7 +231,7 @@ A second order interpolation procedure is used interpolating from the coarse to 
 
 ####Figure: {#secondOrderTimeInterpolation}
 
-![](./secondOrderTimeInterpolation.png){width=75%}
+![](./dualLattice/secondOrderTimeInterpolation.png){width=75%}
 
 Caption: Design of second order temporal interpolation scheme to transfer data from the coarse to the fine mesh. 
 
@@ -310,90 +310,97 @@ Comparing single lattice to dual lattice in a pure peristalsis case with occlusi
 
 #### Figure: {#singleLattice1XgridRatio4PressureA}
 
-![(a) t=0s](./multiGridTestResults/peristalsis/occlusion0p1/singleLattice1X/t0000000_vizSingleLattice1X_P.jpg){width=49%}
-![(b) t=0s](./multiGridTestResults/peristalsis/occlusion0p1/gridRatio4/t0000000_vizDualLattice_P.jpg){width=49%} \
-![(c) t=6s](./multiGridTestResults/peristalsis/occlusion0p1/singleLattice1X/t0003000_vizSingleLattice1X_P.jpg){width=49%}
-![(d) t=6s](./multiGridTestResults/peristalsis/occlusion0p1/gridRatio4/t0003000_vizDualLattice_P.jpg){width=49%} \
-![(e) t=12s](./multiGridTestResults/peristalsis/occlusion0p1/singleLattice1X/t0006000_vizSingleLattice1X_P.jpg){width=49%}
-![(f) t=12s](./multiGridTestResults/peristalsis/occlusion0p1/gridRatio4/t0006000_vizDualLattice_P.jpg){width=49%} \
-![(g) t=18s](./multiGridTestResults/peristalsis/occlusion0p1/singleLattice1X/t0009000_vizSingleLattice1X_P.jpg){width=49%}
-![(h) t=18s](./multiGridTestResults/peristalsis/occlusion0p1/gridRatio4/t0009000_vizDualLattice_P.jpg){width=49%} \
-![(i) t=24s](./multiGridTestResults/peristalsis/occlusion0p1/singleLattice1X/t0012000_vizSingleLattice1X_P.jpg){width=49%}
-![(j) t=24s](./multiGridTestResults/peristalsis/occlusion0p1/gridRatio4/t0012000_vizDualLattice_P.jpg){width=49%} \
+![(a) t=0s](./dualLattice/testResults/peristalsis/occlusion0p1/singleLattice1X/t0000000_vizSingleLattice1X_P.jpg){width=49%}
+![(b) t=0s](./dualLattice/testResults/peristalsis/occlusion0p1/gridRatio4/t0000000_vizDualLattice_P.jpg){width=49%} \
+![(c) t=6s](./dualLattice/testResults/peristalsis/occlusion0p1/singleLattice1X/t0003000_vizSingleLattice1X_P.jpg){width=49%}
+![(d) t=6s](./dualLattice/testResults/peristalsis/occlusion0p1/gridRatio4/t0003000_vizDualLattice_P.jpg){width=49%} \
+![(e) t=12s](./dualLattice/testResults/peristalsis/occlusion0p1/singleLattice1X/t0006000_vizSingleLattice1X_P.jpg){width=49%}
+![(f) t=12s](./dualLattice/testResults/peristalsis/occlusion0p1/gridRatio4/t0006000_vizDualLattice_P.jpg){width=49%} \
+![(g) t=18s](./dualLattice/testResults/peristalsis/occlusion0p1/singleLattice1X/t0009000_vizSingleLattice1X_P.jpg){width=49%}
+![(h) t=18s](./dualLattice/testResults/peristalsis/occlusion0p1/gridRatio4/t0009000_vizDualLattice_P.jpg){width=49%} \
+![(i) t=24s](./dualLattice/testResults/peristalsis/occlusion0p1/singleLattice1X/t0012000_vizSingleLattice1X_P.jpg){width=49%}
+![(j) t=24s](./dualLattice/testResults/peristalsis/occlusion0p1/gridRatio4/t0012000_vizDualLattice_P.jpg){width=49%} \
 
 Caption: Comparison of evolution of flow field between single and dual lattice algorithm for a pure peristalsis case (occlusion ratio = 0.1) through pressure contours. (a),(c),(e),(g),(i) Single lattice algorithm; (d)-(j) Dual lattice algorithm. 
 
 #### Figure: {#singleLattice1XgridRatio4ScalarA}
 
-![(a) t=0s](./multiGridTestResults/peristalsis/occlusion0p1/singleLattice1X/t0000000_vizSingleLattice1X_phi.jpg){width=49%}
-![(b) t=0s](./multiGridTestResults/peristalsis/occlusion0p1/gridRatio4/t0000000_vizDualLattice_phi.jpg){width=49%} \
-![(c) t=6s](./multiGridTestResults/peristalsis/occlusion0p1/singleLattice1X/t0003000_vizSingleLattice1X_phi.jpg){width=49%}
-![(d) t=6s](./multiGridTestResults/peristalsis/occlusion0p1/gridRatio4/t0003000_vizDualLattice_phi.jpg){width=49%} \
-![(e) t=12s](./multiGridTestResults/peristalsis/occlusion0p1/singleLattice1X/t0006000_vizSingleLattice1X_phi.jpg){width=49%}
-![(f) t=12s](./multiGridTestResults/peristalsis/occlusion0p1/gridRatio4/t0006000_vizDualLattice_phi.jpg){width=49%} \
-![(g) t=18s](./multiGridTestResults/peristalsis/occlusion0p1/singleLattice1X/t0009000_vizSingleLattice1X_phi.jpg){width=49%}
-![(h) t=18s](./multiGridTestResults/peristalsis/occlusion0p1/gridRatio4/t0009000_vizDualLattice_phi.jpg){width=49%} \
-![(i) t=24s](./multiGridTestResults/peristalsis/occlusion0p1/singleLattice1X/t0012000_vizSingleLattice1X_phi.jpg){width=49%}
-![(j) t=24s](./multiGridTestResults/peristalsis/occlusion0p1/gridRatio4/t0012000_vizDualLattice_phi.jpg){width=49%} \
+![(a) t=0s](./dualLattice/testResults/peristalsis/occlusion0p1/singleLattice1X/t0000000_vizSingleLattice1X_phi.jpg){width=49%}
+![(b) t=0s](./dualLattice/testResults/peristalsis/occlusion0p1/gridRatio4/t0000000_vizDualLattice_phi.jpg){width=49%} \
+![(c) t=6s](./dualLattice/testResults/peristalsis/occlusion0p1/singleLattice1X/t0003000_vizSingleLattice1X_phi.jpg){width=49%}
+![(d) t=6s](./dualLattice/testResults/peristalsis/occlusion0p1/gridRatio4/t0003000_vizDualLattice_phi.jpg){width=49%} \
+![(e) t=12s](./dualLattice/testResults/peristalsis/occlusion0p1/singleLattice1X/t0006000_vizSingleLattice1X_phi.jpg){width=49%}
+![(f) t=12s](./dualLattice/testResults/peristalsis/occlusion0p1/gridRatio4/t0006000_vizDualLattice_phi.jpg){width=49%} \
+![(g) t=18s](./dualLattice/testResults/peristalsis/occlusion0p1/singleLattice1X/t0009000_vizSingleLattice1X_phi.jpg){width=49%}
+![(h) t=18s](./dualLattice/testResults/peristalsis/occlusion0p1/gridRatio4/t0009000_vizDualLattice_phi.jpg){width=49%} \
+![(i) t=24s](./dualLattice/testResults/peristalsis/occlusion0p1/singleLattice1X/t0012000_vizSingleLattice1X_phi.jpg){width=49%}
+![(j) t=24s](./dualLattice/testResults/peristalsis/occlusion0p1/gridRatio4/t0012000_vizDualLattice_phi.jpg){width=49%} \
 
 Caption: Comparison of evolution of flow field between single and dual lattice algorithm for a pure peristalsis case (occlusion ratio = 0.1) through contoursof scalar. (a),(c),(e),(g),(i) Single lattice algorithm; (d)-(j) Dual lattice algorithm. 
 
-It's hard to distinguish between the two algorithms using the pressure contours in Fig. (#singleLattice1XgridRatio4PressureA) and contours of the scalar in Fig. (#singleLattice1XgridRatio4ScalarA). However, the amount of scalar absorbed throught the intestine wall is quite different between the single lattice and multi-block algorithms as shown below in Fig. (#singleLattice1XgridRatio4ScalarAbsorbed). The reason for this is not clear. 
+It's hard to distinguish between the two algorithms using the pressure contours in Fig. (#singleLattice1XgridRatio4PressureA) and contours of the scalar in Fig. (#singleLattice1XgridRatio4ScalarA). Fig. (#singleLattice1XgridRatio4ScalarAbsorbed) compares the scalar absorbed over time computed using the different algorithms. This includes a double counting of the scalar absorbed in the interface region between the two meshes in the Dual Lattice algorithm. This is corrected in the next section.
 
 
 #### Figure: {#singleLattice1XgridRatio4ScalarAbsorbed}
 
-![occlusion ratio = 0.1](./multiGridTestResults/peristalsis/occlusion0p1/scalarAbsorbed.png){width=33%} 
-![occlusion ratio = 0.25](./multiGridTestResults/peristalsis/occlusion0p25/scalarAbsorbed.png){width=33%} 
-![occlusion ratio = 0.5](./multiGridTestResults/peristalsis/occlusion0p5/scalarAbsorbed.png){width=33%}
+![occlusion ratio = 0.1](./dualLattice/testResults/peristalsis/occlusion0p1/scalarAbsorbed.png){width=33%} 
+![occlusion ratio = 0.25](./dualLattice/testResults/peristalsis/occlusion0p25/scalarAbsorbed.png){width=33%} 
+![occlusion ratio = 0.5](./dualLattice/testResults/peristalsis/occlusion0p5/scalarAbsorbed.png){width=33%}
 
 Caption: Comparison of scalar absorbed over time between single and dual lattice algorithm for a pure peristalsis case (occlusion ratio = 0.1,0.25,0.5).
 
-## Steps to debug the scalar flux difference problem.
 
-Definition of the problem: The multi-block algorithm yields a scalar flux that is 4 times smaller than the single lattice algorithm for pure peristalsis with an occlusion ratio of 0.1.
+# Avoiding double counting of scalar
 
-1. Make sure the difference is not present if the intestine wall does not pass through the mesh interface. If it does, fix this first.
+The test for avoiding the double counting of scalar is to run the LBM code (both single and dual lattice) for 1 time step with a prescribed scalar profile and gradient at the surface of a prescribed geometry. The prescribed geometry is a straight tube with a radius of $r=0.000671m$, such that the wall goes through the interface in the dual lattice algorithm. The prescribed scalar profile is linear in $r$ such that $\phi=1$ at the center and $\phi=0$ at the wall. Thus, $\phi = 1 - r/0.000671$.
 
-This is clearly a problem as shown in Fig. (#debugScalarAbsorbedStep1). The difference between the two algorithms seems to be present even at the first time step. 
+~~~math #calcScalarAbsorbedOverOneTimeStep
+\left . \frac{\partial \phi}{ \partial n}  \right |_{wall} &= -\frac{1}{0.000671} mol/m^4 \\
+\textrm{Scalar flux at wall } &= -D_m \left . \frac{\partial \phi}{ \partial n}  \right |_{wall} = -4.8 \times 10^{-8} \frac{-1}{0.000671} = 7.15 \times 10^{-5} mol/m^2 s \\
+\textrm{Area of tube } &= 2 \; \pi \; r \; L = 2 \pi \times 0.000671 \times 0.012 = 5.0592208093410036 \times 10^{-5} m^2 \\
+\textrm{Time step } \Delta t &= 2 \times 10^{-3} s \\
+\textrm{Mol absorbed over 1 time step } &= (7.15 \times 10^{-5}) \times (5.0592208093410036 \times 10^{-5}) \times (2 \times 10^{-3}) = 7.23823 \times 10^{-12} mol \\
+\textrm{Total scalar in the domain } &= L \int_0^R (2 \pi \; r) \; (1 - r/R) \; dr = L \; \pi \left ( R^2 - \frac{2 \; R^2}{3} \right ) = L \frac{\pi R^2}{3} = 5.657895 \times 10^{-9} mol
+~~~
 
-#### Figure: {#debugScalarAbsorbedStep1}
+Fig. (#scalarAbsorbedTestr0p000671m) compares the scalar absorbed computed using the single and dual lattice algorithms with the analytical solution presented above. The dual lattice algorithm gives the same results as the single lattice algorithm to the last decimal place. However, the trend of scalar absorbed is not monotonous with grid refinement. One hypothesis for this is the way $q$ is arbitrarily set to 0.25 if it's less than 0.25 in the computation of the scalar boundary condition.
 
-![](./multiGridTestResults/peristalsis/debugScalarAbsorbedStep1.png)
+#### Figure: {#scalarAbsorbedTestr0p000671m}
 
-Caption: Difference in scalar absorbed between the single lattice and multi-block algorithm simulations for a pure peristalsis case with occlusion of 0.5 - the intestine wall does not pass through the mesh interface.
+![](./dualLattice/testResults/scalarAbsorbedTest/scalarAbsorbedTestr0p000671m.png)
 
-2. Run the multi-block algorithm with grid ratio of 1 when the intestine wall passes through the mesh interface, make sure the problem does not persist. If it does, fix this first.
-3. Run the multi-block algorithm with grid ratio of 2 when the intestine wall passes through the mesh interface. See how this changes the scalar flux. Hopefully the plot of scalar absorbed vs. time should be inbetween that of grid ratio of 1 and 4.
-4. Analyse the scalar flux across the coarse mesh and the fine mesh separately for a grid ratio of 4 when the intestine wall passes through the mesh interface. Which is higher? Does this offer any clues? How does the coarse mesh scalar flux compare to the single lattice case?
-5. Run the multi-block algorithm in the mode where the coarse mesh computations are carried out independently and the fine mesh calculations just tag along. In this case, the coarse mesh scalar flux should be the same as that from the single lattice meshes. Compare this result with that from step 4.
+Caption: Comparison of scalar absorbed over $\Delta t = 2 \times 10^{-3}s$ for a cylinder of radius $r = 0.000671m$ with the single and dual lattice algorithms. The straight line is the analytical solution.
 
+While this test was originally intended to test the double counting avoidance procedure for the scalar in the domain and the scalar absorbed, I found that the intestine wall never actually enters the coarse mesh such that an active coarse mesh node (i.e. a node where the computation actually takes place) is adjacent to the wall.
 
+#### Figure: {#avoidDoubleCountingScalarAbsorption}
+
+![](./avoidDoubleCountingScalarAbsorption.png)
+
+Caption: Scheme of flagging fine mesh nodes that intersect coarse mesh nodes to avoid double counting scalar that is absorbed at the wall when it goes through the interface between the two meshes.
+
+Fig. (#avoidDoubleCountingScalarAbsorption) shows the procedure for flagging fine mesh nodes that intersect coarse mesh nodes to avoid double counting scalar that is absorbed at the wall when it goes through the interface between the two meshes. This has to be done afresh every coarse mesh time step whenever the scalar absorbed computation is done over the coarse mesh. The test performed in Fig. (#scalarAbsorbedTestStraightTube) and Eqn. (#calcScalarAbsorbedOverOneTimeStep) is repeated for cylinders of varying radius. Fig. (#scalarAbsorbedTestStraightTube) shows that the dual lattice algorithm performs no worse than the single lattice algorithm in computing the scalar absorbed through the surface. Also, the scalar absorbed in the dual lattice algorithm follows the single lattice 1X and 4X results respectively at low and high values of the cylinder radius compared to a cylinder going through the mesh interface location.
+
+#### Figure: {#scalarAbsorbedTestStraightTube}
+
+![a](./dualLattice/testResults/scalarAbsorbedTest/straightTubeTestsScalarAbsorbed.png) \
+![b](./dualLattice/testResults/scalarAbsorbedTest/straightTubeTestsScalarAbsorbedZoom.png)
+
+Caption: Comparison of scalar absorbed over $\Delta t = 2 \times 10^{-3}s$ for a cylinder of varying radius with the single and dual lattice algorithms. The straight line is the analytical solution. (a) Full range of radii; (b) Zoomed in.
+
+While the fine mesh nodes are flagged to avoid double counting of the scalar absorbed, the inverse approach is adopted for computing the total amount of scalar in the domain. This flagging procedure however, has to be done only at the beginning of the code once. The test for avoiding the double counting in this case is to compute the total scalar in the domain (for a uniform scalar distribution $(\phi=1)$) per unit disk area and plot the result as a function of the radius. The analytical solution is a straight line equal to the length of the domain. Again, Fig. (#straightTubeTestsVolumeDomain) shows that the dual lattice algorithm performs no worse than the single lattice algorithm. 
+
+#### Figure: {#straightTubeTestsVolumeDomain}
+
+![a](./dualLattice/testResults/scalarAbsorbedTest/straightTubeTestsVolumeDomain.png) \
+![b](./dualLattice/testResults/scalarAbsorbedTest/straightTubeTestsVolumeDomainZoom.png)
+
+Caption: Comparison of total volume of the domain per unit disk area for a cylinder of varying radius with the single and dual lattice algorithms. The straight line is the analytical solution. (a) Full range of radii; (b) Zoomed in.
 
 # Future work over the next two weeks
 
 * Write up
-    * Interpolation schemes
 	* How are cases of wall interference handled during spatial and temporal interpolation
-
-* Correct scalar flux computation across intestine wall - Avoid double counting
-
-* Setup 2 spare machines in the lab to run cases.
-
-* Validation
-    * Compare dual lattice to single lattice 
-	* Single lattice should have two resolutions
-	    * Same as coarse mesh resolution in dual lattice
-		* 2X refined compared to coarse mesh resolution in dual lattice
-	* Occlusion ratio of 0.1, 0.25, 0.5 - Peristalsis and Segmentation 
-	* Compare profiles of pressure and scalar 
-	    * On lines that cross the interface
-		    * One in the middle of a processor
-			* At the interface between processors
-			* At the place where the intestine wall crosses the mesh interface
-		* On an axial line through the middle of the domain
-	* Show pressure contours through the interface
-	* Compare scalar absorption profiles over time
 
 * Particle tracking and dissolution
     * Reintroduction of particle tracking - Adding complexity to track particles through the interface
