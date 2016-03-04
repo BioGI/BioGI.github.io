@@ -375,7 +375,7 @@ While this test was originally intended to test the double counting avoidance pr
 
 #### Figure: {#avoidDoubleCountingScalarAbsorption}
 
-![](./avoidDoubleCountingScalarAbsorption.png)
+![](./dualLattice/avoidDoubleCountingScalarAbsorption.png)
 
 Caption: Scheme of flagging fine mesh nodes that intersect coarse mesh nodes to avoid double counting scalar that is absorbed at the wall when it goes through the interface between the two meshes.
 

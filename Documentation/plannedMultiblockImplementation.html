@@ -482,7 +482,7 @@ END FUNCTION spatialInterpolate</code></pre>
 <p>While this test was originally intended to test the double counting avoidance procedure for the scalar in the domain and the scalar absorbed, I found that the intestine wall never actually enters the coarse mesh such that an active coarse mesh node (i.e. a node where the computation actually takes place) is adjacent to the wall.</p>
 <figure class="scholmd-float scholmd-figure" id="avoidDoubleCountingScalarAbsorption">
 <div class="scholmd-float-content"><figure class="scholmd-subfig" style="display: inline-block; width: ">
-<img src="./avoidDoubleCountingScalarAbsorption.png" />
+<img src="./dualLattice/avoidDoubleCountingScalarAbsorption.png" />
 </figure></div>
 <div class="scholmd-float-caption"><figcaption><span class="scholmd-caption-head"><span class="scholmd-caption-head-prefix">Figure</span><span class="scholmd-caption-head-label">12</span></span><span class="scholmd-caption-text">Scheme of flagging fine mesh nodes that intersect coarse mesh nodes to avoid double counting scalar that is absorbed at the wall when it goes through the interface between the two meshes.</span></figcaption></div>
 </figure>
