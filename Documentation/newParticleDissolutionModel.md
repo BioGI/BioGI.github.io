@@ -21,9 +21,7 @@ Equation (#nonDimParameters) defines the non-dimensional parameters.
 \left.\begin{aligned}
 S    & \equiv \frac{U_o}{H} \\
 Re_s & \equiv \frac{S \; R^2}{ \nu} \\
-S^*  & \equiv Re_s \\
-Sc   & \equiv \frac{S R^2}{\nu} \\
-\frac{\nu}{D_m} & = \frac{S R^2}{D_m} \\
+S^*  & \equiv Re_s \; Sc  = \frac{S R^2}{\nu} \; \frac{\nu}{D_m} = \frac{S R^2}{D_m}
 \end{aligned}
 \right\}
 \qquad \text{Non-dimensional parameters}
@@ -44,29 +42,297 @@ Table (#table:CasesYanxing) describes the parameters of the cases run by Yanxing
 
 #### Table:  {#table:CasesYanxing}
 
-| $U_o$    |  $Re_s$ | $\nu$    |$\tau_c$   | $\tau_f = 1/2 + m \left (\tau_c -  1/2 \right )$ |
-|----------|---------|----------|-----------|--------------------------------------------------|
-|   0.1    |     1   | 0.012516 | 0.537547  |                           0.800375               |
-|   0.1    |    0.8  | 0.015645 | 0.546934  |                           0.875469               |
-|   0.1    |    0.75 | 0.016688 | 0.550063  |                           0.9005                 |
-|   0.1    |    0.6  | 0.020859 | 0.562578  |                           1.000625               |
-|   0.1    |    0.5  | 0.025031 | 0.575094  |                           1.10075                |
-|   0.1    |    0.4  | 0.031289 | 0.593867  |                           1.250938               |
-|   0.1    |    0.25 | 0.050063 | 0.650188  |                           1.7015                 |
-|   0.1    |    0.2  | 0.062578 | 0.687734  |                           2.001875               |
-|   0.1    |    0.1  | 0.125156 | 0.875469  |                           3.50375                |
-|   0.08   |    0.08 | 0.125156 | 0.875469  |                           3.50735                |
-|   0.08   |    0.075| 0.1335   | 0.9005    |                           3.704                  |
-|   0.06   |    0.06 | 0.125156 | 0.875469  |                           3.50735                |  
-|   0.06   |    0.05 | 0.150188 | 0.950563  |                           4.1045                 |
-|   0.04   |    0.04 | 0.125156 | 0.875469  |                           3.50735                |
-|   0.04   |    0.025| 0.20025  | 1.10075   |                           5.306                  |
-|   0.02   |    0.02 | 0.125156 | 0.875469  |                           3.50735                |
-|   0.02   |    0.02 | 0.250313 | 1.250938  |                           6.5075                 |
+| $U_o$    |  $Re_s$ | $\nu$    |$\tau_c$   | $\tau_f = 1/2 + m \left (\tau_c -  1/2 \right )$ | $Sc_1$ | $Sc_2$ | $Sc_3$ | $Sc_4$ | $Sc_5$ |  $Sc_6$ | $S^*_1$ | $S^*_2$ | $S^*_3$ | $S^*_4$ | $S^*_5$ | $S^*_6$
+|----------|---------|----------|-----------|--------------------------------------------------|------|------|------|------|------|------|------|------|------|------|-----|-----|
+|   0.1    |     1   | 0.012516 | 0.537547  |                           0.800375               |    | 20 | 40 | 60 | 80 | 100 |    | 20 | 40 | 60 | 80 | 100 | 
+|   0.1    |    0.8  | 0.015645 | 0.546934  |                           0.875469               |    |    |    |    |    |     |    |    |    |    |    |     | 
+|   0.1    |    0.75 | 0.016688 | 0.550063  |                           0.9005                 | 10 | 20 | 40 | 60 | 80 | 100 | 7.5 | 15 | 30 | 45 | 60 | 75 | 
+|   0.1    |    0.6  | 0.020859 | 0.562578  |                           1.000625               |    |    |    |    |    |     |    |    |    |    |    |     | 
+|   0.1    |    0.5  | 0.025031 | 0.575094  |                           1.10075                | 10 | 20 | 40 | 60 | 80 | 100 |   5 | 10 | 20 | 30 | 40 | 50 | 
+|   0.1    |    0.4  | 0.031289 | 0.593867  |                           1.250938               |    |    |    |    |    |     |    |    |    |    |    |     | 
+|   0.1    |    0.25 | 0.050063 | 0.650188  |                           1.7015                 | 10 | 20 | 40 | 60 | 80 | 100 | 2.5 |  5 | 10 | 15 | 20 | 25 | 
+|   0.1    |    0.2  | 0.062578 | 0.687734  |                           2.001875               |    |    |    |    |    |     |    |    |    |    |    |     | 
+|   ***0.1***    |   ***0.1***  | ***0.125156*** | ***0.875469***  |                           ***3.50375***                | ***10*** | 20 | 40 | 60 | 80 | 100 |   ***1*** |  2 |  4 |  6 |  8 | 10 | 
+|   0.08   |    0.08 | 0.125156 | 0.875469  |                           3.50735                |    |    |    |    |    |     |    |    |    |    |    |     | 
+|   0.08   |    0.075| 0.1335   | 0.9005    |                           3.704                  | 10 | 20 | 40 | 60 | 80 | 100 | 0.75|1.5 |  3 |4.5 |  6 | 7.5| 
+|   0.06   |    0.06 | 0.125156 | 0.875469  |                           3.50735                |    |    |    |    |    |     |    |    |    |    |    |     | 
+|   0.06   |    0.05 | 0.150188 | 0.950563  |                           4.1045                 | 10 | 20 | 40 | 60 | 80 | 100 |  0.5| 1  |  2 |  3 |  4 |  5 | 
+|   0.04   |    0.04 | 0.125156 | 0.875469  |                           3.50735                |    |    |    |    |    |     |    |    |    |    |    |     | 
+|   0.04   |    0.025| 0.20025  | 1.10075   |                           5.306                  | 10 | 20 | 40 | 60 | 80 | 100 | 0.25| 0.5 | 1 | 1.5 | 2 | 2.5 |  
+|   0.02   |    0.02 | 0.125156 | 0.875469  |                           3.50735                |    |    |    |    |    |     |    |    |    |    |    |     | 
+|   0.02   |    0.01 | 0.250313 | 1.250938  |                           6.5075                 | 10 | 20 | 40 | 60 | 80 | 100 |  0.1 | 0.2 | 0.4 | 0.6 | 0.8 | 1 |   
 
-Caption: Cases run by Yanxing
+Caption: Cases run by Yanxing. Alternate rows contain the Schmidt number data as well. We have the data for these cases in the hard drive that Yanxing left behind. The highlighted case is the first case that we will run to compare against Yanxing. 
 
-# Drug Properties
+## Plots of Yanxing's data
+
+I merely plot Yanxing's data here.
+
+#### Figure: {#re001s}
+
+![Sc=20](./yanxingSphereData/re001s/scalarDomain_Sc20.0.png){width=33%}
+![Sc=20](./yanxingSphereData/re001s/scalarRelease_Sc20.0.png){width=33%}
+![Sc=20](./yanxingSphereData/re001s/scalarReleaseInt_Sc20.0.png){width=33%} \
+![Sc=40](./yanxingSphereData/re001s/scalarDomain_Sc40.0.png){width=33%}
+![Sc=40](./yanxingSphereData/re001s/scalarRelease_Sc40.0.png){width=33%}
+![Sc=40](./yanxingSphereData/re001s/scalarReleaseInt_Sc40.0.png){width=33%} \
+![Sc=60](./yanxingSphereData/re001s/scalarDomain_Sc60.0.png){width=33%}
+![Sc=60](./yanxingSphereData/re001s/scalarRelease_Sc60.0.png){width=33%}
+![Sc=60](./yanxingSphereData/re001s/scalarReleaseInt_Sc60.0.png){width=33%} \
+![Sc=80](./yanxingSphereData/re001s/scalarDomain_Sc80.0.png){width=33%}
+![Sc=80](./yanxingSphereData/re001s/scalarRelease_Sc80.0.png){width=33%}
+![Sc=80](./yanxingSphereData/re001s/scalarReleaseInt_Sc80.0.png){width=33%} \
+![Sc=100](./yanxingSphereData/re001s/scalarDomain_Sc100.0.png){width=33%}
+![Sc=100](./yanxingSphereData/re001s/scalarRelease_Sc100.0.png){width=33%}
+![Sc=100](./yanxingSphereData/re001s/scalarReleaseInt_Sc100.0.png){width=33%} 
+
+Caption: Scalar in the domain for $Re_s = 0.001$. The left column is the total scalar in the domain, the middle column is the scalar released at that time over a time-step, the right column is the total scalar released so far obtained by time-integration. Ideally, the left and the right column should be the same.
+
+
+#### Figure: {#re0025s}
+
+![Sc=10](./yanxingSphereData/re0025s/scalarDomain_Sc10.0.png){width=33%}
+![Sc=10](./yanxingSphereData/re0025s/scalarRelease_Sc10.0.png){width=33%}
+![Sc=10](./yanxingSphereData/re0025s/scalarReleaseInt_Sc10.0.png){width=33%} \
+![Sc=20](./yanxingSphereData/re0025s/scalarDomain_Sc20.0.png){width=33%}
+![Sc=20](./yanxingSphereData/re0025s/scalarRelease_Sc20.0.png){width=33%}
+![Sc=20](./yanxingSphereData/re0025s/scalarReleaseInt_Sc20.0.png){width=33%} \
+![Sc=40](./yanxingSphereData/re0025s/scalarDomain_Sc40.0.png){width=33%}
+![Sc=40](./yanxingSphereData/re0025s/scalarRelease_Sc40.0.png){width=33%}
+![Sc=40](./yanxingSphereData/re0025s/scalarReleaseInt_Sc40.0.png){width=33%} \
+![Sc=60](./yanxingSphereData/re0025s/scalarDomain_Sc60.0.png){width=33%}
+![Sc=60](./yanxingSphereData/re0025s/scalarRelease_Sc60.0.png){width=33%}
+![Sc=60](./yanxingSphereData/re0025s/scalarReleaseInt_Sc60.0.png){width=33%} \
+![Sc=80](./yanxingSphereData/re0025s/scalarDomain_Sc80.0.png){width=33%}
+![Sc=80](./yanxingSphereData/re0025s/scalarRelease_Sc80.0.png){width=33%}
+![Sc=80](./yanxingSphereData/re0025s/scalarReleaseInt_Sc80.0.png){width=33%} \
+![Sc=100](./yanxingSphereData/re0025s/scalarDomain_Sc100.0.png){width=33%}
+![Sc=100](./yanxingSphereData/re0025s/scalarRelease_Sc100.0.png){width=33%}
+![Sc=100](./yanxingSphereData/re0025s/scalarReleaseInt_Sc100.0.png){width=33%} 
+
+Caption: Scalar in the domain for $Re_s = 0.0025$. The left column is the total scalar in the domain, the middle column is the scalar released at that time over a time-step, the right column is the total scalar released so far obtained by time-integration. Ideally, the left and the right column should be the same.
+
+
+#### Figure: {#re005s}
+
+![Sc=10](./yanxingSphereData/re005s/scalarDomain_Sc10.0.png){width=33%}
+![Sc=10](./yanxingSphereData/re005s/scalarRelease_Sc10.0.png){width=33%}
+![Sc=10](./yanxingSphereData/re005s/scalarReleaseInt_Sc10.0.png){width=33%} \
+![Sc=20](./yanxingSphereData/re005s/scalarDomain_Sc20.0.png){width=33%}
+![Sc=20](./yanxingSphereData/re005s/scalarRelease_Sc20.0.png){width=33%}
+![Sc=20](./yanxingSphereData/re005s/scalarReleaseInt_Sc20.0.png){width=33%} \
+![Sc=40](./yanxingSphereData/re005s/scalarDomain_Sc40.0.png){width=33%}
+![Sc=40](./yanxingSphereData/re005s/scalarRelease_Sc40.0.png){width=33%}
+![Sc=40](./yanxingSphereData/re005s/scalarReleaseInt_Sc40.0.png){width=33%} \
+![Sc=60](./yanxingSphereData/re005s/scalarDomain_Sc60.0.png){width=33%}
+![Sc=60](./yanxingSphereData/re005s/scalarRelease_Sc60.0.png){width=33%}
+![Sc=60](./yanxingSphereData/re005s/scalarReleaseInt_Sc60.0.png){width=33%} \
+![Sc=80](./yanxingSphereData/re005s/scalarDomain_Sc80.0.png){width=33%}
+![Sc=80](./yanxingSphereData/re005s/scalarRelease_Sc80.0.png){width=33%}
+![Sc=80](./yanxingSphereData/re005s/scalarReleaseInt_Sc80.0.png){width=33%} \
+![Sc=100](./yanxingSphereData/re005s/scalarDomain_Sc100.0.png){width=33%}
+![Sc=100](./yanxingSphereData/re005s/scalarRelease_Sc100.0.png){width=33%}
+![Sc=100](./yanxingSphereData/re005s/scalarReleaseInt_Sc100.0.png){width=33%}
+
+Caption: Scalar in the domain for $Re_s = 0.005$. The left column is the total scalar in the domain, the middle column is the scalar released at that time over a time-step, the right column is the total scalar released so far obtained by time-integration. Ideally, the left and the right column should be the same.
+
+
+#### Figure: {#re0075s}
+
+![Sc=10](./yanxingSphereData/re0075s/scalarDomain_Sc10.0.png){width=33%}
+![Sc=10](./yanxingSphereData/re0075s/scalarRelease_Sc10.0.png){width=33%}
+![Sc=10](./yanxingSphereData/re0075s/scalarReleaseInt_Sc10.0.png){width=33%} \
+![Sc=20](./yanxingSphereData/re0075s/scalarDomain_Sc20.0.png){width=33%}
+![Sc=20](./yanxingSphereData/re0075s/scalarRelease_Sc20.0.png){width=33%}
+![Sc=20](./yanxingSphereData/re0075s/scalarReleaseInt_Sc20.0.png){width=33%} \
+![Sc=40](./yanxingSphereData/re0075s/scalarDomain_Sc40.0.png){width=33%}
+![Sc=40](./yanxingSphereData/re0075s/scalarRelease_Sc40.0.png){width=33%}
+![Sc=40](./yanxingSphereData/re0075s/scalarReleaseInt_Sc40.0.png){width=33%} \
+![Sc=60](./yanxingSphereData/re0075s/scalarDomain_Sc60.0.png){width=33%}
+![Sc=60](./yanxingSphereData/re0075s/scalarRelease_Sc60.0.png){width=33%}
+![Sc=60](./yanxingSphereData/re0075s/scalarReleaseInt_Sc60.0.png){width=33%} \
+![Sc=80](./yanxingSphereData/re0075s/scalarDomain_Sc80.0.png){width=33%}
+![Sc=80](./yanxingSphereData/re0075s/scalarRelease_Sc80.0.png){width=33%}
+![Sc=80](./yanxingSphereData/re0075s/scalarReleaseInt_Sc80.0.png){width=33%} \
+![Sc=100](./yanxingSphereData/re0075s/scalarDomain_Sc100.0.png){width=33%}
+![Sc=100](./yanxingSphereData/re0075s/scalarRelease_Sc100.0.png){width=33%}
+![Sc=100](./yanxingSphereData/re0075s/scalarReleaseInt_Sc100.0.png){width=33%} 
+
+Caption: Scalar in the domain for $Re_s = 0.0075$. The left column is the total scalar in the domain, the middle column is the scalar released at that time over a time-step, the right column is the total scalar released so far obtained by time-integration. Ideally, the left and the right column should be the same.
+
+
+#### Figure: {#re01s}
+
+![Sc=10](./yanxingSphereData/re01s-b/scalarDomain_Sc10.0.png){width=33%}
+![Sc=10](./yanxingSphereData/re01s-b/scalarRelease_Sc10.0.png){width=33%}
+![Sc=10](./yanxingSphereData/re01s-b/scalarReleaseInt_Sc10.0.png){width=33%} \
+![Sc=20](./yanxingSphereData/re01s-b/scalarDomain_Sc20.0.png){width=33%}
+![Sc=20](./yanxingSphereData/re01s-b/scalarRelease_Sc20.0.png){width=33%}
+![Sc=20](./yanxingSphereData/re01s-b/scalarReleaseInt_Sc20.0.png){width=33%} \
+![Sc=40](./yanxingSphereData/re01s-b/scalarDomain_Sc40.0.png){width=33%}
+![Sc=40](./yanxingSphereData/re01s-b/scalarRelease_Sc40.0.png){width=33%}
+![Sc=40](./yanxingSphereData/re01s-b/scalarReleaseInt_Sc40.0.png){width=33%} \
+![Sc=60](./yanxingSphereData/re01s-b/scalarDomain_Sc60.0.png){width=33%}
+![Sc=60](./yanxingSphereData/re01s-b/scalarRelease_Sc60.0.png){width=33%}
+![Sc=60](./yanxingSphereData/re01s-b/scalarReleaseInt_Sc60.0.png){width=33%} \
+![Sc=80](./yanxingSphereData/re01s-b/scalarDomain_Sc80.0.png){width=33%}
+![Sc=80](./yanxingSphereData/re01s-b/scalarRelease_Sc80.0.png){width=33%}
+![Sc=80](./yanxingSphereData/re01s-b/scalarReleaseInt_Sc80.0.png){width=33%} \
+![Sc=100](./yanxingSphereData/re01s-b/scalarDomain_Sc100.0.png){width=33%}
+![Sc=100](./yanxingSphereData/re01s-b/scalarRelease_Sc100.0.png){width=33%}
+![Sc=100](./yanxingSphereData/re01s-b/scalarReleaseInt_Sc100.0.png){width=33%}
+
+Caption: Scalar in the domain for $Re_s = 0.1$. The left column is the total scalar in the domain, the middle column is the scalar released at that time over a time-step, the right column is the total scalar released so far obtained by time-integration. Ideally, the left and the right column should be the same.
+
+
+#### Figure: {#re025s}
+
+![Sc=10](./yanxingSphereData/re025s-b/scalarDomain_Sc10.0.png){width=33%}
+![Sc=10](./yanxingSphereData/re025s-b/scalarRelease_Sc10.0.png){width=33%}
+![Sc=10](./yanxingSphereData/re025s-b/scalarReleaseInt_Sc10.0.png){width=33%} \
+![Sc=20](./yanxingSphereData/re025s-b/scalarDomain_Sc20.0.png){width=33%}
+![Sc=20](./yanxingSphereData/re025s-b/scalarRelease_Sc20.0.png){width=33%}
+![Sc=20](./yanxingSphereData/re025s-b/scalarReleaseInt_Sc20.0.png){width=33%} \
+![Sc=40](./yanxingSphereData/re025s-b/scalarDomain_Sc40.0.png){width=33%}
+![Sc=40](./yanxingSphereData/re025s-b/scalarRelease_Sc40.0.png){width=33%}
+![Sc=40](./yanxingSphereData/re025s-b/scalarReleaseInt_Sc40.0.png){width=33%} \
+![Sc=60](./yanxingSphereData/re025s-b/scalarDomain_Sc60.0.png){width=33%}
+![Sc=60](./yanxingSphereData/re025s-b/scalarRelease_Sc60.0.png){width=33%}
+![Sc=60](./yanxingSphereData/re025s-b/scalarReleaseInt_Sc60.0.png){width=33%} \
+![Sc=80](./yanxingSphereData/re025s-b/scalarDomain_Sc80.0.png){width=33%}
+![Sc=80](./yanxingSphereData/re025s-b/scalarRelease_Sc80.0.png){width=33%}
+![Sc=80](./yanxingSphereData/re025s-b/scalarReleaseInt_Sc80.0.png){width=33%} \
+![Sc=100](./yanxingSphereData/re025s-b/scalarDomain_Sc100.0.png){width=33%}
+![Sc=100](./yanxingSphereData/re025s-b/scalarRelease_Sc100.0.png){width=33%}
+![Sc=100](./yanxingSphereData/re025s-b/scalarReleaseInt_Sc100.0.png){width=33%}
+
+Caption: Scalar in the domain for $Re_s = 0.25$. The left column is the total scalar in the domain, the middle column is the scalar released at that time over a time-step, the right column is the total scalar released so far obtained by time-integration. Ideally, the left and the right column should be the same.
+
+
+#### Figure: {#re05s}
+
+![Sc=10](./yanxingSphereData/re05s-b/scalarDomain_Sc10.0.png){width=33%}
+![Sc=10](./yanxingSphereData/re05s-b/scalarRelease_Sc10.0.png){width=33%}
+![Sc=10](./yanxingSphereData/re05s-b/scalarReleaseInt_Sc10.0.png){width=33%} \
+![Sc=20](./yanxingSphereData/re05s-b/scalarDomain_Sc20.0.png){width=33%}
+![Sc=20](./yanxingSphereData/re05s-b/scalarRelease_Sc20.0.png){width=33%}
+![Sc=20](./yanxingSphereData/re05s-b/scalarReleaseInt_Sc20.0.png){width=33%} \
+![Sc=40](./yanxingSphereData/re05s-b/scalarDomain_Sc40.0.png){width=33%}
+![Sc=40](./yanxingSphereData/re05s-b/scalarRelease_Sc40.0.png){width=33%}
+![Sc=40](./yanxingSphereData/re05s-b/scalarReleaseInt_Sc40.0.png){width=33%} \
+![Sc=60](./yanxingSphereData/re05s-b/scalarDomain_Sc60.0.png){width=33%}
+![Sc=60](./yanxingSphereData/re05s-b/scalarRelease_Sc60.0.png){width=33%}
+![Sc=60](./yanxingSphereData/re05s-b/scalarReleaseInt_Sc60.0.png){width=33%} \
+![Sc=80](./yanxingSphereData/re05s-b/scalarDomain_Sc80.0.png){width=33%}
+![Sc=80](./yanxingSphereData/re05s-b/scalarRelease_Sc80.0.png){width=33%}
+![Sc=80](./yanxingSphereData/re05s-b/scalarReleaseInt_Sc80.0.png){width=33%} \
+![Sc=100](./yanxingSphereData/re05s-b/scalarDomain_Sc100.0.png){width=33%}
+![Sc=100](./yanxingSphereData/re05s-b/scalarRelease_Sc100.0.png){width=33%}
+![Sc=100](./yanxingSphereData/re05s-b/scalarReleaseInt_Sc100.0.png){width=33%}
+
+Caption: Scalar in the domain for $Re_s = 0.5$. The left column is the total scalar in the domain, the middle column is the scalar released at that time over a time-step, the right column is the total scalar released so far obtained by time-integration. Ideally, the left and the right column should be the same.
+
+
+#### Figure: -{#re075s-b}
+
+![Sc=10](./yanxingSphereData/re075s-b/scalarDomain_Sc10.0.png){width=33%}
+![Sc=10](./yanxingSphereData/re075s-b/scalarRelease_Sc10.0.png){width=33%}
+![Sc=10](./yanxingSphereData/re075s-b/scalarReleaseInt_Sc10.0.png){width=33%} \
+![Sc=20](./yanxingSphereData/re075s-b/scalarDomain_Sc20.0.png){width=33%}
+![Sc=20](./yanxingSphereData/re075s-b/scalarRelease_Sc20.0.png){width=33%}
+![Sc=20](./yanxingSphereData/re075s-b/scalarReleaseInt_Sc20.0.png){width=33%} \
+![Sc=40](./yanxingSphereData/re075s-b/scalarDomain_Sc40.0.png){width=33%}
+![Sc=40](./yanxingSphereData/re075s-b/scalarRelease_Sc40.0.png){width=33%}
+![Sc=40](./yanxingSphereData/re075s-b/scalarReleaseInt_Sc40.0.png){width=33%} \
+![Sc=60](./yanxingSphereData/re075s-b/scalarDomain_Sc60.0.png){width=33%}
+![Sc=60](./yanxingSphereData/re075s-b/scalarRelease_Sc60.0.png){width=33%}
+![Sc=60](./yanxingSphereData/re075s-b/scalarReleaseInt_Sc60.0.png){width=33%} \
+![Sc=80](./yanxingSphereData/re075s-b/scalarDomain_Sc80.0.png){width=33%}
+![Sc=80](./yanxingSphereData/re075s-b/scalarRelease_Sc80.0.png){width=33%}
+![Sc=80](./yanxingSphereData/re075s-b/scalarReleaseInt_Sc80.0.png){width=33%} \
+![Sc=100](./yanxingSphereData/re075s-b/scalarDomain_Sc100.0.png){width=33%}
+![Sc=100](./yanxingSphereData/re075s-b/scalarRelease_Sc100.0.png){width=33%}
+![Sc=100](./yanxingSphereData/re075s-b/scalarReleaseInt_Sc100.0.png){width=33%}
+
+Caption: Scalar in the domain for $Re_s = 0.75$. The left column is the total scalar in the domain, the middle column is the scalar released at that time over a time-step, the right column is the total scalar released so far obtained by time-integration. Ideally, the left and the right column should be the same.
+
+
+#### Figure: {#re1s-b}
+
+![Sc=10](./yanxingSphereData/re1s-b/scalarDomain_Sc10.0.png){width=33%}
+![Sc=10](./yanxingSphereData/re1s-b/scalarRelease_Sc10.0.png){width=33%}
+![Sc=10](./yanxingSphereData/re1s-b/scalarReleaseInt_Sc10.0.png){width=33%} \
+![Sc=20](./yanxingSphereData/re1s-b/scalarDomain_Sc20.0.png){width=33%}
+![Sc=20](./yanxingSphereData/re1s-b/scalarRelease_Sc20.0.png){width=33%}
+![Sc=20](./yanxingSphereData/re1s-b/scalarReleaseInt_Sc20.0.png){width=33%} \
+![Sc=40](./yanxingSphereData/re1s-b/scalarDomain_Sc40.0.png){width=33%}
+![Sc=40](./yanxingSphereData/re1s-b/scalarRelease_Sc40.0.png){width=33%}
+![Sc=40](./yanxingSphereData/re1s-b/scalarReleaseInt_Sc40.0.png){width=33%} \
+![Sc=60](./yanxingSphereData/re1s-b/scalarDomain_Sc60.0.png){width=33%}
+![Sc=60](./yanxingSphereData/re1s-b/scalarRelease_Sc60.0.png){width=33%}
+![Sc=60](./yanxingSphereData/re1s-b/scalarReleaseInt_Sc60.0.png){width=33%} \
+![Sc=80](./yanxingSphereData/re1s-b/scalarDomain_Sc80.0.png){width=33%}
+![Sc=80](./yanxingSphereData/re1s-b/scalarRelease_Sc80.0.png){width=33%}
+![Sc=80](./yanxingSphereData/re1s-b/scalarReleaseInt_Sc80.0.png){width=33%} \
+![Sc=100](./yanxingSphereData/re1s-b/scalarDomain_Sc100.0.png){width=33%}
+![Sc=100](./yanxingSphereData/re1s-b/scalarRelease_Sc100.0.png){width=33%}
+![Sc=100](./yanxingSphereData/re1s-b/scalarReleaseInt_Sc100.0.png){width=33%}
+
+Caption: Scalar in the domain for $Re_s = 1$. The left column is the total scalar in the domain, the middle column is the scalar released at that time over a time-step, the right column is the total scalar released so far obtained by time-integration. Ideally, the left and the right column should be the same.
+
+
+
+## Calculating dimensional quantities from non-dimensional parameters
+
+We inverse calculate the dimensional quantites from the non-dimensional parameters as follows:
+~~~math #inverseCalcDimNonDim
+Re_s &= \frac{S \; R^2}{ \nu} = \frac{U_o}{H} \; \frac{R^2}{ \nu} = \frac{U_o R}{ \nu} \frac{R}{H} =  \frac{U_o R}{20 \; \nu}, \\
+R &= \frac{20 \; Re_s \; \nu }{U_o}, \\
+D_m &= \frac{\nu}{Sc}.
+~~~
+
+Using Eqn. (#inverseCalcDimNonDim), the quantities in Table (#table:CasesYanxing) become as shown in Table
+
+#### Table:  {#table:CasesYanxingDimensionalData}
+
+| $U_o$ | $Re_s$  | $\nu$ | $R$ | $H$ | $L$ | $W$ | 
+|-------|---------|-------|-----|-----|-----|-----| 
+| 0.1 | 1.000 | 0.012516 | 2.503200 | 50.064000 | 125.160000 | 50.064000 | 
+| 0.1 | 0.750 | 0.016688 | 2.503200 | 50.064000 | 125.160000 | 50.064000 | 
+| 0.1 | 0.500 | 0.025031 | 2.503100 | 50.062000 | 125.155000 | 50.062000 | 
+| 0.1 | 0.250 | 0.050063 | 2.503150 | 50.063000 | 125.157500 | 50.063000 | 
+| 0.1 | 0.100 | 0.125156 | 2.503120 | 50.062400 | 125.156000 | 50.062400 | 
+| 0.1 | 0.075 | 0.133500 | 2.503125 | 50.062500 | 125.156250 | 50.062500 | 
+| 0.1 | 0.050 | 0.150188 | 2.503133 | 50.062667 | 125.156667 | 50.062667 | 
+| 0.0 | 0.025 | 0.200250 | 2.503125 | 50.062500 | 125.156250 | 50.062500 | 
+| 0.0 | 0.010 | 0.250313 | 2.503130 | 50.062600 | 125.156500 | 50.062600 | 
+
+Caption: Conversion of non-dimensional parameters in Table (#table:CasesYanxing) to dimensional quantities.
+
+Table (#table:CasesYanxingDimensionalData) The dimensions of the domain and the particle for all cases are roughly the same and any differences between are likely due to the round off error in the representation of $\nu$. Hence, we propose that the dimensional parameters be fixed as
+
+~~~math 
+R&= 2.5m, \; H = 50m, \\
+L&= 125m, \; W = 50m,
+~~~
+and that the $\nu$ be adjusted to recover the same $Re_s$ and $U_o$ as $\nu = (U_o R/20 Re_s)$.
+
+
+
+
+## First comparison with Yanxing data
+The parameters of the first simulation will be
+
+~~~math 
+R&= 2.5m, \; H = 50m, \\
+L&= 125m, \; W = 50m, \\
+\nu &= 0.125m^2/s, \; Sc = 10, \\
+S^* &= 1.0, \; D_m = 0.0125 m^2/s \\
+C_s &= 1.0 mol/m^3; U_o = 0.1 m/s.
+~~~
+
+
+## Drug Properties
 Felodipine was chosen for these simulations. The drug properties are shown in Table (#table:FelodipineProperties):
 
 #### Table:  {#table:FelodipineProperties} 
@@ -103,7 +369,7 @@ $\dfrac{C_{tot}} {C_s} = 0.1 \Rightarrow C_s = 7.89 e-6$
          
 
  
-#Further description given by Yanxing: 
+##Further description given by Yanxing: 
 
     In each case with a specific Reynolds number, a couple of scalars with different Schmidt numbers are considered. 
     The number of Schmidt numbers is denoted by “nsc”. The Schmidt numbers are given in “sc.dat”. 
