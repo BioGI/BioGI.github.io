@@ -1051,7 +1051,7 @@ L&amp;= 125m, \; W = 50m,
 \]</span>
  and that the <span class="math scholmd-math-inline">\(\nu\)</span> be adjusted to recover the same <span class="math scholmd-math-inline">\(Re_s\)</span> and <span class="math scholmd-math-inline">\(U_o\)</span> as <span class="math scholmd-math-inline">\(\nu = (U_o R/20 Re_s)\)</span>.</p>
 <h2 id="first-comparison-with-yanxing-data">First comparison with Yanxing data</h2>
-<p>The parameters of the first simulation will be</p>
+<p>To define the parameters for our simulation we start with these basic equations:</p>
 <p>
 <span class="math scholmd-math-display" style="display: block;">\[
 \begin{equation*}
@@ -1066,7 +1066,7 @@ W/R=20
 \end{equation*}
 \]</span>
 </p>
-<p>and 
+<p>and using these values as input: 
 <span class="math scholmd-math-display" style="display: block;">\[
 \begin{equation*}
 \begin{split}
@@ -1074,19 +1074,27 @@ U_o = 0.1 m/s \\
 Sc = 10 \\
 S^* = 1 \\
 Re_s= 0.1 \\
-
+\nu= 0.125 m^2/s \\ 
+\end{split}
+\end{equation*}
+\]</span>
+ We can compute all physical parameters needed: 
+<span class="math scholmd-math-display" style="display: block;">\[
+\begin{equation*}
+\begin{split}
 R= 2.5 m, \\ 
 H = 50 m, \\
 W = 50 m, \\
 L= 125 m, \\ 
-
-\nu= 0.125 m^2/s \\ 
 D_m = 0.0125 m^2/s \\
+\nu= 0.125 m^2/s \\ 
 C_s = 1 mol/m^3 \\
 \end{split}
 \end{equation*}
 \]</span>
- 
+</p>
+<h2 id="simplified-estimation-of-the-total-drugs-released">Simplified estimation of the total drugs released</h2>
+<p>Using parameters defined in previous section, the total drug released in the domain in 20 seconds can be estimated as: 
 <span class="math scholmd-math-display" style="display: block;">\[
 \begin{equation*}
 \begin{split}

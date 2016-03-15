@@ -321,7 +321,7 @@ and that the $\nu$ be adjusted to recover the same $Re_s$ and $U_o$ as $\nu = (U
 
 
 ## First comparison with Yanxing data
-The parameters of the first simulation will be
+To define the parameters for our simulation we start with these basic equations:
 
 
 ~~~math
@@ -333,25 +333,35 @@ L/R=50 \\
 W/R=20
 ~~~
 
-and
+and using these values as input:
 
 ~~~math 
 U_o = 0.1 m/s \\
 Sc = 10 \\
 S^* = 1 \\
 Re_s= 0.1 \\
+\nu= 0.125 m^2/s \\ 
+~~~
 
+We can compute all physical parameters needed:
+
+~~~math
 R= 2.5 m, \\ 
 H = 50 m, \\
 W = 50 m, \\
 L= 125 m, \\ 
-
-\nu= 0.125 m^2/s \\ 
 D_m = 0.0125 m^2/s \\
+\nu= 0.125 m^2/s \\ 
 C_s = 1 mol/m^3 \\
 ~~~
 
 
+
+
+
+## Simplified estimation of the total drugs released 
+
+Using parameters defined in previous section, the total drug released in the domain in 20 seconds can be estimated as:
 ~~~math 
 N^"_s =  \frac{Sh \; D_m \; [C_s-C_b] }{R}  \\
 Total Moles Released = N^"_s A \Delta t = (4 \pi R^2) N^"_s \Delta t
