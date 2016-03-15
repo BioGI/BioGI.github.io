@@ -323,6 +323,18 @@ and that the $\nu$ be adjusted to recover the same $Re_s$ and $U_o$ as $\nu = (U
 ## First comparison with Yanxing data
 The parameters of the first simulation will be
 
+
+~~~math
+S   = \frac{U_o}{H} \\
+Re_s= \frac{S R^2}{\nu} \\
+S^* = \frac{S R^2}{D_m} \\
+H/R = 20\\
+L/R=50 \\
+W/R=20
+~~~
+
+and
+
 ~~~math 
 U_o = 0.1 m/s \\
 Sc = 10 \\
@@ -342,7 +354,7 @@ C_s = 1 mol/m^3 \\
 
 ~~~math 
 N^"_s =  \frac{Sh \; D_m \; [C_s-C_b] }{R}  \\
-moles = N^"_s A \Delta t = (4 \pi R^2) N^"_s \Delta t
+Total Moles Released = N^"_s A \Delta t = (4 \pi R^2) N^"_s \Delta t
 ~~~
 
 Assuming $C_b= 0$ and $Sh= 1.3$, an estimation for moles released in 20 s would be:
