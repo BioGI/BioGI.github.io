@@ -324,11 +324,34 @@ and that the $\nu$ be adjusted to recover the same $Re_s$ and $U_o$ as $\nu = (U
 The parameters of the first simulation will be
 
 ~~~math 
-R&= 2.5m, \; H = 50m, \\
-L&= 125m, \; W = 50m, \\
-\nu &= 0.125m^2/s, \; Sc = 10, \\
-S^* &= 1.0, \; D_m = 0.0125 m^2/s \\
-C_s &= 1.0 mol/m^3; U_o = 0.1 m/s.
+U_o = 0.1 m/s \\
+Sc = 10 \\
+S^* = 1 \\
+Re_s= 0.1 \\
+
+R= 2.5 m, \\ 
+H = 50 m, \\
+W = 50 m, \\
+L= 125 m, \\ 
+
+\nu= 0.125 m^2/s \\ 
+D_m = 0.0125 m^2/s \\
+C_s = 1 mol/m^3 \\
+~~~
+
+
+~~~math 
+N^"_s =  \frac{Sh \; D_m \; [C_s-C_b] }{R}  \\
+moles = N^"_s A \Delta t = (4 \pi R^2) N^"_s \Delta t
+~~~
+
+Assuming $C_b= 0$ and $Sh= 1.3$, an estimation for moles released in 20 s would be:
+
+
+~~~math
+N^"_s =  \frac{Sh \; D_m \; [C_s-C_b] }{R} =\frac{1.3 * 0.0125 [1-0] }{2.5} = 0.0065 \\
+A= 4 \pi R^2 = 4 \pi 2.5^2 = 78.54 \\
+moles = N^"_s A \Delta t= 0.0065 * 78.54 *20 = 10.21
 ~~~
 
 
