@@ -359,7 +359,7 @@ Caption: $C_b/C_s$ based on Yanxing simulation for $Re_s = 0.1, S^*=1, U_o=0.1 m
 
 # Defining dimensional parameters needed
 
-We use these equations to get the dimensional parameters needed for our simulations:
+Using below equations we can get the dimensional parameters needed for our simulations:
 
 ~~~math
 \left.\begin{aligned}
