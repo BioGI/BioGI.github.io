@@ -1050,151 +1050,147 @@ L&amp;= 125m, \; W = 50m,
 \end{equation*}
 \]</span>
  and that the <span class="math scholmd-math-inline">\(\nu\)</span> be adjusted to recover the same <span class="math scholmd-math-inline">\(Re_s\)</span> and <span class="math scholmd-math-inline">\(U_o\)</span> as <span class="math scholmd-math-inline">\(\nu = (U_o R/20 Re_s)\)</span>.</p>
-<h2 id="first-comparison-with-yanxing-data">First comparison with Yanxing data</h2>
-<p>To define the parameters for our simulation we start with these basic equations:</p>
-<p>
+<h1 id="first-case-chosen-from-yanxings-data-for-validation">First case chosen from Yanxing’s data for validation</h1>
+<p>One of the Yanxing’s simulations was chosen as defined by the parameters below: 
 <span class="math scholmd-math-display" style="display: block;">\[
 \begin{equation*}
-\begin{split}
-S   = \frac{U_o}{H} \\
-Re_s= \frac{S R^2}{\nu} \\
-S^* = \frac{S R^2}{D_m} \\
-H/R = 20\\
-L/R=50 \\
-W/R=20
-\end{split}
-\end{equation*}
-\]</span>
-</p>
-<p>and using these values as input: 
-<span class="math scholmd-math-display" style="display: block;">\[
-\begin{equation*}
-\begin{split}
+\left.\begin{aligned}
 U_o = 0.1 m/s \\
-Sc = 10 \\
 S^* = 1 \\
 Re_s= 0.1 \\
-\nu= 0.125 m^2/s \\ 
-\end{split}
+\nu= 0.125 m^2/s \\
+\end{aligned}
+\right\}
+\qquad \text{corresponding to [re01s-b/sca-*-01.dat]}
 \end{equation*}
 \]</span>
- We can compute all physical parameters needed: 
+ The output plots are presented in Figure<span class="scholmd-crossref"><a href="#Chhosen-Case-Scalar">(11)</a></span></p>
+<figure class="scholmd-float scholmd-figure" id="Chhosen-Case-Scalar">
+<div class="scholmd-float-content"><figure class="scholmd-subfig" style="display: inline-block; width: 95%">
+<img src="./yanxingSphereData/re01s-b/scalar_Both_Re01_Sc10.png" />
+</figure></div>
+<div class="scholmd-float-caption"><figcaption><span class="scholmd-caption-head"><span class="scholmd-caption-head-prefix">Figure</span><span class="scholmd-caption-head-label">11</span></span><span class="scholmd-caption-text">Total scalar based on Yanxing simulation for <span class="math scholmd-math-inline">\(Re_s = 0.1, S^*=1, U_o=0.1 m/s, \nu=0.125 m^2/s\)</span></span></figcaption></div>
+</figure>
+<p><span class="math scholmd-math-inline">\((C_b/C_s)\)</span> was computed as global bulk concentration (total moles in the domain divided by container volume) as a function of time and is shown in Figure<span class="scholmd-crossref"><a href="#Chhosen-Case-Cb">(12)</a></span></p>
+<figure class="scholmd-float scholmd-figure" id="Chhosen-Case-Cb">
+<div class="scholmd-float-content"><figure class="scholmd-subfig" style="display: inline-block; width: 95%">
+<img src="./yanxingSphereData/re01s-b/Cb_over_Cs_Re01_Sc10.png" />
+</figure></div>
+<div class="scholmd-float-caption"><figcaption><span class="scholmd-caption-head"><span class="scholmd-caption-head-prefix">Figure</span><span class="scholmd-caption-head-label">12</span></span><span class="scholmd-caption-text"><span class="math scholmd-math-inline">\(C_b/C_s\)</span> based on Yanxing simulation for <span class="math scholmd-math-inline">\(Re_s = 0.1, S^*=1, U_o=0.1 m/s, \nu=0.125 m^2/s\)</span></span></figcaption></div>
+</figure>
+<h1 id="defining-dimensional-parameters-needed">Defining dimensional parameters needed</h1>
+<p>We use these equations to get the dimensional parameters needed for our simulations: 
 <span class="math scholmd-math-display" style="display: block;">\[
 \begin{equation*}
-\begin{split}
-R= 2.5 m, \\ 
-H = 50 m, \\
-W = 50 m, \\
-L= 125 m, \\ 
-D_m = 0.0125 m^2/s \\
-\nu= 0.125 m^2/s \\ 
-C_s = 1 mol/m^3 \\
-\end{split}
+\left.\begin{aligned}
+S    = \frac{U_o}{H} \\
+Re_s = \frac{S \; R^2}{ \nu} \\
+S^*  = Re_s \; Sc \\
+H/R = 20\\
+L/R = 50 \\
+W/R = 20 \\
+\end{aligned}
+\right\}
+\qquad \text{Non-dimensional parameters}
 \end{equation*}
 \]</span>
-</p>
-<h2 id="simplified-estimation-of-the-total-drugs-released">Simplified estimation of the total drugs released</h2>
-<p>Using parameters defined in previous section, the total drug released in the domain in 20 seconds can be estimated as: 
-<span class="math scholmd-math-display" style="display: block;">\[
-\begin{equation*}
-\begin{split}
-N^&quot;_s =  \frac{Sh \; D_m \; [C_s-C_b] }{R}  \\
-Total Moles Released = N^&quot;_s A \Delta t = (4 \pi R^2) N^&quot;_s \Delta t
-\end{split}
-\end{equation*}
-\]</span>
- Assuming <span class="math scholmd-math-inline">\(C_b= 0\)</span> and <span class="math scholmd-math-inline">\(Sh= 1.3\)</span>, an estimation for moles released in 20 s would be:</p>
+ Therefore we can get all dimensional paramteres as:</p>
 <p>
 <span class="math scholmd-math-display" style="display: block;">\[
 \begin{equation*}
 \begin{split}
-N^&quot;_s =  \frac{Sh \; D_m \; [C_s-C_b] }{R} =\frac{1.3 * 0.0125 [1-0] }{2.5} = 0.0065 \\
-A= 4 \pi R^2 = 4 \pi 2.5^2 = 78.54 \\
-moles = N^&quot;_s A \Delta t= 0.0065 * 78.54 *20 = 10.21
+R   = \frac{20 \; Re_s \; \nu }{U_o} =2.5 m\\
+H = 20 R = 50 m  \\
+W = 20 R = 50 m  \\
+L = 50 R = 125 m \\
+Sc  = \frac{S*}{Re_s} = 10\\
+D_m = \frac{\nu}{Sc} = 0.0125 m^2/s\\
+C_s =1
 \end{split}
 \end{equation*}
 \]</span>
 </p>
-<h2 id="drug-properties">Drug Properties</h2>
-<p>Felodipine was chosen for these simulations. The drug properties are shown in Table <span class="scholmd-crossref"><a href="#table:FelodipineProperties">(3)</a></span>:</p>
-<figure class="scholmd-float scholmd-table-float" id="table:FelodipineProperties">
-<div class="scholmd-float-content"><table>
-<thead>
-<tr class="header">
-<th style="text-align: left;">Parameter</th>
-<th style="text-align: left;">Value</th>
-<th style="text-align: left;">Units</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;"><span class="math scholmd-math-inline">\(C_s\)</span></td>
-<td style="text-align: left;">8.9 e-10</td>
-<td style="text-align: left;"><span class="math scholmd-math-inline">\(mol/cm^3\)</span></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><span class="math scholmd-math-inline">\(v_m\)</span></td>
-<td style="text-align: left;">265</td>
-<td style="text-align: left;"><span class="math scholmd-math-inline">\(cm^3/mol\)</span></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;"><span class="math scholmd-math-inline">\(D_m\)</span></td>
-<td style="text-align: left;">6.7 e-6</td>
-<td style="text-align: left;"><span class="math scholmd-math-inline">\(cm^2/s\)</span></td>
-</tr>
-</tbody>
-</table></div>
-<div class="scholmd-float-caption"><figcaption><span class="scholmd-caption-head"><span class="scholmd-caption-head-prefix">Table</span><span class="scholmd-caption-head-label">3</span></span><span class="scholmd-caption-text">Felodipine Properties</span></figcaption></div>
-</figure>
-<p>to calculate the <span class="math scholmd-math-inline">\(C_{tot}\)</span> we have:</p>
-<figure class="scholmd-float scholmd-table-float" id="table:C_tot-over-C_s">
-<div class="scholmd-float-content"><table>
-<thead>
-<tr class="header">
-<th style="text-align: left;">Parameter</th>
-<th style="text-align: left;">Value</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;"><span class="math scholmd-math-inline">\(H/R\)</span></td>
-<td style="text-align: left;"><span class="math scholmd-math-inline">\(20\)</span></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><span class="math scholmd-math-inline">\(W/R\)</span></td>
-<td style="text-align: left;"><span class="math scholmd-math-inline">\(20\)</span></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;"><span class="math scholmd-math-inline">\(L/R\)</span></td>
-<td style="text-align: left;"><span class="math scholmd-math-inline">\(50\)</span></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><span class="math scholmd-math-inline">\(V_{container}\)</span></td>
-<td style="text-align: left;"><span class="math scholmd-math-inline">\(2000 R^3\)</span></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;"><span class="math scholmd-math-inline">\(V_{particler}\)</span></td>
-<td style="text-align: left;"><span class="math scholmd-math-inline">\((4/3) \pi R^3\)</span></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><span class="math scholmd-math-inline">\(\dfrac{V_{particler}}{V_{container}}\)</span></td>
-<td style="text-align: left;"><span class="math scholmd-math-inline">\(2.0944 e-4\)</span></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;"><span class="math scholmd-math-inline">\(C_{tot}= \Big(\dfrac{V_{particler}}{V_{container}} \dfrac{1}{v_m}\Big)\)</span></td>
-<td style="text-align: left;"><span class="math scholmd-math-inline">\(7.9 e-7\)</span></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><span class="math scholmd-math-inline">\(C_{tot} /C_s\)</span></td>
-<td style="text-align: left;"><span class="math scholmd-math-inline">\(888\)</span></td>
-</tr>
-</tbody>
-</table></div>
-<div class="scholmd-float-caption"><figcaption><span class="scholmd-caption-head"><span class="scholmd-caption-head-prefix">Table</span><span class="scholmd-caption-head-label">4</span></span><span class="scholmd-caption-text">Computing <span class="math scholmd-math-inline">\(C_{tot}/C_s\)</span> based on the given dimensions and properties of Felodipine.</span></figcaption></div>
-</figure>
-<p>To have a reasonably small <span class="math scholmd-math-inline">\(C_{tot}/C_s\)</span> (i.e. 0.1), we should use a larger <span class="math scholmd-math-inline">\(C_s\)</span> as follows:</p>
-<p><span class="math scholmd-math-inline">\(\dfrac{C_{tot}} {C_s} = 0.1 \Rightarrow C_s = 7.89 e-6\)</span></p>
-<h2 id="further-description-given-by-yanxing">Further description given by Yanxing:</h2>
+<h1 id="simplified-estimation-of-the-the-sherwood-number-based-on-figure">Simplified estimation of the the Sherwood number based on Figure <span class="scholmd-crossref"><a href="#Chhosen-Case-Scalar">(11)</a></span></h1>
+<p>The slope of the curve in figure <span class="scholmd-crossref"><a href="#Chhosen-Case-Scalar">(11)</a></span> represents <span class="math scholmd-math-inline">\(N^&quot;_s A_P\)</span>, so: 
+<span class="math scholmd-math-display" style="display: block;">\[
+\begin{equation*}
+\begin{split}
+N^&quot;_s A_P =\frac{115} {27}  \frac{mols} {s} = 4.26 \frac{mols} {s} \\
+A_P= 4 \pi R^2= 4 \pi (2.5)^2 =78.54 m^2 \\
+N^&quot;_s= \frac{4.26} {78.54} =  0.054 \frac{mols} {m^2.s} 
+\end{split}
+\end{equation*}
+\]</span>
+ based on Figure <span class="scholmd-crossref"><a href="#Chhosen-Case-Cb">(12)</a></span>, we can assume <span class="math scholmd-math-inline">\(C_b = 0\)</span>, therefore: 
+<span class="math scholmd-math-display" style="display: block;">\[
+\begin{equation*}
+\begin{split}
+Sh= \frac{N^&quot;_s} {D_m  (\frac{C_s-C_b}{R}) }  \\  
+Sh= \frac{0.054 * 2.5} {0.0125 [1-0]} = 10.8   \\
+\end{split}
+\end{equation*}
+\]</span>
+</p>
+<p>The estimated Sherwood number of 10.8 is much larger than the value we get from correlations wich is around 1.3.</p>
+<!---
+## Simplified estimation of the total drugs released 
+
+Using parameters defined in previous section, the total drug released in the domain in 20 seconds can be estimated as:
+~~~math 
+N^"_s =  \frac{Sh \; D_m \; [C_s-C_b] }{R}  \\
+Total Moles Released = N^"_s A \Delta t = (4 \pi R^2) N^"_s \Delta t
+~~~
+
+
+Assuming $C_b= 0$ and $Sh= 1.3$, an estimation for moles released in 20 s would be:
+
+
+~~~math
+N^"_s =  \frac{Sh \; D_m \; [C_s-C_b] }{R} =\frac{1.3 * 0.0125 [1-0] }{2.5} = 0.0065 \\
+A= 4 \pi R^2 = 4 \pi 2.5^2 = 78.54 \\
+moles = N^"_s A \Delta t= 0.0065 * 78.54 *20 = 10.21
+~~~
+
+
+## Drug Properties
+Felodipine was chosen for these simulations. The drug properties are shown in Table (#table:FelodipineProperties):
+
+#### Table:  {#table:FelodipineProperties} 
+
+|Parameter |  Value  | Units      |
+|----------|---------|------------|
+|   $C_s$  |8.9 e-10 | $mol/cm^3$ |
+|   $v_m$  |265      | $cm^3/mol$ |
+|   $D_m$  |6.7 e-6  | $cm^2/s$   | 
+
+Caption: Felodipine Properties
+
+
+to calculate the $C_{tot}$ we have:
+
+#### Table:  {#table:C_tot-over-C_s}
+
+|Parameter                                                                             | Value           |
+|--------------------------------------------------------------------------------------|-----------------|
+| $H/R$                                                                                | $20$            |
+| $W/R$                                                                                | $20$            |
+| $L/R$                                                                                | $50$            |
+| $V_{container}$                                                                      | $2000 R^3$      |
+| $V_{particler}$                                                                      | $(4/3) \pi R^3$ |
+| $\dfrac{V_{particler}}{V_{container}}$                                               | $2.0944 e-4$    |
+| $C_{tot}= \Big(\dfrac{V_{particler}}{V_{container}} \dfrac{1}{v_m}\Big)$             | $7.9 e-7$       |   
+| $C_{tot} /C_s$                                                                       | $888$           |
+
+Caption: Computing $C_{tot}/C_s$  based on the given dimensions and properties of Felodipine.
+
+To have a reasonably small $C_{tot}/C_s$ (i.e. 0.1), we should use a larger $C_s$ as follows:
+
+$\dfrac{C_{tot}} {C_s} = 0.1 \Rightarrow C_s = 7.89 e-6$ 
+         
+
+ 
+-->
+<h1 id="further-description-given-by-yanxing">Further description given by Yanxing:</h1>
 <pre><code>In each case with a specific Reynolds number, a couple of scalars with different Schmidt numbers are considered. 
 The number of Schmidt numbers is denoted by “nsc”. The Schmidt numbers are given in “sc.dat”. 
 The quantities related to scalar release are stored in sca-c-01.dat, sca-c-02.dat … and sca-f-01.dat, sca-f-02.dat … 

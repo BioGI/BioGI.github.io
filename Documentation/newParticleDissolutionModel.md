@@ -320,45 +320,99 @@ and that the $\nu$ be adjusted to recover the same $Re_s$ and $U_o$ as $\nu = (U
 
 
 
-## First comparison with Yanxing data
-To define the parameters for our simulation we start with these basic equations:
 
+
+
+
+
+
+
+
+
+
+# First case chosen from Yanxing's data for validation
+One of the Yanxing's simulations was chosen as defined by the parameters below:
 
 ~~~math
-S   = \frac{U_o}{H} \\
-Re_s= \frac{S R^2}{\nu} \\
-S^* = \frac{S R^2}{D_m} \\
-H/R = 20\\
-L/R=50 \\
-W/R=20
-~~~
-
-and using these values as input:
-
-~~~math 
+\left.\begin{aligned}
 U_o = 0.1 m/s \\
-Sc = 10 \\
 S^* = 1 \\
 Re_s= 0.1 \\
-\nu= 0.125 m^2/s \\ 
+\nu= 0.125 m^2/s \\
+\end{aligned}
+\right\}
+\qquad \text{corresponding to [re01s-b/sca-*-01.dat]}
 ~~~
 
-We can compute all physical parameters needed:
+The output plots are presented in Figure(#Chhosen-Case-Scalar)
+
+#### Figure: {#Chhosen-Case-Scalar}
+![Sc=10](./yanxingSphereData/re01s-b/scalar_Both_Re01_Sc10.png){width=95%}
+Caption: Total scalar based on Yanxing simulation for $Re_s = 0.1, S^*=1, U_o=0.1 m/s, \nu=0.125 m^2/s$
+
+$(C_b/C_s)$ was computed as global bulk concentration (total moles in the domain divided by container volume) as a function of time and is shown in Figure(#Chhosen-Case-Cb)
+
+#### Figure: {#Chhosen-Case-Cb}
+![Sc=10](./yanxingSphereData/re01s-b/Cb_over_Cs_Re01_Sc10.png){width=95%}
+Caption: $C_b/C_s$ based on Yanxing simulation for $Re_s = 0.1, S^*=1, U_o=0.1 m/s, \nu=0.125 m^2/s$ 
+
+
+# Defining dimensional parameters needed
+
+We use these equations to get the dimensional parameters needed for our simulations:
 
 ~~~math
-R= 2.5 m, \\ 
-H = 50 m, \\
-W = 50 m, \\
-L= 125 m, \\ 
-D_m = 0.0125 m^2/s \\
-\nu= 0.125 m^2/s \\ 
-C_s = 1 mol/m^3 \\
+\left.\begin{aligned}
+S    = \frac{U_o}{H} \\
+Re_s = \frac{S \; R^2}{ \nu} \\
+S^*  = Re_s \; Sc \\
+H/R = 20\\
+L/R = 50 \\
+W/R = 20 \\
+\end{aligned}
+\right\}
+\qquad \text{Non-dimensional parameters}
+~~~
+
+Therefore we can get all dimensional paramteres as:
+
+
+~~~math
+R   = \frac{20 \; Re_s \; \nu }{U_o} =2.5 m\\
+H = 20 R = 50 m  \\
+W = 20 R = 50 m  \\
+L = 50 R = 125 m \\
+Sc  = \frac{S*}{Re_s} = 10\\
+D_m = \frac{\nu}{Sc} = 0.0125 m^2/s\\
+C_s =1
+~~~
+
+
+# Simplified estimation of the the Sherwood number based on Figure (#Chhosen-Case-Scalar) 
+
+The slope of the curve in figure (#Chhosen-Case-Scalar)  represents $N^"_s A_P$, so:
+
+~~~math
+N^"_s A_P =\frac{115} {27}  \frac{mols} {s} = 4.26 \frac{mols} {s} \\
+A_P= 4 \pi R^2= 4 \pi (2.5)^2 =78.54 m^2 \\
+N^"_s= \frac{4.26} {78.54} =  0.054 \frac{mols} {m^2.s} 
+~~~
+
+based on Figure (#Chhosen-Case-Cb), we can assume $C_b = 0$, therefore:
+
+~~~math
+Sh= \frac{N^"_s} {D_m  (\frac{C_s-C_b}{R}) }  \\  
+Sh= \frac{0.054 * 2.5} {0.0125 [1-0]} = 10.8   \\
 ~~~
 
 
 
+The estimated Sherwood number of 10.8 is much larger than the value we get from correlations wich is around 1.3.
 
 
+
+
+<!---
 ## Simplified estimation of the total drugs released 
 
 Using parameters defined in previous section, the total drug released in the domain in 20 seconds can be estimated as:
@@ -366,6 +420,7 @@ Using parameters defined in previous section, the total drug released in the dom
 N^"_s =  \frac{Sh \; D_m \; [C_s-C_b] }{R}  \\
 Total Moles Released = N^"_s A \Delta t = (4 \pi R^2) N^"_s \Delta t
 ~~~
+
 
 Assuming $C_b= 0$ and $Sh= 1.3$, an estimation for moles released in 20 s would be:
 
@@ -414,7 +469,9 @@ $\dfrac{C_{tot}} {C_s} = 0.1 \Rightarrow C_s = 7.89 e-6$
          
 
  
-##Further description given by Yanxing: 
+-->
+
+#Further description given by Yanxing: 
 
     In each case with a specific Reynolds number, a couple of scalars with different Schmidt numbers are considered. 
     The number of Schmidt numbers is denoted by “nsc”. The Schmidt numbers are given in “sc.dat”. 
