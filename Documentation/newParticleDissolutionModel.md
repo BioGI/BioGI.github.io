@@ -64,6 +64,10 @@ Table (#table:CasesYanxing) describes the parameters of the cases run by Yanxing
 
 Caption: Cases run by Yanxing. Alternate rows contain the Schmidt number data as well. We have the data for these cases in the hard drive that Yanxing left behind. The highlighted case is the first case that we will run to compare against Yanxing. 
 
+
+
+
+<!---
 ## Plots of Yanxing's data
 
 I merely plot Yanxing's data here.
@@ -280,7 +284,7 @@ Caption: Scalar in the domain for $Re_s = 0.75$. The left column is the total sc
 
 Caption: Scalar in the domain for $Re_s = 1$. The left column is the total scalar in the domain, the middle column is the scalar released at that time over a time-step, the right column is the total scalar released so far obtained by time-integration. Ideally, the left and the right column should be the same.
 
-
+-->
 
 ## Calculating dimensional quantities from non-dimensional parameters
 
