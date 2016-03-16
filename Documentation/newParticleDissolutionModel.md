@@ -350,7 +350,7 @@ The output plots are presented in Figure(#Chhosen-Case-Scalar)
 ![Sc=10](./yanxingSphereData/re01s-b/scalar_Both_Re01_Sc10.png){width=95%}
 Caption: Total scalar based on Yanxing simulation for $Re_s = 0.1, S^*=1, U_o=0.1 m/s, \nu=0.125 m^2/s$
 
-$(C_b/C_s)$ was computed as global bulk concentration (total moles in the domain divided by container volume) as a function of time and is shown in Figure(#Chhosen-Case-Cb)
+$(C_b/C_s)$ was computed as a function of time as shown in Figure(#Chhosen-Case-Cb). $C_b $ is global bulk concentration (total moles in the domain divided by the container volume): 
 
 #### Figure: {#Chhosen-Case-Cb}
 ![Sc=10](./yanxingSphereData/re01s-b/Cb_over_Cs_Re01_Sc10.png){width=95%}
@@ -388,7 +388,7 @@ C_s =1
 ~~~
 
 
-# Simplified estimation of the the Sherwood number based on Figure (#Chhosen-Case-Scalar) 
+# Estimation of the the Sherwood number based on Figure (#Chhosen-Case-Scalar) 
 
 The slope of the curve in figure (#Chhosen-Case-Scalar)  represents $N^"_s A_P$, so:
 
