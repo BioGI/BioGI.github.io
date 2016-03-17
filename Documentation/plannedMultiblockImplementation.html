@@ -45,7 +45,7 @@ code > span.er { color: #ff0000; font-weight: bold; }
 <div class="scholmd-author">
 Ganesh Vijayakumar
 </div>
-<div class="scholmd-date">21-26 Oct 2015</div>
+<div class="scholmd-date">21 Oct 2015 - present</div>
 </header>
 <p>I’ll document my attempts at implementing a multi-block method in the intestine code.</p>
 <p>The main reason for implemeting a multi-block method in the intestine code is to be able to simulate fasting states, where the occlusion ratio for intestinal motility can go really small. The occlusion ratio is not quite the ratio of the occluded diameter to the total diameter of the domain. 
@@ -508,6 +508,145 @@ END FUNCTION spatialInterpolate</code></pre>
 </figure></div>
 <div class="scholmd-float-caption"><figcaption><span class="scholmd-caption-head"><span class="scholmd-caption-head-prefix">Figure</span><span class="scholmd-caption-head-label">14</span></span><span class="scholmd-caption-text">Comparison of total volume of the domain per unit disk area for a cylinder of varying radius with the single and dual lattice algorithms. The straight line is the analytical solution. (a) Full range of radii; (b) Zoomed in.</span></figcaption></div>
 </figure>
+<h1 id="particle-tracking">Particle tracking</h1>
+<p>The current procedure for particle tracking only uses data from 1 mesh. In the dual lattice algorithm, the particles could move from the coarse mesh. When this happens, if it were just an issue of using a different velocity field in the fine mesh, I could just update the <code>Interpolate_Parvel</code> function. However, the time-stepping algorithm itself needs to change such that the particle is now time-stepped using the time step corresponding to the fine mesh and not the coarse mesh. Hence, I’ll have to check whether the particle is in the fine mesh or the coarse mesh before the time-stepping procedure is carried out. I expect the time-stepping subroutine to be called after the streaming step in both the coarse and the fine mesh. Both subroutines will loop over the same set of particles. However, the bulk of the procedure for a given particle will be carried out only if the particle is in the corresponding region. Hence there will be two subroutines <code>Particle_Track</code> and <code>Particle_Track_fine</code>; similarly <code>Interp_Parvel</code> and <code>Interp_Parvel_fine</code> as well. The check for whether the particle is inside the fine mesh could be easily accomplished as</p>
+<pre class="fortran90"><code>      hardCheckCoarseMesh = ( (current%pardata%xp - fractionDfine * D * 0.5 - xcf) * (current%pardata%xp + fractionDfine * D * 0.5 + xcf) &gt; 0 ) .or. ( (current%pardata%yp - fractionDfine * D * 0.5 - ycf) * (current%pardata%yp + fractionDfine * D * 0.5 + ycf) &gt; 0 )
+      softCheckCoarseMesh = ( (current%pardata%xp - fractionDfine * D * 0.5 - (gridRatio-1)*xcf_fine) * (current%pardata%xp + fractionDfine * D * 0.5 + (gridRatio-1)*xcf_fine) &gt; 0 ) .or. ( (current%pardata%yp - fractionDfine * D * 0.5 - (gridRatio-1)*ycf_fine) * (current%pardata%yp + fractionDfine * D * 0.5 + (gridRatio-1)*ycf_fine) &gt; 0 )
+      xpNF = current%pardata%xp + current%pardata%up * tcf !Hypothetical new location of particle based on first order extrapolation
+      ypNF = current%pardata%yp + current%pardata%vp * tcf !Hypothetical new location of particle based on first order extrapolation
+      zpNF = current%pardata%zp + current%pardata%wp * tcf !Hypothetical new location of particle based on first order extrapolation
+      hardCheckCoarseMeshNF = ( (xpNF - fractionDfine * D * 0.5 - xcf) * (xpNF + fractionDfine * D * 0.5 + xcf) &gt; 0 ) .or. ( (ypNF - fractionDfine * D * 0.5 - ycf) * (ypNF + fractionDfine * D * 0.5 + ycf) &gt; 0 )  !Check if the hypothetical new location of the particle is clearly in the coarse mesh.
+      IF ( hardCheckCoarseMesh .or. (softCheckCoarseMesh .and. flagParticleCF(current%pardata%parid) .and. hardCheckCoarseMeshNF) ) THEN  !Check if particle is in coarse mesh. Also check if the particle is in the interface region and was previously in the fine mesh and is coming out of it.    
+          flagParticleCF(current%pardata%parid) = .false. !PARTICLE IS IN COARSE MESH
+      ELSE
+          flagParticleCF(current%pardata%parid) = .true. !PARTICLE IS IN FINE MESH    
+      END IF </code></pre>
+<h2 id="second-order-runge-kutta-time-stepping-for-particle-movement">Second order Runge-Kutta time stepping for particle movement</h2>
+<p>We use a second order Runge-Kutta method for time stepping for tracking the particle movement. 
+<span class="math scholmd-math-display" style="display: block;">\[
+\begin{equation}
+\label{secondOrderRungerKuttaParticeTracking}
+\begin{aligned}
+\left. \frac{d \vec{x}}{dt} \right |_{n+1/2} &amp;= \frac{\vec{x}_{n+1} - \vec{x}_n}{\Delta t} = \vec{v}_{n+1/2} = \frac{\vec{v}_{n+1} + \vec{v}_{n}}{2} \\
+\vec{x}_{n+1} &amp;= \vec{x}_n + \Delta t \left ( \frac{\vec{v}_{n+1} + \vec{v}_{n}}{2} \right )
+\end{aligned}
+\end{equation}
+\]</span>
+ <span class="math scholmd-math-inline">\(\vec{v}_{n+1}\)</span> is first estimated as the velocity at <span class="math scholmd-math-inline">\(\vec{x} + \Delta t \; \vec{v}_n\)</span>, i.e., the velocity at the point the particle is estimated to be at uusing first order time stepping. However, once the updated particle position at <span class="math scholmd-math-inline">\(n+1\)</span> is estimated using second order time stepping, the velocity is interpolated to the particle location again.</p>
+<h2 id="test-for-particle-tracking">Test for particle tracking</h2>
+<p>The test for particle tracking is to run the LBM code without streaming, collision, macro or any such routine with a prescribed velocity profile and geometry and to make sure that the particle is able to go smoothly through the coarse to fine and fine to coarse mesh interface. I prescribe the velocity profile as 
+<span class="math scholmd-math-display" style="display: block;">\[
+\begin{equation}
+\label{prescribedVelocityProfileParticleTrackTest}
+u = 0, \; v = -0.1, \; w = 1.0 - r/R \; \textrm{in lattice units.}
+\end{equation}
+\]</span>
+ The initial location of the particle is <code>(0.0003, 0.001, 0.0012)m</code> in a prescribed geometry of a straight tube of <span class="math scholmd-math-inline">\(R=0.005m\)</span>. If the particle were to get convected correctly, then it should go down from the coarse into to the fine mesh, emerge back into the coarse mesh and also wrap around the periodic boundary twice before hitting the bottom wall of the intestine. Figure <span class="scholmd-crossref"><a href="#particleTrackTest">(15)</a></span> shows that the particle trajectory computed by the dual lattice algorithm is exactly the same as predicted using a second-order Runge-Kutta time stepping in a separate code using the same velocity profile.</p>
+<figure class="scholmd-float scholmd-figure" id="particleTrackTest">
+<div class="scholmd-float-content"><figure class="scholmd-subfig" style="display: inline-block; width: 49%">
+<img src="./dualLattice/testResults/particleTrackingTest/particle1_yLocation.png" />
+<div class="scholmd-float-subcaption"><figcaption><span class="scholmd-caption-text">y location</span></figcaption></div>
+</figure><figure class="scholmd-subfig" style="display: inline-block; width: 49%">
+<img src="./dualLattice/testResults/particleTrackingTest/particle1_zLocation.png" />
+<div class="scholmd-float-subcaption"><figcaption><span class="scholmd-caption-text">z location</span></figcaption></div>
+</figure><br /><figure class="scholmd-subfig" style="display: inline-block; width: 49%">
+<img src="./dualLattice/testResults/particleTrackingTest/particle1_yLocationZoom.png" />
+<div class="scholmd-float-subcaption"><figcaption><span class="scholmd-caption-text">y location (zoomed in)</span></figcaption></div>
+</figure><figure class="scholmd-subfig" style="display: inline-block; width: 49%">
+<img src="./dualLattice/testResults/particleTrackingTest/particle1_zLocationZoom.png" />
+<div class="scholmd-float-subcaption"><figcaption><span class="scholmd-caption-text">z location (zoomed in)</span></figcaption></div>
+</figure></div>
+<div class="scholmd-float-caption"><figcaption><span class="scholmd-caption-head"><span class="scholmd-caption-head-prefix">Figure</span><span class="scholmd-caption-head-label">15</span></span></figcaption></div>
+</figure>
+<p>Caption: Comparison of the particle trajectory computed by the dual lattice algorithm with the analytical solution according to the velocity profile in Eq. <span class="scholmd-crossref"><span class="math scholmd-math-inline">\(\eqref{prescribedVelocityProfileParticleTrackTest}\)</span></span>. (a) y location; (b) z location; (c) and (d) are zoomed in versions of (a) and (b) respectively. The horizontal lines in (a) and (c) represent the interface between the coarse and the fine mesh.</p>
+<h1 id="particle-dissolution-model">Particle dissolution model</h1>
+<p>There are 2 parts to the implementation of the particle dissolution model. The first is to compute the effective bulk concentration <span class="math scholmd-math-inline">\(C_b\)</span> around the particle; the next is to distribute the drug release over one time step into the nodes in the effective volume surrounding the particle.</p>
+<h2 id="calculation-of-bulk-concentration">Calculation of bulk concentration</h2>
+<p>Our most modern implementation of the particle dissolution model as 3 cases for the computation of the bulk concentration:</p>
+<ul>
+<li><span class="math scholmd-math-inline">\(V_{eff} &lt; V_{mesh}\)</span> - Use the nearest 8 nodes to perform trilinear interpolation of the concentration field to the particle,</li>
+<li><span class="math scholmd-math-inline">\(V_{mesh} &lt; V_{eff} &lt; 27 \; V_{mesh}\)</span> - Interpolate the concentration field to a set of 64 points surrounding the particle using trilinear interpolation at each point, then average the concentration from those 64 points,</li>
+<li><span class="math scholmd-math-inline">\(V_{eff} &gt; 27 \; V_{mesh}\)</span> - Average the concentration in all the LBM nodes that overlap with the effective volume around the particle.</li>
+</ul>
+<p>The process of determining the bulk concentration for a particle is performed in a loop over the particles inside the <code>Particle_Track</code> subroutine. This checks whether the particle is in the coarse or the fine mesh. So it’s impossible that the bulk concentration for aparticle will be calculated twice. This is extremely important to handle cases when the particle is in the interface between the two meshes.</p>
+<p>In the dual lattice case, the particle is deemed to be in the in the coarse mesh if it satisfies the hard check or the soft check + if it’s comping into the coarse mesh. When a particle is near the mesh interface, it could happen that the influence volume surrounding the particle crosses over to the other mesh. The process of computing the bulk concentration should be able to handle this.</p>
+<p>The effect of scalar release by the drug particle on the concentration is added at the end of the collision step. The concentration field from the previous time step is used for the computation of the bulk concentration. In the dual lattice algorithm, it is important to be consistent in using the concentration field from the same time step. It would be incorrect to use the concentration from <span class="math scholmd-math-inline">\(t_{n+1}\)</span> in the coarse mesh when calculating the bulk concentration for a particle in the fine mesh at a tiem step between <span class="math scholmd-math-inline">\(t_n\)</span> and <span class="math scholmd-math-inline">\(t_{n+1}\)</span>. This problem may not occur when the particle is in the coarse mesh with an effective volume that cuts into the fine mesh.</p>
+<p>Going back to the 3 cases described earlier, they can be extended to the dual lattice algorithm as</p>
+<ul>
+<li><span class="math scholmd-math-inline">\(V_{eff} &lt; V_{mesh}\)</span> - irrespective of which mesh the particle is at, as long as this condition is satisfied in that mesh, the computation of bulk concentration will not overlap between meshes.</li>
+<li><span class="math scholmd-math-inline">\(V_{mesh} &lt; V_{eff} &lt; 27 \; V_{mesh}\)</span> - Some of the 64 points could be a part of the other mesh. Just perform a check on whether each of the 64 points belongs to the coarse or the fine mesh and use the corresponding mesh to interpolate the concentration.</li>
+<li><span class="math scholmd-math-inline">\(V_{eff} &gt; 27 \; V_{mesh}\)</span> - Volume average over all overlapping nodes. Also use the overlap number already computed for the coarse mesh nodes, the same one used for the computation of the total scalar in the domain.</li>
+</ul>
+<h2 id="distribution-of-drug-relase-to-lbm-nodes">Distribution of drug relase to LBM nodes</h2>
+<p>In the original single lattice code, the time-stepping algorithm started from the post-streaming density distribution at <span class="math scholmd-math-inline">\(t_n\)</span> and ended with the post-streaming density distribution at the next time step <span class="math scholmd-math-inline">\(t_{n+1}\)</span>. The outline of the algorithm that is related to the particle tracking and drug release looked as follows.</p>
+<pre class="fortran90"><code>DO iter = iter0-0_lng,nt
+
+      CALL Advance_Geometry
+      CALL Collision        ! collision step [MODULE: Algorithm]
+      CALL MPI_Transfer     ! transfer the data (distribution functions, density, scalar) 
+
+      CALL Particle_Track - Update particle location, interpolate bulk concentration to new particle location, calculate drug release and distribution to nodes
+      CALL Stream           ! perform the streaming operation (with Lallemand 2nd order BB) 
+      CALL Macro            ! calcuate the macroscopic quantities 
+
+      CALL Scalar           ! calcuate the evolution of scalar in the domain and add the drug release calculated in Particle_Track
+END DO</code></pre>
+<p>While the model of calculating the drug release based on scalar concentration from the previous time step seems ok, I don’t quite understand the particle trakcing mechanism. The <code>Particle_Track</code> routine is called before the streaming and macro steps; this means that <code>Particle_Track</code> will never use the updated velocity that it’s supposed to in Eq. <span class="scholmd-crossref"><span class="math scholmd-math-inline">\(\eqref{secondOrderRungerKuttaParticeTracking}\)</span></span>. The drug release model uses the scalar concentration from the previous time step. It also calculates the distribution of the drug release to the neighboring nodes and adds it when going through the <code>Scalar</code> subroutine.</p>
+<p>I’ve since changed the outline of LBM algorithm and re-ordered some of the steps. In particular, the new method starts with the post-collision density-distribution at time step <span class="math scholmd-math-inline">\(t_n\)</span> and ends with the post-collision density distribution at the next time step <span class="math scholmd-math-inline">\(t_{n+1}\)</span>. The new algorithm looks as follows.</p>
+<pre class="fortran90"><code>DO iter = iter0-0_lng,nt
+
+      CALL Advance_Geometry
+      CALL Stream           ! perform the streaming operation (with Lallemand 2nd order BB) 
+      CALL Macro            ! calcuate the macroscopic quantities 
+
+      CALL Particle_Track - Update particle location, interpolate bulk concentration to new particle location, calculate drug release and distribution to nodes
+      CALL Scalar           ! calcuate the evolution of scalar in the domain and add the drug release calculated in Particle_Track
+      CALL Collision        ! collision step 
+      CALL MPI_Transfer     ! transfer the data (distribution functions, density, scalar) 
+
+END DO</code></pre>
+<p>This way, the <code>Particle_Track</code> subroutine is able to use the average of the old and the updated velocity correctly as described in Eq. <span class="scholmd-crossref"><span class="math scholmd-math-inline">\(\eqref{secondOrderRungerKuttaParticeTracking}\)</span></span>. However, the calculation of the bulk concentration for the drug release is still from the previous time step, the same as it was in the previous algorithm design. In principle, This could’ve been achieved by merely moving the <code>Particle_Track</code> subroutine call to after the streaming step in the previous algorithm design. However, the new algorithm design suits the dual lattice algorithm better in my opinion and is consistent with the way Yanxing designed his dual lattice algorithm.</p>
+<p>The rough outline of the dual lattice algorithm that is related to the particle tracking and drug release from particles looks like</p>
+<pre class="fortran90"><code>DO iter = iter0-0_lng,nt
+
+      CALL Advance_Geometry
+      CALL Stream           ! perform the streaming operation (with Lallemand 2nd order BB) 
+      CALL Macro            ! calcuate the macroscopic quantities 
+
+      CALL Particle_Track - Update particle location for those in the coarse mesh, interpolate bulk concentration to new particle location, calculate drug release and distribution to nodes
+      CALL Scalar           ! calcuate the evolution of scalar in the domain and add the drug release calculated in Particle_Track
+      phi_fine = phi_fine + delphi_fine !Add the drug release corresponding to any particle in the coarse mesh whose effective volume interfaces with the fine mesh
+      CALL Collision        ! collision step 
+      CALL MPI_Transfer     ! transfer the data (distribution functions, density, scalar) [MODULE: Parallel]
+
+      CALL SpatialInterpolateToFineGrid      ! Interpolate required variables to fine grid
+
+      DO subIter=1,ratio
+          CALL AdvanceGeometry_Fine   ! Advance the geometry on the fine grid
+          CALL TemporalInterpolateToFineGrid
+          CALL Stream_Fine            ! Stream fine grid
+          CALL Macro_Fine             ! Calculate Macro properties on fine grid
+
+          CALL Particle_Track_fine - Update particle location for those in the fine mesh, interpolate bulk concentration to new particle location, calculate drug release and distribution to nodes
+          if(max(delphi) .gt. 0) then
+              phi = phi + delphi
+              CALL SpatialInterpolatePhiToFineGrid      ! Interpolate phi alone to fine grid
+          end if
+          CALL Scalar_Fine       ! Calculate Scalar stuff on fine grid
+          
+          CALL Collision_Fine     ! Collision step on the fine grid
+          CALL MPI_Transfer_Fine  ! Transfer the data across processor boundaries on the fine grid
+      END DO
+      CALL InterpolateToCoarseGrid    ! Interpolate required variable to coarse grid
+
+END DO
+</code></pre>
+<p>When a particle is in the coarse mesh, but it’s effective volume overlaps with the fine mesh, then the treatment of <code>delphi_fine</code> that needs to be added to the scalar in the fine mesh can be tricky. Technically it needs to be added uniformly over the time steps in the fine mesh and the same way. However, this would require declaring an entire array called <code>delphi_fineFromCoarse</code> just for this purpose. If this is not done, then there would be two errors:</p>
+<ul>
+<li>the entire scalar to be added over <code>gridRatio</code> number of time steps in the fine mesh would be dumped over just the first fine mesh time step. This could cause local spikes in concentration that would get transported and diffused over the subsequent <code>gridRatio-1</code> time steps.</li>
+<li>the order of adding the <code>delphi_fine</code> would be changed, i.e. while the <code>delphi_fine</code> is currently added after the moment-propagation method performs the collision and transport, the new method would add the <code>delphi_fine</code> before the moment-propagation method. I have no idea if this is correct or not; I just thought I’ll make a note of this in case this comes up later<a href="#fn1" class="footnoteRef" id="fnref1"><sup>1</sup></a>.</li>
+</ul>
+<p>Similarly, when a particle is in the fine mesh, but it’s effective volume overlaps with the coarse mesh, then the treatment of <code>delphi</code> that needs to be added to the scalar in the fine mesh can be tricky. Technically, it’s supposed to be added at the intermediate time steps; however, the coarse mesh does not have that kind of time resolution. Hence it is added to the <code>phi</code> at time step <span class="math scholmd-math-inline">\(t_{n+1}\)</span> instead. The whole point of doing this addition at every fine mesh time step and not waiting till the end of all the fine mesh time steps is that this could potentially affect the calculation of the bulk concentration for the particle. Hence, this drug release will change the value of the scalar concentration on the boundary. This implies that the spatial interpolation of the scalar concentration from the coarse to the fine mesh needs to be performed again around the points where the scalar concentration has changed on the coarse mesh. Performing this check could be as expensive or of the same order as just doing the full interpolation again. I think I’ll just do the full interpolation again, but just for the scalar alone.</p>
 <h1 id="future-work-over-the-next-two-weeks">Future work over the next two weeks</h1>
 <ul>
 <li>Write up
@@ -516,7 +655,6 @@ END FUNCTION spatialInterpolate</code></pre>
 </ul></li>
 <li>Particle tracking and dissolution
 <ul>
-<li>Reintroduction of particle tracking - Adding complexity to track particles through the interface</li>
 <li>Reintroduction of drug dissolution model
 <ul>
 <li>How to calculate bulk concentration when the particle is in the mesh interface?</li>
@@ -529,6 +667,12 @@ END FUNCTION spatialInterpolate</code></pre>
 <div class="references">
 
 </div>
+<section class="footnotes">
+<hr />
+<ol>
+<li id="fn1"><p>In a related discussion, Farhad noted that the order of adding the <code>delphi</code> is important and doing so before the moment propagation method could potentially reduce the negative scalar problems.<a href="#fnref1">↩</a></p></li>
+</ol>
+</section>
 </div>
 </div>
 <script type="text/x-mathjax-config">
