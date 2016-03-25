@@ -64,7 +64,7 @@ D_m = \frac{\nu}{Sc} = 0.0125 m^2/s\\
 C_s =1 mol/m^3\\
 \end{aligned}
 \right\}
-\qquad \text{Dimensional parameters}
+\qquad \text{Parameters needed}
 ~~~
 
 
@@ -77,9 +77,9 @@ We got $N^"_s A_P$ from the last time step of the data file (sca-f-01.dat, last 
 
 
 ~~~math
-N^"_s A_P =  4.058773 \\
+N^"_s A_P =  4.058773 \frac{mol} {s} \\
 A_P= 4 \pi R^2= 4 \pi (2.5)^2 =78.54 m^2 \\
-N^"_s= \frac{4.058733} {78.54} = 0.051677 \frac{mols} {m^2.s} 
+N^"_s= \frac{4.058733} {78.54} = 0.051677 \frac{mol} {m^2.s} 
 ~~~
 
 Computing the bulk concentration corresponding to the last time step in the data file, we have:
