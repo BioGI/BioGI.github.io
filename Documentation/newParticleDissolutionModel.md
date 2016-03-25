@@ -67,6 +67,28 @@ Caption: Cases run by Yanxing. Alternate rows contain the Schmidt number data as
 
 
 
+
+
+
+
+
+
+
+
+
+## Plots of Yanxing's data
+
+
+#### Figure: {#re01s}
+
+![Sc=10](./yanxingSphereData/re01s-b/scalarDomain_Sc10.0.png){width=90%}\
+![Sc=10](./yanxingSphereData/re01s-b/scalarRelease_Sc10.0.png){width=90%}\
+![Sc=10](./yanxingSphereData/re01s-b/scalarReleaseInt_Sc10.0.png){width=90%} \
+
+Caption: Scalar in the domain for $Re_s = 0.1$. The left column is the total scalar in the domain, the middle column is the scalar released at that time over a time-step, the right column is the total scalar released so far obtained by time-integration. Ideally, the left and the right column should be the same.
+
+
+
 <!---
 ## Plots of Yanxing's data
 
@@ -187,7 +209,6 @@ Caption: Scalar in the domain for $Re_s = 0.0075$. The left column is the total 
 ![Sc=100](./yanxingSphereData/re01s-b/scalarReleaseInt_Sc100.0.png){width=33%}
 
 Caption: Scalar in the domain for $Re_s = 0.1$. The left column is the total scalar in the domain, the middle column is the scalar released at that time over a time-step, the right column is the total scalar released so far obtained by time-integration. Ideally, the left and the right column should be the same.
-
 
 #### Figure: {#re025s}
 
