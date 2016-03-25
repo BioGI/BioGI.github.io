@@ -1,5 +1,5 @@
 ---
-title: Validation of new particle dissolution model
+title: Validation of new particle dissolution model using Yanxing data
 author: Farhad Behafarid, Ganesh Vijayakumar
 date: 25 Mar 2016
 bibliography: ../References/references.bib
