@@ -71,7 +71,7 @@ C_s =1 mol/m^3\\
 
 
 
-# Sherwood number based on Figure
+# Sherwood number 
 
 We got $N^"_s A_P$ from the last time step of the data file (Fourth column, last row):
 
