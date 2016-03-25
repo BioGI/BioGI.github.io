@@ -8,19 +8,16 @@ bibliography: ../References/references.bib
 
 
 # Chosen case from Yanxing's data files
-One of the Yanxing's simulations was chosen as defined by the parameters below:
+One of the Yanxing's simulations was chosen as defined by the parameters below (re01s-b/sca-f-01.dat and re01s-b/sca-c-01.dat):
 
 ~~~math
-\left.\begin{aligned}
 U_o = 0.1 m/s \\
+\nu= 0.125 m^2/s \\
 S^* = 1 \\
 Re_s= 0.1 \\
-\nu= 0.125 m^2/s \\
-\end{aligned}
-\right\}
-\qquad \text{corresponding to [re01s-b/sca-*-01.dat]}
 ~~~
 
+<!---
 The output plots are presented in Figures below
 
 #### Figure: {#Chhosen-Case-Scalar}
@@ -34,7 +31,7 @@ Caption: $q^"A$  from Yanxing data
 #### Figure: {#Chhosen-Case-Cb}
 ![Sc=10](./yanxingSphereData/re01s-b/Cb_over_Cs_Re01_Sc10.png){width=50%}
 Caption: $C_b/C_s$ based on Yanxing data 
-
+--->
 
 
 
@@ -64,7 +61,7 @@ H = W = 20 R = 50 m  \\
 L = 50 R = 125 m \\
 Sc  = \frac{S*}{Re_s} = 10\\
 D_m = \frac{\nu}{Sc} = 0.0125 m^2/s\\
-C_s =1\\
+C_s =1 mol/m^3\\
 \end{aligned}
 \right\}
 \qquad \text{Dimensional parameters}
@@ -74,24 +71,28 @@ C_s =1\\
 
 
 
-# Sherwood number based on Figure (#Chhosen-Case-Flux) 
+# Sherwood number based on Figure
 
-We have $N^"_s A_P$ from Figure (#Chhosen-Case-Flux):
+We got $N^"_s A_P$ from the last time step of the data file (Fourth column, last row):
 
 
 ~~~math
-N^"_s A_P \approx 4 \\
+N^"_s A_P =  4.058773 \\
 A_P= 4 \pi R^2= 4 \pi (2.5)^2 =78.54 m^2 \\
-N^"_s= \frac{4} {78.54} \approx  0.05 \frac{mols} {m^2.s} 
+N^"_s= \frac{4.058733} {78.54} = 0.051677 \frac{mols} {m^2.s} 
 ~~~
 
-based on Figure (#Chhosen-Case-Cb), we can assume $C_b = 0$, therefore:
+Computing the bulk concentration corresponding to the last time step in the data file, we have:
+
+$C_b= 0.000092$
+
+Therefore:
 
 ~~~math
-Sh= \frac{N^"_s} {D_m  (\frac{C_s-C_b}{R}) } = \frac{0.05} {0.0125 (\frac{1-0}{2.5})} = 10   \\
+Sh= \frac{N^"_s} {D_m  (\frac{C_s-C_b}{R}) } = \frac{0.051677} {0.0125 (\frac{1-0.000092}{2.5})} = 10.336   \\
 ~~~
 
-The estimated Sherwood number of 10 is much larger than the value we expected (Sh=1.3 from Sherwood plots and correlations)
+The computed Sherwood number of 10.336 is not what we  expected (Sh= 1.3 from Sherwood plots and correlations)
 
 
 

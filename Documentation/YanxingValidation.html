@@ -29,38 +29,32 @@ Farhad Behafarid, Ganesh Vijayakumar
 <div class="scholmd-date">25 Mar 2016</div>
 </header>
 <h1 id="chosen-case-from-yanxings-data-files">Chosen case from Yanxing’s data files</h1>
-<p>One of the Yanxing’s simulations was chosen as defined by the parameters below: 
+<p>One of the Yanxing’s simulations was chosen as defined by the parameters below (re01s-b/sca-f-01.dat and re01s-b/sca-c-01.dat): 
 <span class="math scholmd-math-display" style="display: block;">\[
 \begin{equation*}
-\left.\begin{aligned}
+\begin{split}
 U_o = 0.1 m/s \\
+\nu= 0.125 m^2/s \\
 S^* = 1 \\
 Re_s= 0.1 \\
-\nu= 0.125 m^2/s \\
-\end{aligned}
-\right\}
-\qquad \text{corresponding to [re01s-b/sca-*-01.dat]}
+\end{split}
 \end{equation*}
 \]</span>
- The output plots are presented in Figures below</p>
-<figure class="scholmd-float scholmd-figure" id="Chhosen-Case-Scalar">
-<div class="scholmd-float-content"><figure class="scholmd-subfig" style="display: inline-block; width: 50%">
-<img src="./yanxingSphereData/re01s-b/scalar_Both_Re01_Sc10.png" />
-</figure></div>
-<div class="scholmd-float-caption"><figcaption><span class="scholmd-caption-head"><span class="scholmd-caption-head-prefix">Figure</span><span class="scholmd-caption-head-label">1</span></span><span class="scholmd-caption-text">Total scalar released form Yanxing data</span></figcaption></div>
-</figure>
-<figure class="scholmd-float scholmd-figure" id="Chhosen-Case-Flux">
-<div class="scholmd-float-content"><figure class="scholmd-subfig" style="display: inline-block; width: 50%">
-<img src="./yanxingSphereData/re01s-b/Scalar_Release_At_each_Timestep_SC10_REs01_25_Mar_16_Farhad.png" />
-</figure></div>
-<div class="scholmd-float-caption"><figcaption><span class="scholmd-caption-head"><span class="scholmd-caption-head-prefix">Figure</span><span class="scholmd-caption-head-label">2</span></span><span class="scholmd-caption-text"><span class="math scholmd-math-inline">\(q^&quot;A\)</span> from Yanxing data</span></figcaption></div>
-</figure>
-<figure class="scholmd-float scholmd-figure" id="Chhosen-Case-Cb">
-<div class="scholmd-float-content"><figure class="scholmd-subfig" style="display: inline-block; width: 50%">
-<img src="./yanxingSphereData/re01s-b/Cb_over_Cs_Re01_Sc10.png" />
-</figure></div>
-<div class="scholmd-float-caption"><figcaption><span class="scholmd-caption-head"><span class="scholmd-caption-head-prefix">Figure</span><span class="scholmd-caption-head-label">3</span></span><span class="scholmd-caption-text"><span class="math scholmd-math-inline">\(C_b/C_s\)</span> based on Yanxing data</span></figcaption></div>
-</figure>
+ <!---
+The output plots are presented in Figures below
+
+#### Figure: {#Chhosen-Case-Scalar}
+![Sc=10](./yanxingSphereData/re01s-b/scalar_Both_Re01_Sc10.png){width=50%}
+Caption: Total scalar released form Yanxing data 
+
+#### Figure: {#Chhosen-Case-Flux}
+![Sc=10](./yanxingSphereData/re01s-b/Scalar_Release_At_each_Timestep_SC10_REs01_25_Mar_16_Farhad.png){width=50%}
+Caption: $q^"A$  from Yanxing data
+
+#### Figure: {#Chhosen-Case-Cb}
+![Sc=10](./yanxingSphereData/re01s-b/Cb_over_Cs_Re01_Sc10.png){width=50%}
+Caption: $C_b/C_s$ based on Yanxing data 
+---></p>
 <h1 id="parameters">Parameters</h1>
 <p>Using below equations we can get the dimensional parameters needed for our simulations: 
 <span class="math scholmd-math-display" style="display: block;">\[
@@ -86,35 +80,37 @@ H = W = 20 R = 50 m  \\
 L = 50 R = 125 m \\
 Sc  = \frac{S*}{Re_s} = 10\\
 D_m = \frac{\nu}{Sc} = 0.0125 m^2/s\\
-C_s =1\\
+C_s =1 mol/m^3\\
 \end{aligned}
 \right\}
 \qquad \text{Dimensional parameters}
 \end{equation*}
 \]</span>
 </p>
-<h1 id="sherwood-number-based-on-figure">Sherwood number based on Figure <span class="scholmd-crossref"><a href="#Chhosen-Case-Flux">(2)</a></span></h1>
-<p>We have <span class="math scholmd-math-inline">\(N^&quot;_s A_P\)</span> from Figure <span class="scholmd-crossref"><a href="#Chhosen-Case-Flux">(2)</a></span>:</p>
+<h1 id="sherwood-number-based-on-figure">Sherwood number based on Figure</h1>
+<p>We got <span class="math scholmd-math-inline">\(N^&quot;_s A_P\)</span> from the last time step of the data file (Fourth column, last row):</p>
 <p>
 <span class="math scholmd-math-display" style="display: block;">\[
 \begin{equation*}
 \begin{split}
-N^&quot;_s A_P \approx 4 \\
+N^&quot;_s A_P =  4.058773 \\
 A_P= 4 \pi R^2= 4 \pi (2.5)^2 =78.54 m^2 \\
-N^&quot;_s= \frac{4} {78.54} \approx  0.05 \frac{mols} {m^2.s} 
+N^&quot;_s= \frac{4.058733} {78.54} = 0.051677 \frac{mols} {m^2.s} 
 \end{split}
 \end{equation*}
 \]</span>
 </p>
-<p>based on Figure <span class="scholmd-crossref"><a href="#Chhosen-Case-Cb">(3)</a></span>, we can assume <span class="math scholmd-math-inline">\(C_b = 0\)</span>, therefore: 
+<p>Computing the bulk concentration corresponding to the last time step in the data file, we have:</p>
+<p><span class="math scholmd-math-inline">\(C_b= 0.000092\)</span></p>
+<p>Therefore: 
 <span class="math scholmd-math-display" style="display: block;">\[
 \begin{equation*}
 \begin{split}
-Sh= \frac{N^&quot;_s} {D_m  (\frac{C_s-C_b}{R}) } = \frac{0.05} {0.0125 (\frac{1-0}{2.5})} = 10   \\
+Sh= \frac{N^&quot;_s} {D_m  (\frac{C_s-C_b}{R}) } = \frac{0.051677} {0.0125 (\frac{1-0.000092}{2.5})} = 10.336   \\
 \end{split}
 \end{equation*}
 \]</span>
- The estimated Sherwood number of 10 is much larger than the value we expected (Sh=1.3 from Sherwood plots and correlations)</p>
+ The computed Sherwood number of 10.336 is not what we expected (Sh= 1.3 from Sherwood plots and correlations)</p>
 <div class="references">
 
 </div>
