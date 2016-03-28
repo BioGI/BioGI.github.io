@@ -17,6 +17,9 @@ S^* = 1 \\
 Re_s= 0.1 \\
 ~~~
 
+All units for dimensional parameters and for all parameters in the data files were assumed to be SI.<span style="color: red">  (Yanxing please confirm the units) </span>
+
+
 <!---
 The output plots are presented in Figures below
 
@@ -54,6 +57,8 @@ W/R = 20 \\
 ~~~
 
 
+The required parameters then can be calculated as:
+
 ~~~math
 \left.\begin{aligned}
 R   = \frac{20 \; Re_s \; \nu }{U_o} =2.5 m\\
@@ -66,15 +71,16 @@ C_s =1 mol/m^3\\
 \right\}
 \qquad \text{Parameters needed}
 ~~~
+(<span style="color: red"> Yanxing pleas confirm values and units specially for $C_s$ </span>)
 
 
 
 
-
-# Sherwood number 
+# Sherwood number calculation based on the data files
 
 We got $N^"_s A_P$ from the last time step of the data file (sca-f-01.dat, last column, last row):
 
+<span style="color: red"> (Yanxing please confirm that the last column in the data files represnets $N^"_s A_P$ or molecule release rate with unit of mol/s ) </span> 
 
 ~~~math
 N^"_s A_P =  4.058773 \frac{mol} {s} \\
@@ -82,9 +88,11 @@ A_P= 4 \pi R^2= 4 \pi (2.5)^2 =78.54 m^2 \\
 N^"_s= \frac{4.058733} {78.54} = 0.051677 \frac{mol} {m^2.s} 
 ~~~
 
-Computing the bulk concentration corresponding to the last time step in the data file, we have:
+Global bulk concentration was calculated by getting the total moles in the whole domain (in last time step, which is 105.054 mols) divided by total volume of the domain (100m x 100m x 125m):
 
-$C_b= 0.000092$
+~~~math
+C_b= 0.000092 mol/m^3  
+~~~
 
 Therefore:
 
@@ -92,9 +100,26 @@ Therefore:
 Sh= \frac{N^"_s} {D_m  (\frac{C_s-C_b}{R}) } = \frac{0.051677} {0.0125 (\frac{1-0.000092}{2.5})} = 10.336   \\
 ~~~
 
-The computed Sherwood number of 10.336 is not what we  expected (Sh= 1.3 from Sherwood plots and correlations)
+The computed Sherwood number of 10.336 is not what we  expected (Sh= 1.296 from Sherwood plots and correlations)
 
 
 
 
+# Sherwood number plots and correlations
+
+
+#### Figure: {#Chhosen-Case-Cb}
+![Sc=10](./yanxingSphereData/Sherwood-Plots.png){width=70%}
+Caption: Sherwood Plots
+
+The correlation we use in the code (in case of $S^* < 5$) to compute the Sherwood number is:
+~~~math
+Sh= 1+0.296 \sqrt{s^*}
+~~~
+
+Which for our case of  $S^* =1$, we get:
+
+~~~math
+Sh= 1.296 
+~~~
 
