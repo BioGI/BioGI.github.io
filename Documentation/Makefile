@@ -6,10 +6,11 @@ html:
 #	scholdoc webpage-settings.yml HowToModifyWiki.md --citeproc --output=HowToModifyWiki.html
 #	scholdoc webpage-settings.yml Dissolution-Model-Implementation.md --citeproc --output=Dissolution-Model-Implementation.html
 #	scholdoc webpage-settings.yml ParticleTrackingDrugRelease.md --citeproc --output=ParticleTrackingDrugRelease.html
-	scholdoc webpage-settings.yml plannedMultiblockImplementation.md --citeproc --output=plannedMultiblockImplementation.html
+#	scholdoc webpage-settings.yml plannedMultiblockImplementation.md --citeproc --output=plannedMultiblockImplementation.html
 #	scholdoc webpage-settings.yml Couette-Pseudo-Code.md --citeproc --output=Couette-Pseudo-Code.html
 #	scholdoc webpage-settings.yml JanusSupercomputerTour.md --citeproc --output=JanusSupercomputerTour.html
-	scholdoc webpage-settings.yml newParticleDissolutionModel.md --citeproc --output=newParticleDissolutionModel.html
+#	scholdoc webpage-settings.yml newParticleDissolutionModel.md --citeproc --output=newParticleDissolutionModel.html
+	scholdoc webpage-settings.yml firstStudy.md --citeproc --output=firstStudy.html
 latex:
 	scholdoc plos-one-settings.yml lbmBasics.md --natbib --output=lbmBasics.tex
 
