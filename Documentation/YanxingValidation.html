@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="generator" content="scholpandoc">
+  <meta name="viewport" content="width=device-width">
+  
+  <meta name="author" content="Farhad Behafarid, Ganesh Vijayakumar">
+  <meta name="dcterms.date" content="2016-03-25">
+  <title>Validation of new particle dissolution model using Yanxing data</title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.7.1/modernizr.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.js"></script>
+  <link rel="stylesheet" href="css/ScholarlyMarkdown-BS3.css">
+</head>
+<body>
+<div class="scholmd-container">
+<div class="scholmd-main">
+<div class="scholmd-content">
+<header>
+<h1 class="scholmd-title">Validation of new particle dissolution model using Yanxing data</h1>
+<div class="scholmd-author">
+Farhad Behafarid, Ganesh Vijayakumar
+</div>
+<div class="scholmd-date">25 Mar 2016</div>
+</header>
+<h1 id="chosen-case-from-yanxings-data-files">Chosen case from Yanxing’s data files</h1>
+<p>One of the Yanxing’s simulations was chosen as defined by the parameters below (re01s-b/sca-f-01.dat and re01s-b/sca-c-01.dat): 
+<span class="math scholmd-math-display" style="display: block;">\[
+\begin{equation*}
+\begin{split}
+U_o = 0.1 m/s \\
+\nu= 0.125 m^2/s \\
+S^* = 1 \\
+Re_s= 0.1 \\
+\end{split}
+\end{equation*}
+\]</span>
+ All units for dimensional parameters and for all parameters in the data files were assumed to be SI.<span style="color: red"> (Yanxing please confirm the units) </span></p>
+<!---
+The output plots are presented in Figures below
+
+#### Figure: {#Chhosen-Case-Scalar}
+![Sc=10](./yanxingSphereData/re01s-b/scalar_Both_Re01_Sc10.png){width=50%}
+Caption: Total scalar released form Yanxing data 
+
+#### Figure: {#Chhosen-Case-Flux}
+![Sc=10](./yanxingSphereData/re01s-b/Scalar_Release_At_each_Timestep_SC10_REs01_25_Mar_16_Farhad.png){width=50%}
+Caption: $q^"A$  from Yanxing data
+
+#### Figure: {#Chhosen-Case-Cb}
+![Sc=10](./yanxingSphereData/re01s-b/Cb_over_Cs_Re01_Sc10.png){width=50%}
+Caption: $C_b/C_s$ based on Yanxing data 
+--->
+<h1 id="parameters">Parameters</h1>
+<p>Using below equations we can get the dimensional parameters needed for our simulations: 
+<span class="math scholmd-math-display" style="display: block;">\[
+\begin{equation*}
+\left.\begin{aligned}
+S    = \frac{U_o}{H} \\
+Re_s = \frac{S \; R^2}{ \nu} \\
+S^*  = Re_s \; Sc \\
+H/R = 20\\
+L/R = 50 \\
+W/R = 20 \\
+\end{aligned}
+\right\}
+\qquad \text{Non-dimensional parameters}
+\end{equation*}
+\]</span>
+</p>
+<p>The required parameters then can be calculated as: 
+<span class="math scholmd-math-display" style="display: block;">\[
+\begin{equation*}
+\left.\begin{aligned}
+R   = \frac{20 \; Re_s \; \nu }{U_o} =2.5 m\\
+H = W = 20 R = 50 m  \\
+L = 50 R = 125 m \\
+Sc  = \frac{S*}{Re_s} = 10\\
+D_m = \frac{\nu}{Sc} = 0.0125 m^2/s\\
+C_s =1 mol/m^3\\
+\end{aligned}
+\right\}
+\qquad \text{Parameters needed}
+\end{equation*}
+\]</span>
+ (<span style="color: red"> Yanxing pleas confirm values and units specially for <span class="math scholmd-math-inline">\(C_s\)</span> </span>)</p>
+<h1 id="sherwood-number-calculation-based-on-the-data-files">Sherwood number calculation based on the data files</h1>
+<p>We got <span class="math scholmd-math-inline">\(N^&quot;_s A_P\)</span> from the last time step of the data file (sca-f-01.dat, last column, last row):</p>
+<p><span style="color: red"> (Yanxing please confirm that the last column in the data files represnets <span class="math scholmd-math-inline">\(N^&quot;_s A_P\)</span> or molecule release rate with unit of mol/s ) </span> 
+<span class="math scholmd-math-display" style="display: block;">\[
+\begin{equation*}
+\begin{split}
+N^&quot;_s A_P =  4.058773 \frac{mol} {s} \\
+A_P= 4 \pi R^2= 4 \pi (2.5)^2 =78.54 m^2 \\
+N^&quot;_s= \frac{4.058733} {78.54} = 0.051677 \frac{mol} {m^2.s} 
+\end{split}
+\end{equation*}
+\]</span>
+ Global bulk concentration was calculated by getting the total moles in the whole domain (in last time step, which is 105.054 mols) divided by total volume of the domain (100m x 100m x 125m): 
+<span class="math scholmd-math-display" style="display: block;">\[
+\begin{equation*}
+C_b= 0.000092 mol/m^3  
+\end{equation*}
+\]</span>
+ Therefore: 
+<span class="math scholmd-math-display" style="display: block;">\[
+\begin{equation*}
+\begin{split}
+Sh= \frac{N^&quot;_s} {D_m  (\frac{C_s-C_b}{R}) } = \frac{0.051677} {0.0125 (\frac{1-0.000092}{2.5})} = 10.336   \\
+\end{split}
+\end{equation*}
+\]</span>
+ The computed Sherwood number of 10.336 is not what we expected (Sh= 1.296 from Sherwood plots and correlations)</p>
+<h1 id="sherwood-number-plots-and-correlations">Sherwood number plots and correlations</h1>
+<figure class="scholmd-float scholmd-figure" id="Chhosen-Case-Cb">
+<div class="scholmd-float-content"><figure class="scholmd-subfig" style="display: inline-block; width: 70%">
+<img src="./yanxingSphereData/Sherwood-Plots.png" />
+</figure></div>
+<div class="scholmd-float-caption"><figcaption><span class="scholmd-caption-head"><span class="scholmd-caption-head-prefix">Figure</span><span class="scholmd-caption-head-label">1</span></span><span class="scholmd-caption-text">Sherwood Plots</span></figcaption></div>
+</figure>
+<p>The correlation we use in the code (in case of <span class="math scholmd-math-inline">\(S^* &lt; 5\)</span>) to compute the Sherwood number is: 
+<span class="math scholmd-math-display" style="display: block;">\[
+\begin{equation*}
+Sh= 1+0.296 \sqrt{s^*}
+\end{equation*}
+\]</span>
+ Which for our case of <span class="math scholmd-math-inline">\(S^* =1\)</span>, we get: 
+<span class="math scholmd-math-display" style="display: block;">\[
+\begin{equation*}
+Sh= 1.296 
+\end{equation*}
+\]</span>
+</p>
+<div class="references">
+
+</div>
+</div>
+</div>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+      processClass: "math"
+    },
+    TeX: {
+        TagSide: "left",
+        TagIndent: "1.2em",
+        equationNumbers: {
+            autoNumber: "AMS"
+        },
+        Macros: {
+            ensuremath: ["#1",1],
+            textsf: ["\\mathsf{\\text{#1}}",1],
+            texttt: ["\\mathtt{\\text{#1}}",1]
+        }
+    },
+    "HTML-CSS": { 
+        scale: 100,
+        availableFonts: ["TeX"], 
+        preferredFont: "TeX",
+        webFont: "TeX",
+        imageFont: "TeX",
+        EqnChunk: 1000
+    }
+});
+</script>
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML-full" type="text/javascript"></script>
+</div>
+</body>
+</html>
