@@ -36,8 +36,10 @@ Ganesh Vijayakumar, Farhad Behafarid, Yanxing Wang and James Brasseur
 <li>Intestine with hydrodynamic and shear effects.</li>
 </ol>
 <p>The input parameters that need to be specified for the different experiments fall into different categories, viz., geometry and motility, drug and fluid properties, particle information, boundary conditions and the correlations for shear and hydrodynamic effects.</p>
+<!----------------------------------------------------------------------------------------------------------------------------------------------------------->
+<!----------------------------------------------------------------------------------------------------------------------------------------------------------->
+<!----------------------------------------------------------------------------------------------------------------------------------------------------------->
 <h1 id="geometry-and-motility">Geometry and Motility</h1>
-<p>Diameter, Length and occlusion ratio, motility mode (peristalsis/segmentation) and wave speed.</p>
 <p>Review Gino’s thesis for in vivo human data - we need ranges of physiologically realistic parameters in the middle of which will be “typical”. We need peristaltic and segmental motility geometry models:</p>
 <ul>
 <li>Need to estimate “bolus” volume as well as <span class="math scholmd-math-inline">\(R_{max}\)</span>, <span class="math scholmd-math-inline">\(\lambda\)</span> (wavelength) and <span class="math scholmd-math-inline">\(\epsilon/R_{max}\)</span> (occlusion ratio - use 0.4).</li>
@@ -50,55 +52,55 @@ Ganesh Vijayakumar, Farhad Behafarid, Yanxing Wang and James Brasseur
 <tr class="header">
 <th style="text-align: left;">Name</th>
 <th style="text-align: left;">Symbol</th>
-<th style="text-align: left;">Value</th>
-<th style="text-align: left;">Units</th>
+<th style="text-align: left;">Choice</th>
+<th style="text-align: left;">Unit</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">Max diameter</td>
 <td style="text-align: left;"><span class="math scholmd-math-inline">\(D_{max}\)</span></td>
-<td style="text-align: left;">30</td>
+<td style="text-align: left;"><span style="color:red">30</span></td>
 <td style="text-align: left;"><span class="math scholmd-math-inline">\(mm\)</span></td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Wavelength</td>
 <td style="text-align: left;"><span class="math scholmd-math-inline">\(\lambda\)</span></td>
-<td style="text-align: left;">40-60</td>
+<td style="text-align: left;"><span style="color:red">40-60</span></td>
 <td style="text-align: left;"><span class="math scholmd-math-inline">\(mm\)</span></td>
 </tr>
 <tr class="odd">
+<td style="text-align: left;">Wave speed</td>
+<td style="text-align: left;"><span class="math scholmd-math-inline">\(s_1\)</span></td>
+<td style="text-align: left;"><span style="color:red">4</span></td>
+<td style="text-align: left;"><span class="math scholmd-math-inline">\(mm/s\)</span></td>
+</tr>
+<tr class="even">
 <td style="text-align: left;">Number of waves</td>
 <td style="text-align: left;">-</td>
 <td style="text-align: left;">1</td>
 <td style="text-align: left;">-</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;">Occlusion ratio</td>
 <td style="text-align: left;"><span class="math scholmd-math-inline">\(\epsilon/R_{avg}\)</span></td>
 <td style="text-align: left;">0.5</td>
 <td style="text-align: left;">-</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;">Motility mode</td>
 <td style="text-align: left;">-</td>
 <td style="text-align: left;">peristalsis</td>
 <td style="text-align: left;">-</td>
 </tr>
-<tr class="even">
-<td style="text-align: left;">Wave speed</td>
-<td style="text-align: left;"><span class="math scholmd-math-inline">\(s_1\)</span></td>
-<td style="text-align: left;">4</td>
-<td style="text-align: left;"><span class="math scholmd-math-inline">\(mm/s\)</span></td>
-</tr>
 </tbody>
 </table></div>
-<div class="scholmd-float-caption"><figcaption><span class="scholmd-caption-head"><span class="scholmd-caption-head-prefix">Table</span><span class="scholmd-caption-head-label">1</span></span></figcaption></div>
+<div class="scholmd-float-caption"><figcaption><span class="scholmd-caption-head"><span class="scholmd-caption-head-prefix">Table</span><span class="scholmd-caption-head-label">1</span></span><span class="scholmd-caption-text">Geometry and motility properties for the first computational study.</span></figcaption></div>
 </figure>
-<p>Caption: Geometry and motility properties for the first computational study.</p>
+<!----------------------------------------------------------------------------------------------------------------------------------------------------------->
+<!----------------------------------------------------------------------------------------------------------------------------------------------------------->
+<!----------------------------------------------------------------------------------------------------------------------------------------------------------->
 <h1 id="drug-and-fluid-properties">Drug and Fluid properties</h1>
-<p>Choose water with neutral <span class="math scholmd-math-inline">\(pH=7\)</span> at <span class="math scholmd-math-inline">\(20^{\circ}C\)</span> (to determine viscosity).</p>
-<p>Choose ibuprofen with <span class="math scholmd-math-inline">\(C_S\)</span> fixed according to the neutral pH.</p>
 <p>Table <span class="scholmd-crossref"><a href="#table:study1DrugFluidParams">(2)</a></span> shows the drug and fluid properties for the first computational study.</p>
 <figure class="scholmd-float scholmd-table-float" id="table:study1DrugFluidParams">
 <div class="scholmd-float-content"><table>
@@ -106,11 +108,35 @@ Ganesh Vijayakumar, Farhad Behafarid, Yanxing Wang and James Brasseur
 <tr class="header">
 <th style="text-align: left;">Name</th>
 <th style="text-align: left;">Symbol</th>
-<th style="text-align: left;">Value</th>
-<th style="text-align: left;">Units</th>
+<th style="text-align: left;">Choice</th>
+<th style="text-align: left;">Unit</th>
 </tr>
 </thead>
 <tbody>
+<tr class="odd">
+<td style="text-align: left;">Drug</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Ibuprofen</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Fluid</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Water</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Temperature</td>
+<td style="text-align: left;"><span class="math scholmd-math-inline">\(T_w\)</span></td>
+<td style="text-align: left;">20</td>
+<td style="text-align: left;"><span class="math scholmd-math-inline">\(^{\circ}C\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Fluid’s PH</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">7</td>
+<td style="text-align: left;"></td>
+</tr>
 <tr class="odd">
 <td style="text-align: left;">Density</td>
 <td style="text-align: left;"><span class="math scholmd-math-inline">\(\rho_{water}\)</span></td>
@@ -124,24 +150,18 @@ Ganesh Vijayakumar, Farhad Behafarid, Yanxing Wang and James Brasseur
 <td style="text-align: left;"><span class="math scholmd-math-inline">\(cm^2/s\)</span></td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">Schmidt number</td>
-<td style="text-align: left;"><span class="math scholmd-math-inline">\(Sc\)</span></td>
-<td style="text-align: left;">10</td>
-<td style="text-align: left;">-</td>
-</tr>
-<tr class="even">
 <td style="text-align: left;">Molar volume</td>
 <td style="text-align: left;"><span class="math scholmd-math-inline">\(\nu_m\)</span></td>
 <td style="text-align: left;">268</td>
 <td style="text-align: left;"><span class="math scholmd-math-inline">\(cm^3/mol\)</span></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;">Diffusivity of drug</td>
 <td style="text-align: left;"><span class="math scholmd-math-inline">\(D_m\)</span></td>
 <td style="text-align: left;"><span class="math scholmd-math-inline">\(7.5 \times 10^{-6}\)</span></td>
 <td style="text-align: left;"><span class="math scholmd-math-inline">\(m^2/s\)</span></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;">Saturation conc.</td>
 <td style="text-align: left;"><span class="math scholmd-math-inline">\(C_S\)</span></td>
 <td style="text-align: left;"><span class="math scholmd-math-inline">\(3.3 \times 10^{-7}\)</span></td>
@@ -151,14 +171,159 @@ Ganesh Vijayakumar, Farhad Behafarid, Yanxing Wang and James Brasseur
 </table></div>
 <div class="scholmd-float-caption"><figcaption><span class="scholmd-caption-head"><span class="scholmd-caption-head-prefix">Table</span><span class="scholmd-caption-head-label">2</span></span><span class="scholmd-caption-text">Drug and fluid properties for the first computational study.</span></figcaption></div>
 </figure>
+<!----------------------------------------------------------------------------------------------------------------------------------------------------------->
+<!----------------------------------------------------------------------------------------------------------------------------------------------------------->
+<!----------------------------------------------------------------------------------------------------------------------------------------------------------->
 <h1 id="particles">Particles</h1>
 <p>Total dose and particle size distribution: Choice of shape (log normal), average size and width, number of bins, bin size.</p>
 <p>Total dose: Choose <span class="math scholmd-math-inline">\(C_{tot}/C_S \sim 0.1\)</span> to be such that we are in sink conditions and far from the singularity near <span class="math scholmd-math-inline">\(C_{tot}/C_s = 1\)</span>. We choose this even though that singularity is only for the case without absorption and we do have absorption in the intestine case.</p>
-<p>“BOLUS DOSE”: mass or moles of drug in a bolus segment. To estimate we will collect data from the literature and from UM on concentration of extracted fluids – statistics. From MRI (Nottingham) we will estimate bolus volume. These two will give us dose in moles from which bolus CT can be estimated. To this end, we need to estimate solid content along with fluid concentration in the extracted segments. Once we have ranges of CT we can estimate ranges of CT/CS – our critical parameter.</p>
-<p>We need to estimate for time = 0 the ranges of average particle sizes (R* ~ 50 - 100 micron diameter seem reasonable), mathematical distribution function shape (log normal seems reasonable), width of the distribution, number of particles, and the number of the bins discretizing the distribution. I must put together information from previous attempts to address this issue. There will have to be a strong balance with practicality – computational load, grid resolution, etc.</p>
+<p>“BOLUS DOSE”: mass or moles of drug in a bolus segment. To estimate we will collect data from the literature and from UM on concentration of extracted fluids – statistics. From MRI (Nottingham) we will estimate bolus volume. These two will give us dose in moles from which bolus <span class="math scholmd-math-inline">\(C_{tot}\)</span> can be estimated. To this end, we need to estimate solid content along with fluid concentration in the extracted segments. Once we have ranges of <span class="math scholmd-math-inline">\(C_{tot}\)</span> we can estimate ranges of <span class="math scholmd-math-inline">\(C_{tot}/C_s\)</span> – our critical parameter.</p>
+<p>We need to estimate for time = 0 the ranges of average particle sizes (<span class="math scholmd-math-inline">\(R_P\)</span> ~ 50 - 100 <span class="math scholmd-math-inline">\(\mu m\)</span> seem reasonable), mathematical distribution function shape (log normal seems reasonable), width of the distribution, number of particles, and the number of the bins discretizing the distribution. I must put together information from previous attempts to address this issue. There will have to be a strong balance with practicality – computational load, grid resolution, etc.</p>
 <p>Choice of where to locate the particles at the initial condition.</p>
+<p>Table <span class="scholmd-crossref"><a href="#table:study1ParticleParameters">(3)</a></span> shows the particles parameters for the first computational study.</p>
+<figure class="scholmd-float scholmd-table-float" id="table:study1ParticleParameters">
+<div class="scholmd-float-content"><table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Name</th>
+<th style="text-align: left;">Symbol</th>
+<th style="text-align: left;">Choice</th>
+<th style="text-align: left;">Units</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Total concentration</td>
+<td style="text-align: left;"><span class="math scholmd-math-inline">\(C_{tot}\)</span></td>
+<td style="text-align: left;"><span style="color:red"> <span class="math scholmd-math-inline">\(3.3 \times 10^{-8}\)</span> </span></td>
+<td style="text-align: left;"><span class="math scholmd-math-inline">\(mol/cm^3\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">-</td>
+<td style="text-align: left;"><span class="math scholmd-math-inline">\(C_{tot}/C_s\)</span></td>
+<td style="text-align: left;"><span style="color:red"> 0.1 </span></td>
+<td style="text-align: left;">-</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Average particle radius</td>
+<td style="text-align: left;"><span class="math scholmd-math-inline">\(R_P^{ave}\)</span></td>
+<td style="text-align: left;"><span style="color:red"> 50-100 </span></td>
+<td style="text-align: left;"><span class="math scholmd-math-inline">\(\mu m\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Number of particles</td>
+<td style="text-align: left;"><span class="math scholmd-math-inline">\(N_P\)</span></td>
+<td style="text-align: left;"><span style="color:red"> 500 </span></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Distribution function shape</td>
+<td style="text-align: left;">-</td>
+<td style="text-align: left;">Log</td>
+<td style="text-align: left;">-</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Width of the distribution</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"><span style="color:red"> ? </span></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Number of the bins</td>
+<td style="text-align: left;"><span class="math scholmd-math-inline">\(N_{bins}\)</span></td>
+<td style="text-align: left;"><span style="color:red"> 20 </span></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Initial particle locations</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">randomly distributed in a sphere</td>
+<td style="text-align: left;">-</td>
+</tr>
+</tbody>
+</table></div>
+<div class="scholmd-float-caption"><figcaption><span class="scholmd-caption-head"><span class="scholmd-caption-head-prefix">Table</span><span class="scholmd-caption-head-label">3</span></span><span class="scholmd-caption-text">Drug particle properties for the first computational study.</span></figcaption></div>
+</figure>
+<p>Blah blah</p>
+<!----------------------------------------------------------------------------------------------------------------------------------------------------------->
+<!----------------------------------------------------------------------------------------------------------------------------------------------------------->
+<!----------------------------------------------------------------------------------------------------------------------------------------------------------->
 <h1 id="boundary-conditions">Boundary conditions</h1>
-<p>Immediate uptake. <span class="math scholmd-math-inline">\(\phi = 0\)</span> at the wall.</p>
+<p>Table <span class="scholmd-crossref"><a href="#table:study1BC">(4)</a></span> shows the boundary condition choices:</p>
+<figure class="scholmd-float scholmd-table-float" id="table:study1BC">
+<div class="scholmd-float-content"><table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Name</th>
+<th style="text-align: left;">Symbol</th>
+<th style="text-align: left;">Choice</th>
+<th style="text-align: left;">Units</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Momentum Boundary Condition</td>
+<td style="text-align: left;">BounceBack2</td>
+<td style="text-align: left;">Second order Bounce Back</td>
+<td style="text-align: left;">-</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Scalar Boundary Condition</td>
+<td style="text-align: left;"><span class="math scholmd-math-inline">\(\phi_{BC} = 0.0\)</span></td>
+<td style="text-align: left;">Immidiate uptake</td>
+<td style="text-align: left;">-</td>
+</tr>
+</tbody>
+</table></div>
+<div class="scholmd-float-caption"><figcaption><span class="scholmd-caption-head"><span class="scholmd-caption-head-prefix">Table</span><span class="scholmd-caption-head-label">4</span></span><span class="scholmd-caption-text">Boundary Conditions</span></figcaption></div>
+</figure>
+<!----------------------------------------------------------------------------------------------------------------------------------------------------------->
+<!----------------------------------------------------------------------------------------------------------------------------------------------------------->
+<!----------------------------------------------------------------------------------------------------------------------------------------------------------->
+<h1 id="modeling-parameters">Modeling Parameters</h1>
+<p>Table <span class="scholmd-crossref"><a href="#table:study1ModelingParameters">(5)</a></span> shows the modeling and computational parameters</p>
+<figure class="scholmd-float scholmd-table-float" id="table:study1ModelingParameters">
+<div class="scholmd-float-content"><table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Name</th>
+<th style="text-align: left;">Symbol</th>
+<th style="text-align: left;">Choice</th>
+<th style="text-align: left;">Units</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Partitioning modeling parameter</td>
+<td style="text-align: left;"><span class="math scholmd-math-inline">\(n_d\)</span></td>
+<td style="text-align: left;"><span style="color:red">2</span></td>
+<td style="text-align: left;">-</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Bulk concentration modeling parameter</td>
+<td style="text-align: left;"><span class="math scholmd-math-inline">\(n_b\)</span></td>
+<td style="text-align: left;"><span style="color:red">2</span></td>
+<td style="text-align: left;">-</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Schmidt number</td>
+<td style="text-align: left;"><span class="math scholmd-math-inline">\(Sc\)</span></td>
+<td style="text-align: left;">10</td>
+<td style="text-align: left;">-</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">LBM Relaxation parameter</td>
+<td style="text-align: left;"><span class="math scholmd-math-inline">\(\tau\)</span></td>
+<td style="text-align: left;"><span style="color:red">1</span></td>
+<td style="text-align: left;">-</td>
+</tr>
+</tbody>
+</table></div>
+<div class="scholmd-float-caption"><figcaption><span class="scholmd-caption-head"><span class="scholmd-caption-head-prefix">Table</span><span class="scholmd-caption-head-label">5</span></span><span class="scholmd-caption-text">Modeling and computational parameters for the first computational study.</span></figcaption></div>
+</figure>
+<!----------------------------------------------------------------------------------------------------------------------------------------------------------->
+<!----------------------------------------------------------------------------------------------------------------------------------------------------------->
+<!----------------------------------------------------------------------------------------------------------------------------------------------------------->
 <div class="references">
 <h1>Correlations for shear and hydrodynamic effects.</h1>
 </div>
