@@ -36,10 +36,10 @@ Table (#table:study1GeomMotilityParams) describes the geometry and motility para
 | Name             |       Symbol        | Choice     				|Unit	|  
 |------------------|---------------------|--------------------------------------|-------|
 | Max diameter     | $D_{max}$           | <span style="color:red">20</span>  	|$mm$  	|
-| Wavelength       | $\lambda$           | <span style="color:red">80</span>	|$mm$  	|
-| Wave speed       | $s_1$               | <span style="color:red">4</span>	|$mm/s$ |
+| Wavelength       | $\lambda$           | <span style="color:red">60</span>	|$mm$  	|
+| Wave speed       | $s_1$               | <span style="color:red">2</span>	|$mm/s$ |
 | Number of waves  | -                   | 1           				|-      |
-| Occlusion ratio  | $\epsilon/R_{avg}$  | 0.5         				|-      |
+| Occlusion ratio  | $\epsilon/R_{max}$  | 0.5         				|-      |
 | Motility mode    | -                   | peristalsis 				|-  	|	    
 
 Caption: Geometry and motility properties for the first computational study.
@@ -66,8 +66,8 @@ Table (#table:study1DrugFluidParams) shows the drug and fluid properties for the
 | Fluid                		|              		| Water                					|            	|
 | Fluid's temperature  		| $T_w$		     	| 20                   					| $^{\circ}C$	|
 | Fluid's PH			| $PH_w$		| 7							|            	|
-| Fluid's density              	| $\rho_w$      	| <span style="color:red">998.2</span>			| $kg/m^3$   	|
-| Fluid's kinematic viscosity  	| $\nu_w$       	| <span style="color:red">$1.004\times 10^{-2}$ </span>	| $cm^2/s$   	|
+| Fluid's density              	| $\rho_w$      	| <span style="color:red">1000</span>			| $kg/m^3$   	|
+| Fluid's kinematic viscosity  	| $\nu_w$       	| <span style="color:red">$300$ </span>			| $cp$   	|
 | Drug's density		| $\rho_m$ 		| <span style="color:red">?</span>			| $kg/m^3$	|	    	
 | Drug's molar volume  		| $\nu_m$             	| 268                  					| $cm^3/mol$ 	|
 | Drug's diffusivity   		| $D_m$               	| $7.5 \times 10^{-6}$ 					| $m^2/s$    	|
@@ -107,10 +107,10 @@ Table (#table:study1ParticleParameters) shows the particles parameters for the f
 
 | Name                  	|    Symbol          	| Choice                				|  Units     |
 |-------------------------------|-----------------------|-------------------------------------------------------|------------|
-|	-			| $C_{tot}/C_s$        	| <span style="color:red"> 0.1		       	</span> | -          |
-|Total concentration   		| $C_{tot}$           	| <span style="color:red"> $3.3 \times 10^{-8}$	</span> | $mol/cm^3$ |
+|	-			| $C_{tot}/C_s$        	| <span style="color:red"> 0.2		       	</span> | -          |
+|Total concentration   		| $C_{tot}$           	| <span style="color:red"> $6.6 \times 10^{-8}$	</span> | $mol/cm^3$ |
 |Average particle radius	| $R_P^{ave}$          	| <span style="color:red"> 50	 	       	</span> |$\mu m$     |
-|Number of particles		| $N_P$			| <span style="color:red"> 250			</span>	| -	     |
+|Number of particles		| $N_P$			| <span style="color:red"> 500			</span>	| -	     |
 |Distribution function shape	|	-		| Log							| -	     |
 |Width of the distribution 	| 	-		| <span style="color:red"> ?			</span>	| -  	     |		
 |Number of the bins		| $N_{bins}$		| <span style="color:red"> 20 			</span>	| -	     |
