@@ -60,13 +60,13 @@ Ganesh Vijayakumar, Farhad Behafarid, Yanxing Wang and James Brasseur
 <tr class="odd">
 <td style="text-align: left;">Max diameter</td>
 <td style="text-align: left;"><span class="math scholmd-math-inline">\(D_{max}\)</span></td>
-<td style="text-align: left;"><span style="color:red">30</span></td>
+<td style="text-align: left;"><span style="color:red">20</span></td>
 <td style="text-align: left;"><span class="math scholmd-math-inline">\(mm\)</span></td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Wavelength</td>
 <td style="text-align: left;"><span class="math scholmd-math-inline">\(\lambda\)</span></td>
-<td style="text-align: left;"><span style="color:red">40-60</span></td>
+<td style="text-align: left;"><span style="color:red">80</span></td>
 <td style="text-align: left;"><span class="math scholmd-math-inline">\(mm\)</span></td>
 </tr>
 <tr class="odd">
@@ -126,43 +126,49 @@ Ganesh Vijayakumar, Farhad Behafarid, Yanxing Wang and James Brasseur
 <td style="text-align: left;"></td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">Temperature</td>
+<td style="text-align: left;">Fluid’s temperature</td>
 <td style="text-align: left;"><span class="math scholmd-math-inline">\(T_w\)</span></td>
 <td style="text-align: left;">20</td>
 <td style="text-align: left;"><span class="math scholmd-math-inline">\(^{\circ}C\)</span></td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Fluid’s PH</td>
-<td style="text-align: left;"></td>
+<td style="text-align: left;"><span class="math scholmd-math-inline">\(PH_w\)</span></td>
 <td style="text-align: left;">7</td>
 <td style="text-align: left;"></td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">Density</td>
-<td style="text-align: left;"><span class="math scholmd-math-inline">\(\rho_{water}\)</span></td>
-<td style="text-align: left;">998.2</td>
+<td style="text-align: left;">Fluid’s density</td>
+<td style="text-align: left;"><span class="math scholmd-math-inline">\(\rho_w\)</span></td>
+<td style="text-align: left;"><span style="color:red">998.2</span></td>
 <td style="text-align: left;"><span class="math scholmd-math-inline">\(kg/m^3\)</span></td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">Kinematic Viscosity</td>
-<td style="text-align: left;"><span class="math scholmd-math-inline">\(\nu_{water}\)</span></td>
-<td style="text-align: left;"><span class="math scholmd-math-inline">\(1.004\times 10^{-2}\)</span></td>
+<td style="text-align: left;">Fluid’s kinematic viscosity</td>
+<td style="text-align: left;"><span class="math scholmd-math-inline">\(\nu_w\)</span></td>
+<td style="text-align: left;"><span style="color:red"><span class="math scholmd-math-inline">\(1.004\times 10^{-2}\)</span> </span></td>
 <td style="text-align: left;"><span class="math scholmd-math-inline">\(cm^2/s\)</span></td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">Molar volume</td>
+<td style="text-align: left;">Drug’s density</td>
+<td style="text-align: left;"><span class="math scholmd-math-inline">\(\rho_m\)</span></td>
+<td style="text-align: left;"><span style="color:red">?</span></td>
+<td style="text-align: left;"><span class="math scholmd-math-inline">\(kg/m^3\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Drug’s molar volume</td>
 <td style="text-align: left;"><span class="math scholmd-math-inline">\(\nu_m\)</span></td>
 <td style="text-align: left;">268</td>
 <td style="text-align: left;"><span class="math scholmd-math-inline">\(cm^3/mol\)</span></td>
 </tr>
-<tr class="even">
-<td style="text-align: left;">Diffusivity of drug</td>
+<tr class="odd">
+<td style="text-align: left;">Drug’s diffusivity</td>
 <td style="text-align: left;"><span class="math scholmd-math-inline">\(D_m\)</span></td>
 <td style="text-align: left;"><span class="math scholmd-math-inline">\(7.5 \times 10^{-6}\)</span></td>
 <td style="text-align: left;"><span class="math scholmd-math-inline">\(m^2/s\)</span></td>
 </tr>
-<tr class="odd">
-<td style="text-align: left;">Saturation conc.</td>
+<tr class="even">
+<td style="text-align: left;">Saturation concentration</td>
 <td style="text-align: left;"><span class="math scholmd-math-inline">\(C_S\)</span></td>
 <td style="text-align: left;"><span class="math scholmd-math-inline">\(3.3 \times 10^{-7}\)</span></td>
 <td style="text-align: left;"><span class="math scholmd-math-inline">\(mol/cm^3\)</span></td>
@@ -193,28 +199,28 @@ Ganesh Vijayakumar, Farhad Behafarid, Yanxing Wang and James Brasseur
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: left;">Total concentration</td>
-<td style="text-align: left;"><span class="math scholmd-math-inline">\(C_{tot}\)</span></td>
-<td style="text-align: left;"><span style="color:red"> <span class="math scholmd-math-inline">\(3.3 \times 10^{-8}\)</span> </span></td>
-<td style="text-align: left;"><span class="math scholmd-math-inline">\(mol/cm^3\)</span></td>
-</tr>
-<tr class="even">
 <td style="text-align: left;">-</td>
 <td style="text-align: left;"><span class="math scholmd-math-inline">\(C_{tot}/C_s\)</span></td>
 <td style="text-align: left;"><span style="color:red"> 0.1 </span></td>
 <td style="text-align: left;">-</td>
 </tr>
+<tr class="even">
+<td style="text-align: left;">Total concentration</td>
+<td style="text-align: left;"><span class="math scholmd-math-inline">\(C_{tot}\)</span></td>
+<td style="text-align: left;"><span style="color:red"> <span class="math scholmd-math-inline">\(3.3 \times 10^{-8}\)</span> </span></td>
+<td style="text-align: left;"><span class="math scholmd-math-inline">\(mol/cm^3\)</span></td>
+</tr>
 <tr class="odd">
 <td style="text-align: left;">Average particle radius</td>
 <td style="text-align: left;"><span class="math scholmd-math-inline">\(R_P^{ave}\)</span></td>
-<td style="text-align: left;"><span style="color:red"> 50-100 </span></td>
+<td style="text-align: left;"><span style="color:red"> 50 </span></td>
 <td style="text-align: left;"><span class="math scholmd-math-inline">\(\mu m\)</span></td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Number of particles</td>
 <td style="text-align: left;"><span class="math scholmd-math-inline">\(N_P\)</span></td>
-<td style="text-align: left;"><span style="color:red"> 500 </span></td>
-<td style="text-align: left;"></td>
+<td style="text-align: left;"><span style="color:red"> 250 </span></td>
+<td style="text-align: left;">-</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Distribution function shape</td>
@@ -224,19 +230,19 @@ Ganesh Vijayakumar, Farhad Behafarid, Yanxing Wang and James Brasseur
 </tr>
 <tr class="even">
 <td style="text-align: left;">Width of the distribution</td>
-<td style="text-align: left;"></td>
+<td style="text-align: left;">-</td>
 <td style="text-align: left;"><span style="color:red"> ? </span></td>
-<td style="text-align: left;"></td>
+<td style="text-align: left;">-</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Number of the bins</td>
 <td style="text-align: left;"><span class="math scholmd-math-inline">\(N_{bins}\)</span></td>
 <td style="text-align: left;"><span style="color:red"> 20 </span></td>
-<td style="text-align: left;"></td>
+<td style="text-align: left;">-</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Initial particle locations</td>
-<td style="text-align: left;"></td>
+<td style="text-align: left;">-</td>
 <td style="text-align: left;">randomly distributed in a sphere</td>
 <td style="text-align: left;">-</td>
 </tr>
@@ -244,7 +250,6 @@ Ganesh Vijayakumar, Farhad Behafarid, Yanxing Wang and James Brasseur
 </table></div>
 <div class="scholmd-float-caption"><figcaption><span class="scholmd-caption-head"><span class="scholmd-caption-head-prefix">Table</span><span class="scholmd-caption-head-label">3</span></span><span class="scholmd-caption-text">Drug particle properties for the first computational study.</span></figcaption></div>
 </figure>
-<p>Blah blah</p>
 <!----------------------------------------------------------------------------------------------------------------------------------------------------------->
 <!----------------------------------------------------------------------------------------------------------------------------------------------------------->
 <!----------------------------------------------------------------------------------------------------------------------------------------------------------->
@@ -296,13 +301,13 @@ Ganesh Vijayakumar, Farhad Behafarid, Yanxing Wang and James Brasseur
 <tr class="odd">
 <td style="text-align: left;">Partitioning modeling parameter</td>
 <td style="text-align: left;"><span class="math scholmd-math-inline">\(n_d\)</span></td>
-<td style="text-align: left;"><span style="color:red">2</span></td>
+<td style="text-align: left;"><span style="color:red">3</span></td>
 <td style="text-align: left;">-</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Bulk concentration modeling parameter</td>
 <td style="text-align: left;"><span class="math scholmd-math-inline">\(n_b\)</span></td>
-<td style="text-align: left;"><span style="color:red">2</span></td>
+<td style="text-align: left;"><span style="color:red">3</span></td>
 <td style="text-align: left;">-</td>
 </tr>
 <tr class="odd">
