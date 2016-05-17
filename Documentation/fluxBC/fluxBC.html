@@ -1,0 +1,880 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="generator" content="scholpandoc">
+  <meta name="viewport" content="width=device-width">
+  
+  <meta name="author" content="Farhad Behafarid and Ganesh Vijayakumar">
+  <title>Our attempts at implementing the flux boundary condition in LBM</title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.7.1/modernizr.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.js"></script>
+  <style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; }
+code > span.dt { color: #902000; }
+code > span.dv { color: #40a070; }
+code > span.bn { color: #40a070; }
+code > span.fl { color: #40a070; }
+code > span.ch { color: #4070a0; }
+code > span.st { color: #4070a0; }
+code > span.co { color: #60a0b0; font-style: italic; }
+code > span.ot { color: #007020; }
+code > span.al { color: #ff0000; font-weight: bold; }
+code > span.fu { color: #06287e; }
+code > span.er { color: #ff0000; font-weight: bold; }
+  </style>
+  <link rel="stylesheet" href="css/ScholarlyMarkdown-BS3.css">
+</head>
+<body>
+<div class="scholmd-container">
+<div class="scholmd-main">
+<div class="scholmd-content">
+<header>
+<h1 class="scholmd-title">Our attempts at implementing the flux boundary condition in LBM</h1>
+<div class="scholmd-author">
+Farhad Behafarid and Ganesh Vijayakumar
+</div>
+<div class="scholmd-date">11 Apr 2015 - present</div>
+</header>
+<p>We document our attempts at implementing the flux boundary condition in LBM.</p>
+<h1 id="background-on-moment-propagation-method-in-lbm">Background on moment propagation method in LBM</h1>
+<p>Frenkel and Ernst <span class="scholmd-citation" data-cites="frenkel1989">[1]</span> and Lowe and Frenkel <span class="scholmd-citation" data-cites="Lowe1995">[2]</span> developed the “momentum propagation method” to predict the evolution of scalar concentration in LBM. This method uses the density distribution function for momentum to also stream the scalar from one lattice node to another instead of defining and using a separate distribution function for the scalar. We use the improved and more robust method by Merks et. al. <span class="scholmd-citation" data-cites="Merks2002563">[3]</span> as: 
+<span class="math scholmd-math-display" style="display: block;">\[
+\begin{equation}
+\label{modifiedMomentPropagationMethod}
+\phi_(\vec{x}, t + \delta t) = \sum_{\alpha} P_{\alpha} (\vec{x} - \vec{e}_{\alpha} \, \delta t, t + \delta t) + \Delta^* \, \phi_(\vec{x}, t + \delta t),
+\end{equation}
+\]</span>
+ where <span class="math scholmd-math-inline">\(P_{\alpha} (\vec{x} - \vec{e}_{\alpha} \, \delta t, t + \delta t)\)</span> is the amount of scalar streamed in from the neighboring node node <span class="math scholmd-math-inline">\(\vec{x} - \vec{e}_{\alpha} \, \delta t\)</span> in the direction <span class="math scholmd-math-inline">\(\alpha\)</span> 
+<span class="math scholmd-math-display" style="display: block;">\[
+\begin{equation}
+\label{pAlpha}
+P_{\alpha} (\vec{x} - \vec{e}_{\alpha} \, \delta t, t + \delta t) = \left ( \frac{\hat{f}_{\alpha}(\vec{x} - \vec{e}_{\alpha} \, \delta t,t^+)}{\rho(\vec{x} - \vec{e}_{\alpha} \, \delta t,t)} - w_{\alpha} \Delta^* \right ) \phi(\vec{x} - \vec{e}_{\alpha} \, \delta t, t),
+\end{equation}
+\]</span>
+ while <span class="math scholmd-math-inline">\(\Delta^*\)</span> is the proportion of scalar that remains in the current node <span class="math scholmd-math-inline">\(\vec{x}\)</span> and is related to the macroscopic scalar diffusivity as 
+<span class="math scholmd-math-display" style="display: block;">\[
+\begin{equation}
+\label{deltaStar}
+\Delta^* = 1 - 6 \frac{D_m}{c \, \delta x}.
+\end{equation}
+\]</span>
+ According to Merks et. al., the moment propagation method places a restriction on <span class="math scholmd-math-inline">\(\Delta^*\)</span> to not exceed an upper bound in order to maintain stability and prevent the term inside the bracket in Eq. <span class="scholmd-crossref"><span class="math scholmd-math-inline">\(\eqref{pAlpha}\)</span></span> from going negative as 
+<span class="math scholmd-math-display" style="display: block;">\[
+\begin{equation}
+\label{deltaStarMax}
+\Delta^* = min \left (  \frac{f_{\alpha}^{eq}(\vec{u},\rho)}{f_{\alpha}^{eq}(\vec{u}=0,\rho)}  \right ).
+\end{equation}
+\]</span>
+ The numerated inside the bracket in Eq. <span class="scholmd-crossref"><span class="math scholmd-math-inline">\(\eqref{deltaStarMax}\)</span></span> uses the equilibrium density function as opposed to the post-collision density distribution in Eq. <span class="scholmd-crossref"><span class="math scholmd-math-inline">\(\eqref{pAlpha}\)</span></span>. The macroscopic velocity <span class="math scholmd-math-inline">\(\vec{u}\)</span> skews the density distribution towards the direction of the velocity vector. When this skewness exceeds a certain limit, the term inside the bracket in Eq. <span class="scholmd-crossref"><span class="math scholmd-math-inline">\(\eqref{pAlpha}\)</span></span> goes negative leading to instability and negative scalar at certain points in the domain. To avoid this, the velocity vector <span class="math scholmd-math-inline">\(\vec{u}\)</span> has to be small compared to the velocity scale <span class="math scholmd-math-inline">\(vcf\)</span> in lattice units. One way to acheive this is through increased resolution. Consider a case with the parameters in equation <span class="scholmd-crossref"><span class="math scholmd-math-inline">\(\eqref{exampleCaseParameters}\)</span></span> : 
+<span class="math scholmd-math-display" style="display: block;">\[
+\begin{equation}
+\label{exampleCaseParameters}
+\begin{aligned}
+\textrm{maximum velocity in the domain } &amp;= 0.008m/s \textrm { in the x direction} \\
+Sc &amp;= 10 \\
+\nu &amp;= 5.087 \times 10^{-6} m^2/s \\
+\tau &amp;= 1.0
+\end{aligned}
+\end{equation}
+\]</span>
+ Figure <span class="scholmd-crossref"><a href="#deltaStarMaxVsGridResolution">(1)</a></span> shows the change in <span class="math scholmd-math-inline">\(\Delta^*_{max}\)</span> with the grid resolution as defined by Eq. <span class="scholmd-crossref"><span class="math scholmd-math-inline">\(\eqref{deltaStarMax}\)</span></span>.</p>
+<figure class="scholmd-float scholmd-figure" id="deltaStarMaxVsGridResolution">
+<div class="scholmd-float-content"><figure class="scholmd-subfig" style="display: inline-block; width: 75%">
+<img src="./images/deltaStarMaxCalc/deltaStarMaxVsGridResolution.png" />
+</figure></div>
+<div class="scholmd-float-caption"><figcaption><span class="scholmd-caption-head"><span class="scholmd-caption-head-prefix">Figure</span><span class="scholmd-caption-head-label">1</span></span><span class="scholmd-caption-text">Change in <span class="math scholmd-math-inline">\(\Delta^*_{max}\)</span> with the grid resolution in LBM as defined by Eq. <span class="scholmd-crossref"><span class="math scholmd-math-inline">\(\eqref{deltaStarMax}\)</span></span> for the parameters defined in Eq. <span class="scholmd-crossref"><span class="math scholmd-math-inline">\(\eqref{exampleCaseParameters}\)</span></span>. The constant line is the <span class="math scholmd-math-inline">\(\Delta^*\)</span> as defined by the physical properties of the fluid and scalar for this case.</span></figcaption></div>
+</figure>
+<p>Thus for a given choice of simulation parameters, there exists a critical resolution to satisfy the stability criterion in Eq. <span class="scholmd-crossref"><span class="math scholmd-math-inline">\(\eqref{deltaStar}\)</span></span>. The critical resolution required to satisfy the stability condition in Eq. <span class="scholmd-crossref"><span class="math scholmd-math-inline">\(\eqref{deltaStarMax}\)</span></span> decreases with Schmidt number as shown in Fig. <span class="scholmd-crossref"><a href="#CritGridResolutionVsSc">(2)</a></span>.</p>
+<figure class="scholmd-float scholmd-figure" id="CritGridResolutionVsSc">
+<div class="scholmd-float-content"><figure class="scholmd-subfig" style="display: inline-block; width: 75%">
+<img src="./images/deltaStarMaxCalc/CritGridResolutionVsSc.png" />
+</figure></div>
+<div class="scholmd-float-caption"><figcaption><span class="scholmd-caption-head"><span class="scholmd-caption-head-prefix">Figure</span><span class="scholmd-caption-head-label">2</span></span><span class="scholmd-caption-text">Change in critical resolution required for a stable LBM simulation with Schmidt number.</span></figcaption></div>
+</figure>
+<p>When the Schmidt number is fixed, the critical resolution increases with increasing <span class="math scholmd-math-inline">\(\tau\)</span> as shown in Fig. . This is expected as increasing <span class="math scholmd-math-inline">\(\tau\)</span> is known to make the simulation more diffusive and less accurate.</p>
+<figure class="scholmd-float scholmd-figure" id="CritGridResolutionVsTau">
+<div class="scholmd-float-content"><figure class="scholmd-subfig" style="display: inline-block; width: 32%">
+<img src="./images/deltaStarMaxCalc/CritGridResolutionVsTau_Sc10.png" />
+<div class="scholmd-float-subcaption"><figcaption><span class="scholmd-caption-text">Sc=10</span></figcaption></div>
+</figure><figure class="scholmd-subfig" style="display: inline-block; width: 32%">
+<img src="./images/deltaStarMaxCalc/CritGridResolutionVsTau_Sc25.png" />
+<div class="scholmd-float-subcaption"><figcaption><span class="scholmd-caption-text">Sc=25</span></figcaption></div>
+</figure><figure class="scholmd-subfig" style="display: inline-block; width: 32%">
+<img src="./images/deltaStarMaxCalc/CritGridResolutionVsTau_Sc50.png" />
+<div class="scholmd-float-subcaption"><figcaption><span class="scholmd-caption-text">Sc=50</span></figcaption></div>
+</figure></div>
+<div class="scholmd-float-caption"><figcaption><span class="scholmd-caption-head"><span class="scholmd-caption-head-prefix">Figure</span><span class="scholmd-caption-head-label">3</span></span><span class="scholmd-caption-text">Change in critical resolution required for a stable LBM simulation with <span class="math scholmd-math-inline">\(\tau\)</span> for different Schmidt numbers.</span></figcaption></div>
+</figure>
+<p>Finally, critical resolution also decreases with increasing maximum velocity in the domain as shown in Fig. <span class="scholmd-crossref"><a href="#CritGridResolutionVsPV">(4)</a></span> where <span class="math scholmd-math-inline">\(piston velocity\)</span> is a substitute for the maximum velocity in the domain.</p>
+<figure class="scholmd-float scholmd-figure" id="CritGridResolutionVsPV">
+<div class="scholmd-float-content"><figure class="scholmd-subfig" style="display: inline-block; width: 75%">
+<img src="./images/deltaStarMaxCalc/CritGridResolutionVsPV.png" />
+</figure></div>
+<div class="scholmd-float-caption"><figcaption><span class="scholmd-caption-head"><span class="scholmd-caption-head-prefix">Figure</span><span class="scholmd-caption-head-label">4</span></span><span class="scholmd-caption-text">Change in critical resolution required for a stable LBM simulation with maximum velocity in the domain.</span></figcaption></div>
+</figure>
+<h2 id="scalar-boundary-conditions">Scalar boundary conditions</h2>
+<p>The scalar boundary condition is a little different from the typical bounce back boundary conditions because, unlike momentum, scalar does not bounce back from the wall. The wall could have a fixed value of the scalar or a fixed flux or a combination of both. Within the framework of the moment propagation method, the difficulty lies in finding the contribution <span class="math scholmd-math-inline">\(P_k(\vec{x} - \vec{e}_k \, \delta t, t + \delta t)\)</span> at the node adjacent to the wall. We first consider the case of a specified value of scalar at the wall (Dirichlet boundary condition).</p>
+<figure class="scholmd-float scholmd-figure" id="fig:scalarBC">
+<div class="scholmd-float-content"><figure class="scholmd-subfig" style="display: inline-block; width: 75%">
+<img src="./images/scalarBoundaryCondition.png" />
+</figure></div>
+<div class="scholmd-float-caption"><figcaption><span class="scholmd-caption-head"><span class="scholmd-caption-head-prefix">Figure</span><span class="scholmd-caption-head-label">5</span></span><span class="scholmd-caption-text">Node system used in developing the boundary conditions for scalar concentration by Wang et. al. <span class="scholmd-citation" data-cites="Wang2010">[4]</span>.</span></figcaption></div>
+</figure>
+<p><span class="math scholmd-math-inline">\(A^*\)</span>, <span class="math scholmd-math-inline">\(B^*\)</span> and <span class="math scholmd-math-inline">\(C^*\)</span> are three virtual nodes one lattice apart such that <span class="math scholmd-math-inline">\(A^*\)</span> is the node on the boundary. The scalar boundary condition for a fixed value of the scalar at the boundary involves calculating the contribution <span class="math scholmd-math-inline">\(P_k(\vec{x} - \vec{e}_k \, \delta t, t + \delta t)\)</span> at <span class="math scholmd-math-inline">\(B^*\)</span> and <span class="math scholmd-math-inline">\(C^*\)</span> and extrapolating it to A. This is done in 3 steps as shown below.</p>
+<ol type="1">
+<li>Estimate the density and particle distribution function in the <span class="math scholmd-math-inline">\(k\)</span> direction at <span class="math scholmd-math-inline">\(A^*\)</span> as 
+<span class="math scholmd-math-display" style="display: block;">\[
+\begin{equation*}
+\rho_{A^*} = \rho_A  + (\rho_A - \rho_B) q.
+\end{equation*}
+\]</span>
+</li>
+</ol>
+<p>The particle distribution function (post-collision) at <span class="math scholmd-math-inline">\(A^*\)</span> is split into equilibrium and non-equilibrium parts and evaluate them separately as shown in Eq. <span class="scholmd-crossref"><span class="math scholmd-math-inline">\(\eqref{fAstar}\)</span></span>. 
+<span class="math scholmd-math-display" style="display: block;">\[
+\begin{equation}
+\label{fAstar}
+\begin{aligned}
+\hat{f}_{k, A^*} &amp;= f_{k, A^*}^{eq} + f_{k, A^*}^{neq}, \\
+\textrm{Based on $\mathbf{u}_w$ wall velocity   } f_{k, A^*}^{eq} &amp;= w_{k} \, \rho_{A^*} \, \left [ 1 + 3 \frac{\vec{e}_{k} \cdot \vec{u}_w}{c^2} + \frac{9}{2} \frac{(\hat{e}_{k} \cdot \vec{u}_w)^2 }{c^4} - \frac{3}{2} \frac{(\vec{u}_w \cdot \vec{u}_w)^2}{c^2}  \right ], \\
+\textrm{Based on extrapolation   } f_{k, A^*}^{neq} &amp;= f_{k, A}^{neq} + ( f_{k, A}^{neq} - f_{k, B}^{neq}) q.
+\end{aligned}
+\end{equation}
+\]</span>
+ 2. Calculate the contribution <span class="math scholmd-math-inline">\(P_k(\vec{x} - \vec{e}_k \, \delta t, t + \delta t)\)</span> at <span class="math scholmd-math-inline">\(B^*\)</span> and <span class="math scholmd-math-inline">\(C^*\)</span> as shown in Eq. <span class="scholmd-crossref"><span class="math scholmd-math-inline">\(\eqref{PkAstarBstar}\)</span></span>. While <span class="math scholmd-math-inline">\(\hat{f}_k\)</span>, <span class="math scholmd-math-inline">\(\rho\)</span> and <span class="math scholmd-math-inline">\(\phi\)</span> are calculated at <span class="math scholmd-math-inline">\(A^*\)</span> in Step 1, the corresponding quantities are interpolated to <span class="math scholmd-math-inline">\(B^*\)</span> using the values at <span class="math scholmd-math-inline">\(A\)</span> and <span class="math scholmd-math-inline">\(B\)</span> at time <span class="math scholmd-math-inline">\(t\)</span>. 
+<span class="math scholmd-math-display" style="display: block;">\[
+\begin{equation}
+\label{PkAstarBstar}
+\begin{aligned}
+(P_k)_{A^* \rightarrow B^*, t + \delta t} &amp;= \left ( \frac{\hat{f}_k(A^*,t^+)}{\rho(A^*,t^+)} - w_k \Delta^* \right ) \phi(A^*, t) \\
+(P_k)_{B^* \rightarrow C^*, t + \delta t} &amp;= \left ( \frac{\hat{f}_k(B^*,t^+)}{\rho(B^*,t^+)} - w_k \Delta^* \right ) \phi(B^*, t)
+\end{aligned}
+\end{equation}
+\]</span>
+ 3. Calculate the contribution <span class="math scholmd-math-inline">\(P_k(\vec{x} - \vec{e}_k \, \delta t, t + \delta t)\)</span> at <span class="math scholmd-math-inline">\(A\)</span> using linear extrapolation from <span class="math scholmd-math-inline">\(B^*\)</span> and <span class="math scholmd-math-inline">\(C^*\)</span> as 
+<span class="math scholmd-math-display" style="display: block;">\[
+\begin{equation*}
+P_k(\vec{x} - \vec{e}_k \, \delta t, t + \delta t)_A = (P_k)_{A^* \rightarrow B^*, t + \delta t} + \left [ (P_k)_{A^* \rightarrow B^*, t + \delta t} - (P_k)_@{B^* \rightarrow C^*, t + \delta t} \right ] (1 - q).
+\end{equation*}
+\]</span>
+ This procedure is extended to the case with a specified scalar flux at the boundary (Neumann boundary condition).</p>
+<h2 id="calculation-of-scalar-flux-at-the-boundary-scalarfluxcalc">Calculation of scalar flux at the boundary #scalarFluxCalc</h2>
+<p>When using the moment propagation method for a scalar in LBM, the difference between the scalar streamed to and from the node that is adjacent to the boundary to calculate the mass flux across the boundary. As shown in Eq. <span class="scholmd-crossref"><span class="math scholmd-math-inline">\(\eqref{scalarFluxAcrossBoundary}\)</span></span>, the difference when summed over all the nodes adjacent to the boundary gives the mass flux across the entire boundary. 
+<span class="math scholmd-math-display" style="display: block;">\[
+\begin{equation}
+\label{scalarFluxAcrossBoundary}
+\textrm{Mass flux out of domain} = \sum_{A \in \textrm{all nodes adjacent to boundary}} \left (P_{k&#39;}(\vec{x} - \vec{e}_{k&#39;} \, \delta t, t + \delta t)_A - P_k(\vec{x} - \vec{e}_k \, \delta t, t + \delta t)_A  \right ) \frac{\Delta^3}{t_{cf}} \; mol/s,
+\end{equation}
+\]</span>
+ where <span class="math scholmd-math-inline">\(k\)</span> is the direction going from the node to the boundary, <span class="math scholmd-math-inline">\(k&#39;\)</span> is the mirror image of <span class="math scholmd-math-inline">\(k\)</span>, <span class="math scholmd-math-inline">\(\Delta^3\)</span> is the physical volume surrounding each node and <span class="math scholmd-math-inline">\(t_{cf}\)</span> is the physical time corresponding to one LBM time step.</p>
+<h1 id="tests-with-piston-case">Tests with piston case</h1>
+<p>We chose the piston setup to test this boundary condition. The left and right cylinders of the piston are moving at the same velocity in the <span class="math scholmd-math-inline">\(x\)</span> direction, while the domain is periodic in the other two directions, thus making it an infinitely wide piston. For this purpose, Farhad modified the Couette setup into a piston setup. The development of this code can be tracked at the <a href="https://github.com/BioGI/Intestine-Particles/tree/Piston">Piston</a> and <a href="https://github.com/BioGI/Intestine-Particles/tree/Piston-Flux">Piston-Flux</a> branches on github.</p>
+<h2 id="dirichlet---fixed-zero-scalar-boundary-condition">Dirichlet - Fixed zero scalar boundary condition</h2>
+<p>The scalar boundary condition used is 
+<span class="math scholmd-math-display" style="display: block;">\[
+\begin{equation}
+\label{bcFixedZero}
+\phi_{wall} = 0.0
+\end{equation}
+\]</span>
+</p>
+<figure class="scholmd-float scholmd-figure" id="BCfixedZero">
+<div class="scholmd-float-content"><figure class="scholmd-subfig" style="display: inline-block; width: 33%">
+<img src="./images/cases/BCfixedZero/plots/DrugAbsorbed.png" />
+<div class="scholmd-float-subcaption"><figcaption><span class="scholmd-caption-text">Drug Absorbed</span></figcaption></div>
+</figure><figure class="scholmd-subfig" style="display: inline-block; width: 33%">
+<img src="./images/cases/BCfixedZero/plots/DrugRemained.png" />
+<div class="scholmd-float-subcaption"><figcaption><span class="scholmd-caption-text">Drug Absorbed</span></figcaption></div>
+</figure><figure class="scholmd-subfig" style="display: inline-block; width: 33%">
+<img src="./images/cases/BCfixedZero/plots/DrugLoss.png" />
+<div class="scholmd-float-subcaption"><figcaption><span class="scholmd-caption-text">Drug Loss</span></figcaption></div>
+</figure><br /><figure class="scholmd-subfig" style="display: inline-block; width: 33%">
+<img src="./images/cases/BCfixedZero/plots/phiAbsleft.png" />
+<div class="scholmd-float-subcaption"><figcaption><span class="scholmd-caption-text">Drug Absorbed Left</span></figcaption></div>
+</figure><figure class="scholmd-subfig" style="display: inline-block; width: 33%">
+<img src="./images/cases/BCfixedZero/plots/phiAbsright.png" />
+<div class="scholmd-float-subcaption"><figcaption><span class="scholmd-caption-text">Drug Absorbed Right</span></figcaption></div>
+</figure><figure class="scholmd-subfig" style="display: inline-block; width: 33%">
+<img src="./images/cases/BCfixedZero/plots/phiAbsDiff.png" />
+<div class="scholmd-float-subcaption"><figcaption><span class="scholmd-caption-text">Drug Absorbed Right-Left</span></figcaption></div>
+</figure></div>
+<div class="scholmd-float-caption"><figcaption><span class="scholmd-caption-head"><span class="scholmd-caption-head-prefix">Figure</span><span class="scholmd-caption-head-label">6</span></span><span class="scholmd-caption-text">Comparison of scalar conservation and absorption between stationary and moving piston cases with fixed zero scalar boundary condition.</span></figcaption></div>
+</figure>
+<h2 id="dirichlet---fixed-non-zero-scalar-boundary-condition">Dirichlet - Fixed non-zero scalar boundary condition</h2>
+<p>The scalar boundary condition used is 
+<span class="math scholmd-math-display" style="display: block;">\[
+\begin{equation}
+\label{bcFixedNonZero}
+\phi_{wall} = 0.5
+\end{equation}
+\]</span>
+</p>
+<figure class="scholmd-float scholmd-figure" id="BCfixedNonZero">
+<div class="scholmd-float-content"><figure class="scholmd-subfig" style="display: inline-block; width: 33%">
+<img src="./images/cases/BCfixedNonZero/plots/DrugAbsorbed.png" />
+<div class="scholmd-float-subcaption"><figcaption><span class="scholmd-caption-text">Drug Absorbed</span></figcaption></div>
+</figure><figure class="scholmd-subfig" style="display: inline-block; width: 33%">
+<img src="./images/cases/BCfixedNonZero/plots/DrugRemained.png" />
+<div class="scholmd-float-subcaption"><figcaption><span class="scholmd-caption-text">Drug Remained</span></figcaption></div>
+</figure><figure class="scholmd-subfig" style="display: inline-block; width: 33%">
+<img src="./images/cases/BCfixedNonZero/plots/DrugLoss.png" />
+<div class="scholmd-float-subcaption"><figcaption><span class="scholmd-caption-text">Drug Loss</span></figcaption></div>
+</figure><br /><figure class="scholmd-subfig" style="display: inline-block; width: 33%">
+<img src="./images/cases/BCfixedNonZero/plots/phiAbsleft.png" />
+<div class="scholmd-float-subcaption"><figcaption><span class="scholmd-caption-text">Drug Absorbed Left</span></figcaption></div>
+</figure><figure class="scholmd-subfig" style="display: inline-block; width: 33%">
+<img src="./images/cases/BCfixedNonZero/plots/phiAbsright.png" />
+<div class="scholmd-float-subcaption"><figcaption><span class="scholmd-caption-text">Drug Absorbed Right</span></figcaption></div>
+</figure><figure class="scholmd-subfig" style="display: inline-block; width: 33%">
+<img src="./images/cases/BCfixedNonZero/plots/phiAbsDiff.png" />
+<div class="scholmd-float-subcaption"><figcaption><span class="scholmd-caption-text">Drug Absorbed Right-Left</span></figcaption></div>
+</figure></div>
+<div class="scholmd-float-caption"><figcaption><span class="scholmd-caption-head"><span class="scholmd-caption-head-prefix">Figure</span><span class="scholmd-caption-head-label">7</span></span><span class="scholmd-caption-text">Comparison of scalar conservation and absorption between stationary and moving piston cases with fixed non-zero scalar boundary condition.</span></figcaption></div>
+</figure>
+<p>After changing the book keeping as described here <span class="scholmd-crossref"><a href="#changingBookKeeping">(#changingBookKeeping)</a></span>, the scalar conservation improved dramatically as shown in Fig. <span class="scholmd-crossref"><a href="#BCfixedNonZeroBookKeepingFix">(8)</a></span>. Note that the main difference is in the Drug absorbed on the left and right pistons; the difference between the two has come down from <span class="math scholmd-math-inline">\(\sim 3000\%\)</span> to <span class="math scholmd-math-inline">\(\sim 0.8\%\)</span>. The drug loss error remains roughly the same because this is a special case where the symmetric movement of the right and left pistons cancels the errors in the drug absorption to maintain the total scalar conservation, i.e. the previous implementation gave the correct answer for the wrong reasons.</p>
+<figure class="scholmd-float scholmd-figure" id="BCfixedNonZeroBookKeepingFix">
+<div class="scholmd-float-content"><figure class="scholmd-subfig" style="display: inline-block; width: 33%">
+<img src="./images/cases/BCfixedNonZero/plotsNewBookKeeping/DrugAbsorbed.png" />
+<div class="scholmd-float-subcaption"><figcaption><span class="scholmd-caption-text">Drug Absorbed</span></figcaption></div>
+</figure><figure class="scholmd-subfig" style="display: inline-block; width: 33%">
+<img src="./images/cases/BCfixedNonZero/plotsNewBookKeeping/DrugRemained.png" />
+<div class="scholmd-float-subcaption"><figcaption><span class="scholmd-caption-text">Drug Remained</span></figcaption></div>
+</figure><figure class="scholmd-subfig" style="display: inline-block; width: 33%">
+<img src="./images/cases/BCfixedNonZero/plotsNewBookKeeping/DrugLoss.png" />
+<div class="scholmd-float-subcaption"><figcaption><span class="scholmd-caption-text">Drug Loss</span></figcaption></div>
+</figure><br /><figure class="scholmd-subfig" style="display: inline-block; width: 33%">
+<img src="./images/cases/BCfixedNonZero/plotsNewBookKeeping/phiAbsleft.png" />
+<div class="scholmd-float-subcaption"><figcaption><span class="scholmd-caption-text">Drug Absorbed Left</span></figcaption></div>
+</figure><figure class="scholmd-subfig" style="display: inline-block; width: 33%">
+<img src="./images/cases/BCfixedNonZero/plotsNewBookKeeping/phiAbsright.png" />
+<div class="scholmd-float-subcaption"><figcaption><span class="scholmd-caption-text">Drug Absorbed Right</span></figcaption></div>
+</figure><figure class="scholmd-subfig" style="display: inline-block; width: 33%">
+<img src="./images/cases/BCfixedNonZero/plotsNewBookKeeping/phiAbsDiff.png" />
+<div class="scholmd-float-subcaption"><figcaption><span class="scholmd-caption-text">Drug Absorbed Right-Left</span></figcaption></div>
+</figure></div>
+<div class="scholmd-float-caption"><figcaption><span class="scholmd-caption-head"><span class="scholmd-caption-head-prefix">Figure</span><span class="scholmd-caption-head-label">8</span></span><span class="scholmd-caption-text">Comparison of scalar conservation and absorption between stationary and moving piston cases with fixed non-zero scalar boundary condition and new book keeping procedure.</span></figcaption></div>
+</figure>
+<h2 id="neumann---zero-flux-boundary-condition">Neumann - zero flux boundary condition</h2>
+<p>The scalar boundary condition used is 
+<span class="math scholmd-math-display" style="display: block;">\[
+\begin{equation}
+\label{bcZeroFlux}
+\left . \frac{\partial \phi}{\partial n} \right |_{wall} = 0.0
+\end{equation}
+\]</span>
+</p>
+<figure class="scholmd-float scholmd-figure" id="BCzeroFlux">
+<div class="scholmd-float-content"><figure class="scholmd-subfig" style="display: inline-block; width: 33%">
+<img src="./images/cases/BCzeroFlux/plots/DrugAbsorbed.png" />
+<div class="scholmd-float-subcaption"><figcaption><span class="scholmd-caption-text">Drug Absorbed</span></figcaption></div>
+</figure><figure class="scholmd-subfig" style="display: inline-block; width: 33%">
+<img src="./images/cases/BCzeroFlux/plots/DrugRemained.png" />
+<div class="scholmd-float-subcaption"><figcaption><span class="scholmd-caption-text">Drug Remained</span></figcaption></div>
+</figure><figure class="scholmd-subfig" style="display: inline-block; width: 33%">
+<img src="./images/cases/BCzeroFlux/plots/DrugLoss.png" />
+<div class="scholmd-float-subcaption"><figcaption><span class="scholmd-caption-text">Drug Loss</span></figcaption></div>
+</figure><br /><figure class="scholmd-subfig" style="display: inline-block; width: 33%">
+<img src="./images/cases/BCzeroFlux/plots/phiAbsleft.png" />
+<div class="scholmd-float-subcaption"><figcaption><span class="scholmd-caption-text">Drug Absorbed Left</span></figcaption></div>
+</figure><figure class="scholmd-subfig" style="display: inline-block; width: 33%">
+<img src="./images/cases/BCzeroFlux/plots/phiAbsright.png" />
+<div class="scholmd-float-subcaption"><figcaption><span class="scholmd-caption-text">Drug Absorbed Right</span></figcaption></div>
+</figure><figure class="scholmd-subfig" style="display: inline-block; width: 33%">
+<img src="./images/cases/BCzeroFlux/plots/phiAbsDiff.png" />
+<div class="scholmd-float-subcaption"><figcaption><span class="scholmd-caption-text">Drug Absorbed Right-Left</span></figcaption></div>
+</figure></div>
+<div class="scholmd-float-caption"><figcaption><span class="scholmd-caption-head"><span class="scholmd-caption-head-prefix">Figure</span><span class="scholmd-caption-head-label">9</span></span><span class="scholmd-caption-text">Comparison of scalar conservation and absorption between stationary and moving piston cases with zero flux scalar boundary condition.</span></figcaption></div>
+</figure>
+<h2 id="neumann---non-zero-flux-boundary-condition">Neumann - non-zero flux boundary condition</h2>
+<p>The scalar boundary condition used is 
+<span class="math scholmd-math-display" style="display: block;">\[
+\begin{equation}
+\label{bcNonZeroFlux}
+\left . \frac{\partial \phi}{\partial n} \right |_{wall} = 0.05 \; \textrm{ in lattice units}
+\end{equation}
+\]</span>
+</p>
+<figure class="scholmd-float scholmd-figure" id="BCnonZeroFlux">
+<div class="scholmd-float-content"><figure class="scholmd-subfig" style="display: inline-block; width: 33%">
+<img src="./images/cases/BCnonZeroFlux/plots/DrugAbsorbed.png" />
+<div class="scholmd-float-subcaption"><figcaption><span class="scholmd-caption-text">Drug Absorbed</span></figcaption></div>
+</figure><figure class="scholmd-subfig" style="display: inline-block; width: 33%">
+<img src="./images/cases/BCnonZeroFlux/plots/DrugRemained.png" />
+<div class="scholmd-float-subcaption"><figcaption><span class="scholmd-caption-text">Drug Remained</span></figcaption></div>
+</figure><figure class="scholmd-subfig" style="display: inline-block; width: 33%">
+<img src="./images/cases/BCnonZeroFlux/plots/DrugLoss.png" />
+<div class="scholmd-float-subcaption"><figcaption><span class="scholmd-caption-text">Drug Loss</span></figcaption></div>
+</figure><br /><figure class="scholmd-subfig" style="display: inline-block; width: 33%">
+<img src="./images/cases/BCnonZeroFlux/plots/phiAbsleft.png" />
+<div class="scholmd-float-subcaption"><figcaption><span class="scholmd-caption-text">Drug Absorbed Left</span></figcaption></div>
+</figure><figure class="scholmd-subfig" style="display: inline-block; width: 33%">
+<img src="./images/cases/BCnonZeroFlux/plots/phiAbsright.png" />
+<div class="scholmd-float-subcaption"><figcaption><span class="scholmd-caption-text">Drug Absorbed Right</span></figcaption></div>
+</figure><figure class="scholmd-subfig" style="display: inline-block; width: 33%">
+<img src="./images/cases/BCnonZeroFlux/plots/phiAbsDiff.png" />
+<div class="scholmd-float-subcaption"><figcaption><span class="scholmd-caption-text">Drug Absorbed Right-Left</span></figcaption></div>
+</figure></div>
+<div class="scholmd-float-caption"><figcaption><span class="scholmd-caption-head"><span class="scholmd-caption-head-prefix">Figure</span><span class="scholmd-caption-head-label">10</span></span><span class="scholmd-caption-text">Comparison of scalar conservation and absorption between stationary and moving piston cases with non-zero flux scalar boundary condition.</span></figcaption></div>
+</figure>
+<p>After changing the book keeping as described here <span class="scholmd-crossref"><a href="#changingBookKeeping">(#changingBookKeeping)</a></span>, the scalar conservation and absorption improved dramatically as shown in Fig. <span class="scholmd-crossref"><a href="#BCnonZeroFluxBookKeepingFix">(11)</a></span>.</p>
+<figure class="scholmd-float scholmd-figure" id="BCnonZeroFluxBookKeepingFix">
+<div class="scholmd-float-content"><figure class="scholmd-subfig" style="display: inline-block; width: 33%">
+<img src="./images/cases/BCnonZeroFlux/plotsNewBookKeeping/DrugAbsorbed.png" />
+<div class="scholmd-float-subcaption"><figcaption><span class="scholmd-caption-text">Drug Absorbed</span></figcaption></div>
+</figure><figure class="scholmd-subfig" style="display: inline-block; width: 33%">
+<img src="./images/cases/BCnonZeroFlux/plotsNewBookKeeping/DrugRemained.png" />
+<div class="scholmd-float-subcaption"><figcaption><span class="scholmd-caption-text">Drug Remained</span></figcaption></div>
+</figure><figure class="scholmd-subfig" style="display: inline-block; width: 33%">
+<img src="./images/cases/BCnonZeroFlux/plotsNewBookKeeping/DrugLoss.png" />
+<div class="scholmd-float-subcaption"><figcaption><span class="scholmd-caption-text">Drug Loss</span></figcaption></div>
+</figure><br /><figure class="scholmd-subfig" style="display: inline-block; width: 33%">
+<img src="./images/cases/BCnonZeroFlux/plotsNewBookKeeping/phiAbsleft.png" />
+<div class="scholmd-float-subcaption"><figcaption><span class="scholmd-caption-text">Drug Absorbed Left</span></figcaption></div>
+</figure><figure class="scholmd-subfig" style="display: inline-block; width: 33%">
+<img src="./images/cases/BCnonZeroFlux/plotsNewBookKeeping/phiAbsright.png" />
+<div class="scholmd-float-subcaption"><figcaption><span class="scholmd-caption-text">Drug Absorbed Right</span></figcaption></div>
+</figure><figure class="scholmd-subfig" style="display: inline-block; width: 33%">
+<img src="./images/cases/BCnonZeroFlux/plotsNewBookKeeping/phiAbsDiff.png" />
+<div class="scholmd-float-subcaption"><figcaption><span class="scholmd-caption-text">Drug Absorbed Right-Left</span></figcaption></div>
+</figure></div>
+<div class="scholmd-float-caption"><figcaption><span class="scholmd-caption-head"><span class="scholmd-caption-head-prefix">Figure</span><span class="scholmd-caption-head-label">11</span></span><span class="scholmd-caption-text">Comparison of scalar conservation and absorption between stationary and moving piston cases with non-zero flux scalar boundary condition and new book keeping procedure.</span></figcaption></div>
+</figure>
+<p>Note that the drug loss error has come down from <span class="math scholmd-math-inline">\(\sim 160\%\)</span> to <span class="math scholmd-math-inline">\(\sim 6\%\)</span>, while the difference between the scalar absorbed on the two sides comes down from <span class="math scholmd-math-inline">\(\sim 500\%\)</span> to <span class="math scholmd-math-inline">\(\sim 70\%\)</span>. The new book keeping procedure almost completely fixes the scalar absorbed calculation on the left piston, while the right piston continues to exhibit a large error compared to the stationary case. This is also observed in the asymmetric evolution of <span class="math scholmd-math-inline">\(\phi\)</span> in the domain as shown in Fig. <span class="scholmd-crossref"><a href="#phiDomainBCnonZeroFluxBookKeepingFix">(12)</a></span>.</p>
+<figure class="scholmd-float scholmd-figure" id="phiDomainBCnonZeroFluxBookKeepingFix">
+<div class="scholmd-float-content"><figure class="scholmd-subfig" style="display: inline-block; width: 75%">
+<img src="./images/cases/BCnonZeroFlux/plotsNewBookKeeping/Non0-Flux-BookKeeping-Fixed-T15621.png" />
+</figure></div>
+<div class="scholmd-float-caption"><figcaption><span class="scholmd-caption-head"><span class="scholmd-caption-head-prefix">Figure</span><span class="scholmd-caption-head-label">12</span></span><span class="scholmd-caption-text">Visualization of scalar in the domain with a moving piston, non-zero flux boundary condition and new book keeping procedure.</span></figcaption></div>
+</figure>
+<p>This suggests that the remaining error is due to the procedure for assigning a value to the uncovered node. The current procedure to assign the value of scalar for a newly uncovered node and flux boundary conditions is to average the value from the nodes around it. We changed this to be based on the quadrature rules using the specified flux at the wall. Adding this fix, the scalar conservation and absorption improves further as shown in Fig. <span class="scholmd-crossref"><a href="#BCnonZeroFluxBookKeepingUncoveredNodeFix">(13)</a></span>.</p>
+<figure class="scholmd-float scholmd-figure" id="BCnonZeroFluxBookKeepingUncoveredNodeFix">
+<div class="scholmd-float-content"><figure class="scholmd-subfig" style="display: inline-block; width: 33%">
+<img src="./images/cases/BCnonZeroFlux/plotsNewBookKeepingUncoveredNode/DrugAbsorbed.png" />
+<div class="scholmd-float-subcaption"><figcaption><span class="scholmd-caption-text">Drug Absorbed</span></figcaption></div>
+</figure><figure class="scholmd-subfig" style="display: inline-block; width: 33%">
+<img src="./images/cases/BCnonZeroFlux/plotsNewBookKeepingUncoveredNode/DrugRemained.png" />
+<div class="scholmd-float-subcaption"><figcaption><span class="scholmd-caption-text">Drug Remained</span></figcaption></div>
+</figure><figure class="scholmd-subfig" style="display: inline-block; width: 33%">
+<img src="./images/cases/BCnonZeroFlux/plotsNewBookKeepingUncoveredNode/DrugLoss.png" />
+<div class="scholmd-float-subcaption"><figcaption><span class="scholmd-caption-text">Drug Loss</span></figcaption></div>
+</figure><br /><figure class="scholmd-subfig" style="display: inline-block; width: 33%">
+<img src="./images/cases/BCnonZeroFlux/plotsNewBookKeepingUncoveredNode/phiAbsleft.png" />
+<div class="scholmd-float-subcaption"><figcaption><span class="scholmd-caption-text">Drug Absorbed Left</span></figcaption></div>
+</figure><figure class="scholmd-subfig" style="display: inline-block; width: 33%">
+<img src="./images/cases/BCnonZeroFlux/plotsNewBookKeepingUncoveredNode/phiAbsright.png" />
+<div class="scholmd-float-subcaption"><figcaption><span class="scholmd-caption-text">Drug Absorbed Right</span></figcaption></div>
+</figure><figure class="scholmd-subfig" style="display: inline-block; width: 33%">
+<img src="./images/cases/BCnonZeroFlux/plotsNewBookKeepingUncoveredNode/phiAbsDiff.png" />
+<div class="scholmd-float-subcaption"><figcaption><span class="scholmd-caption-text">Drug Absorbed Right-Left</span></figcaption></div>
+</figure></div>
+<div class="scholmd-float-caption"><figcaption><span class="scholmd-caption-head"><span class="scholmd-caption-head-prefix">Figure</span><span class="scholmd-caption-head-label">13</span></span><span class="scholmd-caption-text">Comparison of scalar conservation and absorption between stationary and moving piston cases with non-zero flux scalar boundary condition, new book keeping procedure and new algorithm to assign scalar values at uncovered node.</span></figcaption></div>
+</figure>
+<p>The drug loss error has come down from <span class="math scholmd-math-inline">\(\sim 160\%\)</span> to <span class="math scholmd-math-inline">\(\sim 0.6\%\)</span>, while the difference between the scalar absorbed on the two sides comes down from <span class="math scholmd-math-inline">\(\sim 500\%\)</span> to <span class="math scholmd-math-inline">\(\sim 0.8\%\)</span>. This fix makes the evolution of scalar in the domain completely symmetric as shown in Fig. <span class="scholmd-crossref"><a href="#phiDomainBCnonZeroFluxBookKeepingUncoveredNodeFix">(14)</a></span>.</p>
+<figure class="scholmd-float scholmd-figure" id="phiDomainBCnonZeroFluxBookKeepingUncoveredNodeFix">
+<div class="scholmd-float-content"><figure class="scholmd-subfig" style="display: inline-block; width: 75%">
+<img src="./images/cases/BCnonZeroFlux/plotsNewBookKeeping/Non0-Flux-BookKeeping-Uncovering-Fixed-T15621.png" />
+</figure></div>
+<div class="scholmd-float-caption"><figcaption><span class="scholmd-caption-head"><span class="scholmd-caption-head-prefix">Figure</span><span class="scholmd-caption-head-label">14</span></span><span class="scholmd-caption-text">Visualization of scalar in the domain with a moving piston, non-zero flux boundary condition and new book keeping procedure.</span></figcaption></div>
+</figure>
+<h2 id="mixed---constant-permeability-boundary-condition">Mixed - constant permeability boundary condition</h2>
+<p>The permeability <span class="math scholmd-math-inline">\(P_w\)</span> is defined as 
+<span class="math scholmd-math-display" style="display: block;">\[
+\begin{equation}
+\label{permeability}
+\frac{\partial \phi}{\partial n} = \frac{P_w}{D_m} C_w ,
+\end{equation}
+\]</span>
+ where <span class="math scholmd-math-inline">\(D_m\)</span> is the diffusivity, <span class="math scholmd-math-inline">\(C_w\)</span> is the scalar concentration at the wall, and <span class="math scholmd-math-inline">\(n\)</span> is the distance co-ordinate in the direction from the wall into the fluid. The permeability used in this comparison is such that <span class="math scholmd-math-inline">\(P_w/D_m = 2.0\)</span> in lattice units. This corresponds to a physical permeability of <span class="math scholmd-math-inline">\(1e-4 cm/s\)</span>.</p>
+<figure class="scholmd-float scholmd-figure" id="BCconstPermeability">
+<div class="scholmd-float-content"><figure class="scholmd-subfig" style="display: inline-block; width: 33%">
+<img src="./images/cases/BCconstPermeability/plots/DrugAbsorbed.png" />
+<div class="scholmd-float-subcaption"><figcaption><span class="scholmd-caption-text">Drug Absorbed</span></figcaption></div>
+</figure><figure class="scholmd-subfig" style="display: inline-block; width: 33%">
+<img src="./images/cases/BCconstPermeability/plots/DrugRemained.png" />
+<div class="scholmd-float-subcaption"><figcaption><span class="scholmd-caption-text">Drug Remained</span></figcaption></div>
+</figure><figure class="scholmd-subfig" style="display: inline-block; width: 33%">
+<img src="./images/cases/BCconstPermeability/plots/DrugLoss.png" />
+<div class="scholmd-float-subcaption"><figcaption><span class="scholmd-caption-text">Drug Loss</span></figcaption></div>
+</figure><br /><figure class="scholmd-subfig" style="display: inline-block; width: 33%">
+<img src="./images/cases/BCconstPermeability/plots/phiAbsleft.png" />
+<div class="scholmd-float-subcaption"><figcaption><span class="scholmd-caption-text">Drug Absorbed Left</span></figcaption></div>
+</figure><figure class="scholmd-subfig" style="display: inline-block; width: 33%">
+<img src="./images/cases/BCconstPermeability/plots/phiAbsright.png" />
+<div class="scholmd-float-subcaption"><figcaption><span class="scholmd-caption-text">Drug Absorbed Right</span></figcaption></div>
+</figure><figure class="scholmd-subfig" style="display: inline-block; width: 33%">
+<img src="./images/cases/BCconstPermeability/plots/phiAbsDiff.png" />
+<div class="scholmd-float-subcaption"><figcaption><span class="scholmd-caption-text">Drug Absorbed Right-Left</span></figcaption></div>
+</figure></div>
+<div class="scholmd-float-caption"><figcaption><span class="scholmd-caption-head"><span class="scholmd-caption-head-prefix">Figure</span><span class="scholmd-caption-head-label">15</span></span><span class="scholmd-caption-text">Comparison of scalar conservation and absorption between stationary and moving piston cases with constant permeability scalar boundary condition.</span></figcaption></div>
+</figure>
+<p>After changing the book keeping as described here <span class="scholmd-crossref"><a href="#changingBookKeeping">(#changingBookKeeping)</a></span> and the procedure for assinging scalar values to the uncovered nodes, the scalar conservation and absorption improves dramatically as shown in Fig. <span class="scholmd-crossref"><a href="#BCconstPermeabilityBookKeepingUncoveredNodeFix">(16)</a></span>.</p>
+<figure class="scholmd-float scholmd-figure" id="BCconstPermeabilityBookKeepingUncoveredNodeFix">
+<div class="scholmd-float-content"><figure class="scholmd-subfig" style="display: inline-block; width: 33%">
+<img src="./images/cases/BCconstPermeability/plotsNewBookKeepingUncoveredNode/DrugAbsorbed.png" />
+<div class="scholmd-float-subcaption"><figcaption><span class="scholmd-caption-text">Drug Absorbed</span></figcaption></div>
+</figure><figure class="scholmd-subfig" style="display: inline-block; width: 33%">
+<img src="./images/cases/BCconstPermeability/plotsNewBookKeepingUncoveredNode/DrugRemained.png" />
+<div class="scholmd-float-subcaption"><figcaption><span class="scholmd-caption-text">Drug Remained</span></figcaption></div>
+</figure><figure class="scholmd-subfig" style="display: inline-block; width: 33%">
+<img src="./images/cases/BCconstPermeability/plotsNewBookKeepingUncoveredNode/DrugLoss.png" />
+<div class="scholmd-float-subcaption"><figcaption><span class="scholmd-caption-text">Drug Loss</span></figcaption></div>
+</figure><br /><figure class="scholmd-subfig" style="display: inline-block; width: 33%">
+<img src="./images/cases/BCconstPermeability/plotsNewBookKeepingUncoveredNode/phiAbsleft.png" />
+<div class="scholmd-float-subcaption"><figcaption><span class="scholmd-caption-text">Drug Absorbed Left</span></figcaption></div>
+</figure><figure class="scholmd-subfig" style="display: inline-block; width: 33%">
+<img src="./images/cases/BCconstPermeability/plotsNewBookKeepingUncoveredNode/phiAbsright.png" />
+<div class="scholmd-float-subcaption"><figcaption><span class="scholmd-caption-text">Drug Absorbed Right</span></figcaption></div>
+</figure><figure class="scholmd-subfig" style="display: inline-block; width: 33%">
+<img src="./images/cases/BCconstPermeability/plotsNewBookKeepingUncoveredNode/phiAbsDiff.png" />
+<div class="scholmd-float-subcaption"><figcaption><span class="scholmd-caption-text">Drug Absorbed Right-Left</span></figcaption></div>
+</figure></div>
+<div class="scholmd-float-caption"><figcaption><span class="scholmd-caption-head"><span class="scholmd-caption-head-prefix">Figure</span><span class="scholmd-caption-head-label">16</span></span><span class="scholmd-caption-text">Comparison of scalar conservation and absorption between stationary and moving piston cases with constant permeability scalar boundary condition.</span></figcaption></div>
+</figure>
+<p>The drug loss error has come down from <span class="math scholmd-math-inline">\(\sim 80\%\)</span> to <span class="math scholmd-math-inline">\(\sim 1.5\%\)</span>, while the difference between the scalar absorbed on the two sides comes down from <span class="math scholmd-math-inline">\(\sim 4\%\)</span> to <span class="math scholmd-math-inline">\(\sim 0.1\%\)</span>.</p>
+<figure class="scholmd-float scholmd-figure" id="phiDomainBCconstPermeabilityBookKeepingUncoveredNodeFix">
+<div class="scholmd-float-content"><figure class="scholmd-subfig" style="display: inline-block; width: 75%">
+<img src="./images/cases/BCconstPermeability/plotsNewBookKeepingUncoveredNode/Permeability-BookKeeping-Uncovering-Fixed-T15261.png" />
+</figure></div>
+<div class="scholmd-float-caption"><figcaption><span class="scholmd-caption-head"><span class="scholmd-caption-head-prefix">Figure</span><span class="scholmd-caption-head-label">17</span></span><span class="scholmd-caption-text">Visualization of scalar in the domain with a moving piston, constant permeability boundary condition and new book keeping procedure.</span></figcaption></div>
+</figure>
+<h2 id="generalized-formulation-of-the-scalar-boundary-condition">Generalized formulation of the scalar boundary condition</h2>
+<p>The different boundary conditions are currently implemented in the code using different constructs. This leads to very complicated code handling with a different branch of development for each boundary condition. To avoid this, we propose to formulate a generalized scalar boundary condition in the code as 
+<span class="math scholmd-math-display" style="display: block;">\[
+\begin{equation}
+\label{generalizedScalarBC}
+(coeffPhi) \; C_w + (coeffGrad) \; \left . \frac{\partial C}{\partial n} \right |_w  = \; coeffConst,
+\end{equation}
+\]</span>
+ where <span class="math scholmd-math-inline">\(coeffPhi\)</span>, <span class="math scholmd-math-inline">\(coeffGrad\)</span> and <span class="math scholmd-math-inline">\(coeffConst\)</span> are constants, <span class="math scholmd-math-inline">\(\left . \right |_w\)</span> represents a value at the wall, and <span class="math scholmd-math-inline">\(n\)</span> is in the direction from the wall into the fluid. The code with this version of the boundary condition is commit <a href="https://github.com/BioGI/Intestine-Particles/commit/891069a5b3b87984a1664eaf65db839266a160b9">891069a5b3b87984a1664eaf65db839266a160b9</a></p>
+<h2 id="changing-book-keeping-for-scalar-absorbed-changingbookkeeping">Changing book keeping for scalar absorbed #changingBookKeeping</h2>
+<p>There are two parts to the scalar boundary condition; the first is the determination of the scalar that streams from the wall into the node adjacent to it and the second is the computation of the difference between <span class="math scholmd-math-inline">\(P_k\)</span> and <span class="math scholmd-math-inline">\(P_{k&#39;}\)</span> to keep track of the total scalar absorbed through the wall. The second part is purely a book keeping exercise and does not affect the evolution of the scalar in the domain. The first part, i.e. the scalar boundary condition seems to work reasonably well in keeping the profiles of <span class="math scholmd-math-inline">\(\phi\)</span> symmetric across the piston walls even when it’s moving. However, the book keeping exercise records asymmetric values of drug absorbed on the right and left faces when the piston is moving. Using this clue, we redesigned the book keeping exercise to not use the velocity of the fluid/wall in the calculation of the drug absorbed.</p>
+<h2 id="summary">Summary</h2>
+<p>Summary of all cases. Table <span class="scholmd-crossref"><a href="#table:comparisonDrugLoss">(1)</a></span> compares the drug loss across different boundary conditions for the moving piston case with different improvements/fixes.</p>
+<figure class="scholmd-float scholmd-table-float" id="table:comparisonDrugLoss">
+<div class="scholmd-float-content"><table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Boundary condition</th>
+<th style="text-align: left;">Trad. Book Keeping</th>
+<th style="text-align: left;">Book keeping fix</th>
+<th style="text-align: left;">Book keeping + uncovered node fix</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Zero scalar</td>
+<td style="text-align: left;">-2%</td>
+<td style="text-align: left;">-</td>
+<td style="text-align: left;">-</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Non-zero scalar</td>
+<td style="text-align: left;">-0.7%</td>
+<td style="text-align: left;">-0.7%</td>
+<td style="text-align: left;">-</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Zero flux</td>
+<td style="text-align: left;"><span class="math scholmd-math-inline">\(2 \times 10^{-11}\%\)</span></td>
+<td style="text-align: left;">-</td>
+<td style="text-align: left;">-</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Non-zero flux</td>
+<td style="text-align: left;">-160%</td>
+<td style="text-align: left;">-6%</td>
+<td style="text-align: left;">-0.6%</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Const permeability</td>
+<td style="text-align: left;">-80%</td>
+<td style="text-align: left;">-</td>
+<td style="text-align: left;">-1.5%</td>
+</tr>
+</tbody>
+</table></div>
+<div class="scholmd-float-caption"><figcaption><span class="scholmd-caption-head"><span class="scholmd-caption-head-prefix">Table</span><span class="scholmd-caption-head-label">1</span></span><span class="scholmd-caption-text">Comparison of drug loss across different boundary conditions for the moving piston case with different improvements/fixes.</span></figcaption></div>
+</figure>
+<p>Table <span class="scholmd-crossref"><a href="#table:comparisonRightLeftAbsorption">(2)</a></span> compares the difference in scalar absorbed between right and left piston across different boundary conditions for the moving piston case with different improvements/fixes.</p>
+<div align="center">
+<figure class="scholmd-float scholmd-table-float" id="table:comparisonRightLeftAbsorption">
+<div class="scholmd-float-content"><table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Boundary condition</th>
+<th style="text-align: left;">Trad. Book Keeping</th>
+<th style="text-align: left;">Book keeping fix</th>
+<th style="text-align: left;">Book keeping + uncovered node fix</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Zero scalar</td>
+<td style="text-align: left;">7.7%</td>
+<td style="text-align: left;">-</td>
+<td style="text-align: left;">-</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Non-zero scalar</td>
+<td style="text-align: left;">3000%</td>
+<td style="text-align: left;">0.8%</td>
+<td style="text-align: left;">-</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Zero flux</td>
+<td style="text-align: left;">0.05 (<span class="math scholmd-math-inline">\(\mu mol\)</span>)</td>
+<td style="text-align: left;">-</td>
+<td style="text-align: left;">-</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Non-zero flux</td>
+<td style="text-align: left;">500%</td>
+<td style="text-align: left;">70%</td>
+<td style="text-align: left;">0.8%</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Const permeability</td>
+<td style="text-align: left;">444%</td>
+<td style="text-align: left;">-</td>
+<td style="text-align: left;">0.1%</td>
+</tr>
+</tbody>
+</table></div>
+<div class="scholmd-float-caption"><figcaption><span class="scholmd-caption-head"><span class="scholmd-caption-head-prefix">Table</span><span class="scholmd-caption-head-label">2</span></span><span class="scholmd-caption-text">Comparison of difference in scalar absorbed between right and left piston across different boundary conditions for the moving piston case with different improvements/fixes.</span></figcaption></div>
+</figure>
+</div>
+<h1 id="curved-and-accelerating-piston">Curved and accelerating piston</h1>
+<h2 id="curved-piston">Curved piston</h2>
+<p>The next step is to make sure that the boundary conditions work on a curved boundary. Continuing with the piston setup, we decided to make it into a curved piston. The new piston shape will be a cosine curve in the z-direction to satisfy the periodicity requirement as 
+<span class="math scholmd-math-display" style="display: block;">\[
+\begin{equation}
+\label{curvedPistonShape}
+x = \textrm{Left end location} + \frac{D_z}{2} \left ( 1+  cos \left ( \frac{2z}{D_z} \pi \right ) \right ),
+\end{equation}
+\]</span>
+ where <span class="math scholmd-math-inline">\(D_z\)</span> is the extent of the domain in the <span class="math scholmd-math-inline">\(z\)</span> direction. The amplitude of the cosine curve is set to be equal to half of the domain length in the <span class="math scholmd-math-inline">\(z\)</span> direction.</p>
+<figure class="scholmd-float scholmd-figure" id="curvedPistonShape">
+<div class="scholmd-float-content"><figure class="scholmd-subfig" style="display: inline-block; width: 75%">
+<img src="./images/curvedPistonShape.png" />
+</figure></div>
+<div class="scholmd-float-caption"><figcaption><span class="scholmd-caption-head"><span class="scholmd-caption-head-prefix">Figure</span><span class="scholmd-caption-head-label">18</span></span><span class="scholmd-caption-text">Visualization of curved piston shape for further testing of the scalar boundary conditions.</span></figcaption></div>
+</figure>
+<p>The normal vector to this curve is obtained using the slope of the curve in Eq. <span class="scholmd-crossref"><span class="math scholmd-math-inline">\(\eqref{curvedPistonShape}\)</span></span>. The slope of the tangent at each point of the curved piston is 
+<span class="math scholmd-math-display" style="display: block;">\[
+\begin{equation}
+\label{curvedPistonTangent}
+\frac{dx}{dz} = - \pi \; sin \left ( \frac{2z}{D_z} \pi \right )
+\end{equation}
+\]</span>
+ Fig. <span class="scholmd-crossref"><a href="#lineVectorDirection">(19)</a></span> shows the process of obtaining the normal direction vector from the slope of a line.</p>
+<figure class="scholmd-float scholmd-figure" id="lineVectorDirection">
+<div class="scholmd-float-content"><figure class="scholmd-subfig" style="display: inline-block; width: 50%">
+<img src="./images/lineVectorDirection.png" />
+</figure></div>
+<div class="scholmd-float-caption"><figcaption><span class="scholmd-caption-head"><span class="scholmd-caption-head-prefix">Figure</span><span class="scholmd-caption-head-label">19</span></span><span class="scholmd-caption-text">Determination of vector normal to a line with a given slope.</span></figcaption></div>
+</figure>
+<p>The computation of the normal direction vector for the left piston will be carried out in code as</p>
+<div class="sourceCode"><pre class="sourceCode fortran"><code class="sourceCode fortran">
+dxdz <span class="kw">=</span> <span class="kw">-</span> pi <span class="kw">*</span> <span class="kw">sin</span>(<span class="dv">2</span><span class="kw">*</span>z<span class="kw">*</span>pi<span class="kw">/</span>Dz)
+
+<span class="kw">if</span> (dxdz <span class="kw">.eq.</span> <span class="dv">0</span>) <span class="kw">then</span> <span class="co">! m = infinity</span>
+
+   normalVector<span class="kw">[</span><span class="dv">1</span><span class="kw">]</span> <span class="kw">=</span> <span class="fl">1.0</span>
+   normalVector<span class="kw">[</span><span class="dv">2</span><span class="kw">]</span> <span class="kw">=</span> <span class="fl">0.0</span>
+   normalVector<span class="kw">[</span><span class="dv">3</span><span class="kw">]</span> <span class="kw">=</span> <span class="fl">0.0</span>   
+
+<span class="kw">else</span>
+
+   mag <span class="kw">=</span> <span class="kw">sqrt</span>(<span class="fl">1.0</span> <span class="kw">+</span>  <span class="fl">1.0_dbl</span><span class="kw">/</span>(dxdy <span class="kw">*</span> dxdy) )
+   normalVector<span class="kw">[</span><span class="dv">1</span><span class="kw">]</span> <span class="kw">=</span> <span class="fl">1.0_dbl</span><span class="kw">/</span>dxdy<span class="kw">/</span>mag
+   normalVector<span class="kw">[</span><span class="dv">2</span><span class="kw">]</span> <span class="kw">=</span> <span class="fl">0.0</span>
+   normalVector<span class="kw">[</span><span class="dv">3</span><span class="kw">]</span> <span class="kw">=</span> <span class="kw">-</span><span class="fl">1.0</span><span class="kw">/</span>mag
+   
+<span class="kw">end if</span></code></pre></div>
+<p>The progress of the code with the changed geometry can be tracked at the <a href="https://github.com/BioGI/Intestine-Particles/tree/PistonCurved">PistonCurved</a> branch on github. The first commit <a href="https://github.com/BioGI/Intestine-Particles/commit/b5bbe713b9fee8f1340a98347040d0a5bce24e58">b5bbe713b9fee8f1340a98347040d0a5bce24e58</a> contains just the updated geometry. We had to first fix the computation of <span class="math scholmd-math-inline">\(q\)</span> to the generalized case. We decided on a minimum resolution of <span class="math scholmd-math-inline">\(40\)</span> points in the direction with the curvature of the piston. For most of the curved piston simulations presented below, the parameters are <span class="math scholmd-math-inline">\(L_x = 40mm, L_y = 0.5mm, L_z = 2mm\)</span> with a resolution of <span class="math scholmd-math-inline">\(\Delta_x = \Delta_y = \Delta_z = 5 \times 10^{-5}m\)</span>. The distance between the two pistons is <span class="math scholmd-math-inline">\(4mm\)</span> in the <span class="math scholmd-math-inline">\(x\)</span> direction with the wave speed set to a constant <span class="math scholmd-math-inline">\(4mm/s\)</span>. Thus the relevant time scale is the time taken by the pistons to travel the length between the pistons, i.e., <span class="math scholmd-math-inline">\(1s\)</span>.</p>
+<p>We confirmed that both the first and second order momentum bounce back boundary conditions yield the same results (Fig. <span class="scholmd-crossref"><a href="#curvedPistonFirstOrderVsSecondOrder">(20)</a></span>).</p>
+<figure class="scholmd-float scholmd-figure" id="curvedPistonFirstOrderVsSecondOrder">
+<div class="scholmd-float-content"><figure class="scholmd-subfig" style="display: inline-block; width: 33%">
+<img src="./images/curvedPiston/BCzeroScalar/BounceBack2NewVsBounceBackL/massError.png" />
+<div class="scholmd-float-subcaption"><figcaption><span class="scholmd-caption-text">Mass loss error</span></figcaption></div>
+</figure><br /><figure class="scholmd-subfig" style="display: inline-block; width: 33%">
+<img src="./images/curvedPiston/BCzeroScalar/BounceBack2NewVsBounceBackL/DrugAbsorbed.png" />
+<div class="scholmd-float-subcaption"><figcaption><span class="scholmd-caption-text">Drug Absorbed</span></figcaption></div>
+</figure><figure class="scholmd-subfig" style="display: inline-block; width: 33%">
+<img src="./images/curvedPiston/BCzeroScalar/BounceBack2NewVsBounceBackL/DrugRemained.png" />
+<div class="scholmd-float-subcaption"><figcaption><span class="scholmd-caption-text">Drug Remained</span></figcaption></div>
+</figure><figure class="scholmd-subfig" style="display: inline-block; width: 33%">
+<img src="./images/curvedPiston/BCzeroScalar/BounceBack2NewVsBounceBackL/DrugLoss.png" />
+<div class="scholmd-float-subcaption"><figcaption><span class="scholmd-caption-text">Drug Loss</span></figcaption></div>
+</figure><br /><figure class="scholmd-subfig" style="display: inline-block; width: 33%">
+<img src="./images/curvedPiston/BCzeroScalar/BounceBack2NewVsBounceBackL/phiAbsleft.png" />
+<div class="scholmd-float-subcaption"><figcaption><span class="scholmd-caption-text">Drug Absorbed Left</span></figcaption></div>
+</figure><figure class="scholmd-subfig" style="display: inline-block; width: 33%">
+<img src="./images/curvedPiston/BCzeroScalar/BounceBack2NewVsBounceBackL/phiAbsright.png" />
+<div class="scholmd-float-subcaption"><figcaption><span class="scholmd-caption-text">Drug Absorbed Right</span></figcaption></div>
+</figure><figure class="scholmd-subfig" style="display: inline-block; width: 33%">
+<img src="./images/curvedPiston/BCzeroScalar/BounceBack2NewVsBounceBackL/phiAbsDiff.png" />
+<div class="scholmd-float-subcaption"><figcaption><span class="scholmd-caption-text">Drug Absorbed Right-Left</span></figcaption></div>
+</figure></div>
+<div class="scholmd-float-caption"><figcaption><span class="scholmd-caption-head"><span class="scholmd-caption-head-prefix">Figure</span><span class="scholmd-caption-head-label">20</span></span><span class="scholmd-caption-text">Comparison of mass conservation and scalar conservation and absorption between first order and second order bounce back boundary conditions for momentum and immediate uptake scalar boundary condition.</span></figcaption></div>
+</figure>
+<p>Both the first and second order bounceback boundary conditions exhibit transient pressure fluctuations at the start that appear to reduce in amplitude with time as shown in Fig. <span class="scholmd-crossref"><a href="#curvedPistonPressureOscillations">(21)</a></span>.</p>
+<figure class="scholmd-float scholmd-figure" id="curvedPistonPressureOscillations">
+<div class="scholmd-float-content"><figure class="scholmd-subfig" style="display: inline-block; width: 49%">
+<img src="./images/curvedPiston/BCzeroScalar/BounceBackL/1X/pContour.mp4" />
+<div class="scholmd-float-subcaption"><figcaption><span class="scholmd-caption-text"><span class="math scholmd-math-inline">\(1^{st}\)</span> order BC</span></figcaption></div>
+</figure><figure class="scholmd-subfig" style="display: inline-block; width: 49%">
+<img src="./images/curvedPiston/BCzeroScalar/BounceBack2New/1X/pContour.mp4" />
+<div class="scholmd-float-subcaption"><figcaption><span class="scholmd-caption-text"><span class="math scholmd-math-inline">\(2^{nd}\)</span> order BC</span></figcaption></div>
+</figure></div>
+<div class="scholmd-float-caption"><figcaption><span class="scholmd-caption-head"><span class="scholmd-caption-head-prefix">Figure</span><span class="scholmd-caption-head-label">21</span></span><span class="scholmd-caption-text">Transient pressure fluctuations in the moving curved piston cases with both first and second order bounce back boundary conditions.</span></figcaption></div>
+</figure>
+<p>However, the magnitude of the pressure fluctuations are <span class="math scholmd-math-inline">\(\sim O(10^{-4}) Pa\)</span> and is hence ignored. A useful thing to do with the real intestine simulations might be to introduce scalar in the domain after the flow has reached steady state. We decided to use the second order bounce back boundary conditions for all the curved piston simulations from this point.</p>
+<p>The resolution does seem to make quite a lot of difference on the calculation of the scalar absorbed as shown in Fig. <span class="scholmd-crossref"><a href="#curvedPistonResolution">(22)</a></span>. For the purpseo of this study, the resolution is halved in all directions in the <strong>2X</strong> case compared to the <strong>1X</strong> case. Hence the time step is reduced by 4 times for the the same <span class="math scholmd-math-inline">\(\tau\)</span>. Surprisingly, the resolution seems to only affect the calculation of the drug absorbed and not the total scalar remaining in the domain. Hence the drug loss errors increase in the <strong>2X</strong> resolution case compared to the <strong>1X</strong> resolution case.</p>
+<figure class="scholmd-float scholmd-figure" id="curvedPistonResolution">
+<div class="scholmd-float-content"><figure class="scholmd-subfig" style="display: inline-block; width: 33%">
+<img src="./images/curvedPiston/BCzeroScalar/BounceBack2New/1Xvs2X/massError.png" />
+<div class="scholmd-float-subcaption"><figcaption><span class="scholmd-caption-text">Mass loss error</span></figcaption></div>
+</figure><br /><figure class="scholmd-subfig" style="display: inline-block; width: 33%">
+<img src="./images/curvedPiston/BCzeroScalar/BounceBack2New/1Xvs2X/DrugAbsorbed.png" />
+<div class="scholmd-float-subcaption"><figcaption><span class="scholmd-caption-text">Drug Absorbed</span></figcaption></div>
+</figure><figure class="scholmd-subfig" style="display: inline-block; width: 33%">
+<img src="./images/curvedPiston/BCzeroScalar/BounceBack2New/1Xvs2X/DrugRemained.png" />
+<div class="scholmd-float-subcaption"><figcaption><span class="scholmd-caption-text">Drug Remained</span></figcaption></div>
+</figure><figure class="scholmd-subfig" style="display: inline-block; width: 33%">
+<img src="./images/curvedPiston/BCzeroScalar/BounceBack2New/1Xvs2X/DrugLoss.png" />
+<div class="scholmd-float-subcaption"><figcaption><span class="scholmd-caption-text">Drug Loss</span></figcaption></div>
+</figure><br /><figure class="scholmd-subfig" style="display: inline-block; width: 33%">
+<img src="./images/curvedPiston/BCzeroScalar/BounceBack2New/1Xvs2X/phiAbsleft.png" />
+<div class="scholmd-float-subcaption"><figcaption><span class="scholmd-caption-text">Drug Absorbed Left</span></figcaption></div>
+</figure><figure class="scholmd-subfig" style="display: inline-block; width: 33%">
+<img src="./images/curvedPiston/BCzeroScalar/BounceBack2New/1Xvs2X/phiAbsright.png" />
+<div class="scholmd-float-subcaption"><figcaption><span class="scholmd-caption-text">Drug Absorbed Right</span></figcaption></div>
+</figure><figure class="scholmd-subfig" style="display: inline-block; width: 33%">
+<img src="./images/curvedPiston/BCzeroScalar/BounceBack2New/1Xvs2X/phiAbsDiff.png" />
+<div class="scholmd-float-subcaption"><figcaption><span class="scholmd-caption-text">Drug Absorbed Right-Left</span></figcaption></div>
+</figure></div>
+<div class="scholmd-float-caption"><figcaption><span class="scholmd-caption-head"><span class="scholmd-caption-head-prefix">Figure</span><span class="scholmd-caption-head-label">22</span></span><span class="scholmd-caption-text">Effect of resolution on mass conservation and scalar conservation and absorption with second order bounce back boundary conditions for momentum and immediate uptake scalar boundary condition.</span></figcaption></div>
+</figure>
+<p>Figure <span class="scholmd-crossref"><a href="#curvedPistonAstarAvsAstarBstar">(23)</a></span> shows that using <span class="math scholmd-math-inline">\(A^*\)</span> and <span class="math scholmd-math-inline">\(A\)</span> in the scalar boundary conditions improves scalar conservation compared to using <span class="math scholmd-math-inline">\(A^*\)</span> and <span class="math scholmd-math-inline">\(B^*\)</span>. Hence <span class="math scholmd-math-inline">\(A^*\)</span> and <span class="math scholmd-math-inline">\(A\)</span> are used in the scalar boundary conditions for all future curved piston simulations.</p>
+<figure class="scholmd-float scholmd-figure" id="curvedPistonAstarAvsAstarBstar">
+<div class="scholmd-float-content"><figure class="scholmd-subfig" style="display: inline-block; width: 33%">
+<img src="./images/curvedPiston/BCzeroScalar/BounceBack2New/AstarAvsAstarBstar/DrugAbsorbed.png" />
+<div class="scholmd-float-subcaption"><figcaption><span class="scholmd-caption-text">Drug Absorbed</span></figcaption></div>
+</figure><figure class="scholmd-subfig" style="display: inline-block; width: 33%">
+<img src="./images/curvedPiston/BCzeroScalar/BounceBack2New/AstarAvsAstarBstar/DrugRemained.png" />
+<div class="scholmd-float-subcaption"><figcaption><span class="scholmd-caption-text">Drug Remained</span></figcaption></div>
+</figure><figure class="scholmd-subfig" style="display: inline-block; width: 33%">
+<img src="./images/curvedPiston/BCzeroScalar/BounceBack2New/AstarAvsAstarBstar/DrugLoss.png" />
+<div class="scholmd-float-subcaption"><figcaption><span class="scholmd-caption-text">Drug Loss</span></figcaption></div>
+</figure><br /><figure class="scholmd-subfig" style="display: inline-block; width: 33%">
+<img src="./images/curvedPiston/BCzeroScalar/BounceBack2New/AstarAvsAstarBstar/phiAbsleft.png" />
+<div class="scholmd-float-subcaption"><figcaption><span class="scholmd-caption-text">Drug Absorbed Left</span></figcaption></div>
+</figure><figure class="scholmd-subfig" style="display: inline-block; width: 33%">
+<img src="./images/curvedPiston/BCzeroScalar/BounceBack2New/AstarAvsAstarBstar/phiAbsright.png" />
+<div class="scholmd-float-subcaption"><figcaption><span class="scholmd-caption-text">Drug Absorbed Right</span></figcaption></div>
+</figure><figure class="scholmd-subfig" style="display: inline-block; width: 33%">
+<img src="./images/curvedPiston/BCzeroScalar/BounceBack2New/AstarAvsAstarBstar/phiAbsDiff.png" />
+<div class="scholmd-float-subcaption"><figcaption><span class="scholmd-caption-text">Drug Absorbed Right-Left</span></figcaption></div>
+</figure></div>
+<div class="scholmd-float-caption"><figcaption><span class="scholmd-caption-head"><span class="scholmd-caption-head-prefix">Figure</span><span class="scholmd-caption-head-label">23</span></span><span class="scholmd-caption-text">Effect of using <span class="math scholmd-math-inline">\(A^*\)</span> and <span class="math scholmd-math-inline">\(A\)</span> vs. <span class="math scholmd-math-inline">\(A^*\)</span> and <span class="math scholmd-math-inline">\(B^*\)</span> in the scalar boundary condition on scalar conservation and absorption with second order bounce back boundary conditions for momentum and immediate uptake scalar boundary condition.</span></figcaption></div>
+</figure>
+<p>The current method for fixing the value of scalar in an uncovered node was based on interpolation along the wall normal direction. In the case of a straight piston, the wall normal direction is known ahead of time; however the wall normal direction is not as straight forward in the case of a curved piston. One method to fix this issue is as follows:</p>
+<ul>
+<li>for every node adjacent to the boundary, determine the density distribution direction that is closest to the wall normal direction,</li>
+<li>interpolate the scalar values along this direction.</li>
+</ul>
+<p>Another approach is to fix the value of scalar on the wall to the prescribed value at the surface. However this method will only work for uniform Dirichlet scalar boundary conditions. Fig. <span class="scholmd-crossref"><a href="#curvedPistonUncoveredNode">(24)</a></span> shows that the interpolation of the scalar in the direction closest to the correct local normal yields the best scalar conservation. This will be used in the future.</p>
+<figure class="scholmd-float scholmd-figure" id="curvedPistonUncoveredNode">
+<div class="scholmd-float-content"><figure class="scholmd-subfig" style="display: inline-block; width: 33%">
+<img src="./images/curvedPiston/BCzeroScalar/BounceBack2New/correctedGeomNormVsuncoveredNodePhiWallVsAstarA/DrugAbsorbed.png" />
+<div class="scholmd-float-subcaption"><figcaption><span class="scholmd-caption-text">Drug Absorbed</span></figcaption></div>
+</figure><figure class="scholmd-subfig" style="display: inline-block; width: 33%">
+<img src="./images/curvedPiston/BCzeroScalar/BounceBack2New/correctedGeomNormVsuncoveredNodePhiWallVsAstarA/DrugRemained.png" />
+<div class="scholmd-float-subcaption"><figcaption><span class="scholmd-caption-text">Drug Remained</span></figcaption></div>
+</figure><figure class="scholmd-subfig" style="display: inline-block; width: 33%">
+<img src="./images/curvedPiston/BCzeroScalar/BounceBack2New/correctedGeomNormVsuncoveredNodePhiWallVsAstarA/DrugLoss.png" />
+<div class="scholmd-float-subcaption"><figcaption><span class="scholmd-caption-text">Drug Loss</span></figcaption></div>
+</figure><br /><figure class="scholmd-subfig" style="display: inline-block; width: 33%">
+<img src="./images/curvedPiston/BCzeroScalar/BounceBack2New/correctedGeomNormVsuncoveredNodePhiWallVsAstarA/phiAbsleft.png" />
+<div class="scholmd-float-subcaption"><figcaption><span class="scholmd-caption-text">Drug Absorbed Left</span></figcaption></div>
+</figure><figure class="scholmd-subfig" style="display: inline-block; width: 33%">
+<img src="./images/curvedPiston/BCzeroScalar/BounceBack2New/correctedGeomNormVsuncoveredNodePhiWallVsAstarA/phiAbsright.png" />
+<div class="scholmd-float-subcaption"><figcaption><span class="scholmd-caption-text">Drug Absorbed Right</span></figcaption></div>
+</figure><figure class="scholmd-subfig" style="display: inline-block; width: 33%">
+<img src="./images/curvedPiston/BCzeroScalar/BounceBack2New/correctedGeomNormVsuncoveredNodePhiWallVsAstarA/phiAbsDiff.png" />
+<div class="scholmd-float-subcaption"><figcaption><span class="scholmd-caption-text">Drug Absorbed Right-Left</span></figcaption></div>
+</figure></div>
+<div class="scholmd-float-caption"><figcaption><span class="scholmd-caption-head"><span class="scholmd-caption-head-prefix">Figure</span><span class="scholmd-caption-head-label">24</span></span><span class="scholmd-caption-text">Effect of using different interpolation methods to fix scalar in an newly uncovered node on scalar conservation and absorption with second order bounce back boundary conditions for momentum and immediate uptake scalar boundary condition.</span></figcaption></div>
+</figure>
+<h2 id="accelerating-piston">Accelerating Piston</h2>
+<p>In the real intestine, the wall is not moving at a constant velocity and experiences local acceleration. In order to make sure that the scalar boundary conditions work properly in the real intestine, we simulate the evolution of scalar between two constantly accelerating pistons. The progress of this test can be tracked on the <a href="https://github.com/BioGI/Intestine-Particles/tree/Piston-Accelerating">Piston-accelerating</a> branch on github.</p>
+<p>Balaji had suggested a fix to improve the mass conservation as follows:</p>
+<ul>
+<li>for the uncovered node, the density is set to 1.0,</li>
+<li>in the Bounceback boundary conditions, a density of 1.0 is used.</li>
+</ul>
+<p>In the accelerating piston case, when using Balaji’s fix to the momentum BC, the total pressure (and hence mass) drops over time as shown in Fig. <span class="scholmd-crossref"><a href="#acceleratingPistonPressureDrop">(25)</a></span>.</p>
+<figure class="scholmd-float scholmd-figure" id="acceleratingPistonPressureDrop">
+<div class="scholmd-float-content"><figure class="scholmd-subfig" style="display: inline-block; width: 75%">
+<img src="./images/acceleratingPiston/Comparison/1-T1526.png" />
+<div class="scholmd-float-subcaption"><figcaption><span class="scholmd-caption-text">t=1526 iterations</span></figcaption></div>
+</figure><br /><figure class="scholmd-subfig" style="display: inline-block; width: 75%">
+<img src="./images/acceleratingPiston/Comparison/2-T6000.png" />
+<div class="scholmd-float-subcaption"><figcaption><span class="scholmd-caption-text">t=6000 iterations</span></figcaption></div>
+</figure><br /><figure class="scholmd-subfig" style="display: inline-block; width: 75%">
+<img src="./images/acceleratingPiston/Comparison/3-T10681.png" />
+<div class="scholmd-float-subcaption"><figcaption><span class="scholmd-caption-text">t=10681 iterations</span></figcaption></div>
+</figure><br /><figure class="scholmd-subfig" style="display: inline-block; width: 75%">
+<img src="./images/acceleratingPiston/Comparison/4-T15261.png" />
+<div class="scholmd-float-subcaption"><figcaption><span class="scholmd-caption-text">t=15261 iterations</span></figcaption></div>
+</figure></div>
+<div class="scholmd-float-caption"><figcaption><span class="scholmd-caption-head"><span class="scholmd-caption-head-prefix">Figure</span><span class="scholmd-caption-head-label">25</span></span><span class="scholmd-caption-text">Evolution of streamwise velocity, pressure and scalar in the accelerating piston with the immediate update scalar boundary condition.</span></figcaption></div>
+</figure>
+<p>Hence Farhad came up with a new fix that brings mass conservation errors to near machine precision zero without affecting drug conservation in accelerating piston:</p>
+<ul>
+<li>At each time step, the density everywhere is adjusted so as to bring the average density back to denL.</li>
+<li>For the uncovered node, the density is set to the average density of the fluid nodes around it.</li>
+<li>In the Bounceback boundary conditions, the real density is used instead of 1.0.</li>
+</ul>
+<p>The above fix reduces the mass conservation errors as shown in Fig. <span class="scholmd-crossref"><a href="#acceleratingPistonNewFix">(26)</a></span>.</p>
+<figure class="scholmd-float scholmd-figure" id="acceleratingPistonNewFix">
+<div class="scholmd-float-content"><figure class="scholmd-subfig" style="display: inline-block; width: 49%">
+<img src="./images/acceleratingPiston/Comparison/MassErrorFixed.png" />
+<div class="scholmd-float-subcaption"><figcaption><span class="scholmd-caption-text">(a) Mass error</span></figcaption></div>
+</figure><figure class="scholmd-subfig" style="display: inline-block; width: 49%">
+<img src="./images/acceleratingPiston/Comparison/DrugLoss.png" />
+<div class="scholmd-float-subcaption"><figcaption><span class="scholmd-caption-text">(b) Drug loss error</span></figcaption></div>
+</figure><br /><figure class="scholmd-subfig" style="display: inline-block; width: 49%">
+<img src="./images/acceleratingPiston/Comparison/DensityCorrection.png" />
+<div class="scholmd-float-subcaption"><figcaption><span class="scholmd-caption-text">(c) Density correction</span></figcaption></div>
+</figure><figure class="scholmd-subfig" style="display: inline-block; width: 49%">
+<img src="./images/acceleratingPiston/Comparison/DensityCorrectionZoomed.png" />
+<div class="scholmd-float-subcaption"><figcaption><span class="scholmd-caption-text">(d) Zoomed density correction</span></figcaption></div>
+</figure></div>
+<div class="scholmd-float-caption"><figcaption><span class="scholmd-caption-head"><span class="scholmd-caption-head-prefix">Figure</span><span class="scholmd-caption-head-label">26</span></span><span class="scholmd-caption-text">(a)-(b) Comparison of mass and drug loss error with and without the fix; (c)-(d) the correction in density required at each time step to fix the mass conservation problems.</span></figcaption></div>
+</figure>
+<p>Finally, using the new fix, Fig. <span class="scholmd-crossref"><a href="#acceleratingPistonComparisonStationaryMoving">(27)</a></span> compares the output of accelerating piston to the stationary and moving piston cases to make sure they are the same.</p>
+<figure class="scholmd-float scholmd-figure" id="acceleratingPistonComparisonStationaryMoving">
+<div class="scholmd-float-content"><figure class="scholmd-subfig" style="display: inline-block; width: 33%">
+<img src="./images/acceleratingPiston/Left-Right-Mass-Fixed/DrugAbsorbed.png" />
+<div class="scholmd-float-subcaption"><figcaption><span class="scholmd-caption-text">Drug Absorbed</span></figcaption></div>
+</figure><figure class="scholmd-subfig" style="display: inline-block; width: 33%">
+<img src="./images/acceleratingPiston/Left-Right-Mass-Fixed/DrugRemained.png" />
+<div class="scholmd-float-subcaption"><figcaption><span class="scholmd-caption-text">Drug Remained</span></figcaption></div>
+</figure><figure class="scholmd-subfig" style="display: inline-block; width: 33%">
+<img src="./images/acceleratingPiston/Left-Right-Mass-Fixed/DrugLoss.png" />
+<div class="scholmd-float-subcaption"><figcaption><span class="scholmd-caption-text">Drug Loss</span></figcaption></div>
+</figure><br /><figure class="scholmd-subfig" style="display: inline-block; width: 33%">
+<img src="./images/acceleratingPiston/Left-Right-Mass-Fixed/phiAbsleft.png" />
+<div class="scholmd-float-subcaption"><figcaption><span class="scholmd-caption-text">Drug Absorbed Left</span></figcaption></div>
+</figure><figure class="scholmd-subfig" style="display: inline-block; width: 33%">
+<img src="./images/acceleratingPiston/Left-Right-Mass-Fixed/phiAbsright.png" />
+<div class="scholmd-float-subcaption"><figcaption><span class="scholmd-caption-text">Drug Absorbed Right</span></figcaption></div>
+</figure><figure class="scholmd-subfig" style="display: inline-block; width: 33%">
+<img src="./images/acceleratingPiston/Left-Right-Mass-Fixed/phiAbsDiff.png" />
+<div class="scholmd-float-subcaption"><figcaption><span class="scholmd-caption-text">Drug Absorbed Right-Left</span></figcaption></div>
+</figure></div>
+<div class="scholmd-float-caption"><figcaption><span class="scholmd-caption-head"><span class="scholmd-caption-head-prefix">Figure</span><span class="scholmd-caption-head-label">27</span></span><span class="scholmd-caption-text">Comparison of scalar conservation and absorption between accelerating, stationary and moving piston cases with immediate update scalar boundary condition.</span></figcaption></div>
+</figure>
+<h2 id="summary-of-lessons-learned-from-curved-piston-accelerating-piston-simulations.">Summary of lessons learned from curved piston, accelerating piston simulations.</h2>
+<ol type="1">
+<li>Using Astar and A seems to be better that using Astar and Bstar in the scalar boundary condition and book keeping.</li>
+<li>Transient small pressure fluctuations exist in curved piston cases that decrease over time….probably not important.</li>
+<li>Bounceback2 vs. BounceBackL doesn’t seem to make a difference in the mass conservation in the curved piston. BounceBack2 seems to improve drug conservation though.</li>
+<li>In the accelerating piston when using Balaji’s fix to the momentum BC, i.e. uncovered node density is set to denL and <span class="math scholmd-math-inline">\(\rho= 1.0\)</span> in the bounce back BC, the total pressure (and hence mass) drops over time.</li>
+<li>New fix that brings mass conservation errors to near machine precision zero without affecting drug conservation in accelerating piston:
+<ul>
+<li>At each time step, the density everywhere is adjusted so as to bring the average density back to denL.</li>
+<li>For the uncovered node, the density is set to the average density of the fluid nodes around it.</li>
+<li>In the Bounceback boundary conditions, the real density is used instead of 1.0.</li>
+</ul></li>
+</ol>
+<h1 id="summary-of-lessons-learned-from-intestine-simulations.">Summary of lessons learned from intestine simulations.</h1>
+<p>We have implemented the new generalized version of the scalar boundary condition and modified book keeping in the intestine version of the code. The iterative algorithm to calculate q is now used everywhere. Based on lessons learned from accelerating and curved piston cases, we use Astar and A for the scalar boundary conditions and book keeping instead of Astar and Bstar. The five different cases that were run to test the choice of parameters were</p>
+<ol start="0" type="1">
+<li>Old book keeping for scalar absorbed, first order bounce back for momentum BC with Balaji’s fix,</li>
+<li>New book keeping for scalar absorbed, first order bounce back for momentum BC with Balaji’s fix,</li>
+<li>New book keeping for scalar absorbed, first order bounce back for momentum BC with new fix,</li>
+<li>New book keeping for scalar absorbed, second order bounce back for momentum BC with Balaji’s fix,</li>
+<li>New book keeping for scalar absorbed, second order bounce back for momentum BC with new fix,</li>
+</ol>
+<p>where the term <strong>new fix</strong> for the momentum is used to represent</p>
+<ul>
+<li>at each time step, the density everywhere is adjusted so as to bring the average density back to denL. The density distribution functions <span class="math scholmd-math-inline">\(f\)</span> and <span class="math scholmd-math-inline">\(fPlus\)</span> are also scaled to be consistent with the corrected density,</li>
+<li>for the uncovered node, the density is set to 1.0,</li>
+<li>in the Bounceback boundary conditions, a density of 1.0 is used,</li>
+</ul>
+<p>and the term <strong>Balaji’s fix</strong> is used to represent</p>
+<ul>
+<li>for the uncovered node, the density is set to 1.0,</li>
+<li>in the Bounceback boundary conditions, a density of 1.0 is used.</li>
+</ul>
+<figure class="scholmd-float scholmd-figure" id="intestineZeroScalar">
+<div class="scholmd-float-content"><figure class="scholmd-subfig" style="display: inline-block; width: 49%">
+<img src="./images/Intestine/CaseMassError.png" />
+<div class="scholmd-float-subcaption"><figcaption><span class="scholmd-caption-text">Mass error</span></figcaption></div>
+</figure><figure class="scholmd-subfig" style="display: inline-block; width: 49%">
+<img src="./images/Intestine/DensityCorrection.png" />
+<div class="scholmd-float-subcaption"><figcaption><span class="scholmd-caption-text">Drug loss</span></figcaption></div>
+</figure><br /><figure class="scholmd-subfig" style="display: inline-block; width: 49%">
+<img src="./images/Intestine/DensityCorrectionZoomed.png" />
+<div class="scholmd-float-subcaption"><figcaption><span class="scholmd-caption-text">Density correction</span></figcaption></div>
+</figure><figure class="scholmd-subfig" style="display: inline-block; width: 49%">
+<img src="./images/Intestine/DrugLoss.png" />
+<div class="scholmd-float-subcaption"><figcaption><span class="scholmd-caption-text">Zoomed density correction</span></figcaption></div>
+</figure></div>
+<div class="scholmd-float-caption"><figcaption><span class="scholmd-caption-head"><span class="scholmd-caption-head-prefix">Figure</span><span class="scholmd-caption-head-label">28</span></span><span class="scholmd-caption-text">Comparison of mass and drug loss error between different cases of intestine simulations with immediate update scalar boundary conditions (<span class="math scholmd-math-inline">\(\phi_{wall} = 0\)</span>)..</span></figcaption></div>
+</figure>
+<p>The second order bounce back boundary conditions continues to show better drug conservation than the first order boundary conditions as shown by comparison of cases 1 vs. 3 and 2 vs. 4 in Fig. <span class="scholmd-crossref"><a href="#intestineZeroScalar">(28)</a></span>.</p>
+<div class="references">
+<p>1. Frenkel D, Ernst MH (1989) Simulation of diffusion in a two-dimensional lattice-gas cellular automaton: A test of mode-coupling theory. Phys Rev Lett 63: 2165–2168. Available: <a href="http://link.aps.org/doi/10.1103/PhysRevLett.63.2165" class="uri">http://link.aps.org/doi/10.1103/PhysRevLett.63.2165</a>.</p>
+<p>2. Lowe C, Frenkel D (1995) The super long-time decay of velocity fluctuations in a two-dimensional fluid. Physica A: Statistical Mechanics and its Applications 220: 251–260. Available: <a href="http://www.sciencedirect.com/science/article/pii/037843719500208O" class="uri">http://www.sciencedirect.com/science/article/pii/037843719500208O</a>.</p>
+<p>3. Merks R, Hoekstra A, Sloot P (2002) The moment propagation method for advection-diffusion in the lattice boltzmann method: Validation and péclet number limits. Journal of Computational Physics 183: 563–576. Available: <a href="http://www.sciencedirect.com/science/article/pii/S0021999102972098" class="uri">http://www.sciencedirect.com/science/article/pii/S0021999102972098</a>.</p>
+<p>4. Wang Y, Brasseur JG, Banco GG, Webb AG, Ailiani AC, et al. (2010) A multiscale lattice boltzmann model of macro- to micro-scale transport, with applications to gut function. Philosophical transactions Series A, Mathematical, physical, and engineering sciences 368: 2863–2880. Available: <a href="http://www.ncbi.nlm.nih.gov/pmc/articles/PMC3263792/" class="uri">http://www.ncbi.nlm.nih.gov/pmc/articles/PMC3263792/</a>.</p>
+</div>
+</div>
+</div>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+      processClass: "math"
+    },
+    TeX: {
+        TagSide: "left",
+        TagIndent: "1.2em",
+        equationNumbers: {
+            autoNumber: "AMS"
+        },
+        Macros: {
+            ensuremath: ["#1",1],
+            textsf: ["\\mathsf{\\text{#1}}",1],
+            texttt: ["\\mathtt{\\text{#1}}",1]
+        }
+    },
+    "HTML-CSS": { 
+        scale: 100,
+        availableFonts: ["TeX"], 
+        preferredFont: "TeX",
+        webFont: "TeX",
+        imageFont: "TeX",
+        EqnChunk: 1000
+    }
+});
+</script>
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML-full" type="text/javascript"></script>
+</div>
+</body>
+</html>
