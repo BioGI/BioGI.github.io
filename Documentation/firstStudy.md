@@ -111,16 +111,50 @@ Table (#table:study1ParticleParameters) shows the particles parameters for the f
 |Total concentration   		| $C_{tot}$           	| <span style="color:red"> $6.6 \times 10^{-8}$	</span> | $mol/cm^3$ |
 |Average particle radius	| $R_P^{ave}$          	| <span style="color:red"> 50	 	       	</span> |$\mu m$     |
 |Number of particles		| $N_P$			| <span style="color:red"> 500			</span>	| -	     |
-|Distribution function shape	|	-		| Log							| -	     |
+|Distribution function shape	|	-		| Log-normal							| -	     |
 |Width of the distribution 	| 	-		| <span style="color:red"> ?			</span>	| -  	     |		
 |Number of the bins		| $N_{bins}$		| <span style="color:red"> 20 			</span>	| -	     |
 |Initial particle locations	|	-		| randomly distributed in a sphere 			| -	     |	
 
 Caption: Drug particle properties for the first computational study.
 
+
+## Estimating the numebr of particles with uniform size to achive the desired $C_{tot}$
+
+To achive the $C_{tot} / C_s = 0.2$ :
+
+~~~math
+\sum_{i=1}^{N_P} V_{P_i} = C_{tot}  \nu_m V_C \\
+~~~
+
+We have:
+
+~~~math
+V_C &= 9.424778 cm^3 \\
+\nu_m &= 268 cm^3/mol \\ 
+C_{tot} &= 6.6 \times 10^{-8} mol/cm^3 \\
+~~~
+
+Therefore:
+
+~~~math
+\sum_{i=1}^{N_P} V_{P_i}  &= (6.6 \times 10^{-8}) (268) (9.424778) = 1667 \times 10^{-7} cm^3\\ 
+~~~
+
+Considering same size particles with $R=50 \mu m$:
+
+~~~math
+V_P &= \frac{4 \pi}{3} R^3 = 5.238 \times 10^{-7} cm^3 \\
+~~~
+
+Meaning approximately  318 particles ($N_P=318$) with $R=50 \mu m$ are needed to provide  $C_{tot} / C_s = 0.2$
+
+
 <!----------------------------------------------------------------------------------------------------------------------------------------------------------->
 <!----------------------------------------------------------------------------------------------------------------------------------------------------------->
 <!----------------------------------------------------------------------------------------------------------------------------------------------------------->
+
+
 # Boundary conditions
 
 Table (#table:study1BC) shows the boundary condition choices: 
