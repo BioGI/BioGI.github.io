@@ -70,7 +70,7 @@ Table (#table:study1DrugFluidParams) shows the drug and fluid properties for the
 | Fluid's kinematic viscosity  	| $\nu_w$       	| <span style="color:red">$300$ </span>			| $cp$   	|
 | Drug's density		| $\rho_m$ 		| <span style="color:red">?</span>			| $kg/m^3$	|	    	
 | Drug's molar volume  		| $\nu_m$             	| 268                  					| $cm^3/mol$ 	|
-| Drug's diffusivity   		| $D_m$               	| $7.5 \times 10^{-6}$ 					| $m^2/s$    	|
+| Drug's diffusivity   		| $D_m$               	| $7.5 \times 10^{-6}$ 					| $cm^2/s$    	|
 | Saturation concentration	| $C_S$               	| $3.3 \times 10^{-7}$ 					| $mol/cm^3$ 	|
 
 Caption: Drug and fluid properties for the first computational study.
@@ -155,10 +155,8 @@ Table (#table:study1ModelingParameters) shows the modeling and computational par
 
 Caption: Modeling and computational parameters for the first computational study.
 
-
-
-
-
+<span style="color:red"> Notes: </span>
+In future, we should perform sensitivity analysis by chosing $n_d = n_b= 1.5 & 6$
 
 
 <!----------------------------------------------------------------------------------------------------------------------------------------------------------->
