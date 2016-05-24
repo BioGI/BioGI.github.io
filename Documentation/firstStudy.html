@@ -60,19 +60,19 @@ Ganesh Vijayakumar, Farhad Behafarid, Yanxing Wang and James Brasseur
 <tr class="odd">
 <td style="text-align: left;">Max diameter</td>
 <td style="text-align: left;"><span class="math scholmd-math-inline">\(D_{max}\)</span></td>
-<td style="text-align: left;"><span style="color:red">20</span></td>
+<td style="text-align: left;"><span style="color:black">20</span></td>
 <td style="text-align: left;"><span class="math scholmd-math-inline">\(mm\)</span></td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Wavelength</td>
 <td style="text-align: left;"><span class="math scholmd-math-inline">\(\lambda\)</span></td>
-<td style="text-align: left;"><span style="color:red">60</span></td>
+<td style="text-align: left;"><span style="color:black">60</span></td>
 <td style="text-align: left;"><span class="math scholmd-math-inline">\(mm\)</span></td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Wave speed</td>
 <td style="text-align: left;"><span class="math scholmd-math-inline">\(s_1\)</span></td>
-<td style="text-align: left;"><span style="color:red">2</span></td>
+<td style="text-align: left;"><span style="color:black">2</span></td>
 <td style="text-align: left;"><span class="math scholmd-math-inline">\(mm/s\)</span></td>
 </tr>
 <tr class="even">
@@ -140,34 +140,40 @@ Ganesh Vijayakumar, Farhad Behafarid, Yanxing Wang and James Brasseur
 <tr class="odd">
 <td style="text-align: left;">Fluid’s density</td>
 <td style="text-align: left;"><span class="math scholmd-math-inline">\(\rho_w\)</span></td>
-<td style="text-align: left;"><span style="color:red">1000</span></td>
+<td style="text-align: left;"><span style="color:black">1000</span></td>
 <td style="text-align: left;"><span class="math scholmd-math-inline">\(kg/m^3\)</span></td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">Fluid’s kinematic viscosity</td>
-<td style="text-align: left;"><span class="math scholmd-math-inline">\(\nu_w\)</span></td>
+<td style="text-align: left;">Fluid’s dynamic viscosity</td>
+<td style="text-align: left;"><span class="math scholmd-math-inline">\(\mu_w\)</span></td>
 <td style="text-align: left;"><span style="color:red"><span class="math scholmd-math-inline">\(300\)</span> </span></td>
 <td style="text-align: left;"><span class="math scholmd-math-inline">\(cp\)</span></td>
 </tr>
 <tr class="odd">
+<td style="text-align: left;">Fluid’s kinematic viscosity</td>
+<td style="text-align: left;"><span class="math scholmd-math-inline">\(\nu_w\)</span></td>
+<td style="text-align: left;"><span style="color:red"><span class="math scholmd-math-inline">\(0.0003\)</span> </span></td>
+<td style="text-align: left;"><span class="math scholmd-math-inline">\(m^2/s\)</span></td>
+</tr>
+<tr class="even">
 <td style="text-align: left;">Drug’s density</td>
 <td style="text-align: left;"><span class="math scholmd-math-inline">\(\rho_m\)</span></td>
 <td style="text-align: left;"><span style="color:red">?</span></td>
 <td style="text-align: left;"><span class="math scholmd-math-inline">\(kg/m^3\)</span></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;">Drug’s molar volume</td>
 <td style="text-align: left;"><span class="math scholmd-math-inline">\(\nu_m\)</span></td>
 <td style="text-align: left;">268</td>
 <td style="text-align: left;"><span class="math scholmd-math-inline">\(cm^3/mol\)</span></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;">Drug’s diffusivity</td>
 <td style="text-align: left;"><span class="math scholmd-math-inline">\(D_m\)</span></td>
 <td style="text-align: left;"><span class="math scholmd-math-inline">\(7.5 \times 10^{-6}\)</span></td>
 <td style="text-align: left;"><span class="math scholmd-math-inline">\(cm^2/s\)</span></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;">Saturation concentration</td>
 <td style="text-align: left;"><span class="math scholmd-math-inline">\(C_S\)</span></td>
 <td style="text-align: left;"><span class="math scholmd-math-inline">\(3.3 \times 10^{-7}\)</span></td>
@@ -201,38 +207,50 @@ Ganesh Vijayakumar, Farhad Behafarid, Yanxing Wang and James Brasseur
 <tr class="odd">
 <td style="text-align: left;">-</td>
 <td style="text-align: left;"><span class="math scholmd-math-inline">\(C_{tot}/C_s\)</span></td>
-<td style="text-align: left;"><span style="color:red"> 0.2 </span></td>
+<td style="text-align: left;"><span style="color:red"> 0.1 </span></td>
 <td style="text-align: left;">-</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Total concentration</td>
 <td style="text-align: left;"><span class="math scholmd-math-inline">\(C_{tot}\)</span></td>
-<td style="text-align: left;"><span style="color:red"> <span class="math scholmd-math-inline">\(6.6 \times 10^{-8}\)</span> </span></td>
+<td style="text-align: left;"><span style="color:red"> <span class="math scholmd-math-inline">\(3.3 \times 10^{-8}\)</span> </span></td>
 <td style="text-align: left;"><span class="math scholmd-math-inline">\(mol/cm^3\)</span></td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">Average particle radius</td>
-<td style="text-align: left;"><span class="math scholmd-math-inline">\(R_P^{ave}\)</span></td>
-<td style="text-align: left;"><span style="color:red"> 50 </span></td>
+<td style="text-align: left;">Maximum particle diameter</td>
+<td style="text-align: left;"><span class="math scholmd-math-inline">\(D_P^{max}\)</span></td>
+<td style="text-align: left;"><span style="color:red"> 200 </span></td>
+<td style="text-align: left;"><span class="math scholmd-math-inline">\(\mu m\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Average particle diameter</td>
+<td style="text-align: left;"><span class="math scholmd-math-inline">\(D_P^{ave}\)</span></td>
+<td style="text-align: left;"><span style="color:red"> 100 </span></td>
+<td style="text-align: left;"><span class="math scholmd-math-inline">\(\mu m\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Minimum particle diameter</td>
+<td style="text-align: left;"><span class="math scholmd-math-inline">\(D_P^{min}\)</span></td>
+<td style="text-align: left;"><span style="color:red"> 10 </span></td>
 <td style="text-align: left;"><span class="math scholmd-math-inline">\(\mu m\)</span></td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Number of particles</td>
 <td style="text-align: left;"><span class="math scholmd-math-inline">\(N_P\)</span></td>
-<td style="text-align: left;"><span style="color:red"> 500 </span></td>
+<td style="text-align: left;"><span style="color:red"> 685 </span></td>
 <td style="text-align: left;">-</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Distribution function shape</td>
 <td style="text-align: left;">-</td>
-<td style="text-align: left;">Log-normal</td>
+<td style="text-align: left;"><span style="color:red"> Normal </span></td>
 <td style="text-align: left;">-</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">Width of the distribution</td>
-<td style="text-align: left;">-</td>
-<td style="text-align: left;"><span style="color:red"> ? </span></td>
-<td style="text-align: left;">-</td>
+<td style="text-align: left;">Standard deviation</td>
+<td style="text-align: left;"><span class="math scholmd-math-inline">\(\sigma\)</span></td>
+<td style="text-align: left;"><span style="color:red"> 30 </span></td>
+<td style="text-align: left;"><span class="math scholmd-math-inline">\(\mu m\)</span></td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Number of the bins</td>
@@ -251,7 +269,7 @@ Ganesh Vijayakumar, Farhad Behafarid, Yanxing Wang and James Brasseur
 <div class="scholmd-float-caption"><figcaption><span class="scholmd-caption-head"><span class="scholmd-caption-head-prefix">Table</span><span class="scholmd-caption-head-label">3</span></span><span class="scholmd-caption-text">Drug particle properties for the first computational study.</span></figcaption></div>
 </figure>
 <h2 id="estimating-the-numebr-of-particles-with-uniform-size-to-achive-the-desired-c_tot">Estimating the numebr of particles with uniform size to achive the desired <span class="math scholmd-math-inline">\(C_{tot}\)</span></h2>
-<p>To achive the <span class="math scholmd-math-inline">\(C_{tot} / C_s = 0.2\)</span> : 
+<p>To achive the <span class="math scholmd-math-inline">\(C_{tot} / C_s = 0.1\)</span> : 
 <span class="math scholmd-math-display" style="display: block;">\[
 \begin{equation*}
 \begin{split}
@@ -265,7 +283,7 @@ Ganesh Vijayakumar, Farhad Behafarid, Yanxing Wang and James Brasseur
 \begin{aligned}
 V_C &amp;= 9.424778 cm^3 \\
 \nu_m &amp;= 268 cm^3/mol \\ 
-C_{tot} &amp;= 6.6 \times 10^{-8} mol/cm^3 \\
+C_{tot} &amp;= 3.3 \times 10^{-8} mol/cm^3 \\
 \end{aligned}
 \end{equation*}
 \]</span>
@@ -273,7 +291,7 @@ C_{tot} &amp;= 6.6 \times 10^{-8} mol/cm^3 \\
 <span class="math scholmd-math-display" style="display: block;">\[
 \begin{equation*}
 \begin{aligned}
-\sum_{i=1}^{N_P} V_{P_i}  &amp;= (6.6 \times 10^{-8}) (268) (9.424778) = 1667 \times 10^{-7} cm^3\\ 
+\sum_{i=1}^{N_P} V_{P_i}  &amp;= (3.3 \times 10^{-8}) (268) (9.424778) = 833.5 \times 10^{-7} cm^3\\ 
 \end{aligned}
 \end{equation*}
 \]</span>
@@ -285,7 +303,7 @@ V_P &amp;= \frac{4 \pi}{3} R^3 = 5.238 \times 10^{-7} cm^3 \\
 \end{aligned}
 \end{equation*}
 \]</span>
- Meaning approximately 318 particles (<span class="math scholmd-math-inline">\(N_P=318\)</span>) with <span class="math scholmd-math-inline">\(R=50 \mu m\)</span> are needed to provide <span class="math scholmd-math-inline">\(C_{tot} / C_s = 0.2\)</span></p>
+ Meaning approximately 159 particles ($N_P = 159) with <span class="math scholmd-math-inline">\(R=50 \mu m\)</span> are needed to provide <span class="math scholmd-math-inline">\(C_{tot} / C_s = 0.1\)</span></p>
 <!----------------------------------------------------------------------------------------------------------------------------------------------------------->
 <!----------------------------------------------------------------------------------------------------------------------------------------------------------->
 <!----------------------------------------------------------------------------------------------------------------------------------------------------------->
@@ -337,13 +355,13 @@ V_P &amp;= \frac{4 \pi}{3} R^3 = 5.238 \times 10^{-7} cm^3 \\
 <tr class="odd">
 <td style="text-align: left;">Partitioning modeling parameter</td>
 <td style="text-align: left;"><span class="math scholmd-math-inline">\(n_d\)</span></td>
-<td style="text-align: left;"><span style="color:red">3</span></td>
+<td style="text-align: left;"><span style="color:black">3</span></td>
 <td style="text-align: left;">-</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Bulk concentration modeling parameter</td>
 <td style="text-align: left;"><span class="math scholmd-math-inline">\(n_b\)</span></td>
-<td style="text-align: left;"><span style="color:red">3</span></td>
+<td style="text-align: left;"><span style="color:black">3</span></td>
 <td style="text-align: left;">-</td>
 </tr>
 <tr class="odd">
@@ -355,14 +373,14 @@ V_P &amp;= \frac{4 \pi}{3} R^3 = 5.238 \times 10^{-7} cm^3 \\
 <tr class="even">
 <td style="text-align: left;">LBM Relaxation parameter</td>
 <td style="text-align: left;"><span class="math scholmd-math-inline">\(\tau\)</span></td>
-<td style="text-align: left;"><span style="color:red">1</span></td>
+<td style="text-align: left;"><span style="color:black">1</span></td>
 <td style="text-align: left;">-</td>
 </tr>
 </tbody>
 </table></div>
 <div class="scholmd-float-caption"><figcaption><span class="scholmd-caption-head"><span class="scholmd-caption-head-prefix">Table</span><span class="scholmd-caption-head-label">5</span></span><span class="scholmd-caption-text">Modeling and computational parameters for the first computational study.</span></figcaption></div>
 </figure>
-<p><span style="color:red"> Notes: </span> In future, we should perform sensitivity analysis by chosing <span class="math scholmd-math-inline">\(n_d = n_b= 1.5 &amp; 6\)</span></p>
+<p><span style="color:red"> Notes: </span> In future, we should perform sensitivity analysis by chosing <span class="math scholmd-math-inline">\(n_d= n_b= 1.5 \&amp; 6\)</span></p>
 <!----------------------------------------------------------------------------------------------------------------------------------------------------------->
 <!----------------------------------------------------------------------------------------------------------------------------------------------------------->
 <!----------------------------------------------------------------------------------------------------------------------------------------------------------->

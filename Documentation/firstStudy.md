@@ -35,9 +35,9 @@ Table (#table:study1GeomMotilityParams) describes the geometry and motility para
 
 | Name             |       Symbol        | Choice     				|Unit	|  
 |------------------|---------------------|--------------------------------------|-------|
-| Max diameter     | $D_{max}$           | <span style="color:red">20</span>  	|$mm$  	|
-| Wavelength       | $\lambda$           | <span style="color:red">60</span>	|$mm$  	|
-| Wave speed       | $s_1$               | <span style="color:red">2</span>	|$mm/s$ |
+| Max diameter     | $D_{max}$           | <span style="color:black">20</span>  	|$mm$  	|
+| Wavelength       | $\lambda$           | <span style="color:black">60</span>	|$mm$  	|
+| Wave speed       | $s_1$               | <span style="color:black">2</span>	|$mm/s$ |
 | Number of waves  | -                   | 1           				|-      |
 | Occlusion ratio  | $\epsilon/R_{max}$  | 0.5         				|-      |
 | Motility mode    | -                   | peristalsis 				|-  	|	    
@@ -66,8 +66,9 @@ Table (#table:study1DrugFluidParams) shows the drug and fluid properties for the
 | Fluid                		|              		| Water                					|            	|
 | Fluid's temperature  		| $T_w$		     	| 20                   					| $^{\circ}C$	|
 | Fluid's PH			| $PH_w$		| 7							|            	|
-| Fluid's density              	| $\rho_w$      	| <span style="color:red">1000</span>			| $kg/m^3$   	|
-| Fluid's kinematic viscosity  	| $\nu_w$       	| <span style="color:red">$300$ </span>			| $cp$   	|
+| Fluid's density              	| $\rho_w$      	| <span style="color:black">1000</span>			| $kg/m^3$   	|
+| Fluid's dynamic viscosity  	| $\mu_w$       	| <span style="color:red">$300$ </span>			| $cp$   	|
+| Fluid's kinematic viscosity  	| $\nu_w$       	| <span style="color:red">$0.0003$ </span>		| $m^2/s$   	|
 | Drug's density		| $\rho_m$ 		| <span style="color:red">?</span>			| $kg/m^3$	|	    	
 | Drug's molar volume  		| $\nu_m$             	| 268                  					| $cm^3/mol$ 	|
 | Drug's diffusivity   		| $D_m$               	| $7.5 \times 10^{-6}$ 					| $cm^2/s$    	|
@@ -107,12 +108,14 @@ Table (#table:study1ParticleParameters) shows the particles parameters for the f
 
 | Name                  	|    Symbol          	| Choice                				|  Units     |
 |-------------------------------|-----------------------|-------------------------------------------------------|------------|
-|	-			| $C_{tot}/C_s$        	| <span style="color:red"> 0.2		       	</span> | -          |
-|Total concentration   		| $C_{tot}$           	| <span style="color:red"> $6.6 \times 10^{-8}$	</span> | $mol/cm^3$ |
-|Average particle radius	| $R_P^{ave}$          	| <span style="color:red"> 50	 	       	</span> |$\mu m$     |
-|Number of particles		| $N_P$			| <span style="color:red"> 500			</span>	| -	     |
-|Distribution function shape	|	-		| Log-normal							| -	     |
-|Width of the distribution 	| 	-		| <span style="color:red"> ?			</span>	| -  	     |		
+|	-			| $C_{tot}/C_s$        	| <span style="color:red"> 0.1		       	</span> | -          |
+|Total concentration   		| $C_{tot}$           	| <span style="color:red"> $3.3 \times 10^{-8}$	</span> | $mol/cm^3$ |
+|Maximum particle diameter	| $D_P^{max}$          	| <span style="color:red"> 200	 		</span> | $\mu m$    |
+|Average particle diameter      | $D_P^{ave}$           | <span style="color:red"> 100                  </span> | $\mu m$    |
+|Minimum particle diameter      | $D_P^{min}$           | <span style="color:red"> 10                   </span> | $\mu m$    |
+|Number of particles		| $N_P$			| <span style="color:red"> 685			</span>	| -	     |
+|Distribution function shape	|	-		| <span style="color:red"> Normal	        </span>	| -	     |
+|Standard deviation	 	| $\sigma$		| <span style="color:red"> 30			</span>	| $\mu m$    |		
 |Number of the bins		| $N_{bins}$		| <span style="color:red"> 20 			</span>	| -	     |
 |Initial particle locations	|	-		| randomly distributed in a sphere 			| -	     |	
 
@@ -121,7 +124,7 @@ Caption: Drug particle properties for the first computational study.
 
 ## Estimating the numebr of particles with uniform size to achive the desired $C_{tot}$
 
-To achive the $C_{tot} / C_s = 0.2$ :
+To achive the $C_{tot} / C_s = 0.1$ :
 
 ~~~math
 \sum_{i=1}^{N_P} V_{P_i} = C_{tot}  \nu_m V_C \\
@@ -132,13 +135,13 @@ We have:
 ~~~math
 V_C &= 9.424778 cm^3 \\
 \nu_m &= 268 cm^3/mol \\ 
-C_{tot} &= 6.6 \times 10^{-8} mol/cm^3 \\
+C_{tot} &= 3.3 \times 10^{-8} mol/cm^3 \\
 ~~~
 
 Therefore:
 
 ~~~math
-\sum_{i=1}^{N_P} V_{P_i}  &= (6.6 \times 10^{-8}) (268) (9.424778) = 1667 \times 10^{-7} cm^3\\ 
+\sum_{i=1}^{N_P} V_{P_i}  &= (3.3 \times 10^{-8}) (268) (9.424778) = 833.5 \times 10^{-7} cm^3\\ 
 ~~~
 
 Considering same size particles with $R=50 \mu m$:
@@ -147,7 +150,7 @@ Considering same size particles with $R=50 \mu m$:
 V_P &= \frac{4 \pi}{3} R^3 = 5.238 \times 10^{-7} cm^3 \\
 ~~~
 
-Meaning approximately  318 particles ($N_P=318$) with $R=50 \mu m$ are needed to provide  $C_{tot} / C_s = 0.2$
+Meaning approximately  159 particles ($N_P = 159) with $R=50 \mu m$ are needed to provide  $C_{tot} / C_s = 0.1$
 
 
 <!----------------------------------------------------------------------------------------------------------------------------------------------------------->
@@ -182,15 +185,15 @@ Table (#table:study1ModelingParameters) shows the modeling and computational par
 
 | Name                   		| Symbol             	| Choice                		|  Units     |
 |---------------------------------------|-----------------------|---------------------------------------|------------|
-| Partitioning modeling parameter       | $n_d$                	| <span style="color:red">3</span>	| -          |
-| Bulk concentration modeling parameter	| $n_b$                	| <span style="color:red">3</span>	| -	     |
+| Partitioning modeling parameter       | $n_d$                	| <span style="color:black">3</span>	| -          |
+| Bulk concentration modeling parameter	| $n_b$                	| <span style="color:black">3</span>	| -	     |
 | Schmidt number       	 		| $Sc$                	| 10                    		| -          |
-|LBM Relaxation parameter		| $\tau$               	| <span style="color:red">1</span>	| -	     |
+|LBM Relaxation parameter		| $\tau$               	| <span style="color:black">1</span>	| -	     |
 
 Caption: Modeling and computational parameters for the first computational study.
 
 <span style="color:red"> Notes: </span>
-In future, we should perform sensitivity analysis by chosing $n_d = n_b= 1.5 & 6$
+In future, we should perform sensitivity analysis by chosing $n_d= n_b= 1.5 \& 6$
 
 
 <!----------------------------------------------------------------------------------------------------------------------------------------------------------->
