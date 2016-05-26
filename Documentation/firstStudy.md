@@ -153,6 +153,70 @@ V_P &= \frac{4 \pi}{3} R^3 = 5.238 \times 10^{-7} cm^3 \\
 Meaning approximately  159 particles ($N_P = 159) with $R=50 \mu m$ are needed to provide  $C_{tot} / C_s = 0.1$
 
 
+## Particle Distributions
+
+
+
+#### Figure: {#fig:Particle_Distribution_1}
+
+![](./Particle_Distribution_1.png){width=99%}
+
+Caption: $\frac{C_{tot}}{C_s}$=0.1 ,  $D_{min}$= 5$\mu m$ ,   $D_{max}$= 195$\mu m$ ,   $\sigma$= 30$\mu m$ ,   $N_P$=1725
+
+
+
+#### Figure: {#fig:Particle_Distribution_2}
+
+![](./Particle_Distribution_2.png){width=99%}
+
+Caption: $\frac{C_{tot}}{C_s}$=0.1 ,  $D_{min}$= 10$\mu m$ ,   $D_{max}$= 190$\mu m$ ,   $\sigma$= 30$\mu m$ ,   $N_P$=658
+
+
+
+#### Figure: {#fig:Particle_Distribution_3}
+
+![](./Particle_Distribution_3.png){width=99%}
+
+Caption: $\frac{C_{tot}}{C_s}$=0.1 ,  $D_{min}$= 20$\mu m$ ,   $D_{max}$= 180$\mu m$ ,   $\sigma$= 30$\mu m$ ,   $N_P$=410
+
+
+
+#### Figure: {#fig:Particle_Distribution_4}
+
+![](./Particle_Distribution_4.png){width=99%}
+
+Caption: $\frac{C_{tot}}{C_s}$=0.1 ,  $D_{min}$= 10$\mu m$ ,   $D_{max}$= 190$\mu m$ ,   $\sigma$= 20$\mu m$ ,   $N_P$=222
+
+
+
+#### Figure: {#fig:Particle_Distribution_5}
+
+![](./Particle_Distribution_5.png){width=99%}
+
+Caption: $\frac{C_{tot}}{C_s}$=0.1 ,  $D_{min}$= 10$\mu m$ ,   $D_{max}$= 190$\mu m$ ,   $\sigma$= 40$\mu m$ ,   $N_P$=2026
+
+
+
+#### Figure: {#fig:Particle_Distribution_6}
+
+![](./Particle_Distribution_6.png){width=99%}
+
+Caption: $\frac{C_{tot}}{C_s}$=2.0 ,  $D_{min}$= 10$\mu m$ ,   $D_{max}$= 190$\mu m$ ,   $\sigma$= 30$\mu m$ ,   $N_P$=13182
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <!----------------------------------------------------------------------------------------------------------------------------------------------------------->
 <!----------------------------------------------------------------------------------------------------------------------------------------------------------->
 <!----------------------------------------------------------------------------------------------------------------------------------------------------------->
