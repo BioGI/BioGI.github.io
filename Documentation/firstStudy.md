@@ -280,9 +280,9 @@ In future, we should perform sensitivity analysis by chosing $n_d= n_b= 1.5 \& 6
 | Wave's charactristice time scale      | $t_{wave}$            | 30					| s          |
 | Total physical time		        | $t_{tot}$             | 600                                   | s          |
 | Total number of iterations            | $N_{iter}$            | 90 000                                |            |
-| Computational cost of each iteration  |			| 8.3 					| CPU.s      |
-| Total computational Cost		|			| 207          				| CPU.hour   |
-| Total computational Cost		|			| 8.6					| CPU.days   |
+| Computational cost of each iteration  |			| 8.0 					| CPU.s      |
+| Total computational Cost		|			| 200          				| CPU.hour   |
+| Total computational Cost		|			| 8.3					| CPU.days   |
 
 Caption: Computational cost estimation
 
