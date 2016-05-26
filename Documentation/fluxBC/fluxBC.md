@@ -597,7 +597,7 @@ and the term **Balaji's fix** is used to represent
 * in the Bounceback boundary conditions, a density of 1.0 is used.
 
 ####Figure: {#BCmasFix-Studies}
-![Mass error](BC-massFix-Studies.png){width=99%}
+![Mass error](BC-massFix-Studies.png){width=80%}
 Caption: Studying the effects of Mass-Conservation-Fix Strategies and BC choices on drug and mass conservation
 
 
