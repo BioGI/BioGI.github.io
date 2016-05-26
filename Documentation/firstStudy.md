@@ -67,8 +67,8 @@ Table (#table:study1DrugFluidParams) shows the drug and fluid properties for the
 | Fluid's temperature  		| $T_w$		     	| 20                   					| $^{\circ}C$	|
 | Fluid's PH			| $PH_w$		| 7							|            	|
 | Fluid's density              	| $\rho_w$      	| <span style="color:black">1000</span>			| $kg/m^3$   	|
-| Fluid's dynamic viscosity  	| $\mu_w$       	| <span style="color:red">$300$ </span>			| $cp$   	|
-| Fluid's kinematic viscosity  	| $\nu_w$       	| <span style="color:red">$0.0003$ </span>		| $m^2/s$   	|
+| Fluid's dynamic viscosity  	| $\mu_w$       	| <span style="color:red">$1$ </span>			| $cp$   	|
+| Fluid's kinematic viscosity  	| $\nu_w$       	| <span style="color:red">$1.0e-6$ </span>		| $m^2/s$   	|
 | Drug's density		| $\rho_m$ 		| <span style="color:red">?</span>			| $kg/m^3$	|	    	
 | Drug's molar volume  		| $\nu_m$             	| 268                  					| $cm^3/mol$ 	|
 | Drug's diffusivity   		| $D_m$               	| $7.5 \times 10^{-6}$ 					| $cm^2/s$    	|
@@ -110,13 +110,13 @@ Table (#table:study1ParticleParameters) shows the particles parameters for the f
 |-------------------------------|-----------------------|-------------------------------------------------------|------------|
 |	-			| $C_{tot}/C_s$        	| <span style="color:red"> 0.1		       	</span> | -          |
 |Total concentration   		| $C_{tot}$           	| <span style="color:red"> $3.3 \times 10^{-8}$	</span> | $mol/cm^3$ |
-|Maximum particle diameter	| $D_P^{max}$          	| <span style="color:red"> 200	 		</span> | $\mu m$    |
+|Maximum particle diameter	| $D_P^{max}$          	| <span style="color:red"> 190	 		</span> | $\mu m$    |
 |Average particle diameter      | $D_P^{ave}$           | <span style="color:red"> 100                  </span> | $\mu m$    |
 |Minimum particle diameter      | $D_P^{min}$           | <span style="color:red"> 10                   </span> | $\mu m$    |
 |Number of particles		| $N_P$			| <span style="color:red"> 685			</span>	| -	     |
 |Distribution function shape	|	-		| <span style="color:red"> Normal	        </span>	| -	     |
 |Standard deviation	 	| $\sigma$		| <span style="color:red"> 30			</span>	| $\mu m$    |		
-|Number of the bins		| $N_{bins}$		| <span style="color:red"> 20 			</span>	| -	     |
+|Number of the bins		| $N_{bins}$		| <span style="color:red"> 19 			</span>	| -	     |
 |Initial particle locations	|	-		| randomly distributed in a sphere 			| -	     |	
 
 Caption: Drug particle properties for the first computational study.
@@ -247,12 +247,13 @@ Table (#table:study1ModelingParameters) shows the modeling and computational par
 
 #### Table:  {#table:study1ModelingParameters}
 
-| Name                   		| Symbol             	| Choice                		|  Units     |
-|---------------------------------------|-----------------------|---------------------------------------|------------|
-| Partitioning modeling parameter       | $n_d$                	| <span style="color:black">3</span>	| -          |
-| Bulk concentration modeling parameter	| $n_b$                	| <span style="color:black">3</span>	| -	     |
-| Schmidt number       	 		| $Sc$                	| 10                    		| -          |
-|LBM Relaxation parameter		| $\tau$               	| <span style="color:black">1</span>	| -	     |
+| Name                   		| Symbol             	| Choice                		|
+|---------------------------------------|-----------------------|---------------------------------------|
+| Partitioning modeling parameter       | $n_d$                	| <span style="color:black">3</span>	|
+| Bulk concentration modeling parameter	| $n_b$                	| <span style="color:black">3</span>	| 	     
+| Schmidt number       	 		| $Sc$                	| 10                    		|           
+| LBM Relaxation parameter		| $\tau$               	| <span style="color:black">1</span>	| 	     
+| Mass conservation fix                 |                       | Active                                |   
 
 Caption: Modeling and computational parameters for the first computational study.
 
@@ -264,7 +265,26 @@ In future, we should perform sensitivity analysis by chosing $n_d= n_b= 1.5 \& 6
 <!----------------------------------------------------------------------------------------------------------------------------------------------------------->
 <!----------------------------------------------------------------------------------------------------------------------------------------------------------->
 
-# Correlations for shear and hydrodynamic effects.
+
+
+#Computational Cost Estimation
+#### Table:  {#table:ComputationalCost}
+
+| Name                                  | Symbol                | Choice                                |  Units     |
+|---------------------------------------|-----------------------|---------------------------------------|------------|
+| Mesh resolution		        | $\Delta x$            | 0.2					| mm         |
+| Total number of nodes		        | $N_{nodes}$           | 3 000 000				|            |
+| Number of Particles                   | $N_{particles}$       | 685                                   |            |
+| Time steps		                | $\Delta t$            | 6.66 e-3				| s          |
+| Total number of waves simulated       | 	             	| 20		                        |            |
+| Wave's charactristice time scale      | $t_{wave}$            | 30					| s          |
+| Total physical time		        | $t_{tot}$             | 600                                   | s          |
+| Total number of iterations            | $N_{iter}$            | 90 000                                |            |
+| Computational cost of each iteration  |			| 10 					| CPU.s      |
+| Total computational Cost		|			| 900 000 				| CPU.s	     |
+| Total computational Cost		|			|10.5					| CPU.days   |
+
+Caption: Computational cost estimation
 
 
 
