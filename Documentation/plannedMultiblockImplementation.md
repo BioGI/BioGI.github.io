@@ -557,6 +557,26 @@ When a particle is in the coarse mesh, but it's effective volume overlaps with t
 
 Similarly, when a particle is in the fine mesh, but it's effective volume overlaps with the coarse mesh, then the treatment of `delphi` that needs to be added to the scalar in the fine mesh can be tricky. Technically, it's supposed to be added at the intermediate time steps; however, the coarse mesh does not have that kind of time resolution. Hence it is added to the `phi` at time step $t_{n+1}$ instead. The whole point of doing this addition at every fine mesh time step and not waiting till the end of all the fine mesh time steps is that this could potentially affect the calculation of the bulk concentration for the particle. Hence, this drug release will change the value of the scalar concentration on the boundary. This implies that the spatial interpolation of the scalar concentration from the coarse to the fine mesh needs to be performed again around the points where the scalar concentration has changed on the coarse mesh. Performing this check could be as expensive or of the same order as just doing the full interpolation again. I think I'll just do the full interpolation again, but just for the scalar alone.
 
+## Testing of particle dissolution model
+
+I tested the implementation of the particle dissolution model by performing the following test. I use the geometry of the straight tube of radius $5mm$. I initialize the velocity field such that the axial velocity is 1 in lattice units and all other velocity components are zero. I turn off Collision, Streaming and Scalar evolution and retain only the particle release model. Thus the particle should travel in a straight line and release drug. Fig. (#particleDissolutionTest) shows the evolution of the bulk concentration $C_b$ and the drug release $\Delta N_b$ as a function of time. It seems to behave along expected lines, i.e., the $C_b$ increases first before attaining a quasi-steady state. Once the particle starts to go over the same area where it has already released drug, the $C_b$ increases and $\Delta N_b$ reduces. I repeat this test for 4 different cases, viz.,
+
+* the particle is completely in the coarse mesh,
+* the particle is in the coarse mesh, but it's effective volume straddles the fine mesh,
+* the particle is in the fine mesh, but it's effective volume straddles the coarse mesh,
+* the particle is completely in the fine mesh.
+
+The difference in the computed $C_b$ between when the particle is completely in the fine mesh and completely in the coarse mesh is about $12\%$.
+
+While this is not a validation of the method working correctly. 
+
+#### Figure: {#particleDissolutionTest}
+
+![](./dualLattice/testResults/particleDissolutionTest/cbnb.png){width=75%}
+
+Caption: Testing of particle dissolution model.
+
+
 # Future work over the next two weeks
 
 * Write up
