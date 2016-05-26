@@ -572,6 +572,9 @@ Caption: Comparison of scalar conservation and absorption between accelerating, 
     * For the uncovered node, the density is set to the average density of the fluid nodes around it.
 	* In the Bounceback boundary conditions, the real density is used instead of 1.0.
 
+
+
+
 # Summary of lessons learned from intestine simulations.
 
 We have implemented the new generalized version of the scalar boundary condition and modified book keeping in the intestine version of the code. The iterative algorithm to calculate q is now used everywhere. Based on lessons learned from accelerating and curved piston cases, we use Astar and A for the scalar boundary conditions and book keeping instead of Astar and Bstar. The five different cases that were run to test the choice of parameters were
@@ -593,17 +596,9 @@ and the term **Balaji's fix** is used to represent
 * for the uncovered node, the density is set to 1.0,
 * in the Bounceback boundary conditions, a density of 1.0 is used.
 
+####Figure: {#iBCmasFix-Studies}
+![Mass error](./BC-massFix-Studies.png){width=99%}
+Caption: Studying the effects of Mass-Conservation-Fix strategies and BC choices on drug and mass conservation
 
-
-####Figure: {#intestineZeroScalar}
-
-![Mass error](./images/Intestine/CaseMassError.png){width=49%}
-![Drug loss](./images/Intestine/DensityCorrection.png){width=49%} \
-![Density correction](./images/Intestine/DensityCorrectionZoomed.png){width=49%} 
-![Zoomed density correction](./images/Intestine/DrugLoss.png){width=49%} \
-
-Caption: Comparison of mass and drug loss error between different cases of intestine simulations with immediate update scalar boundary conditions ($\phi_{wall} = 0$).. 
-
-The second order bounce back boundary conditions continues to show better drug conservation than the first order boundary conditions as shown by comparison of cases 1 vs. 3 and 2 vs. 4 in Fig. (#intestineZeroScalar).
 
 
