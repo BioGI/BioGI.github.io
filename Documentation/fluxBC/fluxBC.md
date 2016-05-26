@@ -596,9 +596,9 @@ and the term **Balaji's fix** is used to represent
 * for the uncovered node, the density is set to 1.0,
 * in the Bounceback boundary conditions, a density of 1.0 is used.
 
-####Figure: {#iBCmasFix-Studies}
-![Mass error](./BC-massFix-Studies.png){width=99%}
-Caption: Studying the effects of Mass-Conservation-Fix strategies and BC choices on drug and mass conservation
+####Figure: {#BCmasFix-Studies}
+![Mass error](BC-massFix-Studies.png){width=99%}
+Caption: Studying the effects of Mass-Conservation-Fix Strategies and BC choices on drug and mass conservation
 
 
 
