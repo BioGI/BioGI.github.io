@@ -111,13 +111,13 @@ Table (#table:study1ParticleParameters) shows the particles parameters for the f
 |-------------------------------|-----------------------|-------------------------------------------------------|------------|
 |	-			| $C_{tot}/C_s$        	| <span style="color:red"> 0.2		       	</span> | -          |
 |Total concentration   		| $C_{tot}$           	| <span style="color:red"> $6.6 \times 10^{-8}$	</span> | $mol/cm^3$ |
-|Maximum particle diameter	| $D_P^{max}$          	| <span style="color:red"> 190	 		</span> | $\mu m$    |
+|Maximum particle diameter	| $D_P^{max}$          	| <span style="color:red"> 195	 		</span> | $\mu m$    |
 |Average particle diameter      | $D_P^{ave}$           | <span style="color:red"> 100                  </span> | $\mu m$    |
-|Minimum particle diameter      | $D_P^{min}$           | <span style="color:red"> 10                   </span> | $\mu m$    |
+|Minimum particle diameter      | $D_P^{min}$           | <span style="color:red"> 5      	   	</span> | $\mu m$    |
 |Number of particles		| $N_P$			| <span style="color:red"> 			</span>	| -	     |
 |Distribution function shape	|	-		| <span style="color:red"> Normal	        </span>	| -	     |
 |Standard deviation	 	| $\sigma$		| <span style="color:red"> 25			</span>	| $\mu m$    |		
-|Number of the bins		| $N_{bins}$		| <span style="color:red"> 19 			</span>	| -	     |
+|Number of the bins		| $N_{bins}$		| <span style="color:red"> 20			</span>	| -	     |
 |Initial particle locations	|	-		| randomly distributed in a sphere 			| -	     |	
 
 Caption: Drug particle properties for the first computational study.
