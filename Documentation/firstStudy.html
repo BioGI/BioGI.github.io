@@ -60,7 +60,7 @@ Ganesh Vijayakumar, Farhad Behafarid, Yanxing Wang and James Brasseur
 <tr class="odd">
 <td style="text-align: left;">Max diameter</td>
 <td style="text-align: left;"><span class="math scholmd-math-inline">\(D_{max}\)</span></td>
-<td style="text-align: left;"><span style="color:black">20</span></td>
+<td style="text-align: left;"><span style="color:black">22.6</span></td>
 <td style="text-align: left;"><span class="math scholmd-math-inline">\(mm\)</span></td>
 </tr>
 <tr class="even">
@@ -92,6 +92,12 @@ Ganesh Vijayakumar, Farhad Behafarid, Yanxing Wang and James Brasseur
 <td style="text-align: left;">-</td>
 <td style="text-align: left;">peristalsis</td>
 <td style="text-align: left;">-</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Volume of bolus</td>
+<td style="text-align: left;"><span class="math scholmd-math-inline">\(V_C\)</span></td>
+<td style="text-align: left;">12.03</td>
+<td style="text-align: left;"><span class="math scholmd-math-inline">\(cm^3\)</span></td>
 </tr>
 </tbody>
 </table></div>
@@ -207,13 +213,13 @@ Ganesh Vijayakumar, Farhad Behafarid, Yanxing Wang and James Brasseur
 <tr class="odd">
 <td style="text-align: left;">-</td>
 <td style="text-align: left;"><span class="math scholmd-math-inline">\(C_{tot}/C_s\)</span></td>
-<td style="text-align: left;"><span style="color:red"> 0.1 </span></td>
+<td style="text-align: left;"><span style="color:red"> 0.2 </span></td>
 <td style="text-align: left;">-</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Total concentration</td>
 <td style="text-align: left;"><span class="math scholmd-math-inline">\(C_{tot}\)</span></td>
-<td style="text-align: left;"><span style="color:red"> <span class="math scholmd-math-inline">\(3.3 \times 10^{-8}\)</span> </span></td>
+<td style="text-align: left;"><span style="color:red"> <span class="math scholmd-math-inline">\(6.6 \times 10^{-8}\)</span> </span></td>
 <td style="text-align: left;"><span class="math scholmd-math-inline">\(mol/cm^3\)</span></td>
 </tr>
 <tr class="odd">
@@ -237,7 +243,7 @@ Ganesh Vijayakumar, Farhad Behafarid, Yanxing Wang and James Brasseur
 <tr class="even">
 <td style="text-align: left;">Number of particles</td>
 <td style="text-align: left;"><span class="math scholmd-math-inline">\(N_P\)</span></td>
-<td style="text-align: left;"><span style="color:red"> 685 </span></td>
+<td style="text-align: left;"><span style="color:red"> </span></td>
 <td style="text-align: left;">-</td>
 </tr>
 <tr class="odd">
@@ -249,7 +255,7 @@ Ganesh Vijayakumar, Farhad Behafarid, Yanxing Wang and James Brasseur
 <tr class="even">
 <td style="text-align: left;">Standard deviation</td>
 <td style="text-align: left;"><span class="math scholmd-math-inline">\(\sigma\)</span></td>
-<td style="text-align: left;"><span style="color:red"> 30 </span></td>
+<td style="text-align: left;"><span style="color:red"> 25 </span></td>
 <td style="text-align: left;"><span class="math scholmd-math-inline">\(\mu m\)</span></td>
 </tr>
 <tr class="odd">
@@ -269,7 +275,7 @@ Ganesh Vijayakumar, Farhad Behafarid, Yanxing Wang and James Brasseur
 <div class="scholmd-float-caption"><figcaption><span class="scholmd-caption-head"><span class="scholmd-caption-head-prefix">Table</span><span class="scholmd-caption-head-label">3</span></span><span class="scholmd-caption-text">Drug particle properties for the first computational study.</span></figcaption></div>
 </figure>
 <h2 id="estimating-the-numebr-of-particles-with-uniform-size-to-achive-the-desired-c_tot">Estimating the numebr of particles with uniform size to achive the desired <span class="math scholmd-math-inline">\(C_{tot}\)</span></h2>
-<p>To achive the <span class="math scholmd-math-inline">\(C_{tot} / C_s = 0.1\)</span> : 
+<p>To achive the <span class="math scholmd-math-inline">\(C_{tot} / C_s = 0.2\)</span> : 
 <span class="math scholmd-math-display" style="display: block;">\[
 \begin{equation*}
 \begin{split}
@@ -281,9 +287,9 @@ Ganesh Vijayakumar, Farhad Behafarid, Yanxing Wang and James Brasseur
 <span class="math scholmd-math-display" style="display: block;">\[
 \begin{equation*}
 \begin{aligned}
-V_C &amp;= 9.424778 cm^3 \\
+V_C &amp;= 12.03 cm^3 \\
 \nu_m &amp;= 268 cm^3/mol \\ 
-C_{tot} &amp;= 3.3 \times 10^{-8} mol/cm^3 \\
+C_{tot} &amp;= 6.6 \times 10^{-8} mol/cm^3 \\
 \end{aligned}
 \end{equation*}
 \]</span>
@@ -291,7 +297,7 @@ C_{tot} &amp;= 3.3 \times 10^{-8} mol/cm^3 \\
 <span class="math scholmd-math-display" style="display: block;">\[
 \begin{equation*}
 \begin{aligned}
-\sum_{i=1}^{N_P} V_{P_i}  &amp;= (3.3 \times 10^{-8}) (268) (9.424778) = 833.5 \times 10^{-7} cm^3\\ 
+\sum_{i=1}^{N_P} V_{P_i}  &amp;= (6.6 \times 10^{-8}) (268) (12.03) = 2128 \times 10^{-7} cm^3\\ 
 \end{aligned}
 \end{equation*}
 \]</span>
@@ -303,7 +309,7 @@ V_P &amp;= \frac{4 \pi}{3} R^3 = 5.238 \times 10^{-7} cm^3 \\
 \end{aligned}
 \end{equation*}
 \]</span>
- Meaning approximately 159 particles ($N_P = 159) with <span class="math scholmd-math-inline">\(R=50 \mu m\)</span> are needed to provide <span class="math scholmd-math-inline">\(C_{tot} / C_s = 0.1\)</span></p>
+ Meaning approximately 406 particles (<span class="math scholmd-math-inline">\(N_P\)</span> = 406) with <span class="math scholmd-math-inline">\(R=50 \mu m\)</span> are needed to provide <span class="math scholmd-math-inline">\(C_{tot} / C_s = 0.2\)</span></p>
 <h2 id="particle-distributions">Particle Distributions</h2>
 <figure class="scholmd-float scholmd-figure" id="fig:Particle_Distribution_1">
 <div class="scholmd-float-content"><figure class="scholmd-subfig" style="display: inline-block; width: 99%">

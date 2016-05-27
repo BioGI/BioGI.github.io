@@ -35,12 +35,13 @@ Table (#table:study1GeomMotilityParams) describes the geometry and motility para
 
 | Name             |       Symbol        | Choice     				|Unit	|  
 |------------------|---------------------|--------------------------------------|-------|
-| Max diameter     | $D_{max}$           | <span style="color:black">20</span>  	|$mm$  	|
+| Max diameter     | $D_{max}$           | <span style="color:black">22.6</span>|$mm$  	|
 | Wavelength       | $\lambda$           | <span style="color:black">60</span>	|$mm$  	|
 | Wave speed       | $s_1$               | <span style="color:black">2</span>	|$mm/s$ |
 | Number of waves  | -                   | 1           				|-      |
 | Occlusion ratio  | $\epsilon/R_{max}$  | 0.5         				|-      |
-| Motility mode    | -                   | peristalsis 				|-  	|	    
+| Motility mode    | -                   | peristalsis 				|-  	|
+| Volume of bolus  | $V_C$		 | 12.03	    			|$cm^3$ |
 
 Caption: Geometry and motility properties for the first computational study.
 
@@ -108,14 +109,14 @@ Table (#table:study1ParticleParameters) shows the particles parameters for the f
 
 | Name                  	|    Symbol          	| Choice                				|  Units     |
 |-------------------------------|-----------------------|-------------------------------------------------------|------------|
-|	-			| $C_{tot}/C_s$        	| <span style="color:red"> 0.1		       	</span> | -          |
-|Total concentration   		| $C_{tot}$           	| <span style="color:red"> $3.3 \times 10^{-8}$	</span> | $mol/cm^3$ |
+|	-			| $C_{tot}/C_s$        	| <span style="color:red"> 0.2		       	</span> | -          |
+|Total concentration   		| $C_{tot}$           	| <span style="color:red"> $6.6 \times 10^{-8}$	</span> | $mol/cm^3$ |
 |Maximum particle diameter	| $D_P^{max}$          	| <span style="color:red"> 190	 		</span> | $\mu m$    |
 |Average particle diameter      | $D_P^{ave}$           | <span style="color:red"> 100                  </span> | $\mu m$    |
 |Minimum particle diameter      | $D_P^{min}$           | <span style="color:red"> 10                   </span> | $\mu m$    |
-|Number of particles		| $N_P$			| <span style="color:red"> 685			</span>	| -	     |
+|Number of particles		| $N_P$			| <span style="color:red"> 			</span>	| -	     |
 |Distribution function shape	|	-		| <span style="color:red"> Normal	        </span>	| -	     |
-|Standard deviation	 	| $\sigma$		| <span style="color:red"> 30			</span>	| $\mu m$    |		
+|Standard deviation	 	| $\sigma$		| <span style="color:red"> 25			</span>	| $\mu m$    |		
 |Number of the bins		| $N_{bins}$		| <span style="color:red"> 19 			</span>	| -	     |
 |Initial particle locations	|	-		| randomly distributed in a sphere 			| -	     |	
 
@@ -124,7 +125,7 @@ Caption: Drug particle properties for the first computational study.
 
 ## Estimating the numebr of particles with uniform size to achive the desired $C_{tot}$
 
-To achive the $C_{tot} / C_s = 0.1$ :
+To achive the $C_{tot} / C_s = 0.2$ :
 
 ~~~math
 \sum_{i=1}^{N_P} V_{P_i} = C_{tot}  \nu_m V_C \\
@@ -133,15 +134,15 @@ To achive the $C_{tot} / C_s = 0.1$ :
 We have:
 
 ~~~math
-V_C &= 9.424778 cm^3 \\
+V_C &= 12.03 cm^3 \\
 \nu_m &= 268 cm^3/mol \\ 
-C_{tot} &= 3.3 \times 10^{-8} mol/cm^3 \\
+C_{tot} &= 6.6 \times 10^{-8} mol/cm^3 \\
 ~~~
 
 Therefore:
 
 ~~~math
-\sum_{i=1}^{N_P} V_{P_i}  &= (3.3 \times 10^{-8}) (268) (9.424778) = 833.5 \times 10^{-7} cm^3\\ 
+\sum_{i=1}^{N_P} V_{P_i}  &= (6.6 \times 10^{-8}) (268) (12.03) = 2128 \times 10^{-7} cm^3\\ 
 ~~~
 
 Considering same size particles with $R=50 \mu m$:
@@ -150,7 +151,7 @@ Considering same size particles with $R=50 \mu m$:
 V_P &= \frac{4 \pi}{3} R^3 = 5.238 \times 10^{-7} cm^3 \\
 ~~~
 
-Meaning approximately  159 particles ($N_P = 159) with $R=50 \mu m$ are needed to provide  $C_{tot} / C_s = 0.1$
+Meaning approximately  406 particles ($N_P$ = 406) with $R=50 \mu m$ are needed to provide  $C_{tot} / C_s = 0.2$
 
 
 ## Particle Distributions
