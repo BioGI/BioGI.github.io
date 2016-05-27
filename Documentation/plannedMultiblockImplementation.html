@@ -647,6 +647,22 @@ END DO
 <li>the order of adding the <code>delphi_fine</code> would be changed, i.e. while the <code>delphi_fine</code> is currently added after the moment-propagation method performs the collision and transport, the new method would add the <code>delphi_fine</code> before the moment-propagation method. I have no idea if this is correct or not; I just thought I’ll make a note of this in case this comes up later<a href="#fn1" class="footnoteRef" id="fnref1"><sup>1</sup></a>.</li>
 </ul>
 <p>Similarly, when a particle is in the fine mesh, but it’s effective volume overlaps with the coarse mesh, then the treatment of <code>delphi</code> that needs to be added to the scalar in the fine mesh can be tricky. Technically, it’s supposed to be added at the intermediate time steps; however, the coarse mesh does not have that kind of time resolution. Hence it is added to the <code>phi</code> at time step <span class="math scholmd-math-inline">\(t_{n+1}\)</span> instead. The whole point of doing this addition at every fine mesh time step and not waiting till the end of all the fine mesh time steps is that this could potentially affect the calculation of the bulk concentration for the particle. Hence, this drug release will change the value of the scalar concentration on the boundary. This implies that the spatial interpolation of the scalar concentration from the coarse to the fine mesh needs to be performed again around the points where the scalar concentration has changed on the coarse mesh. Performing this check could be as expensive or of the same order as just doing the full interpolation again. I think I’ll just do the full interpolation again, but just for the scalar alone.</p>
+<h2 id="testing-of-particle-dissolution-model">Testing of particle dissolution model</h2>
+<p>I tested the implementation of the particle dissolution model by performing the following test. I use the geometry of the straight tube of radius <span class="math scholmd-math-inline">\(5mm\)</span>. I initialize the velocity field such that the axial velocity is 1 in lattice units and all other velocity components are zero. I turn off Collision, Streaming and Scalar evolution and retain only the particle release model. Thus the particle should travel in a straight line and release drug. Fig. <span class="scholmd-crossref"><a href="#particleDissolutionTest">(16)</a></span> shows the evolution of the bulk concentration <span class="math scholmd-math-inline">\(C_b\)</span> and the drug release <span class="math scholmd-math-inline">\(\Delta N_b\)</span> as a function of time. It seems to behave along expected lines, i.e., the <span class="math scholmd-math-inline">\(C_b\)</span> increases first before attaining a quasi-steady state. Once the particle starts to go over the same area where it has already released drug, the <span class="math scholmd-math-inline">\(C_b\)</span> increases and <span class="math scholmd-math-inline">\(\Delta N_b\)</span> reduces. I repeat this test for 4 different cases, viz.,</p>
+<ul>
+<li>the particle is completely in the coarse mesh,</li>
+<li>the particle is in the coarse mesh, but it’s effective volume straddles the fine mesh,</li>
+<li>the particle is in the fine mesh, but it’s effective volume straddles the coarse mesh,</li>
+<li>the particle is completely in the fine mesh.</li>
+</ul>
+<p>The difference in the computed <span class="math scholmd-math-inline">\(C_b\)</span> between when the particle is completely in the fine mesh and completely in the coarse mesh is about <span class="math scholmd-math-inline">\(12\%\)</span>.</p>
+<p>While this is not a validation of the method working correctly.</p>
+<figure class="scholmd-float scholmd-figure" id="particleDissolutionTest">
+<div class="scholmd-float-content"><figure class="scholmd-subfig" style="display: inline-block; width: 75%">
+<img src="./dualLattice/testResults/particleDissolutionTest/cbnb.png" />
+</figure></div>
+<div class="scholmd-float-caption"><figcaption><span class="scholmd-caption-head"><span class="scholmd-caption-head-prefix">Figure</span><span class="scholmd-caption-head-label">16</span></span><span class="scholmd-caption-text">Testing of particle dissolution model.</span></figcaption></div>
+</figure>
 <h1 id="future-work-over-the-next-two-weeks">Future work over the next two weeks</h1>
 <ul>
 <li>Write up
