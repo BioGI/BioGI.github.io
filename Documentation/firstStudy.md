@@ -211,6 +211,10 @@ Caption: $\frac{C_{tot}}{C_s}$=2.0 ,  $D_{min}$= 10$\mu m$ ,   $D_{max}$= 190$\m
 
 If we choose $\frac{C_{tot}}{C_s}$=0.1 and  $\sigma$= 20$\mu m$ we get:
 
+
+
+
+
 #### Figure: {#fig:Particle_Distribution_7}
 
 ![](./Particle_Distribution_7.png){width=99%}
@@ -253,9 +257,38 @@ Caption: $\frac{C_{tot}}{C_s}$=0.1 ,  $D_{min}$=1$\mu m$ ,   $D_{max}$=199$\mu m
 
 
 
+If we choose $\frac{C_{tot}}{C_s}$=0.2 and  $\sigma$= 25$\mu m$ we get:
 
 
 
+
+
+#### Figure: {#fig:Particle_Distribution_12}
+
+![](./Particle_Distribution_12.png){width=99%}
+
+Caption: $\frac{C_{tot}}{C_s}$=0.2 ,  $D_{min}$=10$\mu m$ ,   $D_{max}$=190$\mu m$ , $N_{bin}$=20,  $\sigma$=25$\mu m$ ,   $N_P$= 660
+
+
+#### Figure: {#fig:Particle_Distribution_13}
+
+![](./Particle_Distribution_13.png){width=99%}
+
+Caption: $\frac{C_{tot}}{C_s}$=0.2 ,  $D_{min}$=10$\mu m$ ,   $D_{max}$=190$\mu m$ ,  $N_{bin}$=30,  $\sigma$=25$\mu m$ ,   $N_P$= 637
+
+
+#### Figure: {#fig:Particle_Distribution_14}
+
+![](./Particle_Distribution_14.png){width=99%}
+
+Caption: $\frac{C_{tot}}{C_s}$=0.2 ,  $D_{min}$=5$\mu m$ ,   $D_{max}$=195$\mu m$ ,  $N_{bin}$=20  , $\sigma$=25$\mu m$ ,   $N_P$= 936
+
+
+#### Figure: {#fig:Particle_Distribution_15}
+
+![](./Particle_Distribution_15.png){width=99%}
+
+Caption: $\frac{C_{tot}}{C_s}$=0.2 ,  $D_{min}$=5$\mu m$ ,   $D_{max}$=195$\mu m$ ,   $N_{bin}$=30,   $\sigma$=25$\mu m$ ,   $N_P$= 823
 
 
 
