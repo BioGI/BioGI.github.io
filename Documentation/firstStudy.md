@@ -208,6 +208,47 @@ Caption: $\frac{C_{tot}}{C_s}$=2.0 ,  $D_{min}$= 10$\mu m$ ,   $D_{max}$= 190$\m
 
 
 
+If we choose $\frac{C_{tot}}{C_s}$=0.1 and  $\sigma$= 20$\mu m$ we get:
+
+#### Figure: {#fig:Particle_Distribution_7}
+
+![](./Particle_Distribution_7.png){width=99%}
+
+Caption: $\frac{C_{tot}}{C_s}$=0.1 ,  $D_{min}$=50$\mu m$ ,   $D_{max}$=150 $\mu m$ ,   $\sigma$=20$\mu m$ ,   $N_P$=211
+
+
+
+#### Figure: {#fig:Particle_Distribution_8}
+
+![](./Particle_Distribution_8.png){width=99%}
+
+Caption: $\frac{C_{tot}}{C_s}$=0.1 ,  $D_{min}$=10$\mu m$ ,   $D_{max}$=190$\mu m$ ,   $\sigma$=20$\mu m$ ,   $N_P$=222
+
+
+
+#### Figure: {#fig:Particle_Distribution_9}
+
+![](./Particle_Distribution_9.png){width=99%}
+
+Caption: $\frac{C_{tot}}{C_s}$=0.1 ,  $D_{min}$=5$\mu m$ ,   $D_{max}$=195$\mu m$ ,   $\sigma$=20$\mu m$ ,   $N_P$=224
+
+
+
+#### Figure: {#fig:Particle_Distribution_10}
+
+![](./Particle_Distribution_10.png){width=99%}
+
+Caption: $\frac{C_{tot}}{C_s}$=0.1 ,  $D_{min}$=2$\mu m$ ,   $D_{max}$=198$\mu m$ ,   $\sigma$=20$\mu m$ ,   $N_P$=249
+
+
+
+#### Figure: {#fig:Particle_Distribution_11}
+
+![](./Particle_Distribution_11.png){width=99%}
+
+Caption: $\frac{C_{tot}}{C_s}$=0.1 ,  $D_{min}$=1$\mu m$ ,   $D_{max}$=199$\mu m$ ,   $\sigma$=20$\mu m$ ,   $N_P$=408
+
+
 
 
 
@@ -247,13 +288,13 @@ Table (#table:study1ModelingParameters) shows the modeling and computational par
 
 #### Table:  {#table:study1ModelingParameters}
 
-| Name                   		| Symbol             	| Choice                		|
-|---------------------------------------|-----------------------|---------------------------------------|
-| Partitioning modeling parameter       | $n_d$                	| <span style="color:black">3</span>	|
-| Bulk concentration modeling parameter	| $n_b$                	| <span style="color:black">3</span>	| 	     
-| Schmidt number       	 		| $Sc$                	| 10                    		|           
-| LBM Relaxation parameter		| $\tau$               	| <span style="color:black">1</span>	| 	     
-| Mass conservation fix                 |                       | Active                                |   
+| Name                   		| Symbol             	| Choice                										|
+|---------------------------------------|-----------------------|-------------------------------------------------------------------------------------------------------|
+| Partitioning modeling parameter       | $n_d$                	| <span style="color:black">3</span>									|
+| Bulk concentration modeling parameter	| $n_b$                	| <span style="color:black">3</span>									| 	     
+| Schmidt number       	 		| $Sc$                	| <span style="color:red"> 50</span>    								|                    		           
+| LBM Relaxation parameter		| $\tau$               	| <span style="color:black">1</span>									| 	     
+| Mass conservation fix                 |                       | <span style="color:red">  in BC:$\rho$=1, $\rho_{uncov}=\rho_{ave}$, Fix [$\rho, f, f^+$] </span> 	|   
 
 Caption: Modeling and computational parameters for the first computational study.
 
