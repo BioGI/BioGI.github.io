@@ -35,13 +35,13 @@ Table (#table:study1GeomMotilityParams) describes the geometry and motility para
 
 | Name             |       Symbol        | Choice     				|Unit	|  
 |------------------|---------------------|--------------------------------------|-------|
+| Motility mode    | -                   | Peristalsis, Fed-State		|	| 
 | Max diameter     | $D_{max}$           | <span style="color:red  ">22.4</span>|$mm$  	|
 | Wavelength       | $\lambda$           | <span style="color:black">60</span>	|$mm$  	|
+| Volume of bolus  | $V_C$		 | <span style="color:red">11.82</span> |$cm^3$ |
 | Wave speed       | $s_1$               | <span style="color:black">2</span>	|$mm/s$ |
 | Number of waves  | -                   | 1           				|-      |
 | Occlusion ratio  | $\epsilon/R_{max}$  | 0.5         				|-      |
-| Motility mode    | -                   | peristalsis 				|-  	|
-| Volume of bolus  | $V_C$		 | <span style="color:red">11.82</span> |$cm^3$ |
 
 Caption: Geometry and motility properties for the first computational study.
 
@@ -113,16 +113,20 @@ Table (#table:study1ParticleParameters) shows the particles parameters for the f
 |Total concentration   		| $C_{tot}$           	| <span style="color:black"> $6.6 \times 10^{-8}$</span>| $mol/cm^3$ |
 |Maximum particle diameter	| $D_P^{max}$          	| <span style="color:red"> 195	 		</span> | $\mu m$    |
 |Average particle diameter      | $D_P^{ave}$           | <span style="color:black"> 100                </span>	| $\mu m$    |
-|Minimum particle diameter      | $D_P^{min}$           | < span style="color:red"> 5      	   	</span> | $\mu m$    |
+|Minimum particle diameter      | $D_P^{min}$           | <span style="color:red"> 5      	   	</span> | $\mu m$    |
 |Number of particles		| $N_P$			| <span style="color:red"> 936 (Figure [#fig:Particle_Distribution_14])	</span>	| -	     |
-|Distribution function shape	|	-		| <span style="color:red"> Normal	        </span>	| -	     |
+|Distribution function shape	|	-		| <span style="color:black"> Normal	        </span>	| -	     |
 |Standard deviation	 	| $\sigma$		| <span style="color:red"> 25			</span>	| $\mu m$    |		
-|Number of the bins		| $N_{bins}$		| <span style="color:red"> 20			</span>	| -	     |
+|Number of the bins		| $N_{bins}$		| <span style="color:black"> 20			</span>	| -	     |
 |Initial particle locations	|	-		| randomly distributed in a sphere 			| -	     |	
 
 Caption: Drug particle properties for the first computational study.
 
 
+
+
+
+<!---
 ## Estimating the numebr of particles with uniform size to achive the desired $C_{tot}$
 
 To achive the $C_{tot} / C_s = 0.2$ :
@@ -152,11 +156,20 @@ V_P &= \frac{4 \pi}{3} R^3 = 5.238 \times 10^{-7} cm^3 \\
 ~~~
 
 Meaning approximately  406 particles ($N_P$ = 406) with $R=50 \mu m$ are needed to provide  $C_{tot} / C_s = 0.2$
+-->
+
+
+
+
+
+
+
+
 
 
 ## Particle Distributions
 
-
+<!---
 
 #### Figure: {#fig:Particle_Distribution_1}
 
@@ -164,15 +177,11 @@ Meaning approximately  406 particles ($N_P$ = 406) with $R=50 \mu m$ are needed 
 
 Caption: $\frac{C_{tot}}{C_s}$=0.1 ,  $D_{min}$= 5$\mu m$ ,   $D_{max}$= 195$\mu m$ ,   $\sigma$= 30$\mu m$ ,   $N_P$=1725
 
-
-
 #### Figure: {#fig:Particle_Distribution_2}
 
 ![](./Particle_Distribution_2.png){width=99%}
 
 Caption: $\frac{C_{tot}}{C_s}$=0.1 ,  $D_{min}$= 10$\mu m$ ,   $D_{max}$= 190$\mu m$ ,   $\sigma$= 30$\mu m$ ,   $N_P$=658
-
-
 
 #### Figure: {#fig:Particle_Distribution_3}
 
@@ -180,15 +189,11 @@ Caption: $\frac{C_{tot}}{C_s}$=0.1 ,  $D_{min}$= 10$\mu m$ ,   $D_{max}$= 190$\m
 
 Caption: $\frac{C_{tot}}{C_s}$=0.1 ,  $D_{min}$= 20$\mu m$ ,   $D_{max}$= 180$\mu m$ ,   $\sigma$= 30$\mu m$ ,   $N_P$=410
 
-
-
 #### Figure: {#fig:Particle_Distribution_4}
 
 ![](./Particle_Distribution_4.png){width=99%}
 
 Caption: $\frac{C_{tot}}{C_s}$=0.1 ,  $D_{min}$= 10$\mu m$ ,   $D_{max}$= 190$\mu m$ ,   $\sigma$= 20$\mu m$ ,   $N_P$=222
-
-
 
 #### Figure: {#fig:Particle_Distribution_5}
 
@@ -196,7 +201,10 @@ Caption: $\frac{C_{tot}}{C_s}$=0.1 ,  $D_{min}$= 10$\mu m$ ,   $D_{max}$= 190$\m
 
 Caption: $\frac{C_{tot}}{C_s}$=0.1 ,  $D_{min}$= 10$\mu m$ ,   $D_{max}$= 190$\mu m$ ,   $\sigma$= 40$\mu m$ ,   $N_P$=2026
 
+-->
 
+
+Choosing $\sigma$= 30$\mu m$:
 
 #### Figure: {#fig:Particle_Distribution_6}
 
@@ -206,14 +214,8 @@ Caption: $\frac{C_{tot}}{C_s}$=2.0 ,  $D_{min}$= 10$\mu m$ ,   $D_{max}$= 190$\m
 
 
 
-
-
-
+<!---
 If we choose $\frac{C_{tot}}{C_s}$=0.1 and  $\sigma$= 20$\mu m$ we get:
-
-
-
-
 
 #### Figure: {#fig:Particle_Distribution_7}
 
@@ -253,11 +255,12 @@ Caption: $\frac{C_{tot}}{C_s}$=0.1 ,  $D_{min}$=2$\mu m$ ,   $D_{max}$=198$\mu m
 
 Caption: $\frac{C_{tot}}{C_s}$=0.1 ,  $D_{min}$=1$\mu m$ ,   $D_{max}$=199$\mu m$ ,   $\sigma$=20$\mu m$ ,   $N_P$=408
 
+-->
 
 
 
 
-If we choose $\frac{C_{tot}}{C_s}$=0.2 and  $\sigma$= 25$\mu m$ we get:
+Choosing $\sigma$= 25$\mu m$:
 
 
 

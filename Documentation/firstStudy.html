@@ -58,16 +58,28 @@ Ganesh Vijayakumar, Farhad Behafarid, Yanxing Wang and James Brasseur
 </thead>
 <tbody>
 <tr class="odd">
+<td style="text-align: left;">Motility mode</td>
+<td style="text-align: left;">-</td>
+<td style="text-align: left;">Peristalsis, Fed-State</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
 <td style="text-align: left;">Max diameter</td>
 <td style="text-align: left;"><span class="math scholmd-math-inline">\(D_{max}\)</span></td>
 <td style="text-align: left;"><span style="color:red  ">22.4</span></td>
 <td style="text-align: left;"><span class="math scholmd-math-inline">\(mm\)</span></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;">Wavelength</td>
 <td style="text-align: left;"><span class="math scholmd-math-inline">\(\lambda\)</span></td>
 <td style="text-align: left;"><span style="color:black">60</span></td>
 <td style="text-align: left;"><span class="math scholmd-math-inline">\(mm\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Volume of bolus</td>
+<td style="text-align: left;"><span class="math scholmd-math-inline">\(V_C\)</span></td>
+<td style="text-align: left;"><span style="color:red">11.82</span></td>
+<td style="text-align: left;"><span class="math scholmd-math-inline">\(cm^3\)</span></td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Wave speed</td>
@@ -86,18 +98,6 @@ Ganesh Vijayakumar, Farhad Behafarid, Yanxing Wang and James Brasseur
 <td style="text-align: left;"><span class="math scholmd-math-inline">\(\epsilon/R_{max}\)</span></td>
 <td style="text-align: left;">0.5</td>
 <td style="text-align: left;">-</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Motility mode</td>
-<td style="text-align: left;">-</td>
-<td style="text-align: left;">peristalsis</td>
-<td style="text-align: left;">-</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Volume of bolus</td>
-<td style="text-align: left;"><span class="math scholmd-math-inline">\(V_C\)</span></td>
-<td style="text-align: left;"><span style="color:red">11.82</span></td>
-<td style="text-align: left;"><span class="math scholmd-math-inline">\(cm^3\)</span></td>
 </tr>
 </tbody>
 </table></div>
@@ -237,19 +237,19 @@ Ganesh Vijayakumar, Farhad Behafarid, Yanxing Wang and James Brasseur
 <tr class="odd">
 <td style="text-align: left;">Minimum particle diameter</td>
 <td style="text-align: left;"><span class="math scholmd-math-inline">\(D_P^{min}\)</span></td>
-<td style="text-align: left;">&lt; span style=“color:red”&gt; 5 </span></td>
+<td style="text-align: left;"><span style="color:red"> 5 </span></td>
 <td style="text-align: left;"><span class="math scholmd-math-inline">\(\mu m\)</span></td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Number of particles</td>
 <td style="text-align: left;"><span class="math scholmd-math-inline">\(N_P\)</span></td>
-<td style="text-align: left;"><span style="color:red"> 936 (Figure <span class="scholmd-crossref"><a href="#fig:Particle_Distribution_14">14</a></span>) </span></td>
+<td style="text-align: left;"><span style="color:red"> 936 (Figure <span class="scholmd-crossref"><a href="#fig:Particle_Distribution_14">4</a></span>) </span></td>
 <td style="text-align: left;">-</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Distribution function shape</td>
 <td style="text-align: left;">-</td>
-<td style="text-align: left;"><span style="color:red"> Normal </span></td>
+<td style="text-align: left;"><span style="color:black"> Normal </span></td>
 <td style="text-align: left;">-</td>
 </tr>
 <tr class="even">
@@ -261,7 +261,7 @@ Ganesh Vijayakumar, Farhad Behafarid, Yanxing Wang and James Brasseur
 <tr class="odd">
 <td style="text-align: left;">Number of the bins</td>
 <td style="text-align: left;"><span class="math scholmd-math-inline">\(N_{bins}\)</span></td>
-<td style="text-align: left;"><span style="color:red"> 20 </span></td>
+<td style="text-align: left;"><span style="color:black"> 20 </span></td>
 <td style="text-align: left;">-</td>
 </tr>
 <tr class="even">
@@ -274,134 +274,144 @@ Ganesh Vijayakumar, Farhad Behafarid, Yanxing Wang and James Brasseur
 </table></div>
 <div class="scholmd-float-caption"><figcaption><span class="scholmd-caption-head"><span class="scholmd-caption-head-prefix">Table</span><span class="scholmd-caption-head-label">3</span></span><span class="scholmd-caption-text">Drug particle properties for the first computational study.</span></figcaption></div>
 </figure>
-<h2 id="estimating-the-numebr-of-particles-with-uniform-size-to-achive-the-desired-c_tot">Estimating the numebr of particles with uniform size to achive the desired <span class="math scholmd-math-inline">\(C_{tot}\)</span></h2>
-<p>To achive the <span class="math scholmd-math-inline">\(C_{tot} / C_s = 0.2\)</span> : 
-<span class="math scholmd-math-display" style="display: block;">\[
-\begin{equation*}
-\begin{split}
+<!---
+## Estimating the numebr of particles with uniform size to achive the desired $C_{tot}$
+
+To achive the $C_{tot} / C_s = 0.2$ :
+
+~~~math
 \sum_{i=1}^{N_P} V_{P_i} = C_{tot}  \nu_m V_C \\
-\end{split}
-\end{equation*}
-\]</span>
- We have: 
-<span class="math scholmd-math-display" style="display: block;">\[
-\begin{equation*}
-\begin{aligned}
-V_C &amp;= 12.03 cm^3 \\
-\nu_m &amp;= 268 cm^3/mol \\ 
-C_{tot} &amp;= 6.6 \times 10^{-8} mol/cm^3 \\
-\end{aligned}
-\end{equation*}
-\]</span>
- Therefore: 
-<span class="math scholmd-math-display" style="display: block;">\[
-\begin{equation*}
-\begin{aligned}
-\sum_{i=1}^{N_P} V_{P_i}  &amp;= (6.6 \times 10^{-8}) (268) (12.03) = 2128 \times 10^{-7} cm^3\\ 
-\end{aligned}
-\end{equation*}
-\]</span>
- Considering same size particles with <span class="math scholmd-math-inline">\(R=50 \mu m\)</span>: 
-<span class="math scholmd-math-display" style="display: block;">\[
-\begin{equation*}
-\begin{aligned}
-V_P &amp;= \frac{4 \pi}{3} R^3 = 5.238 \times 10^{-7} cm^3 \\
-\end{aligned}
-\end{equation*}
-\]</span>
- Meaning approximately 406 particles (<span class="math scholmd-math-inline">\(N_P\)</span> = 406) with <span class="math scholmd-math-inline">\(R=50 \mu m\)</span> are needed to provide <span class="math scholmd-math-inline">\(C_{tot} / C_s = 0.2\)</span></p>
+~~~
+
+We have:
+
+~~~math
+V_C &= 12.03 cm^3 \\
+\nu_m &= 268 cm^3/mol \\ 
+C_{tot} &= 6.6 \times 10^{-8} mol/cm^3 \\
+~~~
+
+Therefore:
+
+~~~math
+\sum_{i=1}^{N_P} V_{P_i}  &= (6.6 \times 10^{-8}) (268) (12.03) = 2128 \times 10^{-7} cm^3\\ 
+~~~
+
+Considering same size particles with $R=50 \mu m$:
+
+~~~math
+V_P &= \frac{4 \pi}{3} R^3 = 5.238 \times 10^{-7} cm^3 \\
+~~~
+
+Meaning approximately  406 particles ($N_P$ = 406) with $R=50 \mu m$ are needed to provide  $C_{tot} / C_s = 0.2$
+-->
 <h2 id="particle-distributions">Particle Distributions</h2>
-<figure class="scholmd-float scholmd-figure" id="fig:Particle_Distribution_1">
-<div class="scholmd-float-content"><figure class="scholmd-subfig" style="display: inline-block; width: 99%">
-<img src="./Particle_Distribution_1.png" />
-</figure></div>
-<div class="scholmd-float-caption"><figcaption><span class="scholmd-caption-head"><span class="scholmd-caption-head-prefix">Figure</span><span class="scholmd-caption-head-label">1</span></span><span class="scholmd-caption-text"><span class="math scholmd-math-inline">\(\frac{C_{tot}}{C_s}\)</span>=0.1 , <span class="math scholmd-math-inline">\(D_{min}\)</span>= 5<span class="math scholmd-math-inline">\(\mu m\)</span> , <span class="math scholmd-math-inline">\(D_{max}\)</span>= 195<span class="math scholmd-math-inline">\(\mu m\)</span> , <span class="math scholmd-math-inline">\(\sigma\)</span>= 30<span class="math scholmd-math-inline">\(\mu m\)</span> , <span class="math scholmd-math-inline">\(N_P\)</span>=1725</span></figcaption></div>
-</figure>
-<figure class="scholmd-float scholmd-figure" id="fig:Particle_Distribution_2">
-<div class="scholmd-float-content"><figure class="scholmd-subfig" style="display: inline-block; width: 99%">
-<img src="./Particle_Distribution_2.png" />
-</figure></div>
-<div class="scholmd-float-caption"><figcaption><span class="scholmd-caption-head"><span class="scholmd-caption-head-prefix">Figure</span><span class="scholmd-caption-head-label">2</span></span><span class="scholmd-caption-text"><span class="math scholmd-math-inline">\(\frac{C_{tot}}{C_s}\)</span>=0.1 , <span class="math scholmd-math-inline">\(D_{min}\)</span>= 10<span class="math scholmd-math-inline">\(\mu m\)</span> , <span class="math scholmd-math-inline">\(D_{max}\)</span>= 190<span class="math scholmd-math-inline">\(\mu m\)</span> , <span class="math scholmd-math-inline">\(\sigma\)</span>= 30<span class="math scholmd-math-inline">\(\mu m\)</span> , <span class="math scholmd-math-inline">\(N_P\)</span>=658</span></figcaption></div>
-</figure>
-<figure class="scholmd-float scholmd-figure" id="fig:Particle_Distribution_3">
-<div class="scholmd-float-content"><figure class="scholmd-subfig" style="display: inline-block; width: 99%">
-<img src="./Particle_Distribution_3.png" />
-</figure></div>
-<div class="scholmd-float-caption"><figcaption><span class="scholmd-caption-head"><span class="scholmd-caption-head-prefix">Figure</span><span class="scholmd-caption-head-label">3</span></span><span class="scholmd-caption-text"><span class="math scholmd-math-inline">\(\frac{C_{tot}}{C_s}\)</span>=0.1 , <span class="math scholmd-math-inline">\(D_{min}\)</span>= 20<span class="math scholmd-math-inline">\(\mu m\)</span> , <span class="math scholmd-math-inline">\(D_{max}\)</span>= 180<span class="math scholmd-math-inline">\(\mu m\)</span> , <span class="math scholmd-math-inline">\(\sigma\)</span>= 30<span class="math scholmd-math-inline">\(\mu m\)</span> , <span class="math scholmd-math-inline">\(N_P\)</span>=410</span></figcaption></div>
-</figure>
-<figure class="scholmd-float scholmd-figure" id="fig:Particle_Distribution_4">
-<div class="scholmd-float-content"><figure class="scholmd-subfig" style="display: inline-block; width: 99%">
-<img src="./Particle_Distribution_4.png" />
-</figure></div>
-<div class="scholmd-float-caption"><figcaption><span class="scholmd-caption-head"><span class="scholmd-caption-head-prefix">Figure</span><span class="scholmd-caption-head-label">4</span></span><span class="scholmd-caption-text"><span class="math scholmd-math-inline">\(\frac{C_{tot}}{C_s}\)</span>=0.1 , <span class="math scholmd-math-inline">\(D_{min}\)</span>= 10<span class="math scholmd-math-inline">\(\mu m\)</span> , <span class="math scholmd-math-inline">\(D_{max}\)</span>= 190<span class="math scholmd-math-inline">\(\mu m\)</span> , <span class="math scholmd-math-inline">\(\sigma\)</span>= 20<span class="math scholmd-math-inline">\(\mu m\)</span> , <span class="math scholmd-math-inline">\(N_P\)</span>=222</span></figcaption></div>
-</figure>
-<figure class="scholmd-float scholmd-figure" id="fig:Particle_Distribution_5">
-<div class="scholmd-float-content"><figure class="scholmd-subfig" style="display: inline-block; width: 99%">
-<img src="./Particle_Distribution_5.png" />
-</figure></div>
-<div class="scholmd-float-caption"><figcaption><span class="scholmd-caption-head"><span class="scholmd-caption-head-prefix">Figure</span><span class="scholmd-caption-head-label">5</span></span><span class="scholmd-caption-text"><span class="math scholmd-math-inline">\(\frac{C_{tot}}{C_s}\)</span>=0.1 , <span class="math scholmd-math-inline">\(D_{min}\)</span>= 10<span class="math scholmd-math-inline">\(\mu m\)</span> , <span class="math scholmd-math-inline">\(D_{max}\)</span>= 190<span class="math scholmd-math-inline">\(\mu m\)</span> , <span class="math scholmd-math-inline">\(\sigma\)</span>= 40<span class="math scholmd-math-inline">\(\mu m\)</span> , <span class="math scholmd-math-inline">\(N_P\)</span>=2026</span></figcaption></div>
-</figure>
+<!---
+
+#### Figure: {#fig:Particle_Distribution_1}
+
+![](./Particle_Distribution_1.png){width=99%}
+
+Caption: $\frac{C_{tot}}{C_s}$=0.1 ,  $D_{min}$= 5$\mu m$ ,   $D_{max}$= 195$\mu m$ ,   $\sigma$= 30$\mu m$ ,   $N_P$=1725
+
+#### Figure: {#fig:Particle_Distribution_2}
+
+![](./Particle_Distribution_2.png){width=99%}
+
+Caption: $\frac{C_{tot}}{C_s}$=0.1 ,  $D_{min}$= 10$\mu m$ ,   $D_{max}$= 190$\mu m$ ,   $\sigma$= 30$\mu m$ ,   $N_P$=658
+
+#### Figure: {#fig:Particle_Distribution_3}
+
+![](./Particle_Distribution_3.png){width=99%}
+
+Caption: $\frac{C_{tot}}{C_s}$=0.1 ,  $D_{min}$= 20$\mu m$ ,   $D_{max}$= 180$\mu m$ ,   $\sigma$= 30$\mu m$ ,   $N_P$=410
+
+#### Figure: {#fig:Particle_Distribution_4}
+
+![](./Particle_Distribution_4.png){width=99%}
+
+Caption: $\frac{C_{tot}}{C_s}$=0.1 ,  $D_{min}$= 10$\mu m$ ,   $D_{max}$= 190$\mu m$ ,   $\sigma$= 20$\mu m$ ,   $N_P$=222
+
+#### Figure: {#fig:Particle_Distribution_5}
+
+![](./Particle_Distribution_5.png){width=99%}
+
+Caption: $\frac{C_{tot}}{C_s}$=0.1 ,  $D_{min}$= 10$\mu m$ ,   $D_{max}$= 190$\mu m$ ,   $\sigma$= 40$\mu m$ ,   $N_P$=2026
+
+-->
+<p>Choosing <span class="math scholmd-math-inline">\(\sigma\)</span>= 30<span class="math scholmd-math-inline">\(\mu m\)</span>:</p>
 <figure class="scholmd-float scholmd-figure" id="fig:Particle_Distribution_6">
 <div class="scholmd-float-content"><figure class="scholmd-subfig" style="display: inline-block; width: 99%">
 <img src="./Particle_Distribution_6.png" />
 </figure></div>
-<div class="scholmd-float-caption"><figcaption><span class="scholmd-caption-head"><span class="scholmd-caption-head-prefix">Figure</span><span class="scholmd-caption-head-label">6</span></span><span class="scholmd-caption-text"><span class="math scholmd-math-inline">\(\frac{C_{tot}}{C_s}\)</span>=2.0 , <span class="math scholmd-math-inline">\(D_{min}\)</span>= 10<span class="math scholmd-math-inline">\(\mu m\)</span> , <span class="math scholmd-math-inline">\(D_{max}\)</span>= 190<span class="math scholmd-math-inline">\(\mu m\)</span> , <span class="math scholmd-math-inline">\(\sigma\)</span>= 30<span class="math scholmd-math-inline">\(\mu m\)</span> , <span class="math scholmd-math-inline">\(N_P\)</span>=13182</span></figcaption></div>
+<div class="scholmd-float-caption"><figcaption><span class="scholmd-caption-head"><span class="scholmd-caption-head-prefix">Figure</span><span class="scholmd-caption-head-label">1</span></span><span class="scholmd-caption-text"><span class="math scholmd-math-inline">\(\frac{C_{tot}}{C_s}\)</span>=2.0 , <span class="math scholmd-math-inline">\(D_{min}\)</span>= 10<span class="math scholmd-math-inline">\(\mu m\)</span> , <span class="math scholmd-math-inline">\(D_{max}\)</span>= 190<span class="math scholmd-math-inline">\(\mu m\)</span> , <span class="math scholmd-math-inline">\(\sigma\)</span>= 30<span class="math scholmd-math-inline">\(\mu m\)</span> , <span class="math scholmd-math-inline">\(N_P\)</span>=13182</span></figcaption></div>
 </figure>
-<p>If we choose <span class="math scholmd-math-inline">\(\frac{C_{tot}}{C_s}\)</span>=0.1 and <span class="math scholmd-math-inline">\(\sigma\)</span>= 20<span class="math scholmd-math-inline">\(\mu m\)</span> we get:</p>
-<figure class="scholmd-float scholmd-figure" id="fig:Particle_Distribution_7">
-<div class="scholmd-float-content"><figure class="scholmd-subfig" style="display: inline-block; width: 99%">
-<img src="./Particle_Distribution_7.png" />
-</figure></div>
-<div class="scholmd-float-caption"><figcaption><span class="scholmd-caption-head"><span class="scholmd-caption-head-prefix">Figure</span><span class="scholmd-caption-head-label">7</span></span><span class="scholmd-caption-text"><span class="math scholmd-math-inline">\(\frac{C_{tot}}{C_s}\)</span>=0.1 , <span class="math scholmd-math-inline">\(D_{min}\)</span>=50<span class="math scholmd-math-inline">\(\mu m\)</span> , <span class="math scholmd-math-inline">\(D_{max}\)</span>=150 <span class="math scholmd-math-inline">\(\mu m\)</span> , <span class="math scholmd-math-inline">\(\sigma\)</span>=20<span class="math scholmd-math-inline">\(\mu m\)</span> , <span class="math scholmd-math-inline">\(N_P\)</span>=211</span></figcaption></div>
-</figure>
-<figure class="scholmd-float scholmd-figure" id="fig:Particle_Distribution_8">
-<div class="scholmd-float-content"><figure class="scholmd-subfig" style="display: inline-block; width: 99%">
-<img src="./Particle_Distribution_8.png" />
-</figure></div>
-<div class="scholmd-float-caption"><figcaption><span class="scholmd-caption-head"><span class="scholmd-caption-head-prefix">Figure</span><span class="scholmd-caption-head-label">8</span></span><span class="scholmd-caption-text"><span class="math scholmd-math-inline">\(\frac{C_{tot}}{C_s}\)</span>=0.1 , <span class="math scholmd-math-inline">\(D_{min}\)</span>=10<span class="math scholmd-math-inline">\(\mu m\)</span> , <span class="math scholmd-math-inline">\(D_{max}\)</span>=190<span class="math scholmd-math-inline">\(\mu m\)</span> , <span class="math scholmd-math-inline">\(\sigma\)</span>=20<span class="math scholmd-math-inline">\(\mu m\)</span> , <span class="math scholmd-math-inline">\(N_P\)</span>=222</span></figcaption></div>
-</figure>
-<figure class="scholmd-float scholmd-figure" id="fig:Particle_Distribution_9">
-<div class="scholmd-float-content"><figure class="scholmd-subfig" style="display: inline-block; width: 99%">
-<img src="./Particle_Distribution_9.png" />
-</figure></div>
-<div class="scholmd-float-caption"><figcaption><span class="scholmd-caption-head"><span class="scholmd-caption-head-prefix">Figure</span><span class="scholmd-caption-head-label">9</span></span><span class="scholmd-caption-text"><span class="math scholmd-math-inline">\(\frac{C_{tot}}{C_s}\)</span>=0.1 , <span class="math scholmd-math-inline">\(D_{min}\)</span>=5<span class="math scholmd-math-inline">\(\mu m\)</span> , <span class="math scholmd-math-inline">\(D_{max}\)</span>=195<span class="math scholmd-math-inline">\(\mu m\)</span> , <span class="math scholmd-math-inline">\(\sigma\)</span>=20<span class="math scholmd-math-inline">\(\mu m\)</span> , <span class="math scholmd-math-inline">\(N_P\)</span>=224</span></figcaption></div>
-</figure>
-<figure class="scholmd-float scholmd-figure" id="fig:Particle_Distribution_10">
-<div class="scholmd-float-content"><figure class="scholmd-subfig" style="display: inline-block; width: 99%">
-<img src="./Particle_Distribution_10.png" />
-</figure></div>
-<div class="scholmd-float-caption"><figcaption><span class="scholmd-caption-head"><span class="scholmd-caption-head-prefix">Figure</span><span class="scholmd-caption-head-label">10</span></span><span class="scholmd-caption-text"><span class="math scholmd-math-inline">\(\frac{C_{tot}}{C_s}\)</span>=0.1 , <span class="math scholmd-math-inline">\(D_{min}\)</span>=2<span class="math scholmd-math-inline">\(\mu m\)</span> , <span class="math scholmd-math-inline">\(D_{max}\)</span>=198<span class="math scholmd-math-inline">\(\mu m\)</span> , <span class="math scholmd-math-inline">\(\sigma\)</span>=20<span class="math scholmd-math-inline">\(\mu m\)</span> , <span class="math scholmd-math-inline">\(N_P\)</span>=249</span></figcaption></div>
-</figure>
-<figure class="scholmd-float scholmd-figure" id="fig:Particle_Distribution_11">
-<div class="scholmd-float-content"><figure class="scholmd-subfig" style="display: inline-block; width: 99%">
-<img src="./Particle_Distribution_11.png" />
-</figure></div>
-<div class="scholmd-float-caption"><figcaption><span class="scholmd-caption-head"><span class="scholmd-caption-head-prefix">Figure</span><span class="scholmd-caption-head-label">11</span></span><span class="scholmd-caption-text"><span class="math scholmd-math-inline">\(\frac{C_{tot}}{C_s}\)</span>=0.1 , <span class="math scholmd-math-inline">\(D_{min}\)</span>=1<span class="math scholmd-math-inline">\(\mu m\)</span> , <span class="math scholmd-math-inline">\(D_{max}\)</span>=199<span class="math scholmd-math-inline">\(\mu m\)</span> , <span class="math scholmd-math-inline">\(\sigma\)</span>=20<span class="math scholmd-math-inline">\(\mu m\)</span> , <span class="math scholmd-math-inline">\(N_P\)</span>=408</span></figcaption></div>
-</figure>
-<p>If we choose <span class="math scholmd-math-inline">\(\frac{C_{tot}}{C_s}\)</span>=0.2 and <span class="math scholmd-math-inline">\(\sigma\)</span>= 25<span class="math scholmd-math-inline">\(\mu m\)</span> we get:</p>
+<!---
+If we choose $\frac{C_{tot}}{C_s}$=0.1 and  $\sigma$= 20$\mu m$ we get:
+
+#### Figure: {#fig:Particle_Distribution_7}
+
+![](./Particle_Distribution_7.png){width=99%}
+
+Caption: $\frac{C_{tot}}{C_s}$=0.1 ,  $D_{min}$=50$\mu m$ ,   $D_{max}$=150 $\mu m$ ,   $\sigma$=20$\mu m$ ,   $N_P$=211
+
+
+
+#### Figure: {#fig:Particle_Distribution_8}
+
+![](./Particle_Distribution_8.png){width=99%}
+
+Caption: $\frac{C_{tot}}{C_s}$=0.1 ,  $D_{min}$=10$\mu m$ ,   $D_{max}$=190$\mu m$ ,   $\sigma$=20$\mu m$ ,   $N_P$=222
+
+
+
+#### Figure: {#fig:Particle_Distribution_9}
+
+![](./Particle_Distribution_9.png){width=99%}
+
+Caption: $\frac{C_{tot}}{C_s}$=0.1 ,  $D_{min}$=5$\mu m$ ,   $D_{max}$=195$\mu m$ ,   $\sigma$=20$\mu m$ ,   $N_P$=224
+
+
+
+#### Figure: {#fig:Particle_Distribution_10}
+
+![](./Particle_Distribution_10.png){width=99%}
+
+Caption: $\frac{C_{tot}}{C_s}$=0.1 ,  $D_{min}$=2$\mu m$ ,   $D_{max}$=198$\mu m$ ,   $\sigma$=20$\mu m$ ,   $N_P$=249
+
+
+
+#### Figure: {#fig:Particle_Distribution_11}
+
+![](./Particle_Distribution_11.png){width=99%}
+
+Caption: $\frac{C_{tot}}{C_s}$=0.1 ,  $D_{min}$=1$\mu m$ ,   $D_{max}$=199$\mu m$ ,   $\sigma$=20$\mu m$ ,   $N_P$=408
+
+-->
+<p>Choosing <span class="math scholmd-math-inline">\(\sigma\)</span>= 25<span class="math scholmd-math-inline">\(\mu m\)</span>:</p>
 <figure class="scholmd-float scholmd-figure" id="fig:Particle_Distribution_12">
 <div class="scholmd-float-content"><figure class="scholmd-subfig" style="display: inline-block; width: 99%">
 <img src="./Particle_Distribution_12.png" />
 </figure></div>
-<div class="scholmd-float-caption"><figcaption><span class="scholmd-caption-head"><span class="scholmd-caption-head-prefix">Figure</span><span class="scholmd-caption-head-label">12</span></span><span class="scholmd-caption-text"><span class="math scholmd-math-inline">\(\frac{C_{tot}}{C_s}\)</span>=0.2 , <span class="math scholmd-math-inline">\(D_{min}\)</span>=10<span class="math scholmd-math-inline">\(\mu m\)</span> , <span class="math scholmd-math-inline">\(D_{max}\)</span>=190<span class="math scholmd-math-inline">\(\mu m\)</span> , <span class="math scholmd-math-inline">\(N_{bin}\)</span>=20, <span class="math scholmd-math-inline">\(\sigma\)</span>=25<span class="math scholmd-math-inline">\(\mu m\)</span> , <span class="math scholmd-math-inline">\(N_P\)</span>= 660</span></figcaption></div>
+<div class="scholmd-float-caption"><figcaption><span class="scholmd-caption-head"><span class="scholmd-caption-head-prefix">Figure</span><span class="scholmd-caption-head-label">2</span></span><span class="scholmd-caption-text"><span class="math scholmd-math-inline">\(\frac{C_{tot}}{C_s}\)</span>=0.2 , <span class="math scholmd-math-inline">\(D_{min}\)</span>=10<span class="math scholmd-math-inline">\(\mu m\)</span> , <span class="math scholmd-math-inline">\(D_{max}\)</span>=190<span class="math scholmd-math-inline">\(\mu m\)</span> , <span class="math scholmd-math-inline">\(N_{bin}\)</span>=20, <span class="math scholmd-math-inline">\(\sigma\)</span>=25<span class="math scholmd-math-inline">\(\mu m\)</span> , <span class="math scholmd-math-inline">\(N_P\)</span>= 660</span></figcaption></div>
 </figure>
 <figure class="scholmd-float scholmd-figure" id="fig:Particle_Distribution_13">
 <div class="scholmd-float-content"><figure class="scholmd-subfig" style="display: inline-block; width: 99%">
 <img src="./Particle_Distribution_13.png" />
 </figure></div>
-<div class="scholmd-float-caption"><figcaption><span class="scholmd-caption-head"><span class="scholmd-caption-head-prefix">Figure</span><span class="scholmd-caption-head-label">13</span></span><span class="scholmd-caption-text"><span class="math scholmd-math-inline">\(\frac{C_{tot}}{C_s}\)</span>=0.2 , <span class="math scholmd-math-inline">\(D_{min}\)</span>=10<span class="math scholmd-math-inline">\(\mu m\)</span> , <span class="math scholmd-math-inline">\(D_{max}\)</span>=190<span class="math scholmd-math-inline">\(\mu m\)</span> , <span class="math scholmd-math-inline">\(N_{bin}\)</span>=30, <span class="math scholmd-math-inline">\(\sigma\)</span>=25<span class="math scholmd-math-inline">\(\mu m\)</span> , <span class="math scholmd-math-inline">\(N_P\)</span>= 637</span></figcaption></div>
+<div class="scholmd-float-caption"><figcaption><span class="scholmd-caption-head"><span class="scholmd-caption-head-prefix">Figure</span><span class="scholmd-caption-head-label">3</span></span><span class="scholmd-caption-text"><span class="math scholmd-math-inline">\(\frac{C_{tot}}{C_s}\)</span>=0.2 , <span class="math scholmd-math-inline">\(D_{min}\)</span>=10<span class="math scholmd-math-inline">\(\mu m\)</span> , <span class="math scholmd-math-inline">\(D_{max}\)</span>=190<span class="math scholmd-math-inline">\(\mu m\)</span> , <span class="math scholmd-math-inline">\(N_{bin}\)</span>=30, <span class="math scholmd-math-inline">\(\sigma\)</span>=25<span class="math scholmd-math-inline">\(\mu m\)</span> , <span class="math scholmd-math-inline">\(N_P\)</span>= 637</span></figcaption></div>
 </figure>
 <figure class="scholmd-float scholmd-figure" id="fig:Particle_Distribution_14">
 <div class="scholmd-float-content"><figure class="scholmd-subfig" style="display: inline-block; width: 99%">
 <img src="./Particle_Distribution_14.png" />
 </figure></div>
-<div class="scholmd-float-caption"><figcaption><span class="scholmd-caption-head"><span class="scholmd-caption-head-prefix">Figure</span><span class="scholmd-caption-head-label">14</span></span><span class="scholmd-caption-text"><span class="math scholmd-math-inline">\(\frac{C_{tot}}{C_s}\)</span>=0.2 , <span class="math scholmd-math-inline">\(D_{min}\)</span>=5<span class="math scholmd-math-inline">\(\mu m\)</span> , <span class="math scholmd-math-inline">\(D_{max}\)</span>=195<span class="math scholmd-math-inline">\(\mu m\)</span> , <span class="math scholmd-math-inline">\(N_{bin}\)</span>=20 , <span class="math scholmd-math-inline">\(\sigma\)</span>=25<span class="math scholmd-math-inline">\(\mu m\)</span> , <span class="math scholmd-math-inline">\(N_P\)</span>= 936</span></figcaption></div>
+<div class="scholmd-float-caption"><figcaption><span class="scholmd-caption-head"><span class="scholmd-caption-head-prefix">Figure</span><span class="scholmd-caption-head-label">4</span></span><span class="scholmd-caption-text"><span class="math scholmd-math-inline">\(\frac{C_{tot}}{C_s}\)</span>=0.2 , <span class="math scholmd-math-inline">\(D_{min}\)</span>=5<span class="math scholmd-math-inline">\(\mu m\)</span> , <span class="math scholmd-math-inline">\(D_{max}\)</span>=195<span class="math scholmd-math-inline">\(\mu m\)</span> , <span class="math scholmd-math-inline">\(N_{bin}\)</span>=20 , <span class="math scholmd-math-inline">\(\sigma\)</span>=25<span class="math scholmd-math-inline">\(\mu m\)</span> , <span class="math scholmd-math-inline">\(N_P\)</span>= 936</span></figcaption></div>
 </figure>
 <figure class="scholmd-float scholmd-figure" id="fig:Particle_Distribution_15">
 <div class="scholmd-float-content"><figure class="scholmd-subfig" style="display: inline-block; width: 99%">
 <img src="./Particle_Distribution_15.png" />
 </figure></div>
-<div class="scholmd-float-caption"><figcaption><span class="scholmd-caption-head"><span class="scholmd-caption-head-prefix">Figure</span><span class="scholmd-caption-head-label">15</span></span><span class="scholmd-caption-text"><span class="math scholmd-math-inline">\(\frac{C_{tot}}{C_s}\)</span>=0.2 , <span class="math scholmd-math-inline">\(D_{min}\)</span>=5<span class="math scholmd-math-inline">\(\mu m\)</span> , <span class="math scholmd-math-inline">\(D_{max}\)</span>=195<span class="math scholmd-math-inline">\(\mu m\)</span> , <span class="math scholmd-math-inline">\(N_{bin}\)</span>=30, <span class="math scholmd-math-inline">\(\sigma\)</span>=25<span class="math scholmd-math-inline">\(\mu m\)</span> , <span class="math scholmd-math-inline">\(N_P\)</span>= 823</span></figcaption></div>
+<div class="scholmd-float-caption"><figcaption><span class="scholmd-caption-head"><span class="scholmd-caption-head-prefix">Figure</span><span class="scholmd-caption-head-label">5</span></span><span class="scholmd-caption-text"><span class="math scholmd-math-inline">\(\frac{C_{tot}}{C_s}\)</span>=0.2 , <span class="math scholmd-math-inline">\(D_{min}\)</span>=5<span class="math scholmd-math-inline">\(\mu m\)</span> , <span class="math scholmd-math-inline">\(D_{max}\)</span>=195<span class="math scholmd-math-inline">\(\mu m\)</span> , <span class="math scholmd-math-inline">\(N_{bin}\)</span>=30, <span class="math scholmd-math-inline">\(\sigma\)</span>=25<span class="math scholmd-math-inline">\(\mu m\)</span> , <span class="math scholmd-math-inline">\(N_P\)</span>= 823</span></figcaption></div>
 </figure>
 <!----------------------------------------------------------------------------------------------------------------------------------------------------------->
 <!----------------------------------------------------------------------------------------------------------------------------------------------------------->
