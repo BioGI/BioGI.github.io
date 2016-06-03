@@ -35,13 +35,13 @@ Table (#table:study1GeomMotilityParams) describes the geometry and motility para
 
 | Name             |       Symbol        | Choice     				|Unit	|  
 |------------------|---------------------|--------------------------------------|-------|
-| Max diameter     | $D_{max}$           | <span style="color:black">22.6</span>|$mm$  	|
+| Max diameter     | $D_{max}$           | <span style="color:red  ">22.4</span>|$mm$  	|
 | Wavelength       | $\lambda$           | <span style="color:black">60</span>	|$mm$  	|
 | Wave speed       | $s_1$               | <span style="color:black">2</span>	|$mm/s$ |
 | Number of waves  | -                   | 1           				|-      |
 | Occlusion ratio  | $\epsilon/R_{max}$  | 0.5         				|-      |
 | Motility mode    | -                   | peristalsis 				|-  	|
-| Volume of bolus  | $V_C$		 | 12.03	    			|$cm^3$ |
+| Volume of bolus  | $V_C$		 | <span style="color:red">11.82</span> |$cm^3$ |
 
 Caption: Geometry and motility properties for the first computational study.
 
@@ -68,8 +68,8 @@ Table (#table:study1DrugFluidParams) shows the drug and fluid properties for the
 | Fluid's temperature  		| $T_w$		     	| 20                   					| $^{\circ}C$	|
 | Fluid's PH			| $PH_w$		| 7							|            	|
 | Fluid's density              	| $\rho_w$      	| <span style="color:black">1000</span>			| $kg/m^3$   	|
-| Fluid's dynamic viscosity  	| $\mu_w$       	| <span style="color:red">$1$ </span>			| $cp$   	|
-| Fluid's kinematic viscosity  	| $\nu_w$       	| <span style="color:red">$1.0e-6$ </span>		| $m^2/s$   	|
+| Fluid's dynamic viscosity  	| $\mu_w$       	| <span style="color:black">$1$ </span>			| $cp$   	|
+| Fluid's kinematic viscosity  	| $\nu_w$       	| <span style="color:black">$1.0e-6$ </span>		| $m^2/s$   	|
 | Drug's density		| $\rho_m$ 		| <span style="color:red">?</span>			| $kg/m^3$	|	    	
 | Drug's molar volume  		| $\nu_m$             	| 268                  					| $cm^3/mol$ 	|
 | Drug's diffusivity   		| $D_m$               	| $7.5 \times 10^{-6}$ 					| $cm^2/s$    	|
@@ -109,12 +109,12 @@ Table (#table:study1ParticleParameters) shows the particles parameters for the f
 
 | Name                  	|    Symbol          	| Choice                				|  Units     |
 |-------------------------------|-----------------------|-------------------------------------------------------|------------|
-|	-			| $C_{tot}/C_s$        	| <span style="color:red"> 0.2		       	</span> | -          |
-|Total concentration   		| $C_{tot}$           	| <span style="color:red"> $6.6 \times 10^{-8}$	</span> | $mol/cm^3$ |
+|	-			| $C_{tot}/C_s$        	| <span style="color:black"> 0.2		 </span>| -          |
+|Total concentration   		| $C_{tot}$           	| <span style="color:black"> $6.6 \times 10^{-8}$</span>| $mol/cm^3$ |
 |Maximum particle diameter	| $D_P^{max}$          	| <span style="color:red"> 195	 		</span> | $\mu m$    |
-|Average particle diameter      | $D_P^{ave}$           | <span style="color:red"> 100                  </span> | $\mu m$    |
-|Minimum particle diameter      | $D_P^{min}$           | <span style="color:red"> 5      	   	</span> | $\mu m$    |
-|Number of particles		| $N_P$			| <span style="color:red"> 			</span>	| -	     |
+|Average particle diameter      | $D_P^{ave}$           | <span style="color:black"> 100                </span>	| $\mu m$    |
+|Minimum particle diameter      | $D_P^{min}$           | < span style="color:red"> 5      	   	</span> | $\mu m$    |
+|Number of particles		| $N_P$			| <span style="color:red"> 936 (Figure [#fig:Particle_Distribution_14])	</span>	| -	     |
 |Distribution function shape	|	-		| <span style="color:red"> Normal	        </span>	| -	     |
 |Standard deviation	 	| $\sigma$		| <span style="color:red"> 25			</span>	| $\mu m$    |		
 |Number of the bins		| $N_{bins}$		| <span style="color:red"> 20			</span>	| -	     |
@@ -322,13 +322,14 @@ Table (#table:study1ModelingParameters) shows the modeling and computational par
 
 #### Table:  {#table:study1ModelingParameters}
 
-| Name                   		| Symbol             	| Choice                										|
-|---------------------------------------|-----------------------|-------------------------------------------------------------------------------------------------------|
-| Partitioning modeling parameter       | $n_d$                	| <span style="color:black">3</span>									|
-| Bulk concentration modeling parameter	| $n_b$                	| <span style="color:black">3</span>									| 	     
-| Schmidt number       	 		| $Sc$                	| <span style="color:red"> 50</span>    								|                    		           
-| LBM Relaxation parameter		| $\tau$               	| <span style="color:black">1</span>									| 	     
-| Mass conservation fix                 |                       | <span style="color:red">  in BC:$\rho$=1, $\rho_{uncov}=\rho_{ave}$, Fix [$\rho, f, f^+$] </span> 	|   
+| Name                   		|Symbol | Choice                															|
+|---------------------------------------|-------|-----------------------------------------------------------------------------------------------------------------------------------------------|
+| Partitioning modeling parameter       |$n_d$	| <span style="color:black">3 </span>														|
+| Bulk concentration modeling parameter	|$n_b$  | <span style="color:red"  >2 </span>														| 	     
+| Schmidt number       	 		|$Sc$   | <span style="color:red"  >20</span>    													|                    		           
+| LBM Relaxation parameter		|$\tau$	| <span style="color:black">1 </span>														| 	     
+| Mass conservation fix                 |       | <span style="color:red"> in BC:$\rho$=1, $\rho_{uncov}=\rho_{ave}$, Fix [$\rho, f, f^+$] </span> 						|   
+| Directional drug release partitioning |     	| <span style="color:red"> $\Delta \phi_{(i,j,k)} = Overlap_{(i,j,k)} \Big[ \frac{C_s-C_{i,j,k}}{C_s} \Big] \frac{\Delta N_b}{C_v}$ </span>     |
 
 Caption: Modeling and computational parameters for the first computational study.
 
@@ -349,7 +350,7 @@ In future, we should perform sensitivity analysis by chosing $n_d= n_b= 1.5 \& 6
 |---------------------------------------|-----------------------|---------------------------------------|------------|
 | Mesh resolution		        | $\Delta x$            | 0.2					| mm         |
 | Total number of nodes		        | $N_{nodes}$           | 3 000 000				|            |
-| Number of Particles                   | $N_{particles}$       | 685                                   |            |
+| Number of Particles                   | $N_{particles}$       | 936                                   |            |
 | Time steps		                | $\Delta t$            | 6.66 e-3				| s          |
 | Total number of waves simulated       | 	             	| 20		                        |            |
 | Wave's charactristice time scale      | $t_{wave}$            | 30					| s          |
