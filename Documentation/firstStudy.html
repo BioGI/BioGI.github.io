@@ -38,13 +38,7 @@ Ganesh Vijayakumar, Farhad Behafarid, Yanxing Wang and James Brasseur
 <p>The input parameters that need to be specified for the different experiments fall into different categories, viz., geometry and motility, drug and fluid properties, particle information, boundary conditions and the correlations for shear and hydrodynamic effects.</p>
 <!----------------------------------------------------------------------------------------------------------------------------------------------------------->
 <!----------------------------------------------------------------------------------------------------------------------------------------------------------->
-<!----------------------------------------------------------------------------------------------------------------------------------------------------------->
 <h1 id="geometry-and-motility">Geometry and Motility</h1>
-<p>Review Gino’s thesis for in vivo human data - we need ranges of physiologically realistic parameters in the middle of which will be “typical”. We need peristaltic and segmental motility geometry models:</p>
-<ul>
-<li>Need to estimate “bolus” volume as well as <span class="math scholmd-math-inline">\(R_{max}\)</span>, <span class="math scholmd-math-inline">\(\lambda\)</span> (wavelength) and <span class="math scholmd-math-inline">\(\epsilon/R_{max}\)</span> (occlusion ratio - use 0.4).</li>
-<li>Need to estimate wave speed (peristalsis) and collapse speed (segmental)</li>
-</ul>
 <p>Table <span class="scholmd-crossref"><a href="#table:study1GeomMotilityParams">(1)</a></span> describes the geometry and motility parameters of the first computational study.</p>
 <figure class="scholmd-float scholmd-table-float" id="table:study1GeomMotilityParams">
 <div class="scholmd-float-content"><table>
@@ -103,7 +97,6 @@ Ganesh Vijayakumar, Farhad Behafarid, Yanxing Wang and James Brasseur
 </table></div>
 <div class="scholmd-float-caption"><figcaption><span class="scholmd-caption-head"><span class="scholmd-caption-head-prefix">Table</span><span class="scholmd-caption-head-label">1</span></span><span class="scholmd-caption-text">Geometry and motility properties for the first computational study.</span></figcaption></div>
 </figure>
-<!----------------------------------------------------------------------------------------------------------------------------------------------------------->
 <!----------------------------------------------------------------------------------------------------------------------------------------------------------->
 <!----------------------------------------------------------------------------------------------------------------------------------------------------------->
 <h1 id="drug-and-fluid-properties">Drug and Fluid properties</h1>
@@ -191,12 +184,9 @@ Ganesh Vijayakumar, Farhad Behafarid, Yanxing Wang and James Brasseur
 </figure>
 <!----------------------------------------------------------------------------------------------------------------------------------------------------------->
 <!----------------------------------------------------------------------------------------------------------------------------------------------------------->
-<!----------------------------------------------------------------------------------------------------------------------------------------------------------->
 <h1 id="particles">Particles</h1>
-<p>Total dose and particle size distribution: Choice of shape (log normal), average size and width, number of bins, bin size.</p>
-<p>Total dose: Choose <span class="math scholmd-math-inline">\(C_{tot}/C_S \sim 0.1\)</span> to be such that we are in sink conditions and far from the singularity near <span class="math scholmd-math-inline">\(C_{tot}/C_s = 1\)</span>. We choose this even though that singularity is only for the case without absorption and we do have absorption in the intestine case.</p>
+<p>Total dose: Choose <span class="math scholmd-math-inline">\(C_{tot}/C_s =0.2\)</span> to be such that we are in sink conditions and far from the singularity near <span class="math scholmd-math-inline">\(C_{tot}/C_s = 1\)</span>. We choose this even though that singularity is only for the case without absorption and we do have absorption in the intestine case.</p>
 <p>“BOLUS DOSE”: mass or moles of drug in a bolus segment. To estimate we will collect data from the literature and from UM on concentration of extracted fluids – statistics. From MRI (Nottingham) we will estimate bolus volume. These two will give us dose in moles from which bolus <span class="math scholmd-math-inline">\(C_{tot}\)</span> can be estimated. To this end, we need to estimate solid content along with fluid concentration in the extracted segments. Once we have ranges of <span class="math scholmd-math-inline">\(C_{tot}\)</span> we can estimate ranges of <span class="math scholmd-math-inline">\(C_{tot}/C_s\)</span> – our critical parameter.</p>
-<p>We need to estimate for time = 0 the ranges of average particle sizes (<span class="math scholmd-math-inline">\(R_P\)</span> ~ 50 - 100 <span class="math scholmd-math-inline">\(\mu m\)</span> seem reasonable), mathematical distribution function shape (log normal seems reasonable), width of the distribution, number of particles, and the number of the bins discretizing the distribution. I must put together information from previous attempts to address this issue. There will have to be a strong balance with practicality – computational load, grid resolution, etc.</p>
 <p>Choice of where to locate the particles at the initial condition.</p>
 <p>Table <span class="scholmd-crossref"><a href="#table:study1ParticleParameters">(3)</a></span> shows the particles parameters for the first computational study.</p>
 <figure class="scholmd-float scholmd-table-float" id="table:study1ParticleParameters">
@@ -276,7 +266,6 @@ Ganesh Vijayakumar, Farhad Behafarid, Yanxing Wang and James Brasseur
 </figure>
 <!---
 ## Estimating the numebr of particles with uniform size to achive the desired $C_{tot}$
-
 To achive the $C_{tot} / C_s = 0.2$ :
 
 ~~~math
@@ -339,7 +328,7 @@ Caption: $\frac{C_{tot}}{C_s}$=0.1 ,  $D_{min}$= 10$\mu m$ ,   $D_{max}$= 190$\m
 Caption: $\frac{C_{tot}}{C_s}$=0.1 ,  $D_{min}$= 10$\mu m$ ,   $D_{max}$= 190$\mu m$ ,   $\sigma$= 40$\mu m$ ,   $N_P$=2026
 
 -->
-<p>Choosing <span class="math scholmd-math-inline">\(\sigma\)</span>= 30<span class="math scholmd-math-inline">\(\mu m\)</span>:</p>
+<p>For <span class="math scholmd-math-inline">\(\sigma\)</span>= 30<span class="math scholmd-math-inline">\(\mu m\)</span>:</p>
 <figure class="scholmd-float scholmd-figure" id="fig:Particle_Distribution_6">
 <div class="scholmd-float-content"><figure class="scholmd-subfig" style="display: inline-block; width: 99%">
 <img src="./Particle_Distribution_6.png" />
@@ -355,15 +344,11 @@ If we choose $\frac{C_{tot}}{C_s}$=0.1 and  $\sigma$= 20$\mu m$ we get:
 
 Caption: $\frac{C_{tot}}{C_s}$=0.1 ,  $D_{min}$=50$\mu m$ ,   $D_{max}$=150 $\mu m$ ,   $\sigma$=20$\mu m$ ,   $N_P$=211
 
-
-
 #### Figure: {#fig:Particle_Distribution_8}
 
 ![](./Particle_Distribution_8.png){width=99%}
 
 Caption: $\frac{C_{tot}}{C_s}$=0.1 ,  $D_{min}$=10$\mu m$ ,   $D_{max}$=190$\mu m$ ,   $\sigma$=20$\mu m$ ,   $N_P$=222
-
-
 
 #### Figure: {#fig:Particle_Distribution_9}
 
@@ -371,24 +356,19 @@ Caption: $\frac{C_{tot}}{C_s}$=0.1 ,  $D_{min}$=10$\mu m$ ,   $D_{max}$=190$\mu 
 
 Caption: $\frac{C_{tot}}{C_s}$=0.1 ,  $D_{min}$=5$\mu m$ ,   $D_{max}$=195$\mu m$ ,   $\sigma$=20$\mu m$ ,   $N_P$=224
 
-
-
 #### Figure: {#fig:Particle_Distribution_10}
 
 ![](./Particle_Distribution_10.png){width=99%}
 
 Caption: $\frac{C_{tot}}{C_s}$=0.1 ,  $D_{min}$=2$\mu m$ ,   $D_{max}$=198$\mu m$ ,   $\sigma$=20$\mu m$ ,   $N_P$=249
 
-
-
 #### Figure: {#fig:Particle_Distribution_11}
 
 ![](./Particle_Distribution_11.png){width=99%}
 
 Caption: $\frac{C_{tot}}{C_s}$=0.1 ,  $D_{min}$=1$\mu m$ ,   $D_{max}$=199$\mu m$ ,   $\sigma$=20$\mu m$ ,   $N_P$=408
-
 -->
-<p>Choosing <span class="math scholmd-math-inline">\(\sigma\)</span>= 25<span class="math scholmd-math-inline">\(\mu m\)</span>:</p>
+<p>For <span class="math scholmd-math-inline">\(\sigma\)</span>= 25<span class="math scholmd-math-inline">\(\mu m\)</span>:</p>
 <figure class="scholmd-float scholmd-figure" id="fig:Particle_Distribution_12">
 <div class="scholmd-float-content"><figure class="scholmd-subfig" style="display: inline-block; width: 99%">
 <img src="./Particle_Distribution_12.png" />
@@ -488,7 +468,7 @@ Caption: $\frac{C_{tot}}{C_s}$=0.1 ,  $D_{min}$=1$\mu m$ ,   $D_{max}$=199$\mu m
 <tr class="even">
 <td style="text-align: left;">Directional drug release partitioning</td>
 <td style="text-align: left;"></td>
-<td style="text-align: left;"><span style="color:red"> <span class="math scholmd-math-inline">\(\Delta \phi_{(i,j,k)} = Overlap_{(i,j,k)} \Big[ \frac{C_s-C_{i,j,k}}{C_s} \Big] \frac{\Delta N_b}{C_v}\)</span> </span></td>
+<td style="text-align: left;"><span style="color:red"> <span class="math scholmd-math-inline">\(\Delta \phi_{(i,j,k)} = Overlap_{(i,j,k)} \Big[ \frac{C_s-C_{i,j,k}}{C_s} \Big] \frac{\Delta N_b}{ (\Delta x) ^3}\)</span> </span></td>
 </tr>
 </tbody>
 </table></div>

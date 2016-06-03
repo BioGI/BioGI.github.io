@@ -16,18 +16,9 @@ The input parameters that need to be specified for the different experiments fal
 
 
 
-
-
-
-<!----------------------------------------------------------------------------------------------------------------------------------------------------------->
 <!----------------------------------------------------------------------------------------------------------------------------------------------------------->
 <!----------------------------------------------------------------------------------------------------------------------------------------------------------->
 # Geometry and Motility
-
-Review Gino's thesis for in vivo human data - we need ranges of physiologically realistic parameters in the middle of which will be "typical". We need peristaltic and segmental motility geometry models:
-
-* Need to estimate "bolus" volume as well as $R_{max}$, $\lambda$ (wavelength)  and $\epsilon/R_{max}$ (occlusion ratio - use 0.4).
-* Need to estimate wave speed (peristalsis) and collapse speed (segmental)
 
 Table (#table:study1GeomMotilityParams) describes the geometry and motility parameters of the first computational study.
 
@@ -52,10 +43,7 @@ Caption: Geometry and motility properties for the first computational study.
 
 <!----------------------------------------------------------------------------------------------------------------------------------------------------------->
 <!----------------------------------------------------------------------------------------------------------------------------------------------------------->
-<!----------------------------------------------------------------------------------------------------------------------------------------------------------->
-
 # Drug and Fluid properties
-
 
 Table (#table:study1DrugFluidParams) shows the drug and fluid properties for the first computational study.
 
@@ -82,25 +70,16 @@ Caption: Drug and fluid properties for the first computational study.
 
 
 
-
-
-
-
-<!----------------------------------------------------------------------------------------------------------------------------------------------------------->
 <!----------------------------------------------------------------------------------------------------------------------------------------------------------->
 <!----------------------------------------------------------------------------------------------------------------------------------------------------------->
 # Particles
 
-Total dose and particle size distribution: Choice of shape (log normal), average size and width, number of bins, bin size.
-
-Total dose: Choose $C_{tot}/C_S \sim 0.1$ to be such that we are in sink conditions and far from the singularity near $C_{tot}/C_s = 1$. We choose this even though that singularity is only for the case without absorption and we do have absorption in the intestine case.
+Total dose: Choose $C_{tot}/C_s =0.2$ to be such that we are in sink conditions and far from the singularity near $C_{tot}/C_s = 1$. 
+We choose this even though that singularity is only for the case without absorption and we do have absorption in the intestine case.
 
 "BOLUS DOSE": mass or moles of drug in a bolus segment. To estimate we will collect data from the literature and from UM on concentration of extracted fluids -- statistics. From MRI (Nottingham) we will estimate bolus volume. These two will give us dose in moles from which bolus $C_{tot}$ can be estimated. To this end, we need to estimate solid content along with fluid concentration in the extracted segments. Once we have ranges of $C_{tot}$ we can estimate ranges of  $C_{tot}/C_s$ -- our critical parameter.
 
-We need to estimate for time = 0 the ranges of average particle sizes ($R_P$ ~ 50 - 100 $\mu m$ seem reasonable), mathematical distribution function  shape (log normal seems reasonable), width of the distribution, number of particles, and the number of the bins discretizing the distribution. I must put together information from previous attempts to address this issue. There will have to be a strong balance with practicality -- computational load, grid resolution, etc.
-
 Choice of where to locate the particles at the initial condition.
-
 
 Table (#table:study1ParticleParameters) shows the particles parameters for the first computational study.
 
@@ -126,9 +105,9 @@ Caption: Drug particle properties for the first computational study.
 
 
 
+
 <!---
 ## Estimating the numebr of particles with uniform size to achive the desired $C_{tot}$
-
 To achive the $C_{tot} / C_s = 0.2$ :
 
 ~~~math
@@ -157,10 +136,6 @@ V_P &= \frac{4 \pi}{3} R^3 = 5.238 \times 10^{-7} cm^3 \\
 
 Meaning approximately  406 particles ($N_P$ = 406) with $R=50 \mu m$ are needed to provide  $C_{tot} / C_s = 0.2$
 -->
-
-
-
-
 
 
 
@@ -204,7 +179,8 @@ Caption: $\frac{C_{tot}}{C_s}$=0.1 ,  $D_{min}$= 10$\mu m$ ,   $D_{max}$= 190$\m
 -->
 
 
-Choosing $\sigma$= 30$\mu m$:
+
+For $\sigma$= 30$\mu m$:
 
 #### Figure: {#fig:Particle_Distribution_6}
 
@@ -223,15 +199,11 @@ If we choose $\frac{C_{tot}}{C_s}$=0.1 and  $\sigma$= 20$\mu m$ we get:
 
 Caption: $\frac{C_{tot}}{C_s}$=0.1 ,  $D_{min}$=50$\mu m$ ,   $D_{max}$=150 $\mu m$ ,   $\sigma$=20$\mu m$ ,   $N_P$=211
 
-
-
 #### Figure: {#fig:Particle_Distribution_8}
 
 ![](./Particle_Distribution_8.png){width=99%}
 
 Caption: $\frac{C_{tot}}{C_s}$=0.1 ,  $D_{min}$=10$\mu m$ ,   $D_{max}$=190$\mu m$ ,   $\sigma$=20$\mu m$ ,   $N_P$=222
-
-
 
 #### Figure: {#fig:Particle_Distribution_9}
 
@@ -239,32 +211,25 @@ Caption: $\frac{C_{tot}}{C_s}$=0.1 ,  $D_{min}$=10$\mu m$ ,   $D_{max}$=190$\mu 
 
 Caption: $\frac{C_{tot}}{C_s}$=0.1 ,  $D_{min}$=5$\mu m$ ,   $D_{max}$=195$\mu m$ ,   $\sigma$=20$\mu m$ ,   $N_P$=224
 
-
-
 #### Figure: {#fig:Particle_Distribution_10}
 
 ![](./Particle_Distribution_10.png){width=99%}
 
 Caption: $\frac{C_{tot}}{C_s}$=0.1 ,  $D_{min}$=2$\mu m$ ,   $D_{max}$=198$\mu m$ ,   $\sigma$=20$\mu m$ ,   $N_P$=249
 
-
-
 #### Figure: {#fig:Particle_Distribution_11}
 
 ![](./Particle_Distribution_11.png){width=99%}
 
 Caption: $\frac{C_{tot}}{C_s}$=0.1 ,  $D_{min}$=1$\mu m$ ,   $D_{max}$=199$\mu m$ ,   $\sigma$=20$\mu m$ ,   $N_P$=408
-
 -->
 
 
 
 
-Choosing $\sigma$= 25$\mu m$:
 
 
-
-
+For $\sigma$= 25$\mu m$:
 
 #### Figure: {#fig:Particle_Distribution_12}
 
@@ -272,20 +237,17 @@ Choosing $\sigma$= 25$\mu m$:
 
 Caption: $\frac{C_{tot}}{C_s}$=0.2 ,  $D_{min}$=10$\mu m$ ,   $D_{max}$=190$\mu m$ , $N_{bin}$=20,  $\sigma$=25$\mu m$ ,   $N_P$= 660
 
-
 #### Figure: {#fig:Particle_Distribution_13}
 
 ![](./Particle_Distribution_13.png){width=99%}
 
 Caption: $\frac{C_{tot}}{C_s}$=0.2 ,  $D_{min}$=10$\mu m$ ,   $D_{max}$=190$\mu m$ ,  $N_{bin}$=30,  $\sigma$=25$\mu m$ ,   $N_P$= 637
 
-
 #### Figure: {#fig:Particle_Distribution_14}
 
 ![](./Particle_Distribution_14.png){width=99%}
 
 Caption: $\frac{C_{tot}}{C_s}$=0.2 ,  $D_{min}$=5$\mu m$ ,   $D_{max}$=195$\mu m$ ,  $N_{bin}$=20  , $\sigma$=25$\mu m$ ,   $N_P$= 936
-
 
 #### Figure: {#fig:Particle_Distribution_15}
 
@@ -298,10 +260,7 @@ Caption: $\frac{C_{tot}}{C_s}$=0.2 ,  $D_{min}$=5$\mu m$ ,   $D_{max}$=195$\mu m
 <!----------------------------------------------------------------------------------------------------------------------------------------------------------->
 <!----------------------------------------------------------------------------------------------------------------------------------------------------------->
 <!----------------------------------------------------------------------------------------------------------------------------------------------------------->
-
-
 # Boundary conditions
-
 Table (#table:study1BC) shows the boundary condition choices: 
 
 #### Table:  {#table:study1BC}
@@ -316,11 +275,12 @@ Caption: Boundary Conditions
 
 
 
+
+
 <!----------------------------------------------------------------------------------------------------------------------------------------------------------->
 <!----------------------------------------------------------------------------------------------------------------------------------------------------------->
 <!----------------------------------------------------------------------------------------------------------------------------------------------------------->
 # Modeling Parameters
-
 Table (#table:study1ModelingParameters) shows the modeling and computational parameters 
 
 #### Table:  {#table:study1ModelingParameters}
@@ -328,11 +288,11 @@ Table (#table:study1ModelingParameters) shows the modeling and computational par
 | Name                   		|Symbol | Choice                															|
 |---------------------------------------|-------|-----------------------------------------------------------------------------------------------------------------------------------------------|
 | Partitioning modeling parameter       |$n_d$	| <span style="color:black">3 </span>														|
-| Bulk concentration modeling parameter	|$n_b$  | <span style="color:red"  >2 </span>														| 	     
-| Schmidt number       	 		|$Sc$   | <span style="color:red"  >20</span>    													|                    		           
-| LBM Relaxation parameter		|$\tau$	| <span style="color:black">1 </span>														| 	     
-| Mass conservation fix                 |       | <span style="color:red"> in BC:$\rho$=1, $\rho_{uncov}=\rho_{ave}$, Fix [$\rho, f, f^+$] </span> 						|   
-| Directional drug release partitioning |     	| <span style="color:red"> $\Delta \phi_{(i,j,k)} = Overlap_{(i,j,k)} \Big[ \frac{C_s-C_{i,j,k}}{C_s} \Big] \frac{\Delta N_b}{C_v}$ </span>     |
+| Bulk concentration modeling parameter	|$n_b$  | <span style="color:red"  >2 </span>														|     
+| Schmidt number       	 		|$Sc$   | <span style="color:red"  >20</span>    													|             		           
+| LBM Relaxation parameter		|$\tau$	| <span style="color:black">1 </span>														| 
+| Mass conservation fix                 |       | <span style="color:red"> in BC:$\rho$=1, $\rho_{uncov}=\rho_{ave}$, Fix [$\rho, f, f^+$] </span> 						|  
+| Directional drug release partitioning |     	| <span style="color:red"> $\Delta \phi_{(i,j,k)} = Overlap_{(i,j,k)} \Big[ \frac{C_s-C_{i,j,k}}{C_s} \Big] \frac{\Delta N_b}{ (\Delta x) ^3}$ </span>     |
 
 Caption: Modeling and computational parameters for the first computational study.
 
@@ -340,12 +300,13 @@ Caption: Modeling and computational parameters for the first computational study
 In future, we should perform sensitivity analysis by chosing $n_d= n_b= 1.5 \& 6$
 
 
-<!----------------------------------------------------------------------------------------------------------------------------------------------------------->
-<!----------------------------------------------------------------------------------------------------------------------------------------------------------->
-<!----------------------------------------------------------------------------------------------------------------------------------------------------------->
 
 
 
+
+<!----------------------------------------------------------------------------------------------------------------------------------------------------------->
+<!----------------------------------------------------------------------------------------------------------------------------------------------------------->
+<!----------------------------------------------------------------------------------------------------------------------------------------------------------->
 #Computational Cost Estimation
 #### Table:  {#table:ComputationalCost}
 
