@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="generator" content="scholpandoc">
+  <meta name="viewport" content="width=device-width">
+  
+  <meta name="author" content="Farhad Behafarid and Ganesh Vijayakumar">
+  <title>Summary of previous work done on the Bio project</title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.7.1/modernizr.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.js"></script>
+  <link rel="stylesheet" href="css/ScholarlyMarkdown-BS3.css">
+</head>
+<body>
+<div class="scholmd-container">
+<div class="scholmd-main">
+<div class="scholmd-content">
+<header>
+<h1 class="scholmd-title">Summary of previous work done on the Bio project</h1>
+<div class="scholmd-author">
+Farhad Behafarid and Ganesh Vijayakumar
+</div>
+</header>
+<p>This is our current understanding of the previous work done on the Bio-project.</p>
+<h2 id="lattice-boltzmann-method-applied-to-an-intestine-model">Lattice Boltzmann method applied to an intestine model</h2>
+<p>Anupam Pal wrote the first Lattice Boltzmann code in Dr. Brasseur’s group and applied it to analyze the motility of the Pharynx <span class="scholmd-citation" data-cites="Pal2000">[1]</span>. Gino and Yang Xing developed a Lattice Boltzmann model of the intestine <span class="scholmd-citation" data-cites="Wang2010b">[2]</span>. The nutrients are modeled as a single passive scalar using the Moment-propagation method of Merks et. al. <span class="scholmd-citation" data-cites="Merks2002563">[3]</span>. They also incorporated various existing techniques like 2nd order moving boundary conditions from Lallemand and Luo <span class="scholmd-citation" data-cites="Lallemand2003">[4]</span> and a multiple-grid strategy from Yu, Mei and Shyy <span class="scholmd-citation" data-cites="Yu2002">[5]</span> and extended them to scalars. While the initial development was in 3D, they also wrote a 3D code that was designed to run in parallel <span class="scholmd-citation" data-cites="Banco2010">[6]</span>.</p>
+<h2 id="effect-of-intestinal-motility-on-the-nutrient-absorption-through-a-micro-macro-mixing-layer">Effect of intestinal motility on the nutrient absorption through a Micro-Macro mixing layer</h2>
+<p>Gino and Yang Xing studied this through the NSF grant. They argued using 2D simulations initially <span class="scholmd-citation" data-cites="Wang2010">[7]</span> and 3D simulations later <span class="scholmd-citation" data-cites="Wang2015">[8]</span> that the motion of the villi along with the intestinal motility creates a micro-macro mixing layer that enhances the delivery of drug to the intestinal surface .</p>
+<h2 id="modeling-tablet-dissolution-in-a-fluid-medium">Modeling tablet dissolution in a fluid medium</h2>
+<p>Gordon Amidon et. al. <span class="scholmd-citation" data-cites="Amidon1995">[9]</span> and Horter and Dressman <span class="scholmd-citation" data-cites="Horter200175">[10]</span> show that for poorly soluble substances the ability to go into solution is a more important limitation of absorption than its ability to permeate the intestinal mucosa <span class="scholmd-citation" data-cites="Emilie2009">[11]</span>. Thus it is important to model the in-vivo dissolution of tablets. Former dissolution models have assumed a constant diffusion layer from the particle surface and a monodisperse models of dissolution. Yang Xing and Brasseur studied this through the NSF grant and then in collaboration with Bertol Abrahamson and Lennat Lindfors at Astrazeneca Pharmaceuticals. They created engineering models from first principles for dissolution from a single particle in <span class="scholmd-citation" data-cites="Wang2012">[12]</span> and extended it to a polydisperse model in <span class="scholmd-citation" data-cites="JPS:JPS24472">[13]</span>. They also studied the effect of shear on tablet dissolution through Lattice Boltzmann calculations past a dissolving sphere using very fine meshes and created correlations between the Sherwood number and the shear rate.</p>
+<h2 id="modeling-tablet-dissolution-in-the-gut">Modeling tablet dissolution in the gut</h2>
+<p>Yang Xing and Brasseur tried to combine the previous two capabilities to model this. However, Balaji did most of the coding to track the drug particles in the code in parallel. Yet, he was only able to barely finish the implementation in-vitro in a Couette device. Balaji also noticed problems with conservation of mass in the solver. This is apparently a well known issue with Lattice Boltzmann methods.</p>
+<h1 id="lattice-boltmann-method">Lattice Boltmann Method</h1>
+<h2 id="lbm-method-references">LBM Method References</h2>
+<p>These are the references we got from Brasseur and Balaji. I have also added some references I found from the web that have been useful.</p>
+<ul>
+<li>Sukop and Thorne - Lattice Boltzmann Modeling - An Introduction for Geoscientists and Engineers <span class="scholmd-citation" data-cites="Sukop2006">[14]</span></li>
+<li>Chen and Doolen - Lattice Boltzmann Method for Fluid Flows <span class="scholmd-citation" data-cites="Chen1998">[15]</span></li>
+<li>Lallemand and Luo - Theory of the lattice Boltzmann method: Dispersion, dissipation, isotropy, Galilean invariance, and stability <span class="scholmd-citation" data-cites="Lallemand2000">[16]</span></li>
+<li>Mohammad - Lattice Boltzmann Method - Fundamentals and Engineering Applications with Computer Codes <span class="scholmd-citation" data-cites="Mohammad2011">[17]</span></li>
+<li>Gilberto M Kremer - An Introduction to the Boltzmann Equation and Transport Processes in Gases <span class="scholmd-citation" data-cites="Kremer2010">[18]</span></li>
+<li>Alexander J Wagner - A Practical Introduction to the Lattice Boltzmann Method <span class="scholmd-citation" data-cites="Wagner2008">[19]</span></li>
+<li>Ladd <span class="scholmd-citation" data-cites="Ladd1994">[20]</span>, <span class="scholmd-citation" data-cites="Ladd1994a">[21]</span> - First order moving boundary conditions</li>
+<li>Lallemand and Luo <span class="scholmd-citation" data-cites="Lallemand2003">[4]</span> - Second order moving boundary conditions</li>
+<li>Merks et. al. <span class="scholmd-citation" data-cites="Merks2002563">[3]</span> - Moment propagation method for scalars</li>
+<li>Yu, Mei and Shyy <span class="scholmd-citation" data-cites="Yu2002">[5]</span> - Multiple grid method for LBM</li>
+</ul>
+<p>Please see <a href="Documentation/lbmBasics.html">Basics of Lattice Boltzmann Method</a> for our current understanding of the Lattice Boltzmann Method</p>
+<h2 id="lbm-codes-from-balaji-yang-xing-and-gino">LBM codes from Balaji, Yang Xing and Gino</h2>
+<p>We have two codes in our possession. We got both from Balaji.</p>
+<ul>
+<li><p>3D Intestine code</p>
+<ul>
+<li>Based off Gino and Yang Xing’s 3D codes</li>
+<li>Models intestinal motility using combination of Peristalsis and Segmentation</li>
+<li>Can model villi motion</li>
+<li>Not sure if it contains multi-grid capability</li>
+<li>Models scalar advection/diffusion using “Moment Propagation Method”</li>
+<li>Contains elementary particle dissolution and tracking implmentation (in serial)</li>
+</ul></li>
+<li><p>Couette flow device code</p>
+<ul>
+<li>Based off Gino and Yang Xing’s 3D codes</li>
+<li>Contains most advanced dissolution model for particles in Couette flow device</li>
+<li>Has parallel particle tracking capability</li>
+</ul></li>
+</ul>
+<p>We have been able to run both codes and visualize their output.</p>
+<h2 id="parallel-particle-tracking-and-dissolution-physics">Parallel Particle Tracking and Dissolution Physics</h2>
+<p>Please see <a href="Documentation/monoVsPolydisperse.html">Understanding of Mono vs. Polydisperse dissolution models</a> for our current understanding of the dissolution models.</p>
+<p>We are working on the implementation of the dissolution model in the numerical code <a href="Documentation/Dissolution-Model-Implementation.html">see Implementation of dissolution model</a> for the physics/mathematical model</p>
+<p>The details of Particle tracking and dissolution models implemented in Couette Flow Code are also documented (<a href="Documentation/ParticleTrackingDrugRelease.html">See Particle Tracking and Dissolution Model in Couette Flow Code</a>). These features are going to be implemented in the Intestine code.</p>
+<h2 id="attempts-to-reproduce-ginos-3d-results">Attempts to reproduce Gino’s 3D results</h2>
+<p>Please see <a href="Documentation/ginoReproduce.html">Attempts to reproduce Gino’s results</a> for our attempts to reproduce a few of Gino’s results.</p>
+<div class="references">
+<h1>References</h1>
+<p>1. Pal A (2000) Motility of th phaarynx analyzed using lattice boltzmann simulation [PhD thesis]. Pennsylvania State University.</p>
+<p>2. Wang Y, Brasseur JG, Banco GG, Webb AG, Ailiani AC, et al. (2010) Development of a lattice-boltzmann method for multiscale transport and absorption with application to intestinal function. In: De S, Guilak F, Mofrad R. K. M, editors. Computational modeling in biomechanics. Springer Netherlands. pp. 69–96. Available: <a href="http://dx.doi.org/10.1007/978-90-481-3575-2_3" class="uri">http://dx.doi.org/10.1007/978-90-481-3575-2_3</a>.</p>
+<p>3. Merks R, Hoekstra A, Sloot P (2002) The moment propagation method for advection-diffusion in the lattice boltzmann method: Validation and péclet number limits. Journal of Computational Physics 183: 563–576. Available: <a href="http://www.sciencedirect.com/science/article/pii/S0021999102972098" class="uri">http://www.sciencedirect.com/science/article/pii/S0021999102972098</a>.</p>
+<p>4. Lallemand P, Luo L-S (2003) Lattice boltzmann method for moving boundaries. Journal of Computational Physics 184: 406–421. Available: <a href="http://www.sciencedirect.com/science/article/pii/S0021999102000220" class="uri">http://www.sciencedirect.com/science/article/pii/S0021999102000220</a>.</p>
+<p>5. Yu D, Mei R, Shyy W (2002) A multi-block lattice boltzmann method for viscous fluid flows. International Journal for Numerical Methods in Fluids 39: 99–120. Available: <a href="http://dx.doi.org/10.1002/fld.280" class="uri">http://dx.doi.org/10.1002/fld.280</a>.</p>
+<p>6. Banco G (2010) Multi-scale fluid mechanics of nutrient absorption in the small intestine analyzed with 2D and 3D lattice boltzmann models [PhD thesis]. Pennsylvania State University.</p>
+<p>7. Wang Y, Brasseur JG, Banco GG, Webb AG, Ailiani AC, et al. (2010) A multiscale lattice boltzmann model of macro- to micro-scale transport, with applications to gut function. Philosophical transactions Series A, Mathematical, physical, and engineering sciences 368: 2863–2880. Available: <a href="http://www.ncbi.nlm.nih.gov/pmc/articles/PMC3263792/" class="uri">http://www.ncbi.nlm.nih.gov/pmc/articles/PMC3263792/</a>.</p>
+<p>8. Wang Y, Banco G, Webb AG, Ailiani AC, Brasseur JG (2015) Mechanisms of macro-to-micro scale transport relevant to gut function.</p>
+<p>9. Amidon GL, Lennernas H, Shah VP, Crison JR (1995) A theoretical basis for a biopharmaceutic drug classification: The correlation of in vitro drug product dissolution and in vivo bioavailability. Pharmaceutical Research 12: 413–420.</p>
+<p>10. H<span>ö</span>rter D, Dressman J (2001) Influence of physicochemical properties on dissolution of drugs in the gastrointestinal tract1. Advanced Drug Delivery Reviews 46: 75–87. Available: <a href="http://www.sciencedirect.com/science/article/pii/S0169409X00001307" class="uri">http://www.sciencedirect.com/science/article/pii/S0169409X00001307</a>.</p>
+<p>11. Weibull E (2009) The effect of hydrodynamic forces on particle dissolution and deaggregation of poorly soluble substances in the small intestine [Master’s thesis]. Lunds University.</p>
+<p>12. Wang Y, Abrahamsson B, Lindfors L, Brasseur JG (2012) Comparison and analysis of theoretical models for diffusion-controlled dissolution. Molecular Pharmaceutics 9: 1052–1066. Available: <a href=" 
+ http://dx.doi.org/10.1021/mp2002818
+ 
+">
+ http://dx.doi.org/10.1021/mp2002818
+ 
+</a>.</p>
+<p>13. Wang Y, Abrahamsson B, Lindfors L, Brasseur JG (2015) Analysis of diffusion-controlled dissolution from polydisperse collections of drug particles with an assessed mathematical model. Journal of Pharmaceutical Sciences 104: 2998–3017. Available: <a href="http://dx.doi.org/10.1002/jps.24472" class="uri">http://dx.doi.org/10.1002/jps.24472</a>.</p>
+<p>14. Sukop MC, Thorne Jr DT (2006) Lattice boltzmann modeling - an introduction for geoscientists and engineers. Springer.</p>
+<p>15. Chen S, Doolen GD (1998) Lattice boltzmann method for fluid flows. Annual Review of Fluid Mechanics 30: 329–364. Available: <a href=" http://dx.doi.org/10.1146/annurev.fluid.30.1.329">http://dx.doi.org/10.1146/annurev.fluid.30.1.329</a>.</p>
+<p>16. Lallemand P, Luo L-S (2000) Theory of the lattice boltzmann method: Dispersion, dissipation, isotropy, galilean invariance, and stability. Phys Rev E 61: 6546–6562. Available: <a href="http://link.aps.org/doi/10.1103/PhysRevE.61.6546" class="uri">http://link.aps.org/doi/10.1103/PhysRevE.61.6546</a>.</p>
+<p>17. Mohammad AA (2011) Lattice boltzmann method - fundamentals and engineering applications with computer codes. Springer London. doi:<a href="http://dx.doi.org/10.1007/978-0-85729-455-5">10.1007/978-0-85729-455-5</a>.</p>
+<p>18. Kremer GM (2010) An introduction to the boltzmann equation and transport processes in gases. Springer-Verlag Berlin Heidelberg. doi:<a href="http://dx.doi.org/10.1007/978-3-642-11696-4">10.1007/978-3-642-11696-4</a>.</p>
+<p>19. Wagner AJ (2008) A practical introduction to the lattice boltzmann method.</p>
+<p>20. Ladd AJC (1994) Numerical simulations of particulate suspensions via a discretized boltzmann equation. part 1. theoretical foundation. Journal of Fluid Mechanics 271: 285–309. Available: <a href="http://journals.cambridge.org/article_S0022112094001771" class="uri">http://journals.cambridge.org/article_S0022112094001771</a>.</p>
+<p>21. Ladd AJC (1994) Numerical simulations of particulate suspensions via a discretized boltzmann equation. part 2. numerical results. Journal of Fluid Mechanics 271: 311–339. Available: <a href="http://journals.cambridge.org/article_S0022112094001783" class="uri">http://journals.cambridge.org/article_S0022112094001783</a>.</p>
+</div>
+</div>
+</div>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+      processClass: "math"
+    },
+    TeX: {
+        TagSide: "left",
+        TagIndent: "1.2em",
+        equationNumbers: {
+            autoNumber: "AMS"
+        },
+        Macros: {
+            ensuremath: ["#1",1],
+            textsf: ["\\mathsf{\\text{#1}}",1],
+            texttt: ["\\mathtt{\\text{#1}}",1]
+        }
+    },
+    "HTML-CSS": { 
+        scale: 100,
+        availableFonts: ["TeX"], 
+        preferredFont: "TeX",
+        webFont: "TeX",
+        imageFont: "TeX",
+        EqnChunk: 1000
+    }
+});
+</script>
+</div>
+</body>
+</html>
