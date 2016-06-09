@@ -1,4 +1,5 @@
 html:
+	scholdoc webpage-settings.yml SummaryofPreviousWorks.md --citeproc --output=SummaryofPreviousWorks.html
 #	scholdoc webpage-settings.yml lbmBasics.md --citeproc --output=lbmBasics.html
 #	scholdoc webpage-settings.yml ginoReproduce.md --citeproc --output=ginoReproduce.html
 #	scholdoc webpage-settings.yml monoVsPolydisperse.md --citeproc --output=monoVsPolydisperse.html
