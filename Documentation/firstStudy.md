@@ -86,23 +86,22 @@ Table (#table:study1ParticleParameters) shows the particles parameters for the f
 
 ####Table:  {#table:study1ParticleParameters}
 
-| Name                  	|    Symbol          	| Choice                				|  Units     |
-|-------------------------------|-----------------------|-------------------------------------------------------|------------|
-|	-			| $C_{tot}/C_s$        	| <span style="color:black"> 0.2		 </span>| -          |
-|Total concentration   		| $C_{tot}$           	| <span style="color:black"> $6.6 \times 10^{-8}$</span>| $mol/cm^3$ |
-|Maximum particle diameter	| $D_P^{max}$          	| <span style="color:red"> 195	 		</span> | $\mu m$    |
-|Average particle diameter      | $D_P^{ave}$           | <span style="color:black"> 100                </span>	| $\mu m$    |
-|Minimum particle diameter      | $D_P^{min}$           | <span style="color:red"> 5      	   	</span> | $\mu m$    |
+| Name                  	|    Symbol          	| Choice                							|  Units     |
+|-------------------------------|-----------------------|-------------------------------------------------------------------------------|------------|
+|	-			| $C_{tot}/C_s$        	| <span style="color:red"> 0.158		 </span>			| -          |
+|Total concentration   		| $C_{tot}$           	| <span style="color:red"> $5.214 \times 10^{-8}$</span>			| $mol/cm^3$ |
+|Total volume of the particles  | $V_P$                 | <span style="color:red"> $1.65294 \times 10^{-4}$ </span>			| $cm^3$     | 
+|Toal drug in the domain 	|                       | <span style="color:red"> $6.1676862 \times 10^{-7}$ </span>                  | $mol$      |
+|Maximum particle diameter	| $D_P^{max}$          	| <span style="color:red"> 195	 		</span> 			| $\mu m$    |
+|Average particle diameter      | $D_P^{ave}$           | <span style="color:black"> 100                </span>				| $\mu m$    |
+|Minimum particle diameter      | $D_P^{min}$           | <span style="color:red"> 5      	   	</span> 			| $\mu m$    |
 |Number of particles		| $N_P$			| <span style="color:red"> 936 (Figure [#fig:Particle_Distribution_14])	</span>	| -	     |
-|Distribution function shape	|	-		| <span style="color:black"> Normal	        </span>	| -	     |
-|Standard deviation	 	| $\sigma$		| <span style="color:red"> 25			</span>	| $\mu m$    |		
-|Number of the bins		| $N_{bins}$		| <span style="color:black"> 20			</span>	| -	     |
-|Initial particle locations	|	-		| randomly distributed in a sphere 			| -	     |	
+|Distribution function shape	|	-		| <span style="color:black"> Normal	        </span>				| -	     |
+|Standard deviation	 	| $\sigma$		| <span style="color:red"> 25			</span>				| $\mu m$    |		
+|Number of the bins		| $N_{bins}$		| <span style="color:black"> 20			</span>				| -	     |
+|Initial particle locations	|	-		| randomly distributed in a sphere 						| -	     |	
 
 Caption: Drug particle properties for the first computational study.
-
-
-
 
 
 
@@ -117,7 +116,7 @@ To achive the $C_{tot} / C_s = 0.2$ :
 We have:
 
 ~~~math
-V_C &= 12.03 cm^3 \\
+V_C &= 11.82 cm^3 \\
 \nu_m &= 268 cm^3/mol \\ 
 C_{tot} &= 6.6 \times 10^{-8} mol/cm^3 \\
 ~~~
@@ -125,7 +124,7 @@ C_{tot} &= 6.6 \times 10^{-8} mol/cm^3 \\
 Therefore:
 
 ~~~math
-\sum_{i=1}^{N_P} V_{P_i}  &= (6.6 \times 10^{-8}) (268) (12.03) = 2128 \times 10^{-7} cm^3\\ 
+\sum_{i=1}^{N_P} V_{P_i}  &= (6.6 \times 10^{-8}) (268) (11.82) = 2090.7 \times 10^{-7} cm^3\\ 
 ~~~
 
 Considering same size particles with $R=50 \mu m$:
@@ -136,7 +135,6 @@ V_P &= \frac{4 \pi}{3} R^3 = 5.238 \times 10^{-7} cm^3 \\
 
 Meaning approximately  406 particles ($N_P$ = 406) with $R=50 \mu m$ are needed to provide  $C_{tot} / C_s = 0.2$
 -->
-
 
 
 
