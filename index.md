@@ -1,7 +1,6 @@
 ---
 title: Wiki for the Bio GI project
 author: James Brasseur (PI), Farhad Behafarid and Ganesh Vijayakumar
-bibliography: references.bib
 ---
 
 This page is intended to be a home page for the documentation of the Bio-GI project. This will be expanded in the future.
@@ -20,6 +19,7 @@ This page is intended to be a home page for the documentation of the Bio-GI proj
 * [Particle Tracking Drug Relase](Documentation/ParticleTrackingDrugRelease.html)
 * [Validating drug release model based on Yanxing data](Documentation/YanxingValidation.html)
 * [Couette Pseudo Code](Documentation/Couette-Pseudo-Code.html)
+* [Generalized boundary condition and book-keeping](Documentation/fluxBC/fluxBC.html)
 * [Multi-grid implementations](Documentation/plannedMultiblockImplementation.html)
 * [First experiment design (Peristalsis, Fed-State, 936 particles)](Documentation/firstStudy.html)
 
