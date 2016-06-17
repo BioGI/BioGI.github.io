@@ -1,4 +1,5 @@
 html:
+
 	scholdoc webpage-settings.yml SummaryofPreviousWorks.md --citeproc --output=SummaryofPreviousWorks.html
 #	scholdoc webpage-settings.yml lbmBasics.md --citeproc --output=lbmBasics.html
 #	scholdoc webpage-settings.yml ginoReproduce.md --citeproc --output=ginoReproduce.html
@@ -12,6 +13,8 @@ html:
 #	scholdoc webpage-settings.yml JanusSupercomputerTour.md --citeproc --output=JanusSupercomputerTour.html
 #	scholdoc webpage-settings.yml newParticleDissolutionModel.md --citeproc --output=newParticleDissolutionModel.html
 	scholdoc webpage-settings.yml firstStudy.md --citeproc --output=firstStudy.html
+	scholdoc webpage-settings.yml Janus_Runs.md --citeproc --output=Janus_Runs.html
+
 latex:
 	scholdoc plos-one-settings.yml lbmBasics.md --natbib --output=lbmBasics.tex
 

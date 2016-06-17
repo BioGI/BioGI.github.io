@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="generator" content="scholpandoc">
+  <meta name="viewport" content="width=device-width">
+  
+  <title></title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.7.1/modernizr.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.js"></script>
+  <link rel="stylesheet" href="css/ScholarlyMarkdown-BS3.css">
+</head>
+<body>
+<div class="scholmd-container">
+<div class="scholmd-main">
+<div class="scholmd-content">
+<h1 id="webpages">webpages:</h1>
+<ul>
+<li><p><a href="https://www.rc.colorado.edu/support/user-guide/batch-queueing.html#interactive_jobs">Main Webpage:</a></p></li>
+<li><p><a href="https://www.rc.colorado.edu/support/user-guide/software-compilation.html">Webpage for Compiling:</a></p></li>
+<li><p><a href="https://www.rc.colorado.edu/support/user-guide/batch-queueing.html">Webpage for Running:</a></p></li>
+</ul>
+<h1 id="login">Login:</h1>
+<pre><code>ssh username@login.rc.colorado.edu </code></pre>
+<h1 id="password">Password:</h1>
+<pre><code>4 digit pin + 6 digit OTP</code></pre>
+<h1 id="compiling">Compiling:</h1>
+<p>login to one of the compiling nodes:</p>
+<pre><code>ssh janus-compile1</code></pre>
+<p>Load proper modules:</p>
+<pre><code>. /curc/tools/utils/switch_lmod.sh
+. /etc/profile.d/modules.sh
+module load gcc
+module load openmpi</code></pre>
+<p>Compile the code:</p>
+<pre><code>make</code></pre>
+<h1 id="running">Running:</h1>
+<p>Exit from compiling node and Load slurm module:</p>
+<pre><code>module load slurm</code></pre>
+<p>Create the JobScript.sh following the example below:</p>
+<pre><code>#!/bin/bash                                                               
+#SBATCH -J testJob                      # Job name                                     
+#SBATCH --output myjob.%j.out           # stdout; %j expands to jobid                 
+#SBATCH --qos janus-debug               # queue (you can ask for Janus, janus-debug or janus-long
+#SBATCH --nodes 1                                                             
+#SBATCH --ntasks-per-node 8             # Requesting 8 processors 
+#SBATCH -t 00:30:00                     # max time (half an hour) 
+. /curc/tools/utils/switch_lmod.sh
+. /etc/profile.d/modules.sh
+module load gcc                         # Loading modules
+module load openmpi
+srun ./Intestine.exe                    # Intestine.exe is the executable</code></pre>
+<h1 id="submitting-the-job-to-the-queue">Submitting the job to the queue:</h1>
+<p>  sbatch JobScript.sh</p>
+<div class="references">
+
+</div>
+</div>
+</div>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+      processClass: "math"
+    },
+    TeX: {
+        TagSide: "left",
+        TagIndent: "1.2em",
+        equationNumbers: {
+            autoNumber: "AMS"
+        },
+        Macros: {
+            ensuremath: ["#1",1],
+            textsf: ["\\mathsf{\\text{#1}}",1],
+            texttt: ["\\mathtt{\\text{#1}}",1]
+        }
+    },
+    "HTML-CSS": { 
+        scale: 100,
+        availableFonts: ["TeX"], 
+        preferredFont: "TeX",
+        webFont: "TeX",
+        imageFont: "TeX",
+        EqnChunk: 1000
+    }
+});
+</script>
+</div>
+</body>
+</html>

@@ -22,6 +22,7 @@ This page is intended to be a home page for the documentation of the Bio-GI proj
 * [Generalized boundary condition and book-keeping](Documentation/fluxBC/fluxBC.html)
 * [Multi-grid implementations](Documentation/plannedMultiblockImplementation.html)
 * [First experiment design (Peristalsis, Fed-State, 936 particles)](Documentation/firstStudy.html)
+* [Compiling and running on Janus](Documentation/Janus_Runs.html)
 
 
 
