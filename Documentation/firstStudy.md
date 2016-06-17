@@ -2,7 +2,6 @@
 title: First computational study
 author: Ganesh Vijayakumar, Farhad Behafarid, Yanxing Wang and James Brasseur
 date: 13 May 2016
-bibliography: ../References/references.bib
 ---
 
 The first study is to test the influence of hydrodynamic and shear effects on the dissolution and absorption of drug releasing from a distribution of particles in the fed state of a human intestine. The four experiments that will be run are
