@@ -11,7 +11,7 @@ html:
 #	scholdoc webpage-settings.yml plannedMultiblockImplementation.md --citeproc --output=plannedMultiblockImplementation.html
 #	scholdoc webpage-settings.yml Couette-Pseudo-Code.md --citeproc --output=Couette-Pseudo-Code.html
 #	scholdoc webpage-settings.yml JanusSupercomputerTour.md --citeproc --output=JanusSupercomputerTour.html
-#	scholdoc webpage-settings.yml newParticleDissolutionModel.md --citeproc --output=newParticleDissolutionModel.html
+	scholdoc webpage-settings.yml newParticleDissolutionModel.md --citeproc --output=newParticleDissolutionModel.html
 	scholdoc webpage-settings.yml firstStudy.md --citeproc --output=firstStudy.html
 	scholdoc webpage-settings.yml Janus_Runs.md --citeproc --output=Janus_Runs.html
 

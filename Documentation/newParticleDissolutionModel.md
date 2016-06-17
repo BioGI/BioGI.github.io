@@ -1,8 +1,7 @@
 ---
-title: Validation of new particle dissolution model
+title: Yanxing experiments to develop particle dissolution model
 author: Ganesh Vijayakumar, Farhad Behafarid, Yanxing Wang and James Brasseur
 date: 3 Feb 2016
-bibliography: ../References/references.bib
 ---
 
 # Validation dataset from Yanxing - Sphere in shear flow at medium $Re_s (0.01 \le Re_s \le 1)$

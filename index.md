@@ -17,7 +17,7 @@ This page is intended to be a home page for the documentation of the Bio-GI proj
 * [Particle Dissolution model implementations](Documentation/Dissolution-Model-Implementation.html)
 * [New Particle Dissolution model](Documentation/Dissolution-Model-Implementation.html)
 * [Particle Tracking Drug Relase](Documentation/ParticleTrackingDrugRelease.html)
-* [Validating drug release model based on Yanxing data](Documentation/newParticleDissolutionModel.html) 
+* [Yanxing experiments to develop drug release model](Documentation/newParticleDissolutionModel.html) 
 * [Understanding Yanxing data](Documentation/YanxingValidation.html)
 * [Couette Pseudo Code](Documentation/Couette-Pseudo-Code.html)
 * [Generalized boundary condition and book-keeping](Documentation/fluxBC/fluxBC.html)
