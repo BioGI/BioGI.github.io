@@ -65,5 +65,5 @@ Create the JobScript.sh following the example below:
 
 # Submitting the job to the queue:
 
-  	sbatch JobScript.sh
+	sbatch JobScript.sh
 
