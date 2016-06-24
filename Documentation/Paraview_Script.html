@@ -29,15 +29,17 @@ Farhad Behafarid, Ganesh Vijayakumar
 <div class="scholmd-date">20 June 2016</div>
 </header>
 <h1 id="save-state">Save state:</h1>
-<p>Save Paraview state as “state.py” (preferably at time step 0)</p>
+<p>Save Paraview state as “state.py”</p>
 <h1 id="add-at-top-of-the-state.py">Add at top of the state.py :</h1>
 <pre><code>import sys, glob, commands </code></pre>
 <h1 id="flexible-input-files">Flexible input files:</h1>
 <p>Change inoput file names (both output files and particle files) so they can be defined as an argument:</p>
 <pre><code>out0001000__dat = TecplotReader( guiName=&quot;out-0001000-..dat&quot;, DataArrayStatus=[&#39;u&#39;, &#39;v&#39;, &#39;w&#39;, &#39;P&#39;, &#39;phi&#39;, &#39;node&#39;], FileNames=[&#39;/home/farhad/RUNS/Intestine/8-first-Experiment/2-1st-Experiment-for-Abstract/Case-2-B/out-{}-00001.dat&#39;.format(sys.argv[1])] )
 pardat0001000__csv = CSVReader( guiName=&quot;pardat-0001000-..csv&quot;, FileName=[&#39;/home/farhad/RUNS/Intestine/8-first-Experiment/2-1st-Experiment-for-Abstract/Case-2-B/pardat-{}-00001.csv&#39;.format(sys.argv[1])] )</code></pre>
-<p>Or using “Replace” option in vim:</p>
-<pre><code>:%s/out\-0000000-00001\.dat&#39;\] )/out\-{}\-00001\.dat&#39;\.format(sys\.argv\[1\])\] ) /g
+<p>Or using “Replace” option in vim (state.py saved at time step 500 for 2 processors):</p>
+<pre><code>:%s/out\-0000500\-00001\.dat&#39;\])/out\-{}\-00001\.dat&#39;\.format(sys\.argv\[1\])\])/g
+:%s/out\-0000500\-00002\.dat&#39;\])/out\-{}\-00002\.dat&#39;\.format(sys\.argv\[1\])\])/g
+
 :%s/pardat\-0000000\-00001\.csv&#39;\] )/pardat\-{}\-00001\.csv&#39;\.format(sys\.argv\[1\])\] ) /g</code></pre>
 <h1 id="add-at-the-bottom-of-the-state.py">Add at the Bottom of the state.py:</h1>
 <pre><code>viewLayout = GetLayout()

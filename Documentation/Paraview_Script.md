@@ -8,7 +8,7 @@ date: 20 June 2016
 
 # Save state:
 
-Save Paraview state as "state.py" (preferably at time step 0)
+Save Paraview state as "state.py" 
 
 
 
@@ -27,11 +27,12 @@ Change inoput file names (both output files and particle files) so they can be d
 	pardat0001000__csv = CSVReader( guiName="pardat-0001000-..csv", FileName=['/home/farhad/RUNS/Intestine/8-first-Experiment/2-1st-Experiment-for-Abstract/Case-2-B/pardat-{}-00001.csv'.format(sys.argv[1])] )
 
 
-Or using "Replace" option in vim: 
+Or using "Replace" option in vim (state.py saved at time step 500 for 2 processors):
 
-	:%s/out\-0000000-00001\.dat'\] )/out\-{}\-00001\.dat'\.format(sys\.argv\[1\])\] ) /g
-	:%s/pardat\-0000000\-00001\.csv'\] )/pardat\-{}\-00001\.csv'\.format(sys\.argv\[1\])\] ) /g
+	:%s/out\-0000500\-00001\.dat'\])/out\-{}\-00001\.dat'\.format(sys\.argv\[1\])\])/g
+	:%s/out\-0000500\-00002\.dat'\])/out\-{}\-00002\.dat'\.format(sys\.argv\[1\])\])/g
 
+	:%s/pardat\-0000600\-00001\.csv'\])/pardat\-{}\-00001\.csv'\.format(sys\.argv\[1\])\])/g
 
 
 
