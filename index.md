@@ -25,7 +25,7 @@ This page is intended to be a home page for the documentation of the Bio-GI proj
 * [First experiment design (Peristalsis, Fed-State, 936 particles)](Documentation/firstStudy.html)
 * [Compiling and running on Janus](Documentation/Janus_Runs.html)
 * [Python scripts to create Paraview snapshots and movies](Documentation/Paraview_Script.html)
-
+* [Strain rate calculations to be used in Sherwood number correlations](Documentation/Strain_Rate_Correlations.html)
 
 
 

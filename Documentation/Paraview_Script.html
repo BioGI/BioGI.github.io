@@ -40,7 +40,7 @@ pardat0001000__csv = CSVReader( guiName=&quot;pardat-0001000-..csv&quot;, FileNa
 <pre><code>:%s/out\-0000500\-00001\.dat&#39;\])/out\-{}\-00001\.dat&#39;\.format(sys\.argv\[1\])\])/g
 :%s/out\-0000500\-00002\.dat&#39;\])/out\-{}\-00002\.dat&#39;\.format(sys\.argv\[1\])\])/g
 
-:%s/pardat\-0000000\-00001\.csv&#39;\] )/pardat\-{}\-00001\.csv&#39;\.format(sys\.argv\[1\])\] ) /g</code></pre>
+:%s/pardat\-0000600\-00001\.csv&#39;\])/pardat\-{}\-00001\.csv&#39;\.format(sys\.argv\[1\])\])/g</code></pre>
 <h1 id="add-at-the-bottom-of-the-state.py">Add at the Bottom of the state.py:</h1>
 <pre><code>viewLayout = GetLayout()
 WriteImage(&#39;tmp1.png&#39;, view=RenderView1)
