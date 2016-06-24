@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="generator" content="scholpandoc">
+  <meta name="viewport" content="width=device-width">
+  
+  <meta name="author" content="Farhad Behafarid">
+  <meta name="dcterms.date" content="2016-06-24">
+  <title>Motility Data</title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.7.1/modernizr.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.js"></script>
+  <link rel="stylesheet" href="css/ScholarlyMarkdown-BS3.css">
+</head>
+<body>
+<div class="scholmd-container">
+<div class="scholmd-main">
+<div class="scholmd-content">
+<header>
+<h1 class="scholmd-title">Motility Data</h1>
+<div class="scholmd-author">
+Farhad Behafarid
+</div>
+<div class="scholmd-date">24 June 2016</div>
+</header>
+<h1 id="naming-convention">Naming Convention:</h1>
+<pre><code>BXXXY.csv.gz:
+XXX = Subject ID
+Y   = 1 or 2. Corresponding to the visit number</code></pre>
+<h1 id="fed-state-data">Fed state data:</h1>
+<pre><code>B0011:  B001, Visit 1 
+---------------------
+B0021:  B002, Visit 1 
+B0022:  B002, Visit 2 (machine was unplugged mid-study so there are 2 summary pdfs)
+---------------------
+B0081:  B008, Visit 1 
+---------------------
+B0111:  B011, Visit 1 
+---------------------
+B0201:  B020, Visit 1 
+B0202:  B020, Visit 2
+---------------------
+B0221:  B022, Visit 1
+---------------------
+B0311:  B031, Visit 1</code></pre>
+<h1 id="fasting-state-data">Fasting state data:</h1>
+<pre><code>B0031:  B003, Visit 1 
+---------------------
+B0041:  B004, Visit 1 
+B0042:  B004, Visit 2 
+---------------------   
+B0051:  B005, Visit 1 
+B0052:  B005, Visit 2 
+---------------------
+B0061:  B006, Visit 1 
+---------------------
+B0171:  B017, Visit 1 
+B0172:  B017, Visit 2 </code></pre>
+<h1 id="specifics-of-the-data">Specifics of the data:</h1>
+<ul>
+<li>All of the data is currently in 10 Hz form</li>
+<li><p>The tube is currently designed so we have 4 groups of 3 ports. For the sake of specificity here are the groups:</p>
+<ul>
+<li>Group1: Port 1, Port 2, Port 3<br /></li>
+<li>Group2: Port 4, Port 5, Port 6<br /></li>
+<li>Group3: Port 7, Port 8, Port 9<br /></li>
+<li>Group4: Port 10, Port 11, Port 12</li>
+</ul></li>
+<li>Group 1 is the most distal grouping, while group 4 is generally in the esophagus.</li>
+<li>Within a grouping, adjacent ports are currently 5cm apart.</li>
+<li><p>The distance between groupings is currently 30cm (not quiet sure)</p></li>
+</ul>
+<div class="references">
+
+</div>
+</div>
+</div>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+      processClass: "math"
+    },
+    TeX: {
+        TagSide: "left",
+        TagIndent: "1.2em",
+        equationNumbers: {
+            autoNumber: "AMS"
+        },
+        Macros: {
+            ensuremath: ["#1",1],
+            textsf: ["\\mathsf{\\text{#1}}",1],
+            texttt: ["\\mathtt{\\text{#1}}",1]
+        }
+    },
+    "HTML-CSS": { 
+        scale: 100,
+        availableFonts: ["TeX"], 
+        preferredFont: "TeX",
+        webFont: "TeX",
+        imageFont: "TeX",
+        EqnChunk: 1000
+    }
+});
+</script>
+</div>
+</body>
+</html>
