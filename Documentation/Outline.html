@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="generator" content="scholpandoc">
+  <meta name="viewport" content="width=device-width">
+  
+  <meta name="author" content="Farhad Behafarid">
+  <title>Outline of the Projects</title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.7.1/modernizr.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.js"></script>
+  <link rel="stylesheet" href="css/ScholarlyMarkdown-BS3.css">
+</head>
+<body>
+<div class="scholmd-container">
+<div class="scholmd-main">
+<div class="scholmd-content">
+<header>
+<h1 class="scholmd-title">Outline of the Projects</h1>
+<div class="scholmd-author">
+Farhad Behafarid
+</div>
+<div class="scholmd-date">27 June, 2016</div>
+</header>
+<h1 id="outlines-of-the-project-fed">Outlines of the Project (Fed)</h1>
+<ul>
+<li>HPC:
+<ul>
+<li>Fixing the issue causing drug conservation difference between Serial and Parallel (Not related to particle tracking or drug release)</li>
+<li>Verifying parallel communications for Negative-<span class="math scholmd-math-inline">\(\phi\)</span> monitoring, Mass-Fix and drug monitoring (release,abosrbed,remained,loss) toolsi, directional particle drug release.</li>
+<li>MPI_Transfer after streaming since <span class="math scholmd-math-inline">\(u, v, w, \rho\)</span> are needed in scalar subroutine.</li>
+<li>Improving HPC scaling (Do-Nothing when particle is dissolved. Remove unnecessary communications)</li>
+<li>Computational Cost Study:
+<ul>
+<li>1,2,4 partitions in X/Y</li>
+<li>2,4,8,16 partitions in Z</li>
+</ul></li>
+</ul></li>
+<li>Finalizing the “restart” option:
+<ul>
+<li>Geometry</li>
+<li>All LBM fields (<span class="math scholmd-math-inline">\(u, v, w, P, \rho, \phi\)</span>, all distribution functions)</li>
+<li>All particle data (26 parameters)</li>
+<li>All monitoring tools (drug released, drug absorbed, drung remained in domain, drug conservation errors)</li>
+<li>Serial/Parallel (one file for particles, multiple fiels for other parameters)</li>
+<li>Writing out at user-defined periodic intervals (not just the final)</li>
+<li>Verify that the drug conservation monitoring parameters are identical after restart.</li>
+</ul></li>
+<li><p>Oversaturaion: * Remove ad-hoc drug release in case of <span class="math scholmd-math-inline">\(\delta R &gt; R\)</span> (which ignores the modeling equations and simply reduces the radius to half). * Add Fractional-Time-Stepping feature to the latest version of the git repo with flag and <span class="math scholmd-math-inline">\(N_f\)</span> in the input file (<span class="math scholmd-math-inline">\(N_f\)</span> is the number of fractional time steps inside each LBM time steps). * Test Fractional-Time-Stepping by analyzing the extra computational cost vs strength of supressing over-saturation for: * <span class="math scholmd-math-inline">\(N_f\)</span> = 1 * <span class="math scholmd-math-inline">\(N_f\)</span> = 2 * <span class="math scholmd-math-inline">\(N_f\)</span> = 10 * Last fix: in directional drug release, when using (<span class="math scholmd-math-inline">\(\frac{C_s-C}{C_s}\)</span>) as a weighting function, use the new C (after release) instead fo the old C (before release)</p></li>
+<li>Mass-Fix:
+<ul>
+<li>Fixing Mass-Fix non-physical effects on scalar (only the first time step)</li>
+<li>Improving Mass-Fix option by adding the correction term proportional to the magnitude of f in different directions (instead of <span class="math scholmd-math-inline">\(f_m = f_m + \frac{Correction}{15}\)</span> for all directions)</li>
+</ul></li>
+<li><p>Fix the non-zero drug releas after all particles had completely dissolved.</p></li>
+<li><p>Print out the scalar as non-dimensional (<span class="math scholmd-math-inline">\(C/C_s\)</span>) for visualizations</p></li>
+<li><p>Add a feature for plotting the particle distribution PDF as a function of time</p></li>
+<li><p>Introducing Permeability Boundary Condition intestine geometry</p></li>
+<li><p>Introducing the 3D strain rate computation to be used in hierarchic Sherwood number calculation.</p></li>
+<li><p>Introducing the slip velocity calculations to be used in hierarchic Sherwood number calculation and in particle trackinig.</p></li>
+</ul>
+<h1 id="outlines-of-the-project-fasted">Outlines of the Project (Fasted)</h1>
+<ul>
+<li><p>Fixing the particle tracking issue which lets some particles to get trapped in the solid phase</p></li>
+<li><p>Running Fasted simulation (OC= 0.1) with single lattice and coarse mesh</p></li>
+<li><p>Analysing the results to see if the single lattice results are acceptable</p></li>
+<li><p>Computational cost analysis (estimating the CPU hour with one processor)</p></li>
+<li><p>Dscussion on:</p>
+<ul>
+<li><p>Need to reduce the occlusion ratio from 0.1 to 0.05</p></li>
+<li><p>Need to increase the resolution</p></li>
+</ul></li>
+</ul>
+<h1 id="real-experiments-before-the-fda-meeting-deadline-july-24-2016">Real experiments before the FDA meeting deadline (July 24, 2016)</h1>
+<figure class="scholmd-float scholmd-table-float">
+<div class="scholmd-float-content"><table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Experiment No.</th>
+<th style="text-align: left;">Motility</th>
+<th style="text-align: left;">OC</th>
+<th style="text-align: left;">Shear Effects</th>
+<th style="text-align: left;"><span class="math scholmd-math-inline">\(C_{tot}/C_S\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">1</td>
+<td style="text-align: left;">Fed, Peristalsis</td>
+<td style="text-align: left;">0.5</td>
+<td style="text-align: left;">No</td>
+<td style="text-align: left;">0.2</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2</td>
+<td style="text-align: left;">Fed, Segmental</td>
+<td style="text-align: left;">0.5</td>
+<td style="text-align: left;">No</td>
+<td style="text-align: left;">0.2</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">3</td>
+<td style="text-align: left;">Fed, Pristalsis</td>
+<td style="text-align: left;">0.5</td>
+<td style="text-align: left;">Yes</td>
+<td style="text-align: left;">0.2</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">4</td>
+<td style="text-align: left;">Fed, Segmental</td>
+<td style="text-align: left;">0.5</td>
+<td style="text-align: left;">Yes</td>
+<td style="text-align: left;">0.2</td>
+</tr>
+</tbody>
+</table></div>
+<div class="scholmd-float-caption"><figcaption><span class="scholmd-caption-text">Fed Experiments before the FDA meeting in July 24, 2016</span></figcaption></div>
+</figure>
+<p>and hopefully we can push to perform the corresponding Fasted simulations too:</p>
+<figure class="scholmd-float scholmd-table-float">
+<div class="scholmd-float-content"><table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Experiment No.</th>
+<th style="text-align: left;">Motility</th>
+<th style="text-align: left;">OC</th>
+<th style="text-align: left;">Shear Effects</th>
+<th style="text-align: left;"><span class="math scholmd-math-inline">\(C_{tot}/C_S\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><span style="color:red"> 5</td>
+<td style="text-align: left;"><span style="color:red">Fasted, Pristalsis</td>
+<td style="text-align: left;"><span style="color:red"> 0.1</td>
+<td style="text-align: left;"><span style="color:red"> No</td>
+<td style="text-align: left;"><span style="color:red"> 0.644</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><span style="color:red"> 6</td>
+<td style="text-align: left;"><span style="color:red">Fasted, Segmental</td>
+<td style="text-align: left;"><span style="color:red"> 0.1</td>
+<td style="text-align: left;"><span style="color:red"> No</td>
+<td style="text-align: left;"><span style="color:red"> 0.644</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><span style="color:red"> 7</td>
+<td style="text-align: left;"><span style="color:red">Fasted, Pristalsis</td>
+<td style="text-align: left;"><span style="color:red"> 0.1</td>
+<td style="text-align: left;"><span style="color:red"> Yes</td>
+<td style="text-align: left;"><span style="color:red"> 0.644</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><span style="color:red"> 8</td>
+<td style="text-align: left;"><span style="color:red">Fasted, Segmental</td>
+<td style="text-align: left;"><span style="color:red"> 0.1</td>
+<td style="text-align: left;"><span style="color:red"> Yes</td>
+<td style="text-align: left;"><span style="color:red"> 0.644</td>
+</tr>
+</tbody>
+</table></div>
+<div class="scholmd-float-caption"><figcaption><span class="scholmd-caption-text">Fasted Experiments before the FDA meeting in July 24, 2016</span></figcaption></div>
+</figure>
+<div class="references">
+
+</div>
+</div>
+</div>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+      processClass: "math"
+    },
+    TeX: {
+        TagSide: "left",
+        TagIndent: "1.2em",
+        equationNumbers: {
+            autoNumber: "AMS"
+        },
+        Macros: {
+            ensuremath: ["#1",1],
+            textsf: ["\\mathsf{\\text{#1}}",1],
+            texttt: ["\\mathtt{\\text{#1}}",1]
+        }
+    },
+    "HTML-CSS": { 
+        scale: 100,
+        availableFonts: ["TeX"], 
+        preferredFont: "TeX",
+        webFont: "TeX",
+        imageFont: "TeX",
+        EqnChunk: 1000
+    }
+});
+</script>
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML-full" type="text/javascript"></script>
+</div>
+</body>
+</html>

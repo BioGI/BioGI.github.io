@@ -17,6 +17,7 @@ html:
 #	scholdoc webpage-settings.yml Paraview_Script.md --citeproc --output=Paraview_Script.html
 	scholdoc webpage-settings.yml Strain_Rate_Correlations.md --citeproc --output=Strain_Rate_Correlations.html
 	scholdoc webpage-settings.yml Motility_Concentration_Data.md --citeproc --output=Motility_Concentration_Data.html
+	scholdoc webpage-settings.yml Outline.md --citeproc --output=Outline.html
 
 latex:
 	scholdoc plos-one-settings.yml lbmBasics.md --natbib --output=lbmBasics.tex

@@ -27,6 +27,6 @@ This page is intended to be a home page for the documentation of the Bio-GI proj
 * [Python scripts to create Paraview snapshots and movies](Documentation/Paraview_Script.html)
 * [Strain rate calculations to be used in Sherwood number correlations](Documentation/Strain_Rate_Correlations.html)
 * [Motility and concentration data](Documentation/Motility_Concentration_Data.html)
-
+* [Project short term outline](Documentation/Outline.html)
 
 
