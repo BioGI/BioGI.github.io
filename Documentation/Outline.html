@@ -29,19 +29,22 @@ Farhad Behafarid
 </header>
 <h1 id="outlines-of-the-project-fed">Outlines of the Project (Fed)</h1>
 <ul>
-<li>HPC:
+<li><strong>HPC</strong>:
 <ul>
 <li>Fixing the issue causing drug conservation difference between Serial and Parallel (Not related to particle tracking or drug release)</li>
 <li>Verifying parallel communications for Negative-<span class="math scholmd-math-inline">\(\phi\)</span> monitoring, Mass-Fix and drug monitoring (release,abosrbed,remained,loss) toolsi, directional particle drug release.</li>
 <li>MPI_Transfer after streaming since <span class="math scholmd-math-inline">\(u, v, w, \rho\)</span> are needed in scalar subroutine.</li>
 <li>Improving HPC scaling (Do-Nothing when particle is dissolved. Remove unnecessary communications)</li>
-<li>Computational Cost Study:
+<li>Computational cost and scaling factor studies:
 <ul>
 <li>1,2,4 partitions in X/Y</li>
 <li>2,4,8,16 partitions in Z</li>
 </ul></li>
 </ul></li>
-<li>Finalizing the “restart” option:
+</ul>
+<p> </p>
+<ul>
+<li><strong>Finalizing the “restart” option:</strong>
 <ul>
 <li>Geometry</li>
 <li>All LBM fields (<span class="math scholmd-math-inline">\(u, v, w, P, \rho, \phi\)</span>, all distribution functions)</li>
@@ -51,32 +54,57 @@ Farhad Behafarid
 <li>Writing out at user-defined periodic intervals (not just the final)</li>
 <li>Verify that the drug conservation monitoring parameters are identical after restart.</li>
 </ul></li>
-<li><p>Oversaturaion: * Remove ad-hoc drug release in case of <span class="math scholmd-math-inline">\(\delta R &gt; R\)</span> (which ignores the modeling equations and simply reduces the radius to half). * Add Fractional-Time-Stepping feature to the latest version of the git repo with flag and <span class="math scholmd-math-inline">\(N_f\)</span> in the input file (<span class="math scholmd-math-inline">\(N_f\)</span> is the number of fractional time steps inside each LBM time steps). * Test Fractional-Time-Stepping by analyzing the extra computational cost vs strength of supressing over-saturation for: * <span class="math scholmd-math-inline">\(N_f\)</span> = 1 * <span class="math scholmd-math-inline">\(N_f\)</span> = 2 * <span class="math scholmd-math-inline">\(N_f\)</span> = 10 * Last fix: in directional drug release, when using (<span class="math scholmd-math-inline">\(\frac{C_s-C}{C_s}\)</span>) as a weighting function, use the new C (after release) instead fo the old C (before release)</p></li>
-<li>Mass-Fix:
+</ul>
+<p> </p>
 <ul>
-<li>Fixing Mass-Fix non-physical effects on scalar (only the first time step)</li>
+<li><strong>Oversaturaion:</strong>
+<ul>
+<li>Remove ad-hoc drug release in case of <span class="math scholmd-math-inline">\(\delta R &gt; R\)</span> (which ignores the modeling equations and simply reduces the radius to half).</li>
+<li>Add Fractional-Time-Stepping feature to the latest version of the git repo with flag and <span class="math scholmd-math-inline">\(N_f\)</span> in the input file (<span class="math scholmd-math-inline">\(N_f\)</span> is the number of fractional time steps inside each LBM time steps).</li>
+<li>Test Fractional-Time-Stepping by analyzing the extra computational cost vs strength of supressing over-saturation for:
+<ul>
+<li><span class="math scholmd-math-inline">\(N_f\)</span> = 1</li>
+<li><span class="math scholmd-math-inline">\(N_f\)</span> = 2</li>
+<li><span class="math scholmd-math-inline">\(N_f\)</span> = 10</li>
+</ul></li>
+<li>Last fix: in directional drug release, when using (<span class="math scholmd-math-inline">\(\frac{C_s-C}{C_s}\)</span>) as a weighting function, use the new C (after release) instead fo the old C (before release)</li>
+</ul></li>
+</ul>
+<p> </p>
+<ul>
+<li><strong>Mass-Fix:</strong>
+<ul>
+<li>Fixing Mass-Fix non-physical effects on scalar (very small and only the first time step)</li>
 <li>Improving Mass-Fix option by adding the correction term proportional to the magnitude of f in different directions (instead of <span class="math scholmd-math-inline">\(f_m = f_m + \frac{Correction}{15}\)</span> for all directions)</li>
 </ul></li>
-<li><p>Fix the non-zero drug releas after all particles had completely dissolved.</p></li>
-<li><p>Print out the scalar as non-dimensional (<span class="math scholmd-math-inline">\(C/C_s\)</span>) for visualizations</p></li>
-<li><p>Add a feature for plotting the particle distribution PDF as a function of time</p></li>
-<li><p>Introducing Permeability Boundary Condition intestine geometry</p></li>
-<li><p>Introducing the 3D strain rate computation to be used in hierarchic Sherwood number calculation.</p></li>
-<li><p>Introducing the slip velocity calculations to be used in hierarchic Sherwood number calculation and in particle trackinig.</p></li>
 </ul>
-<h1 id="outlines-of-the-project-fasted">Outlines of the Project (Fasted)</h1>
+<p> </p>
 <ul>
-<li><p>Fixing the particle tracking issue which lets some particles to get trapped in the solid phase</p></li>
-<li><p>Running Fasted simulation (OC= 0.1) with single lattice and coarse mesh</p></li>
-<li><p>Analysing the results to see if the single lattice results are acceptable</p></li>
-<li><p>Computational cost analysis (estimating the CPU hour with one processor)</p></li>
-<li><p>Dscussion on:</p>
+<li><strong>Boundary Condition:</strong>
 <ul>
-<li><p>Need to reduce the occlusion ratio from 0.1 to 0.05</p></li>
-<li><p>Need to increase the resolution</p></li>
+<li>Finalize/verify the book-keeping routines</li>
+<li>Introducing Permeability Boundary Condition intestine geometry</li>
 </ul></li>
 </ul>
-<h1 id="real-experiments-before-the-fda-meeting-deadline-july-24-2016">Real experiments before the FDA meeting deadline (July 24, 2016)</h1>
+<p> </p>
+<ul>
+<li><strong>Hydrodynamic effects:</strong>
+<ul>
+<li>Introducing the 3D strain rate computation to be used in hierarchic Sherwood number calculation.</li>
+<li>Introducing the slip velocity calculations to be used in hierarchic Sherwood number calculation and in particle trackinig.</li>
+</ul></li>
+</ul>
+<p> </p>
+<ul>
+<li><p><strong>Others:</strong></p>
+<ul>
+<li>Fix the non-zero drug releas after all particles had completely dissolved (it is close to machine precision at each time step, but after tens of thousands of iterations, it becomes detectable).</li>
+<li>Print out the scalar as non-dimensional (<span class="math scholmd-math-inline">\(C/C_s\)</span>) for visualizations.</li>
+<li>Add a feature for plotting the particle distribution PDF as a function of time.</li>
+</ul></li>
+</ul>
+<p> </p>
+<h1 id="real-fed-experiments-before-the-fda-meeting-deadline-july-24-2016">Real fed experiments before the FDA meeting deadline (July 24, 2016)</h1>
 <figure class="scholmd-float scholmd-table-float">
 <div class="scholmd-float-content"><table>
 <thead>
@@ -121,7 +149,21 @@ Farhad Behafarid
 </table></div>
 <div class="scholmd-float-caption"><figcaption><span class="scholmd-caption-text">Fed Experiments before the FDA meeting in July 24, 2016</span></figcaption></div>
 </figure>
-<p>and hopefully we can push to perform the corresponding Fasted simulations too:</p>
+<h1 id="outline-of-the-project-fasted">Outline of the Project (Fasted)</h1>
+<ul>
+<li><p>Fixing the particle tracking issue which lets some particles to get trapped in the solid phase</p></li>
+<li><p>Running Fasted simulation (OC= 0.1) with single lattice and coarse mesh</p></li>
+<li><p>Analysing the results to see if the single lattice results are acceptable</p></li>
+<li><p>Computational cost analysis (estimating the CPU hour with one processor)</p></li>
+<li>Dscussion on:
+<ul>
+<li>Need to reduce the occlusion ratio from 0.1 to 0.05</li>
+<li>Need to increase the resolution</li>
+</ul></li>
+</ul>
+<p> </p>
+<h1 id="real-fasted-experiments-before-the-fda-meeting-deadline-july-24-2016">Real fasted experiments before the FDA meeting deadline (July 24, 2016)</h1>
+<p>Hopefully we can push to perform the corresponding Fasted simulations too:</p>
 <figure class="scholmd-float scholmd-table-float">
 <div class="scholmd-float-content"><table>
 <thead>
