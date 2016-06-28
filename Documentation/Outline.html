@@ -87,14 +87,14 @@ Farhad Behafarid
 <li><strong>Boundary Condition:</strong>
 <ul>
 <li>Finalize/verify the book-keeping routines</li>
-<li>Introducing Permeability Boundary Condition intestine geometry</li>
+<li>Introducing Permeability Boundary Condition in intestine geometry</li>
 </ul></li>
 </ul>
 <p> </p>
 <ul>
 <li><strong>Hydrodynamic effects:</strong>
 <ul>
-<li>Introducing the 3D strain rate computation to be used in hierarchic Sherwood number calculation.</li>
+<li>Introducing the 3D strain rate computation to be used in hierarchic Sherwood number calculationi.</li>
 <li>Introducing the slip velocity calculations to be used in hierarchic Sherwood number calculation and in particle trackinig.</li>
 </ul></li>
 </ul>
@@ -102,13 +102,15 @@ Farhad Behafarid
 <ul>
 <li><p><strong>Others:</strong></p>
 <ul>
-<li>Fix the non-zero drug releas after all particles had completely dissolved (it is close to machine precision at each time step, but after tens of thousands of iterations, it becomes detectable).</li>
+<li>Fix the non-zero drug releas after all particles are completely dissolved (it is close to machine precision at each time step, but after tens of thousands of iterations, it becomes detectable).</li>
 <li>Print out the scalar as non-dimensional (<span class="math scholmd-math-inline">\(C/C_s\)</span>) for visualizations.</li>
-<li>Add a feature for plotting the particle distribution PDF as a function of time.</li>
-<li>Add the feature to track particles/release drug only after at least one period of flow simulation (use restart option).</li>
-<li>Litrature review for Fed state bolus volume  </li>
+<li>Add a feature for plotting the particle distribution (PDF) as a function of time.</li>
+<li>Add the feature to track particles/release drug, only after (at least) one full period of flow simulation (using restart option).</li>
+<li>Litrature review for a reasonable fed state bolus volume.</li>
+<li>Add the effects of PH on solubility</li>
 </ul></li>
 </ul>
+<p> </p>
 <h1 id="real-fed-experiments-for-the-fda-meeting-july-24-2016">Real fed experiments for the FDA meeting (July 24, 2016)</h1>
 <ul>
 <li><span class="math scholmd-math-inline">\(C_{tot}/C_S= 0.2\)</span></li>
@@ -158,12 +160,13 @@ Farhad Behafarid
 </figure>
 <h1 id="outline-of-the-project-fasted">Outline of the Project (Fasted)</h1>
 <ul>
-<li>Fix the particle tracking issue which lets some particles to get trapped in the solid phase:
+<li>Fix the particle tracking issue which lets some particles to go and get trapped in the solid phase:
 <ul>
-<li>Use new velocity instead of velocity from previous time step (Move particle-tracking from before to after stream/macro).</li>
-<li>Add particle location warning tools.</li>
-<li>Run the exact simulation that caused the problem using interval-restart-option and let it run to reach the time that particles move out of the domain.</li>
-<li>Go back to the closest restart file and run the simulation again with printing out all the particle tracking parameters.</li>
+<li>Use the new velocity instead of velocity from previous time step (Move particle-tracking from before to after stream/macro).</li>
+<li>Add particle location warning tools (based on both analytical and real geometry).</li>
+<li>Find the particle ID of one of teh particles which is trapped in Solid phase.</li>
+<li>Run the exact simulation that caused the problem with only one particle and using Interval-Restart-Option and let it run to reach the time that particles move out of the domain.</li>
+<li>Go back to the closest restart file and run the simulation again with printing out all the particle tracking parameters for that specific particle.</li>
 </ul></li>
 <li><p>Run fasted simulation (OC= 0.1) using coarse mesh.</p></li>
 <li><p>Computational cost analysis (estimating the CPU hour with one processor)</p></li>

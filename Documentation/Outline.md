@@ -51,24 +51,29 @@ date: 27 June, 2016
 
 * **Boundary Condition:** 
 	* Finalize/verify the book-keeping routines
-	* Introducing Permeability Boundary Condition intestine geometry
+	* Introducing Permeability Boundary Condition in intestine geometry
 
 &nbsp;
 
 * **Hydrodynamic effects:**
-	* Introducing the 3D strain rate computation to be used in  hierarchic Sherwood number calculation.
+	* Introducing the 3D strain rate computation to be used in hierarchic Sherwood number calculationi.
 	* Introducing the slip velocity calculations to be used in hierarchic Sherwood number calculation and in particle trackinig.
 
 &nbsp;
 
 * **Others:**
 
-	* Fix the non-zero drug releas after all particles had completely dissolved (it is close to machine precision at each time step, but after tens of thousands of iterations, it becomes detectable).
+	* Fix the non-zero drug releas after all particles are completely dissolved (it is close to machine precision at each time step, but after tens of thousands of iterations, it becomes detectable).
 	* Print out the scalar as non-dimensional ($C/C_s$) for visualizations.
-	* Add a feature for plotting the particle distribution PDF as a function of time.
-	* Add the feature to track particles/release drug only after at least one period of flow simulation (use restart option).
-	* Litrature review for Fed state bolus volume
+	* Add a feature for plotting the particle distribution (PDF) as a function of time.
+	* Add the feature to track particles/release drug, only after (at least) one full period of flow simulation (using restart option).
+	* Litrature review for a reasonable fed state bolus volume.
+	* Add the effects of PH on solubility
+
 &nbsp;
+
+
+
 
 
 
@@ -116,11 +121,12 @@ Caption: Fed Experiments before the FDA meeting in July 24, 2016
 
 # Outline of the Project (Fasted)
 
-* Fix the particle tracking issue which lets some particles to get trapped in the solid phase:
-	* Use new velocity instead of velocity from previous time step (Move particle-tracking from before to after stream/macro).
-	* Add particle location warning tools. 
-	* Run the exact simulation that caused the problem using interval-restart-option and let it run to reach the time that particles move out of the domain.
-	* Go back to the closest restart file and run the simulation again with printing out all the particle tracking parameters.
+* Fix the particle tracking issue which lets some particles to go and get trapped in the solid phase:
+	* Use the new velocity instead of velocity from previous time step (Move particle-tracking from before to after stream/macro).
+	* Add particle location warning tools (based on both analytical and real geometry). 
+	* Find the  particle ID of one of teh particles which is trapped in Solid  phase.
+	* Run the exact simulation that caused the problem with only one particle and using Interval-Restart-Option and let it run to reach the time that particles move out of the domain.
+	* Go back to the closest restart file and run the simulation again with printing out all the particle tracking parameters for that specific particle.
 
 * Run fasted simulation (OC= 0.1) using coarse mesh.
 
