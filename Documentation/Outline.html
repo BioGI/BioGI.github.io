@@ -32,15 +32,15 @@ Farhad Behafarid
 <li><strong>HPC</strong>:
 <ul>
 <li>Fixing the issue causing drug conservation difference between Serial and Parallel (Only happens when Mass-Fix is on)</li>
-<li>Verifying parallel communications for Negative-<span class="math scholmd-math-inline">\(\phi\)</span> monitoring, Mass-Fix and drug monitoring (release,abosrbed,remained,loss) toolsi, directional particle drug release.</li>
+<li>Verifying parallel communications for Negative-<span class="math scholmd-math-inline">\(\phi\)</span> monitoring, Mass-Fix and drug monitoring (release,abosrbed,remained,loss) tools, directional particle drug release.</li>
 <li>MPI_Transfer after streaming since <span class="math scholmd-math-inline">\(u, v, w, \rho\)</span> are needed in scalar subroutine.</li>
-<li>Improving HPC scaling (Do-Nothing when particle is dissolved. Remove unnecessary communications)
+<li>Improving HPC scaling (Do-Nothing when particle is dissolved. Remove unnecessary MPI communications. All processors do the job and rmove the MPI communications if otherwise they need to wait for the master)
 <ul>
 <li>In IC_Drug_Distribution, Blob coordinate are local (for current partition) which causes problem in case of defining a blub using global coordinates for parallel simulations.</li>
 </ul></li>
-<li>Computational cost and scaling factor studies:
+<li>Computational cost and scaling factor studies: * Serial
 <ul>
-<li>1,2,4 partitions in X/Y</li>
+<li>2,4 partitions in X/Y</li>
 <li>2,4,8,16 partitions in Z</li>
 </ul></li>
 </ul></li>
@@ -50,7 +50,7 @@ Farhad Behafarid
 <li><strong>Finalizing the “restart” option:</strong>
 <ul>
 <li>Geometry</li>
-<li>All LBM fields (<span class="math scholmd-math-inline">\(u, v, w, P, \rho, \phi\)</span>, all distribution functions)</li>
+<li>All LBM fields (<span class="math scholmd-math-inline">\(u, v, w, P, \rho, \phi\)</span> and all distribution functions)</li>
 <li>All particle data (26 parameters)</li>
 <li>All monitoring tools (drug released, drug absorbed, drung remained in domain, drug conservation errors)</li>
 <li>Serial/Parallel (one file for particles, multiple fiels for other parameters)</li>

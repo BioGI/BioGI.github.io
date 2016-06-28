@@ -8,12 +8,13 @@ date: 27 June, 2016
 
 * **HPC**:
 	* Fixing the issue causing drug conservation difference between Serial and Parallel (Only happens when Mass-Fix is on)
-	* Verifying parallel communications for Negative-$\phi$ monitoring, Mass-Fix and drug monitoring (release,abosrbed,remained,loss) toolsi, directional particle drug release.
+	* Verifying parallel communications for Negative-$\phi$ monitoring, Mass-Fix and drug monitoring (release,abosrbed,remained,loss) tools, directional particle drug release.
 	* MPI_Transfer after streaming since $u, v, w, \rho$ are needed in scalar subroutine.
-	* Improving HPC scaling (Do-Nothing when particle is dissolved. Remove unnecessary communications)
+	* Improving HPC scaling (Do-Nothing when particle is dissolved. Remove unnecessary MPI communications. All processors do the job and rmove the MPI communications if otherwise they need to wait for the master)
         * In IC_Drug_Distribution, Blob coordinate are local (for current partition)  which causes problem in case of defining a  blub using global coordinates for parallel simulations.
 	* Computational cost and scaling factor studies:
-		* 1,2,4 partitions in X/Y 
+                * Serial
+		* 2,4 partitions in X/Y 
 		* 2,4,8,16 partitions in Z
 
 &nbsp;
@@ -21,7 +22,7 @@ date: 27 June, 2016
 
 * **Finalizing the "restart" option:**
 	* Geometry
-	* All LBM fields ($u, v, w, P, \rho, \phi$,  all distribution functions)
+	* All LBM fields ($u, v, w, P, \rho, \phi$ and all distribution functions)
 	* All particle data (26 parameters)
 	* All monitoring tools (drug released, drug absorbed, drung remained in domain, drug conservation errors)
 	* Serial/Parallel (one file for particles, multiple fiels for other parameters)
