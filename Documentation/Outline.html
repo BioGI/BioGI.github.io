@@ -105,11 +105,17 @@ Farhad Behafarid
 <li>Fix the non-zero drug releas after all particles had completely dissolved (it is close to machine precision at each time step, but after tens of thousands of iterations, it becomes detectable).</li>
 <li>Print out the scalar as non-dimensional (<span class="math scholmd-math-inline">\(C/C_s\)</span>) for visualizations.</li>
 <li>Add a feature for plotting the particle distribution PDF as a function of time.</li>
-<li>add the feature to track particles/release drug after one period of flow simulation.</li>
+<li>Add the feature to track particles/release drug only after at least one period of flow simulation (use restart option).</li>
+<li>Litrature review for Fed state bolus volume  </li>
 </ul></li>
 </ul>
-<p> </p>
 <h1 id="real-fed-experiments-before-the-fda-meeting-deadline-july-24-2016">Real fed experiments before the FDA meeting deadline (July 24, 2016)</h1>
+<ul>
+<li>Number of particles: 1175</li>
+<li><span class="math scholmd-math-inline">\(D_P^{max}\)</span> : 195 <span class="math scholmd-math-inline">\(\mu m\)</span></li>
+<li><span class="math scholmd-math-inline">\(D_P^{ave}\)</span> : 100 <span class="math scholmd-math-inline">\(\mu m\)</span></li>
+<li><span class="math scholmd-math-inline">\(D_P^{min}\)</span> : 5 <span class="math scholmd-math-inline">\(\mu m\)</span></li>
+</ul>
 <figure class="scholmd-float scholmd-table-float">
 <div class="scholmd-float-content"><table>
 <thead>
@@ -174,8 +180,14 @@ Farhad Behafarid
 <p> </p>
 <h1 id="real-fasted-experiments-before-the-fda-meeting-deadline-july-24-2016">Real fasted experiments before the FDA meeting deadline (July 24, 2016)</h1>
 <p>Hopefully we can push to perform the corresponding Fasted simulations too:</p>
-<figure class="scholmd-float scholmd-table-float">
-<div class="scholmd-float-content"><table>
+<ul>
+<li>Number of particles: 1175</li>
+<li><span class="math scholmd-math-inline">\(D_P^{max}\)</span> : 195 <span class="math scholmd-math-inline">\(\mu m\)</span></li>
+<li><span class="math scholmd-math-inline">\(D_P^{ave}\)</span> : 100 <span class="math scholmd-math-inline">\(\mu m\)</span></li>
+<li><span class="math scholmd-math-inline">\(D_P^{min}\)</span> : 5 <span class="math scholmd-math-inline">\(\mu m\)</span></li>
+</ul>
+<h4 id="table-table-fastedexperimentsbeforedeadline">Table: {#table: FastedExperimentsBeforeDeadline}</h4>
+<table>
 <thead>
 <tr class="header">
 <th style="text-align: left;">Experiment No.</th>
@@ -215,9 +227,8 @@ Farhad Behafarid
 <td style="text-align: left;"><span style="color:red"> 0.644</td>
 </tr>
 </tbody>
-</table></div>
-<div class="scholmd-float-caption"><figcaption><span class="scholmd-caption-text">Fasted Experiments before the FDA meeting in July 24, 2016</span></figcaption></div>
-</figure>
+</table>
+<p>Caption: Fasted Experiments before the FDA meeting in July 24, 2016</p>
 <div class="references">
 
 </div>

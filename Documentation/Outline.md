@@ -66,12 +66,17 @@ date: 27 June, 2016
 	* Print out the scalar as non-dimensional ($C/C_s$) for visualizations.
 	* Add a feature for plotting the particle distribution PDF as a function of time.
 	* Add the feature to track particles/release drug only after at least one period of flow simulation (use restart option).
-
+	* Litrature review for Fed state bolus volume
 &nbsp;
 
 
 
 # Real fed experiments before the FDA meeting deadline (July 24, 2016)
+
+* Number of particles: 1175
+* $D_P^{max}$ : 195 $\mu m$
+* $D_P^{ave}$ : 100 $\mu m$
+* $D_P^{min}$ : 5 $\mu m$
 
 #### Table:  {#table: ExperimentsBeforeDeadline}
 
@@ -131,7 +136,13 @@ Caption: Fed Experiments before the FDA meeting in July 24, 2016
 
 Hopefully we can push to perform the corresponding Fasted simulations too:
 
+* Number of particles: 1175
+* $D_P^{max}$ : 195 $\mu m$ 
+* $D_P^{ave}$ : 100 $\mu m$
+* $D_P^{min}$ : 5 $\mu m$ 
+
 #### Table:  {#table: FastedExperimentsBeforeDeadline}
+
 
 | Experiment No.                | Motility                                      | OC                            |Shear Effects                  |$C_{tot}/C_S$  		|
 |-------------------------------|-----------------------------------------------|-------------------------------|-------------------------------|-------------------------------|
