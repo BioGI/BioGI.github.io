@@ -152,9 +152,14 @@ Farhad Behafarid
 </figure>
 <h1 id="outline-of-the-project-fasted">Outline of the Project (Fasted)</h1>
 <ul>
-<li><p>Fixing the particle tracking issue which lets some particles to get trapped in the solid phase</p></li>
-<li><p>Running Fasted simulation (OC= 0.1) with single lattice and coarse mesh</p></li>
-<li><p>Analysing the results to see if the single lattice results are acceptable</p></li>
+<li>Fix the particle tracking issue which lets some particles to get trapped in the solid phase:
+<ul>
+<li>Use new velocity instead of velocity from previous time step (Move particle-tracking from before to after stream/macro).</li>
+<li>Add particle location warning tools.</li>
+<li>Run the exact simulation that caused the problem using interval-restart-option and let it run to reach the time that particles move out of the domain.</li>
+<li>Go back to the closest restart file and run the simulation again with printing out all the particle tracking parameters.</li>
+</ul></li>
+<li><p>Run fasted simulation (OC= 0.1) with single lattice and coarse mesh.</p></li>
 <li><p>Computational cost analysis (estimating the CPU hour with one processor)</p></li>
 <li>Dscussion on:
 <ul>
