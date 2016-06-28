@@ -25,16 +25,16 @@ date: 27 June, 2016
 	* All LBM fields ($u, v, w, P, \rho, \phi$ and all distribution functions)
 	* All particle data (26 parameters)
 	* All monitoring tools (drug released, drug absorbed, drung remained in domain, drug conservation errors)
+	* Verify that the drug conservation monitoring parameters are identical after restart.
 	* Serial/Parallel (one file for particles, multiple fiels for other parameters)
 	* Writing out at user-defined periodic intervals (not just the final)
 	* No Particle restart file if particle tracking is off or if all particles are completely dissolved
-	* Verify that the drug conservation monitoring parameters are identical after restart.
 
 &nbsp;
 
 * **Oversaturaion:**
 	* Remove ad-hoc drug release in case of  $\delta R > R$ (which ignores the modeling equations and simply reduces the radius to half).
-	* Add Fractional-Time-Stepping feature to the latest version of the git repo with flag and $N_f$ in the input file ($N_f$ is the number of fractional time steps inside each LBM time steps).
+	* Add Fractional-Time-Stepping feature to the latest version of the git repo with ON/OFF flag and $N_f$ defined in the input file ($N_f$ is the number of fractional time steps inside each LBM time step).
 	* Test Fractional-Time-Stepping by analyzing the extra computational cost vs strength of supressing over-saturation for:
 		* $N_f$ = 1
 		* $N_f$ = 2

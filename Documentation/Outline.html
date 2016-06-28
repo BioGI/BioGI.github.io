@@ -53,10 +53,10 @@ Farhad Behafarid
 <li>All LBM fields (<span class="math scholmd-math-inline">\(u, v, w, P, \rho, \phi\)</span> and all distribution functions)</li>
 <li>All particle data (26 parameters)</li>
 <li>All monitoring tools (drug released, drug absorbed, drung remained in domain, drug conservation errors)</li>
+<li>Verify that the drug conservation monitoring parameters are identical after restart.</li>
 <li>Serial/Parallel (one file for particles, multiple fiels for other parameters)</li>
 <li>Writing out at user-defined periodic intervals (not just the final)</li>
 <li>No Particle restart file if particle tracking is off or if all particles are completely dissolved</li>
-<li>Verify that the drug conservation monitoring parameters are identical after restart.</li>
 </ul></li>
 </ul>
 <p> </p>
@@ -64,7 +64,7 @@ Farhad Behafarid
 <li><strong>Oversaturaion:</strong>
 <ul>
 <li>Remove ad-hoc drug release in case of <span class="math scholmd-math-inline">\(\delta R &gt; R\)</span> (which ignores the modeling equations and simply reduces the radius to half).</li>
-<li>Add Fractional-Time-Stepping feature to the latest version of the git repo with flag and <span class="math scholmd-math-inline">\(N_f\)</span> in the input file (<span class="math scholmd-math-inline">\(N_f\)</span> is the number of fractional time steps inside each LBM time steps).</li>
+<li>Add Fractional-Time-Stepping feature to the latest version of the git repo with ON/OFF flag and <span class="math scholmd-math-inline">\(N_f\)</span> defined in the input file (<span class="math scholmd-math-inline">\(N_f\)</span> is the number of fractional time steps inside each LBM time step).</li>
 <li>Test Fractional-Time-Stepping by analyzing the extra computational cost vs strength of supressing over-saturation for:
 <ul>
 <li><span class="math scholmd-math-inline">\(N_f\)</span> = 1</li>
