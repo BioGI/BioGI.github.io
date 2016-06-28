@@ -115,7 +115,7 @@ Caption: Fed Experiments before the FDA meeting in July 24, 2016
 	* Run the exact simulation that caused the problem using interval-restart-option and let it run to reach the time that particles move out of the domain.
 	* Go back to the closest restart file and run the simulation again with printing out all the particle tracking parameters.
 
-* Run fasted simulation (OC= 0.1) with single lattice and coarse mesh.
+* Run fasted simulation (OC= 0.1) using coarse mesh.
 
 * Computational cost analysis (estimating the CPU hour with one processor)
 
