@@ -145,7 +145,6 @@ Hopefully we can push to perform the corresponding Fasted simulations too:
 
 #### Table:  {#table: FastedExperimentsBeforeDeadline}
 
-
 | Experiment No.                | Motility                                      | OC                            |Shear Effects                  |
 |-------------------------------|-----------------------------------------------|-------------------------------|-------------------------------|
 |<span style="color:red"> 5     |<span style="color:red">Fasted, Pristalsis     |<span style="color:red"> 0.1   |<span style="color:red"> No    |
