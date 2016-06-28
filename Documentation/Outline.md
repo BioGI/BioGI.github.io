@@ -11,6 +11,7 @@ date: 27 June, 2016
 	* Verifying parallel communications for Negative-$\phi$ monitoring, Mass-Fix and drug monitoring (release,abosrbed,remained,loss) toolsi, directional particle drug release.
 	* MPI_Transfer after streaming since $u, v, w, \rho$ are needed in scalar subroutine.
 	* Improving HPC scaling (Do-Nothing when particle is dissolved. Remove unnecessary communications)
+        * In IC_Drug_Distribution, Blob coordinate are local (for current partition)  which causes problem in case of defining a  blub using global coordinates for parallel simulations.
 	* Computational cost and scaling factor studies:
 		* 1,2,4 partitions in X/Y 
 		* 2,4,8,16 partitions in Z
