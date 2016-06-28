@@ -65,7 +65,7 @@ date: 27 June, 2016
 	* Fix the non-zero drug releas after all particles had completely dissolved (it is close to machine precision at each time step, but after tens of thousands of iterations, it becomes detectable).
 	* Print out the scalar as non-dimensional ($C/C_s$) for visualizations.
 	* Add a feature for plotting the particle distribution PDF as a function of time.
-
+	* add the feature to track particles/release drug after one period of flow simulation.
 
 &nbsp;
 
