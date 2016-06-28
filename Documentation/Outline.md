@@ -71,7 +71,7 @@ date: 27 June, 2016
 
 
 
-# Real fed experiments before the FDA meeting deadline (July 24, 2016)
+# Real fed experiments for the FDA meeting (July 24, 2016)
 
 * $C_{tot}/C_S= 0.2$ 
 * Number of particles: 1175
@@ -133,7 +133,7 @@ Caption: Fed Experiments before the FDA meeting in July 24, 2016
 &nbsp;
 
 
-# Real fasted experiments before the FDA meeting deadline (July 24, 2016)
+# Real fasted experiments for the FDA meeting (July 24, 2016)
 
 Hopefully we can push to perform the corresponding Fasted simulations too:
 
