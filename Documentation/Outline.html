@@ -31,7 +31,7 @@ Farhad Behafarid
 <ul>
 <li><strong>HPC</strong>:
 <ul>
-<li>Fixing the issue causing drug conservation difference between Serial and Parallel (Not related to particle tracking or drug release)</li>
+<li>Fixing the issue causing drug conservation difference between Serial and Parallel (Only happens when Mass-Fix is on)</li>
 <li>Verifying parallel communications for Negative-<span class="math scholmd-math-inline">\(\phi\)</span> monitoring, Mass-Fix and drug monitoring (release,abosrbed,remained,loss) toolsi, directional particle drug release.</li>
 <li>MPI_Transfer after streaming since <span class="math scholmd-math-inline">\(u, v, w, \rho\)</span> are needed in scalar subroutine.</li>
 <li>Improving HPC scaling (Do-Nothing when particle is dissolved. Remove unnecessary communications)

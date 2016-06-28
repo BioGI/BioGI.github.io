@@ -7,7 +7,7 @@ date: 27 June, 2016
 # Outlines of the Project (Fed)
 
 * **HPC**:
-	* Fixing the issue causing drug conservation difference between Serial and Parallel (Not related to particle tracking or drug release)
+	* Fixing the issue causing drug conservation difference between Serial and Parallel (Only happens when Mass-Fix is on)
 	* Verifying parallel communications for Negative-$\phi$ monitoring, Mass-Fix and drug monitoring (release,abosrbed,remained,loss) toolsi, directional particle drug release.
 	* MPI_Transfer after streaming since $u, v, w, \rho$ are needed in scalar subroutine.
 	* Improving HPC scaling (Do-Nothing when particle is dissolved. Remove unnecessary communications)
