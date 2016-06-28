@@ -25,6 +25,7 @@ date: 27 June, 2016
 	* All monitoring tools (drug released, drug absorbed, drung remained in domain, drug conservation errors)
 	* Serial/Parallel (one file for particles, multiple fiels for other parameters)
 	* Writing out at user-defined periodic intervals (not just the final)
+	* No Particle restart file if particle tracking is off or if all particles are completely dissolved
 	* Verify that the drug conservation monitoring parameters are identical after restart.
 
 &nbsp;
