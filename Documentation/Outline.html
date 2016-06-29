@@ -38,8 +38,9 @@ Farhad Behafarid
 <ul>
 <li>In IC_Drug_Distribution, Blob coordinate are local (for current partition) which causes problem in case of defining a blub using global coordinates for parallel simulations.</li>
 </ul></li>
-<li>Computational cost and scaling factor studies: * Serial
+<li>Computational cost and scaling factor studies:
 <ul>
+<li>Serial</li>
 <li>2,4 partitions in X/Y</li>
 <li>2,4,8,16 partitions in Z</li>
 </ul></li>
@@ -102,16 +103,19 @@ Farhad Behafarid
 <ul>
 <li><p><strong>Others:</strong></p>
 <ul>
+<li>Remove the particles from the particle list when it is completely dissolved.</li>
 <li>Fix the non-zero drug releas after all particles are completely dissolved (it is close to machine precision at each time step, but after tens of thousands of iterations, it becomes detectable).</li>
 <li>Print out the scalar as non-dimensional (<span class="math scholmd-math-inline">\(C/C_s\)</span>) for visualizations.</li>
 <li>Add a feature for plotting the particle distribution (PDF) as a function of time.</li>
 <li>Add the feature to track particles/release drug, only after (at least) one full period of flow simulation (using restart option).</li>
 <li>Litrature review for a reasonable fed state bolus volume.</li>
+<li>Feature to plot shear PDf and strain-rate contribution to Sherwood number (at least at each 0.1 of a period)</li>
+<li>Calculate Strain rate at each node and visualize it.</li>
 <li>Add the effects of PH on solubility</li>
 </ul></li>
 </ul>
 <p> </p>
-<h1 id="real-fed-experiments-for-the-fda-meeting-july-24-2016">Real fed experiments for the FDA meeting (July 24, 2016)</h1>
+<h1 id="real-fed-experiments-for-the-fda-meeting-july-17-2016">Real fed experiments for the FDA meeting (July 17, 2016)</h1>
 <ul>
 <li><span class="math scholmd-math-inline">\(C_{tot}/C_S= 0.2\)</span></li>
 <li>Number of particles: 1175</li>
@@ -156,7 +160,7 @@ Farhad Behafarid
 </tr>
 </tbody>
 </table></div>
-<div class="scholmd-float-caption"><figcaption><span class="scholmd-caption-text">Fed Experiments before the FDA meeting in July 24, 2016</span></figcaption></div>
+<div class="scholmd-float-caption"><figcaption><span class="scholmd-caption-text">Fed Experiments before the FDA meeting in July 17, 2016</span></figcaption></div>
 </figure>
 <h1 id="outline-of-the-project-fasted">Outline of the Project (Fasted)</h1>
 <ul>

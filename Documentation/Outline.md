@@ -13,7 +13,7 @@ date: 27 June, 2016
 	* Improving HPC scaling (Do-Nothing when particle is dissolved. Remove unnecessary MPI communications. All processors do the job and rmove the MPI communications if otherwise they need to wait for the master)
         * In IC_Drug_Distribution, Blob coordinate are local (for current partition)  which causes problem in case of defining a  blub using global coordinates for parallel simulations.
 	* Computational cost and scaling factor studies:
-                * Serial
+		* Serial
 		* 2,4 partitions in X/Y 
 		* 2,4,8,16 partitions in Z
 
@@ -63,11 +63,14 @@ date: 27 June, 2016
 
 * **Others:**
 
+	* Remove the particles from the particle list when it is completely dissolved.
 	* Fix the non-zero drug releas after all particles are completely dissolved (it is close to machine precision at each time step, but after tens of thousands of iterations, it becomes detectable).
 	* Print out the scalar as non-dimensional ($C/C_s$) for visualizations.
 	* Add a feature for plotting the particle distribution (PDF) as a function of time.
 	* Add the feature to track particles/release drug, only after (at least) one full period of flow simulation (using restart option).
 	* Litrature review for a reasonable fed state bolus volume.
+	* Feature to plot shear PDf and strain-rate contribution to Sherwood number (at least at each 0.1 of a period)
+	* Calculate Strain rate at each node and visualize it.
 	* Add the effects of PH on solubility
 
 &nbsp;
@@ -77,7 +80,7 @@ date: 27 June, 2016
 
 
 
-# Real fed experiments for the FDA meeting (July 24, 2016)
+# Real fed experiments for the FDA meeting (July 17, 2016)
 
 * $C_{tot}/C_S= 0.2$ 
 * Number of particles: 1175
@@ -94,7 +97,7 @@ date: 27 June, 2016
 | 3                             |                        Fed,    Pristalsis     | 0.5                           | Yes                           |
 | 4                             |                        Fed,    Segmental      | 0.5                           | Yes                           |
 
-Caption: Fed Experiments before the FDA meeting in July 24, 2016
+Caption: Fed Experiments before the FDA meeting in July 17, 2016
 
 
 
