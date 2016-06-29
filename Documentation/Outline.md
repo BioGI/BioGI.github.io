@@ -7,7 +7,7 @@ date: 27 June, 2016
 # Outlines of the Project (Fed)
 
 * **HPC**:
-	* Fixing the issue causing drug conservation difference between Serial and Parallel (Only happens when Mass-Fix is on)
+	* Fixing the issue causing drug conservation difference between Serial and Parallel.
 	* Verifying parallel communications for Negative-$\phi$ monitoring, Mass-Fix and drug monitoring (release,abosrbed,remained,loss) tools, directional particle drug release.
 	* MPI_Transfer after streaming since $u, v, w, \rho$ are needed in scalar subroutine.
 	* Improving HPC scaling (Do-Nothing when particle is dissolved. Remove unnecessary MPI communications. All processors do the job and rmove the MPI communications if otherwise they need to wait for the master)
@@ -163,4 +163,22 @@ Hopefully we can push to perform the corresponding Fasted simulations too:
 |<span style="color:red"> 8     |<span style="color:red">Fasted, Segmental      |<span style="color:red"> 0.1   |<span style="color:red"> Yes   |
 
 Caption: Fasted Experiments before the FDA meeting in July 24, 2016
+
+
+
+
+# Parallel Communication Issue:
+
+* Fixing the issue causing drug conservation difference between Serial and Parallel (Only happens when Mass-Fix is on)
+	* The issue is not related to particle traking or drug release
+	* The issue is related to LBM boundary condition:
+	* An extreme case for debugging was created (super-Coarse mesh. uniform saturated scalar at IC)
+#### Table:  {#table: ExperimentsBeforeDeadline}
+
+| LBM BC order |Error % (1 CPU) | Error % (8 CPU)|
+|--------------|----------------|----------------|
+| 1            | 4.15           | 4.15           |
+| 2            | 0.15           | 0.45           |
+
+Caption: Errors in Serial/Parallel simulations with 1st and 2nd order LBM BC
 

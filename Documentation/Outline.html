@@ -31,7 +31,7 @@ Farhad Behafarid
 <ul>
 <li><strong>HPC</strong>:
 <ul>
-<li>Fixing the issue causing drug conservation difference between Serial and Parallel (Only happens when Mass-Fix is on)</li>
+<li>Fixing the issue causing drug conservation difference between Serial and Parallel.</li>
 <li>Verifying parallel communications for Negative-<span class="math scholmd-math-inline">\(\phi\)</span> monitoring, Mass-Fix and drug monitoring (release,abosrbed,remained,loss) tools, directional particle drug release.</li>
 <li>MPI_Transfer after streaming since <span class="math scholmd-math-inline">\(u, v, w, \rho\)</span> are needed in scalar subroutine.</li>
 <li>Improving HPC scaling (Do-Nothing when particle is dissolved. Remove unnecessary MPI communications. All processors do the job and rmove the MPI communications if otherwise they need to wait for the master)
@@ -229,6 +229,37 @@ Farhad Behafarid
 </table></div>
 <div class="scholmd-float-caption"><figcaption><span class="scholmd-caption-text">Fasted Experiments before the FDA meeting in July 24, 2016</span></figcaption></div>
 </figure>
+<h1 id="parallel-communication-issue">Parallel Communication Issue:</h1>
+<ul>
+<li>Fixing the issue causing drug conservation difference between Serial and Parallel (Only happens when Mass-Fix is on)
+<ul>
+<li>The issue is not related to particle traking or drug release</li>
+<li>The issue is related to LBM boundary condition:</li>
+<li>An extreme case for debugging was created (super-Coarse mesh. uniform saturated scalar at IC) #### Table: {#table: ExperimentsBeforeDeadline}</li>
+</ul></li>
+</ul>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">LBM BC order</th>
+<th style="text-align: left;">Error % (1 CPU)</th>
+<th style="text-align: left;">Error % (8 CPU)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">1</td>
+<td style="text-align: left;">4.15</td>
+<td style="text-align: left;">4.15</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2</td>
+<td style="text-align: left;">0.15</td>
+<td style="text-align: left;">0.45</td>
+</tr>
+</tbody>
+</table>
+<p>Caption: Errors in Serial/Parallel simulations with 1st and 2nd order LBM BC</p>
 <div class="references">
 
 </div>
