@@ -14,6 +14,7 @@ E = $\begin{bmatrix}
 \frac{1}{2}(\frac{\partial w}{\partial x} +  \frac{\partial u}{\partial z})   	& \frac{1}{2}(\frac{\partial w}{\partial y} +  \frac{\partial v}{\partial z})   & \frac{\partial w}{\partial z} 
 \end{bmatrix}$
 
+<!---
 
 ## Second Invariant of the Symmetrical Strain Rate Tensor; E:
 
@@ -36,4 +37,23 @@ Summerizing:
 S =\frac{1}{2}  \sqrt{\big[E_{11} E_{22} + E_{11} E_{33} + E_{22} E_{33}\big]  - \big[E_{12} E_{12} + E_{13} E_{13} + E_{23} E_{23} \big]} 
 ~~~
 
+--->
 
+## Computing the strain rate for use in corelations:
+~~~math
+S =  \sqrt{\frac{E_{11}^2 + E_{22}^2 + E_{33}^2  + 2 \big[ E_{12}^2 + E_{13}^2 + E_{23}^2\big]}{2} }
+~~~
+
+
+~~~math
+S =  \frac{1}{2} \sqrt{2
+		  \Big[
+		  \big(\frac{\partial u}{\partial x}\big)^2 
+                + \big(\frac{\partial v}{\partial y}\big)^2
+                + \big(\frac{\partial w}{\partial z}\big)^2
+                  \Big]
+                + \big( \frac{\partial u}{\partial y} +  \frac{\partial v}{\partial x} \big)^2                 
+                + \big( \frac{\partial u}{\partial z} +  \frac{\partial w}{\partial x} \big)^2 
+                + \big( \frac{\partial w}{\partial y} +  \frac{\partial v}{\partial z} \big)^2 
+                 }
+~~~

@@ -7,11 +7,11 @@ date: 27 June, 2016
 # Outlines of the Project (Fed)
 
 * **HPC**:
-	* Fixing the issue causing drug conservation difference between Serial and Parallel.
-	* Verifying parallel communications for Negative-$\phi$ monitoring, Mass-Fix and drug monitoring (release,abosrbed,remained,loss) tools, directional particle drug release.
-	* MPI_Transfer after streaming since $u, v, w, \rho$ are needed in scalar subroutine.
+	* <span style="color:blue"> Fixing the issue causing drug conservation difference between Serial and Parallel.
+	* <span style="color:blue"> Verifying parallel communications for Negative-$\phi$ monitoring, Mass-Fix and drug monitoring (release,abosrbed,remained,loss) tools, directional particle drug release.
+	* <span style="color:blue"> MPI_Transfer after streaming since $u, v, w, \rho$ are needed in scalar subroutine.
 	* Improving HPC scaling (Do-Nothing when particle is dissolved. Remove unnecessary MPI communications. All processors do the job and rmove the MPI communications if otherwise they need to wait for the master)
-        * In IC_Drug_Distribution, Blob coordinate are local (for current partition)  which causes problem in case of defining a  blub using global coordinates for parallel simulations.
+	* In IC_Drug_Distribution, Blob coordinate are local (for current partition)  which causes problem in case of defining a  blub using global coordinates for parallel simulations.
 	* Computational cost and scaling factor studies:
 		* Serial
 		* 2,4 partitions in X/Y 
@@ -21,18 +21,21 @@ date: 27 June, 2016
 
 
 * **Finalizing the "restart" option:**
-	* Geometry
-	* All LBM fields ($u, v, w, P, \rho, \phi$ and all distribution functions)
-	* All particle data (26 parameters)
-	* All monitoring tools (drug released, drug absorbed, drung remained in domain, drug conservation errors)
+	* <span style="color:blue"> Geometry
+	* <span style="color:blue"> All LBM fields ($u, v, w, P, \rho, \phi$ and all distribution functions)
+	* <span style="color:blue"> All particle data (26 parameters)
+	* <span style="color:blue"> All monitoring tools (drug released, drug absorbed, drung remained in domain, drug conservation errors)
+	* <span style="color:blue"> Writing out at user-defined periodic intervals (not just the final)
+	* Verify that the all fields are identical after restart.
 	* Verify that the drug conservation monitoring parameters are identical after restart.
-	* Serial/Parallel (one file for particles, multiple fiels for other parameters)
-	* Writing out at user-defined periodic intervals (not just the final)
 	* No Particle restart file if particle tracking is off or if all particles are completely dissolved
 
 &nbsp;
 
 * **Oversaturaion:**
+	* Add fractionall-time-stepping flag to the input.dat
+	* Add $N_f$ value to the input.dat
+	* Add fractional-time-step interval to the input.dat (probably only a few hundred initial time steps)	
 	* Remove ad-hoc drug release in case of  $\delta R > R$ (which ignores the modeling equations and simply reduces the radius to half).
 	* Add Fractional-Time-Stepping feature to the latest version of the git repo with ON/OFF flag and $N_f$ defined in the input file ($N_f$ is the number of fractional time steps inside each LBM time step).
 	* Test Fractional-Time-Stepping by analyzing the extra computational cost vs strength of supressing over-saturation for:
@@ -44,8 +47,8 @@ date: 27 June, 2016
 &nbsp;
 
 * **Mass-Fix:**
-	* Fixing Mass-Fix non-physical effects on scalar (very small and only the first time step)
-	* Improving Mass-Fix option by adding the correction term proportional to the magnitude of f in different directions (instead of $f_m = f_m + \frac{Correction}{15}$ for all directions)
+	* <span style="color:blue"> Fixing Mass-Fix non-physical effects on scalar (very small and only the first time step)
+	* <span style="color:blue"> Improving Mass-Fix option by adding the correction term proportional to the magnitude of f in different directions (instead of $f_m = f_m + \frac{Correction}{15}$ for all directions)
 
 &nbsp;
 
@@ -64,6 +67,7 @@ date: 27 June, 2016
 * **Others:**
 
 	* Remove the particles from the particle list when it is completely dissolved.
+	* Make sure the feature to delay the start of particle-Tracking adn drug-release works fine.
 	* Fix the non-zero drug releas after all particles are completely dissolved (it is close to machine precision at each time step, but after tens of thousands of iterations, it becomes detectable).
 	* Print out the scalar as non-dimensional ($C/C_s$) for visualizations.
 	* Add a feature for plotting the particle distribution (PDF) as a function of time.
