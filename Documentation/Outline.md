@@ -10,7 +10,6 @@ date: 27 June, 2016
 	* <span style="color:blue"> Fixing the issue causing drug conservation difference between Serial and Parallel.
 	* <span style="color:blue"> Verifying parallel communications for Negative-$\phi$ monitoring, Mass-Fix and drug monitoring (release,abosrbed,remained,loss) tools, directional particle drug release.
 	* <span style="color:blue"> MPI_Transfer after streaming since $u, v, w, \rho$ are needed in scalar subroutine.
-	* Improving HPC scaling (Do-Nothing when particle is dissolved. Remove unnecessary MPI communications. All processors do the job and rmove the MPI communications if otherwise they need to wait for the master)
 	* In IC_Drug_Distribution, Blob coordinate are local (for current partition)  which causes problem in case of defining a  blub using global coordinates for parallel simulations.
 	* Computational cost and scaling factor studies:
 		* Serial
@@ -72,6 +71,7 @@ date: 27 June, 2016
         * <span style="color:blue"> Write out only one particle restart file even in parallel simulations
         * <span style="color:blue"> Remove the particles from the particle list when it is completely dissolved.
         * <span style="color:blue"> Write out only one particle data file even in parallel simulations.
+	* Improving HPC scaling (Do-Nothing when particle is dissolved. Remove unnecessary MPI communications. All processors do the job and remove the MPI communications if otherwise they need to wait for the master)
 	* Turn off the particle tracking when all particles are dissolved
 
 &nbsp;
