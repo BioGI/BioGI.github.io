@@ -98,40 +98,6 @@ date: 27 June, 2016
 
 
 
-# Real fed experiments for the FDA meeting (July 17, 2016)
-
-* $C_{tot}/C_S= 0.2$ 
-* Number of particles: 1175
-* $D_P^{max}$ : 195 $\mu m$
-* $D_P^{ave}$ : 100 $\mu m$
-* $D_P^{min}$ : 5 $\mu m$
-
-#### Table:  {#table: ExperimentsBeforeDeadline}
-
-| Experiment No.                | Motility                                      | OC                            |Shear Effects                  |
-|-------------------------------|-----------------------------------------------|-------------------------------|-------------------------------|
-| 1                             |                        Fed,    Peristalsis    | 0.5                           | No                            |
-| 2                             |                        Fed,    Segmental      | 0.5                           | No                            |
-| 3                             |                        Fed,    Pristalsis     | 0.5                           | Yes                           |
-| 4                             |                        Fed,    Segmental      | 0.5                           | Yes                           |
-
-Caption: Fed Experiments before the FDA meeting in July 17, 2016
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -161,26 +127,6 @@ Caption: Fed Experiments before the FDA meeting in July 17, 2016
 &nbsp;
 
 
-# Real fasted experiments for the FDA meeting (July 24, 2016)
-
-Hopefully we can push to perform the corresponding Fasted simulations too:
-
-* $C_{tot}/C_S= 0.644$
-* Number of particles: 1175
-* $D_P^{max}$ : 195 $\mu m$ 
-* $D_P^{ave}$ : 100 $\mu m$
-* $D_P^{min}$ : 5 $\mu m$ 
-
-#### Table:  {#table: FastedExperimentsBeforeDeadline}
-
-| Experiment No.                | Motility                                      | OC                            |Shear Effects                  |
-|-------------------------------|-----------------------------------------------|-------------------------------|-------------------------------|
-|<span style="color:red"> 5     |<span style="color:red">Fasted, Pristalsis     |<span style="color:red"> 0.1   |<span style="color:red"> No    |
-|<span style="color:red"> 6     |<span style="color:red">Fasted, Segmental      |<span style="color:red"> 0.1   |<span style="color:red"> No    |
-|<span style="color:red"> 7     |<span style="color:red">Fasted, Pristalsis     |<span style="color:red"> 0.1   |<span style="color:red"> Yes   |
-|<span style="color:red"> 8     |<span style="color:red">Fasted, Segmental      |<span style="color:red"> 0.1   |<span style="color:red"> Yes   |
-
-Caption: Fasted Experiments before the FDA meeting in July 24, 2016
 
 
 
