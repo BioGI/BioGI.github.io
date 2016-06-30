@@ -78,9 +78,10 @@ date: 27 June, 2016
 
 * **Others:**
 	* <span style="color:blue"> Introduce a user defined input parameter to set the intervals between the output files (instead of defining approximate number of output files)
+	* Make sure the values for $C_s$, $\nu_m$ and $D_m$ are correct
 	* Create wiki pages for new fed/fasted experiments
-	* Remove $C_s$, $\nu_m$ and $D_m$ from Setup.f90 and add them to input.dat
-	* Finalize the computational cost estimation for each time step
+	* <span style="color:blue"> Remove $C_s$, $\nu_m$ and $D_m$ from Setup.f90 and add them to input.dat
+	* Finalize the computational cost estimation subroutines. 
 	* Fix the non-zero drug releas after all particles are completely dissolved (it is close to machine precision at each time step, but after tens of thousands of iterations, it becomes detectable).
 	* Print out the scalar as non-dimensional ($C/C_s$) for visualizations.
 	* Add a feature for plotting the particle distribution (PDF) as a function of time.
