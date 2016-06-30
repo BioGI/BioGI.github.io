@@ -93,14 +93,14 @@ Table (#table:study1ParticleParameters) shows the particles parameters for the f
 
 | Name                  	|    Symbol          	| Choice                						|  Units     |
 |-------------------------------|-----------------------|-----------------------------------------------------------------------|------------|
-|	-			| $C_{tot}/C_s$        	| <span style="color:red"  > *.*		 			| -          |
-|Total concentration   		| $C_{tot}$           	| <span style="color:red"  > $*.* \times 10^{-8}$			| $mol/cm^3$ |
-|Total volume of the particles  | $V_P$                 | <span style="color:red"  > $*.* \times 10^{-4}$ 			| $cm^3$     | 
-|Toal drug in the domain 	|                       | <span style="color:red"  > $*.* \times 10^{-7}$                      	| $mol$      |
+|	-			| $C_{tot}/C_s$        	| <span style="color:red"  >   0.20185		 			| -          |
+|Total concentration   		| $C_{tot}$           	| <span style="color:red"  > $6.661   \times 10^{-8}$			| $mol/cm^3$ |
+|Total volume of the particles  | $V_P$                 | <span style="color:red"  > $2.11007 \times 10^{-4}$ 			| $cm^3$     | 
+|Toal drug in the domain 	|                       | <span style="color:red"  > $7.8734  \times 10^{-7}$                 	| $mol$      |
 |Maximum particle diameter	| $D_P^{max}$          	| <span style="color:black"> 195	 		 		| $\mu m$    |
 |Average particle diameter      | $D_P^{ave}$           | <span style="color:black"> 100                			| $\mu m$    |
 |Minimum particle diameter      | $D_P^{min}$           | <span style="color:black"> 5      	   	 			| $\mu m$    |
-|Number of particles		| $N_P$			| <span style="color:red"  > * (Figure [#fig:Particle_Distribution_14])	| -	     |
+|Number of particles		| $N_P$			| <span style="color:red"  > 1175 (Figure [#fig:Particle_Distribution_16])	| -	     |
 |Distribution function shape	|	-		| <span style="color:black"> Normal	        			| -	     |
 |Standard deviation	 	| $\sigma$		| <span style="color:red"  > 25						| $\mu m$    |		
 |Number of the bins		| $N_{bins}$		| <span style="color:black"> 20						| -	     |
@@ -110,50 +110,15 @@ Caption: Drug particle properties for the first computational study.
 
 
 
-<!---
-## Estimating the numebr of particles with uniform size to achive the desired $C_{tot}$
-To achive the $C_{tot} / C_s = 0.2$ :
-
-~~~math
-\sum_{i=1}^{N_P} V_{P_i} = C_{tot}  \nu_m V_C \\
-~~~
-
-We have:
-
-~~~math
-V_C &= 11.82 cm^3 \\
-\nu_m &= 268 cm^3/mol \\ 
-C_{tot} &= 6.6 \times 10^{-8} mol/cm^3 \\
-~~~
-
-Therefore:
-
-~~~math
-\sum_{i=1}^{N_P} V_{P_i}  &= (6.6 \times 10^{-8}) (268) (11.82) = 2090.7 \times 10^{-7} cm^3\\ 
-~~~
-
-Considering same size particles with $R=50 \mu m$:
-
-~~~math
-V_P &= \frac{4 \pi}{3} R^3 = 5.238 \times 10^{-7} cm^3 \\
-~~~
-
-Meaning approximately  406 particles ($N_P$ = 406) with $R=50 \mu m$ are needed to provide  $C_{tot} / C_s = 0.2$
--->
-
-
-
-
-
 ## Particle Distributions
 
 For $\sigma$= 25$\mu m$:
 
-#### Figure: {#fig:Particle_Distribution_14}
+#### Figure: {#fig:Particle_Distribution_16}
 
-![](./Particle_Distribution_14.png){width=99%}
+![](./Particle_Distribution_16.png){width=99%}
 
-Caption: $\frac{C_{tot}}{C_s}$=0.2 ,  $D_{min}$=5$\mu m$ ,   $D_{max}$=195$\mu m$ ,  $N_{bin}$=20  , $\sigma$=25$\mu m$ ,   $N_P$= 
+Caption: $\frac{C_{tot}}{C_s}$=0.2 ,  $D_{min}$=5$\mu m$ ,   $D_{max}$=195$\mu m$ ,  $N_{bin}$=20  , $\sigma$=25$\mu m$ ,   $N_P$= 1175 
 
 
 
@@ -210,7 +175,7 @@ Caption: Modeling and computational parameters for the first computational study
 |---------------------------------------|-----------------------|---------------------------------------|------------|
 | Mesh resolution		        | $\Delta x$            | 0.2					| mm         |
 | Total number of nodes		        | $N_{nodes}$           | 3 000 000				|            |
-| Number of Particles                   | $N_{particles}$       | 	                                |            |
+| Number of Particles                   | $N_{particles}$       | 1175 	                                |            |
 | Time steps		                | $\Delta t$            | 6.66 e-3				| s          |
 | Total number of waves simulated       | 	             	| 20		                        |            |
 | Wave's charactristice time scale      | $t_{wave}$            | 30					| s          |
