@@ -55,7 +55,8 @@ Farhad Behafarid
 <li><span style="color:blue"> Writing out at user-defined periodic intervals (not just the final)</li>
 <li>Verify that the all fields are identical after restart.</li>
 <li>Verify that the drug conservation monitoring parameters are identical after restart.</li>
-<li>No Particle restart file if particle tracking is off or if all particles are completely dissolved</li>
+<li><span style="color:blue"> No Particle restart file if particle tracking is off or if all particles are completely dissolved</li>
+<li><span style="color:blue"> Write out only one particle data file even in parallel simulations</li>
 </ul></li>
 </ul>
 <p> </p>
@@ -88,7 +89,7 @@ Farhad Behafarid
 <ul>
 <li><strong>Boundary Condition:</strong>
 <ul>
-<li>Finalize/verify the book-keeping routines</li>
+<li><span style="color:blue"> Finalize/verify the book-keeping routines</li>
 <li>Introducing Permeability Boundary Condition in intestine geometry</li>
 </ul></li>
 </ul>
@@ -102,10 +103,27 @@ Farhad Behafarid
 </ul>
 <p> </p>
 <ul>
-<li><p><strong>Others:</strong></p>
+<li><strong>Improve computational efficiency:</strong>
 <ul>
-<li>Remove the particles from the particle list when it is completely dissolved.</li>
-<li>Make sure the feature to delay the start of particle-Tracking adn drug-release works fine.</li>
+<li><span style="color:blue"> Write out particle data in output files only if the particle is not fully dissolved</li>
+<li><span style="color:blue"> Write out only one particle data file even in parallel simulations
+<ul>
+<li><span style="color:blue"> Write out particle data in restart files only if the particle is not fully dissolved</li>
+<li><span style="color:blue"> Write out only one particle restart file even in parallel simulations</li>
+<li><span style="color:blue"> Remove the particles from the particle list when it is completely dissolved.</li>
+<li><span style="color:blue"> Write out only one particle data file even in parallel simulations.</li>
+</ul></li>
+<li>Turn off the particle tracking when all particles are dissolved</li>
+</ul></li>
+</ul>
+<p> </p>
+<ul>
+<li><strong>Others:</strong>
+<ul>
+<li><span style="color:blue"> Introduce a user defined input parameter to set the intervals between the output files (instead of defining approximate number of output files)</li>
+<li>Create wiki pages for new fed/fasted experiments</li>
+<li>Remove <span class="math scholmd-math-inline">\(C_s\)</span>, <span class="math scholmd-math-inline">\(\nu_m\)</span> and <span class="math scholmd-math-inline">\(D_m\)</span> from Setup.f90 and add them to input.dat</li>
+<li>Finalize the computational cost estimation for each time step</li>
 <li>Fix the non-zero drug releas after all particles are completely dissolved (it is close to machine precision at each time step, but after tens of thousands of iterations, it becomes detectable).</li>
 <li>Print out the scalar as non-dimensional (<span class="math scholmd-math-inline">\(C/C_s\)</span>) for visualizations.</li>
 <li>Add a feature for plotting the particle distribution (PDF) as a function of time.</li>

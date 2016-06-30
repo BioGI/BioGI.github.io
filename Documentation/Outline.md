@@ -28,7 +28,8 @@ date: 27 June, 2016
 	* <span style="color:blue"> Writing out at user-defined periodic intervals (not just the final)
 	* Verify that the all fields are identical after restart.
 	* Verify that the drug conservation monitoring parameters are identical after restart.
-	* No Particle restart file if particle tracking is off or if all particles are completely dissolved
+	* <span style="color:blue"> No Particle restart file if particle tracking is off or if all particles are completely dissolved
+	* <span style="color:blue"> Write out only one particle data file even in parallel simulations
 
 &nbsp;
 
@@ -53,7 +54,7 @@ date: 27 June, 2016
 &nbsp;
 
 * **Boundary Condition:** 
-	* Finalize/verify the book-keeping routines
+	* <span style="color:blue">  Finalize/verify the book-keeping routines
 	* Introducing Permeability Boundary Condition in intestine geometry
 
 &nbsp;
@@ -64,10 +65,22 @@ date: 27 June, 2016
 
 &nbsp;
 
-* **Others:**
+* **Improve computational efficiency:**
+	* <span style="color:blue"> Write out particle data in output files only if the particle is not fully dissolved
+	* <span style="color:blue"> Write out only one particle data file even in parallel simulations
+        * <span style="color:blue"> Write out particle data in restart files only if the particle is not fully dissolved
+        * <span style="color:blue"> Write out only one particle restart file even in parallel simulations
+        * <span style="color:blue"> Remove the particles from the particle list when it is completely dissolved.
+        * <span style="color:blue"> Write out only one particle data file even in parallel simulations.
+	* Turn off the particle tracking when all particles are dissolved
 
-	* Remove the particles from the particle list when it is completely dissolved.
-	* Make sure the feature to delay the start of particle-Tracking adn drug-release works fine.
+&nbsp;
+
+* **Others:**
+	* <span style="color:blue"> Introduce a user defined input parameter to set the intervals between the output files (instead of defining approximate number of output files)
+	* Create wiki pages for new fed/fasted experiments
+	* Remove $C_s$, $\nu_m$ and $D_m$ from Setup.f90 and add them to input.dat
+	* Finalize the computational cost estimation for each time step
 	* Fix the non-zero drug releas after all particles are completely dissolved (it is close to machine precision at each time step, but after tens of thousands of iterations, it becomes detectable).
 	* Print out the scalar as non-dimensional ($C/C_s$) for visualizations.
 	* Add a feature for plotting the particle distribution (PDF) as a function of time.
