@@ -171,21 +171,29 @@ Caption: Modeling and computational parameters for the first computational study
 #Computational Cost Estimation
 #### Table:  {#table:ComputationalCost}
 
-| Name                                  | Symbol                | Choice                                |  Units     |
-|---------------------------------------|-----------------------|---------------------------------------|------------|
-| Mesh resolution		        | $\Delta x$            | 0.2					| mm         |
-| Total number of nodes		        | $N_{nodes}$           | 3 000 000				|            |
-| Number of Particles                   | $N_{particles}$       | 1175 	                                |            |
-| Time steps		                | $\Delta t$            | 6.66 e-3				| s          |
-| Total number of waves simulated       | 	             	| 20		                        |            |
-| Wave's charactristice time scale      | $t_{wave}$            | 30					| s          |
-| Total physical time		        | $t_{tot}$             | 600                                   | s          |
-| Total number of iterations            | $N_{iter}$            | 90 000                                |            |
-| Computational cost of each iteration  |			|  					| CPU.s      |
-| Total computational Cost		|			|           				| CPU.hour   |
-| Total computational Cost		|			| 					| CPU.days   |
+| Name                                  	| Symbol          | Choice      | Units |
+|-----------------------------------------------|-----------------|-------------|-------|
+| Mesh resolution		        	| $\Delta x$      | 0.2		| mm    |
+| Total number of nodes		        	| $N_{nodes}$     | 3 000 000	|       |
+| Number of Particles                   	| $N_{particles}$ | 1175        |       |
+| Time steps		               	 	| $\Delta t$      | 6.66 e-3	| s     |
+| Total number of waves simulated       	| 	          | 20	        |       |
+| Wave's charactristice time scale      	| $t_{wave}$      | 30		| s     |
+| Total physical time		        	| $t_{tot}$       | 600         | s     |
+| Total number of iterations           		| $N_{iter}$      | 90 000      |       |
+| Computational time at each iteration (8 CPU)	|		  | 1		| s     |
+| Total computational time			|		  | 25         	| hour  |
 
 Caption: Computational cost estimation
 
 
+# Results: Case 1
+
+Using 8 processors on Janus.
+
+#### Figure: {#fig:Results_Case1}
+
+![](./Drug_Case1.png){width=70%}
+
+Caption: Results of the case 1 experiment
 
