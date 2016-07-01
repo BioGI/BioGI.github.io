@@ -33,6 +33,7 @@ date: 27 June, 2016
 &nbsp;
 
 * **Oversaturaion:**
+	* Compute the average over-saturaion (using only the oversaturated nodes)
 	* Add fractionall-time-stepping flag to the input.dat
 	* Add $N_f$ value to the input.dat
 	* Add fractional-time-step interval to the input.dat (probably only a few hundred initial time steps)	
@@ -75,6 +76,18 @@ date: 27 June, 2016
 	* Turn off the particle tracking when all particles are dissolved
 
 &nbsp;
+
+* ** Computational Resources**
+	* Estimate how long ti use all 15000 CPU.hours.
+	* Figure out if new assignments are free or not.
+	* Write a proposal for more CPU allocations
+	* Request larger HD allocations.
+	* Explore the possibility of the access to the Penn-State's high priority 80 CPU 
+	
+
+
+&nbsp;
+
 
 * **Others:**
 	* <span style="color:blue"> Introduce a user defined input parameter to set the intervals between the output files (instead of defining approximate number of output files)
