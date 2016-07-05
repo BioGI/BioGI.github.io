@@ -77,7 +77,7 @@ date: 27 June, 2016
 
 &nbsp;
 
-* ** Computational Resources**
+* **Computational Resources**
 	* Estimate how long ti use all 15000 CPU.hours.
 	* Figure out if new assignments are free or not.
 	* Write a proposal for more CPU allocations
@@ -91,6 +91,7 @@ date: 27 June, 2016
 
 * **Others:**
 	* <span style="color:blue"> Introduce a user defined input parameter to set the intervals between the output files (instead of defining approximate number of output files)
+	* <span style="color:blue"> Chaning Segmental geometry so that at the initial time step, the highest radius is at the center (consistent with Pristalsis) 
 	* Make sure the values for $C_s$, $\nu_m$ and $D_m$ are correct
 	* <span style="color:blue"> Desing Fed experiments and create a wiki page for it
 	* Desing Fasted experiments and create a wiki page for it

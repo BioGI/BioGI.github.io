@@ -14,7 +14,7 @@ date: 17 June 2016
 
 
 # Login:	
-	ssh username@login.rc.colorado.edu 
+	ssh fabe1343@login.rc.colorado.edu 
 
 #Password:
 	4 digit pin + 6 digit OTP
