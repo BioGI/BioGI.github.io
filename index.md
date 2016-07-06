@@ -23,7 +23,7 @@ This page is intended to be a home page for the documentation of the Bio-GI proj
 * [Generalized boundary condition and book-keeping](Documentation/fluxBC/fluxBC.html)
 * [Multi-grid implementations](Documentation/plannedMultiblockImplementation.html)
 * [First experiment design (Peristalsis, Fed-State, 936 particles)](Documentation/firstStudy.html)
-* [Compiling and running on Janus](Documentation/Janus_Runs.html)
+* [Janus: Compiling and running](Documentation/Janus_Runs.html)
 * [Python scripts to create Paraview snapshots and movies](Documentation/Paraview_Script.html)
 * [Strain rate calculations to be used in Sherwood number correlations](Documentation/Strain_Rate_Correlations.html)
 * [Motility and concentration data](Documentation/Motility_Concentration_Data.html)

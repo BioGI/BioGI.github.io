@@ -57,6 +57,28 @@ module load openmpi
 srun ./Intestine.exe                    # Intestine.exe is the executable</code></pre>
 <h1 id="submitting-the-job-to-the-queue">Submitting the job to the queue:</h1>
 <pre><code>sbatch JobScript.sh</code></pre>
+<h1 id="installing-tmux-in-janus">Installing tmux in Janus</h1>
+<pre><code>mkdir local
+mkdir tmp
+mv tmux-1.4 tmp
+mv ncurses-5.7 tmp
+mv libevent-2.0.10-stable tmp
+cd tmp
+
+cd libevent-2.0.10-stable
+./configure --prefix=$HOME/local
+make
+make install
+
+cd ../ncureses-5.7
+./configure --prefix=$HOME/local
+make
+make install
+
+cd ../tmux-1.4
+./configure CPPFLAGS=&quot;-I$HOME/local/include -I$HOME/local/include/ncurses&quot; LDFLAGS=&quot;-static -L$HOME/local/include -L$HOME/local/include/ncurses -L$HOME/local/lib&quot; make
+cp tmux ~/local/bin
+export PATH=$HOME/local/bin:$PATH   </code></pre>
 <div class="references">
 
 </div>

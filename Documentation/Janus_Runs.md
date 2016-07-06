@@ -67,3 +67,27 @@ Create the JobScript.sh following the example below:
 
 	sbatch JobScript.sh
 
+# Installing tmux in Janus
+	mkdir local
+	mkdir tmp
+	mv tmux-1.4 tmp
+	mv ncurses-5.7 tmp
+	mv libevent-2.0.10-stable tmp
+	cd tmp
+
+	cd libevent-2.0.10-stable
+	./configure --prefix=$HOME/local
+	make
+	make install
+
+	cd ../ncureses-5.7
+	./configure --prefix=$HOME/local
+	make
+	make install
+
+	cd ../tmux-1.4
+	./configure CPPFLAGS="-I$HOME/local/include -I$HOME/local/include/ncurses" LDFLAGS="-static -L$HOME/local/include -L$HOME/local/include/ncurses -L$HOME/local/lib" make
+	cp tmux ~/local/bin
+	export PATH=$HOME/local/bin:$PATH	
+
+
