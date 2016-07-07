@@ -27,9 +27,9 @@ date: 27 June, 2016
 	* <span style="color:blue"> Writing out at user-defined periodic intervals (not just the final)
 	* <span style="color:blue"> No Particle restart file if particle tracking is off or if all particles are completely dissolved
 	* <span style="color:blue"> Write out only one particle data file even in parallel simulations
-	* Verify that the all fields are identical after restart.
-	* Verify that the drug conservation monitoring parameters are identical after restart.
-	* Modifyying hte particle numbers in the Restart-Particles*.dat based on the current remaining particles
+	* <span style="color:blue"> Verify that the all fields are identical after restart.
+	* <span style="color:blue"> Verify that the drug conservation monitoring parameters are identical after restart.
+	* <span style="color:blue"> Modifyying hte particle numbers in the Restart-Particles*.dat based on the current remaining particles
 &nbsp;
 
 * **Oversaturaion:**
