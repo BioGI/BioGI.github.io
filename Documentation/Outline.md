@@ -54,9 +54,10 @@ date: 27 June, 2016
 
 &nbsp;
 
-* **Hydrodynamic effects:**
-	* Introducing the 3D strain rate computation to be used in hierarchic Sherwood number calculationi.
-	* Introducing the slip velocity calculations to be used in hierarchic Sherwood number calculation and in particle trackinig.
+* **Improving modeling concepts:**
+	* Introduce 3D strain rate computation to be used in hierarchic Sherwood number calculationi.
+	* Introduce the slip velocity calculations to be used in hierarchic Sherwood number calculation and in particle trackinig.
+	* Add the effects of PH on solubility
 
 &nbsp;
 
