@@ -25,11 +25,11 @@ date: 27 June, 2016
 	* <span style="color:blue"> All particle data (26 parameters)
 	* <span style="color:blue"> All monitoring tools (drug released, drug absorbed, drung remained in domain, drug conservation errors)
 	* <span style="color:blue"> Writing out at user-defined periodic intervals (not just the final)
-	* Verify that the all fields are identical after restart.
-	* Verify that the drug conservation monitoring parameters are identical after restart.
 	* <span style="color:blue"> No Particle restart file if particle tracking is off or if all particles are completely dissolved
 	* <span style="color:blue"> Write out only one particle data file even in parallel simulations
-
+	* Verify that the all fields are identical after restart.
+	* Verify that the drug conservation monitoring parameters are identical after restart.
+	* Modifyying hte particle numbers in the Restart-Particles*.dat based on the current remaining particles
 &nbsp;
 
 * **Oversaturaion:**
@@ -93,12 +93,12 @@ date: 27 June, 2016
 	* <span style="color:blue"> Introduce a user defined input parameter to set the intervals between the output files (instead of defining approximate number of output files)
 	* <span style="color:blue"> Chaning Segmental geometry so that at the initial time step, the highest radius is at the center (consistent with Pristalsis) 
 	* Make sure the values for $C_s$, $\nu_m$ and $D_m$ are correct
-	* <span style="color:blue"> Desing Fed experiments and create a wiki page for it
+	* <span style="color:blue"> Design fed experiments and create a wiki page for it
 	* Desing Fasted experiments and create a wiki page for it
 	* <span style="color:blue"> Remove $C_s$, $\nu_m$ and $D_m$ from Setup.f90 and add them to input.dat
 	* <span style="color:blue"> Finalize the computational cost estimation subroutines. 
 	* Fix the non-zero drug releas after all particles are completely dissolved (it is close to machine precision at each time step, but after tens of thousands of iterations, it becomes detectable).
-	* Print out the scalar as non-dimensional ($C/C_s$) for visualizations.
+	*  <span style="color:blue"> Print out the scalar as non-dimensional ($C/C_s$) for visualizations.
 	* Add a feature for plotting the particle distribution (PDF) as a function of time.
 	* Add the feature to track particles/release drug, only after (at least) one full period of flow simulation (using restart option).
 	* Litrature review for a reasonable fed state bolus volume.

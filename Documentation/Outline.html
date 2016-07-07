@@ -52,14 +52,12 @@ Farhad Behafarid
 <li><span style="color:blue"> All particle data (26 parameters)</li>
 <li><span style="color:blue"> All monitoring tools (drug released, drug absorbed, drung remained in domain, drug conservation errors)</li>
 <li><span style="color:blue"> Writing out at user-defined periodic intervals (not just the final)</li>
-<li>Verify that the all fields are identical after restart.</li>
-<li>Verify that the drug conservation monitoring parameters are identical after restart.</li>
 <li><span style="color:blue"> No Particle restart file if particle tracking is off or if all particles are completely dissolved</li>
 <li><span style="color:blue"> Write out only one particle data file even in parallel simulations</li>
+<li>Verify that the all fields are identical after restart.</li>
+<li>Verify that the drug conservation monitoring parameters are identical after restart.</li>
+<li>Modifyying hte particle numbers in the Restart-Particles*.dat based on the current remaining particles  </li>
 </ul></li>
-</ul>
-<p> </p>
-<ul>
 <li><strong>Oversaturaion:</strong>
 <ul>
 <li>Compute the average over-saturaion (using only the oversaturated nodes)</li>
@@ -135,12 +133,12 @@ Farhad Behafarid
 <li><span style="color:blue"> Introduce a user defined input parameter to set the intervals between the output files (instead of defining approximate number of output files)</li>
 <li><span style="color:blue"> Chaning Segmental geometry so that at the initial time step, the highest radius is at the center (consistent with Pristalsis)</li>
 <li>Make sure the values for <span class="math scholmd-math-inline">\(C_s\)</span>, <span class="math scholmd-math-inline">\(\nu_m\)</span> and <span class="math scholmd-math-inline">\(D_m\)</span> are correct</li>
-<li><span style="color:blue"> Desing Fed experiments and create a wiki page for it</li>
+<li><span style="color:blue"> Design fed experiments and create a wiki page for it</li>
 <li>Desing Fasted experiments and create a wiki page for it</li>
 <li><span style="color:blue"> Remove <span class="math scholmd-math-inline">\(C_s\)</span>, <span class="math scholmd-math-inline">\(\nu_m\)</span> and <span class="math scholmd-math-inline">\(D_m\)</span> from Setup.f90 and add them to input.dat</li>
 <li><span style="color:blue"> Finalize the computational cost estimation subroutines.</li>
 <li>Fix the non-zero drug releas after all particles are completely dissolved (it is close to machine precision at each time step, but after tens of thousands of iterations, it becomes detectable).</li>
-<li>Print out the scalar as non-dimensional (<span class="math scholmd-math-inline">\(C/C_s\)</span>) for visualizations.</li>
+<li><span style="color:blue"> Print out the scalar as non-dimensional (<span class="math scholmd-math-inline">\(C/C_s\)</span>) for visualizations.</li>
 <li>Add a feature for plotting the particle distribution (PDF) as a function of time.</li>
 <li>Add the feature to track particles/release drug, only after (at least) one full period of flow simulation (using restart option).</li>
 <li>Litrature review for a reasonable fed state bolus volume.</li>
