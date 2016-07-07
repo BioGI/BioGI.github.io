@@ -11,10 +11,7 @@ date: 27 June, 2016
 	* <span style="color:blue"> Verifying parallel communications for Negative-$\phi$ monitoring, Mass-Fix and drug monitoring (release,abosrbed,remained,loss) tools, directional particle drug release.
 	* <span style="color:blue"> MPI_Transfer after streaming since $u, v, w, \rho$ are needed in scalar subroutine.
 	* In IC_Drug_Distribution, Blob coordinate are local (for current partition)  which causes problem in case of defining a  blub using global coordinates for parallel simulations.
-	* Computational cost and scaling factor studies:
-		* Serial
-		* 2,4 partitions in X/Y 
-		* 2,4,8,16 partitions in Z
+	* Computational cost and scaling factor studies for (Serial, 2,4 partitions in X/Y,* 2,4 partitions in Z)
 
 &nbsp;
 
@@ -30,6 +27,7 @@ date: 27 June, 2016
 	* <span style="color:blue"> Verify that the all fields are identical after restart.
 	* <span style="color:blue"> Verify that the drug conservation monitoring parameters are identical after restart.
 	* <span style="color:blue"> Modifyying hte particle numbers in the Restart-Particles*.dat based on the current remaining particles
+
 &nbsp;
 
 * **Oversaturaion:**
@@ -39,10 +37,7 @@ date: 27 June, 2016
 	* Add fractional-time-step interval to the input.dat (probably only a few hundred initial time steps)	
 	* Remove ad-hoc drug release in case of  $\delta R > R$ (which ignores the modeling equations and simply reduces the radius to half).
 	* Add Fractional-Time-Stepping feature to the latest version of the git repo with ON/OFF flag and $N_f$ defined in the input file ($N_f$ is the number of fractional time steps inside each LBM time step).
-	* Test Fractional-Time-Stepping by analyzing the extra computational cost vs strength of supressing over-saturation for:
-		* $N_f$ = 1
-		* $N_f$ = 2
-		* $N_f$ = 10
+	* Test Fractional-Time-Stepping by analyzing the extra computational cost vs benefits for $N_f$ = 1, 2, 10
 	* Last fix: in directional drug release, when using ($\frac{C_s-C}{C_s}$) as a weighting function, use the new C (after release) instead fo the old C (before release)
 
 &nbsp;
@@ -78,7 +73,7 @@ date: 27 June, 2016
 &nbsp;
 
 * **Computational Resources**
-	* Estimate how long ti use all 15000 CPU.hours.
+	* Estimate how long it takes to use all 15000 CPU.hours.
 	* Figure out if new assignments are free or not.
 	* Write a proposal for more CPU allocations
 	* Request larger HD allocations.
@@ -92,13 +87,13 @@ date: 27 June, 2016
 * **Others:**
 	* <span style="color:blue"> Introduce a user defined input parameter to set the intervals between the output files (instead of defining approximate number of output files)
 	* <span style="color:blue"> Chaning Segmental geometry so that at the initial time step, the highest radius is at the center (consistent with Pristalsis) 
-	* Make sure the values for $C_s$, $\nu_m$ and $D_m$ are correct
+	* <span style="color:blue">  Make sure the values for $C_s$, $\nu_m$ and $D_m$ are correct
 	* <span style="color:blue"> Design fed experiments and create a wiki page for it
-	* Desing Fasted experiments and create a wiki page for it
 	* <span style="color:blue"> Remove $C_s$, $\nu_m$ and $D_m$ from Setup.f90 and add them to input.dat
 	* <span style="color:blue"> Finalize the computational cost estimation subroutines. 
-	* Fix the non-zero drug releas after all particles are completely dissolved (it is close to machine precision at each time step, but after tens of thousands of iterations, it becomes detectable).
-	*  <span style="color:blue"> Print out the scalar as non-dimensional ($C/C_s$) for visualizations.
+	* <span style="color:blue"> Fix the non-zero drug releas after all particles are completely dissolved (it is close to machine precision at each time step, but after tens of thousands of iterations, it becomes detectable).
+	* <span style="color:blue"> Print out the scalar as non-dimensional ($C/C_s$) for visualizations.
+	* Design fasted experiments and create a wiki page for them
 	* Add a feature for plotting the particle distribution (PDF) as a function of time.
 	* Add the feature to track particles/release drug, only after (at least) one full period of flow simulation (using restart option).
 	* Litrature review for a reasonable fed state bolus volume.
@@ -141,10 +136,7 @@ date: 27 June, 2016
 
 &nbsp;
 
-
-
-
-
+<!---
 
 # Parallel Communication Issue:
 
@@ -160,4 +152,4 @@ date: 27 June, 2016
 | 2            | 0.15           | 0.45           |
 
 Caption: Errors in Serial/Parallel simulations with 1st and 2nd order LBM BC
-
+-->

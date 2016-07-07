@@ -35,12 +35,7 @@ Farhad Behafarid
 <li><span style="color:blue"> Verifying parallel communications for Negative-<span class="math scholmd-math-inline">\(\phi\)</span> monitoring, Mass-Fix and drug monitoring (release,abosrbed,remained,loss) tools, directional particle drug release.</li>
 <li><span style="color:blue"> MPI_Transfer after streaming since <span class="math scholmd-math-inline">\(u, v, w, \rho\)</span> are needed in scalar subroutine.</li>
 <li>In IC_Drug_Distribution, Blob coordinate are local (for current partition) which causes problem in case of defining a blub using global coordinates for parallel simulations.</li>
-<li>Computational cost and scaling factor studies:
-<ul>
-<li>Serial</li>
-<li>2,4 partitions in X/Y</li>
-<li>2,4,8,16 partitions in Z</li>
-</ul></li>
+<li>Computational cost and scaling factor studies for (Serial, 2,4 partitions in X/Y,* 2,4 partitions in Z)</li>
 </ul></li>
 </ul>
 <p> </p>
@@ -56,8 +51,11 @@ Farhad Behafarid
 <li><span style="color:blue"> Write out only one particle data file even in parallel simulations</li>
 <li><span style="color:blue"> Verify that the all fields are identical after restart.</li>
 <li><span style="color:blue"> Verify that the drug conservation monitoring parameters are identical after restart.</li>
-<li><span style="color:blue"> Modifyying hte particle numbers in the Restart-Particles*.dat based on the current remaining particles  </li>
+<li><span style="color:blue"> Modifyying hte particle numbers in the Restart-Particles*.dat based on the current remaining particles</li>
 </ul></li>
+</ul>
+<p> </p>
+<ul>
 <li><strong>Oversaturaion:</strong>
 <ul>
 <li>Compute the average over-saturaion (using only the oversaturated nodes)</li>
@@ -66,12 +64,7 @@ Farhad Behafarid
 <li>Add fractional-time-step interval to the input.dat (probably only a few hundred initial time steps)<br /></li>
 <li>Remove ad-hoc drug release in case of <span class="math scholmd-math-inline">\(\delta R &gt; R\)</span> (which ignores the modeling equations and simply reduces the radius to half).</li>
 <li>Add Fractional-Time-Stepping feature to the latest version of the git repo with ON/OFF flag and <span class="math scholmd-math-inline">\(N_f\)</span> defined in the input file (<span class="math scholmd-math-inline">\(N_f\)</span> is the number of fractional time steps inside each LBM time step).</li>
-<li>Test Fractional-Time-Stepping by analyzing the extra computational cost vs strength of supressing over-saturation for:
-<ul>
-<li><span class="math scholmd-math-inline">\(N_f\)</span> = 1</li>
-<li><span class="math scholmd-math-inline">\(N_f\)</span> = 2</li>
-<li><span class="math scholmd-math-inline">\(N_f\)</span> = 10</li>
-</ul></li>
+<li>Test Fractional-Time-Stepping by analyzing the extra computational cost vs benefits for <span class="math scholmd-math-inline">\(N_f\)</span> = 1, 2, 10</li>
 <li>Last fix: in directional drug release, when using (<span class="math scholmd-math-inline">\(\frac{C_s-C}{C_s}\)</span>) as a weighting function, use the new C (after release) instead fo the old C (before release)</li>
 </ul></li>
 </ul>
@@ -119,7 +112,7 @@ Farhad Behafarid
 <ul>
 <li><strong>Computational Resources</strong>
 <ul>
-<li>Estimate how long ti use all 15000 CPU.hours.</li>
+<li>Estimate how long it takes to use all 15000 CPU.hours.</li>
 <li>Figure out if new assignments are free or not.</li>
 <li>Write a proposal for more CPU allocations</li>
 <li>Request larger HD allocations.</li>
@@ -132,13 +125,13 @@ Farhad Behafarid
 <ul>
 <li><span style="color:blue"> Introduce a user defined input parameter to set the intervals between the output files (instead of defining approximate number of output files)</li>
 <li><span style="color:blue"> Chaning Segmental geometry so that at the initial time step, the highest radius is at the center (consistent with Pristalsis)</li>
-<li>Make sure the values for <span class="math scholmd-math-inline">\(C_s\)</span>, <span class="math scholmd-math-inline">\(\nu_m\)</span> and <span class="math scholmd-math-inline">\(D_m\)</span> are correct</li>
+<li><span style="color:blue"> Make sure the values for <span class="math scholmd-math-inline">\(C_s\)</span>, <span class="math scholmd-math-inline">\(\nu_m\)</span> and <span class="math scholmd-math-inline">\(D_m\)</span> are correct</li>
 <li><span style="color:blue"> Design fed experiments and create a wiki page for it</li>
-<li>Desing Fasted experiments and create a wiki page for it</li>
 <li><span style="color:blue"> Remove <span class="math scholmd-math-inline">\(C_s\)</span>, <span class="math scholmd-math-inline">\(\nu_m\)</span> and <span class="math scholmd-math-inline">\(D_m\)</span> from Setup.f90 and add them to input.dat</li>
 <li><span style="color:blue"> Finalize the computational cost estimation subroutines.</li>
-<li>Fix the non-zero drug releas after all particles are completely dissolved (it is close to machine precision at each time step, but after tens of thousands of iterations, it becomes detectable).</li>
+<li><span style="color:blue"> Fix the non-zero drug releas after all particles are completely dissolved (it is close to machine precision at each time step, but after tens of thousands of iterations, it becomes detectable).</li>
 <li><span style="color:blue"> Print out the scalar as non-dimensional (<span class="math scholmd-math-inline">\(C/C_s\)</span>) for visualizations.</li>
+<li>Design fasted experiments and create a wiki page for them</li>
 <li>Add a feature for plotting the particle distribution (PDF) as a function of time.</li>
 <li>Add the feature to track particles/release drug, only after (at least) one full period of flow simulation (using restart option).</li>
 <li>Litrature review for a reasonable fed state bolus volume.</li>
@@ -167,37 +160,23 @@ Farhad Behafarid
 </ul></li>
 </ul>
 <p> </p>
-<h1 id="parallel-communication-issue">Parallel Communication Issue:</h1>
-<ul>
-<li>Fixing the issue causing drug conservation difference between Serial and Parallel (Only happens when Mass-Fix is on)
-<ul>
-<li>The issue is not related to particle traking or drug release</li>
-<li>The issue is related to LBM boundary condition:</li>
-<li>An extreme case for debugging was created (super-Coarse mesh. uniform saturated scalar at IC) #### Table: {#table: ExperimentsBeforeDeadline}</li>
-</ul></li>
-</ul>
-<table>
-<thead>
-<tr class="header">
-<th style="text-align: left;">LBM BC order</th>
-<th style="text-align: left;">Error % (1 CPU)</th>
-<th style="text-align: left;">Error % (8 CPU)</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;">1</td>
-<td style="text-align: left;">4.15</td>
-<td style="text-align: left;">4.15</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">2</td>
-<td style="text-align: left;">0.15</td>
-<td style="text-align: left;">0.45</td>
-</tr>
-</tbody>
-</table>
-<p>Caption: Errors in Serial/Parallel simulations with 1st and 2nd order LBM BC</p>
+<!---
+
+# Parallel Communication Issue:
+
+* Fixing the issue causing drug conservation difference between Serial and Parallel (Only happens when Mass-Fix is on)
+    * The issue is not related to particle traking or drug release
+    * The issue is related to LBM boundary condition:
+    * An extreme case for debugging was created (super-Coarse mesh. uniform saturated scalar at IC)
+#### Table:  {#table: ExperimentsBeforeDeadline}
+
+| LBM BC order |Error % (1 CPU) | Error % (8 CPU)|
+|--------------|----------------|----------------|
+| 1            | 4.15           | 4.15           |
+| 2            | 0.15           | 0.45           |
+
+Caption: Errors in Serial/Parallel simulations with 1st and 2nd order LBM BC
+-->
 <div class="references">
 
 </div>
