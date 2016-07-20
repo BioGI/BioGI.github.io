@@ -30,14 +30,14 @@ Table (#table:study1GeomMotilityParams) describes the geometry and motility para
 
 #### Table:  {#table:study1GeomMotilityParams}
 
-| Name             |       Symbol        | Choice     				|Unit	|  
-|------------------|---------------------|--------------------------------------|-------|
-| Max diameter     | $D_{max}$           | <span style="color:black">22.4|$mm$  	|
-| Wavelength       | $\lambda$           | <span style="color:black">60	|$mm$  	|
-| Volume of bolus  | $V_C$		 | <span style="color:red">11.82 |$cm^3$ |
-| Wave speed       | $s_1$               | <span style="color:black">2	|$mm/s$ |
-| Number of waves  | -                   | 1           				|-      |
-| Occlusion ratio  | $\epsilon/R_{max}$  | 0.5         				|-      |
+| Name             |       Symbol        | Pristalsis  				             | Segmental                      | Unit |  
+|------------------|---------------------|---------------------------------|--------------------------------|------|
+| Max diameter     | $D_{max}$           | <span style="color:black">22.4  | <span style="color:black">22.4 |$mm$  |
+| Wavelength       | $\lambda$           | <span style="color:black">60	   | <span style="color:black">60	  |$mm$  |
+| Volume of bolus  | $V_C$		           | <span style="color:red">11.82   | <span style="color:red"> 11.82 |$cm^3$|
+| Wave speed       | $s_1$               | <span style="color:black">2     | <span style="color:red"> -     |$mm/s$|
+| Number of waves  | -                   | 1                      				 | 1                              |-     |
+| Occlusion ratio  | $\epsilon/R_{max}$  | 0.5         				             | 0.5                            |-     |
 
 Caption: Geometry and motility properties for the first computational study.
 
