@@ -86,11 +86,24 @@ Farhad Behafarid
 </ul>
 <p> </p>
 <ul>
-<li><strong>Improving modeling concepts:</strong>
-<ul>
-<li>Introduce 3D strain rate computation to be used in hierarchic Sherwood number calculationi.</li>
+<li><strong>Improving modeling concepts:</strong></li>
+<li><span style="color:red"> Introduce 3D strain rate computation to be used in hierarchic Sherwood number calculationi.</li>
 <li>Introduce the slip velocity calculations to be used in hierarchic Sherwood number calculation and in particle trackinig.</li>
-<li>Add the effects of PH on solubility</li>
+</ul>
+<p> </p>
+<ul>
+<li><strong>Parametrizations:</strong></li>
+<li><span style="color:red"> Saturation Concentration: *Correcting <span class="math scholmd-math-inline">\(C_s\)</span> based on in-vivo relevant pH values
+<ul>
+<li>Both bulk pH and pH at the surface of the particles should be estimated</li>
+<li>A range of pH values should be examined for sensitivity analysis</li>
+<li>A distribution of pH (and effectively <span class="math scholmd-math-inline">\(C_s\)</span> might be needed instead of a single value</li>
+</ul></li>
+<li><span style="color:red"> Dosage:
+<ul>
+<li><span style="color:red"> Increase dosage to a more relevant value.</li>
+<li><span style="color:red"> First experiments had a dosage of 0.1622 mg while the tablet total dosage is: 800 mg x 0.85% =680 mg.</li>
+<li><span style="color:red"> investigate the corresponding particle numbers needed to create the higher dosage</li>
 </ul></li>
 </ul>
 <p> </p>
@@ -122,8 +135,10 @@ Farhad Behafarid
 </ul>
 <p> </p>
 <ul>
-<li><strong>Others:</strong>
-<ul>
+<li><strong>Others:</strong></li>
+<li><span style="color:red"> Fix the issue of crashing on Janus</li>
+<li><span style="color:red"> Run the Segmental fed</li>
+<li><span style="color:red"> Run the Segmental fasted</li>
 <li><span style="color:blue"> Introduce a user defined input parameter to set the intervals between the output files (instead of defining approximate number of output files)</li>
 <li><span style="color:blue"> Chaning Segmental geometry so that at the initial time step, the highest radius is at the center (consistent with Pristalsis)</li>
 <li><span style="color:blue"> Make sure the values for <span class="math scholmd-math-inline">\(C_s\)</span>, <span class="math scholmd-math-inline">\(\nu_m\)</span> and <span class="math scholmd-math-inline">\(D_m\)</span> are correct</li>
@@ -139,7 +154,6 @@ Farhad Behafarid
 <li>Feature to plot shear PDf and strain-rate contribution to Sherwood number (at least at each 0.1 of a period)</li>
 <li>Calculate Strain rate at each node and visualize it.</li>
 <li>Add the effects of PH on solubility</li>
-</ul></li>
 </ul>
 <p> </p>
 <h1 id="outline-of-the-project-fasted">Outline of the Project (Fasted)</h1>

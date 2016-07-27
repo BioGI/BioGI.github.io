@@ -57,3 +57,6 @@ S =  \frac{1}{2} \sqrt{2
                 + \big( \frac{\partial w}{\partial y} +  \frac{\partial v}{\partial z} \big)^2 
                  }
 ~~~
+
+Look at this: [Link](http://www.cfd-online.com/Forums/fluent-udf/90818-strain-rate-magnitude.html)
+

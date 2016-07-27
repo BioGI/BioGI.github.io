@@ -55,9 +55,21 @@ date: 27 June, 2016
 &nbsp;
 
 * **Improving modeling concepts:**
-	* Introduce 3D strain rate computation to be used in hierarchic Sherwood number calculationi.
-	* Introduce the slip velocity calculations to be used in hierarchic Sherwood number calculation and in particle trackinig.
-	* Add the effects of PH on solubility
+  * <span style="color:red"> Introduce 3D strain rate computation to be used in hierarchic Sherwood number calculationi.
+  * Introduce the slip velocity calculations to be used in hierarchic Sherwood number calculation and in particle trackinig.
+
+&nbsp;
+
+* **Parametrizations:**
+  * <span style="color:red"> Saturation Concentration:
+    *Correcting $C_s$ based on in-vivo relevant pH values 
+    * Both bulk pH and pH at the surface of the particles should be estimated
+    * A range of pH values should be examined for sensitivity analysis
+    * A distribution of pH (and effectively $C_s$ might be needed instead of a single value
+  * <span style="color:red"> Dosage:
+    * <span style="color:red">  Increase dosage to a more relevant value. 
+    * <span style="color:red"> First experiments had a dosage of 0.1622 mg while the tablet total dosage is: 800 mg x 0.85% =680 mg.
+    * <span style="color:red"> investigate the corresponding particle numbers needed to create the higher dosage
 
 &nbsp;
 
@@ -81,41 +93,30 @@ date: 27 June, 2016
 	* Explore the possibility of the access to the Penn-State's high priority 80 CPU 
 	
 
-
 &nbsp;
 
 
 * **Others:**
-	* <span style="color:blue"> Introduce a user defined input parameter to set the intervals between the output files (instead of defining approximate number of output files)
-	* <span style="color:blue"> Chaning Segmental geometry so that at the initial time step, the highest radius is at the center (consistent with Pristalsis) 
-	* <span style="color:blue">  Make sure the values for $C_s$, $\nu_m$ and $D_m$ are correct
-	* <span style="color:blue"> Design fed experiments and create a wiki page for it
-	* <span style="color:blue"> Remove $C_s$, $\nu_m$ and $D_m$ from Setup.f90 and add them to input.dat
-	* <span style="color:blue"> Finalize the computational cost estimation subroutines. 
-	* <span style="color:blue"> Fix the non-zero drug releas after all particles are completely dissolved (it is close to machine precision at each time step, but after tens of thousands of iterations, it becomes detectable).
-	* <span style="color:blue"> Print out the scalar as non-dimensional ($C/C_s$) for visualizations.
-	* Design fasted experiments and create a wiki page for them
-	* Add a feature for plotting the particle distribution (PDF) as a function of time.
-	* Add the feature to track particles/release drug, only after (at least) one full period of flow simulation (using restart option).
-	* Litrature review for a reasonable fed state bolus volume.
-	* Feature to plot shear PDf and strain-rate contribution to Sherwood number (at least at each 0.1 of a period)
-	* Calculate Strain rate at each node and visualize it.
-	* Add the effects of PH on solubility
+  * <span style="color:red"> Fix the issue of crashing on Janus
+  * <span style="color:red"> Run the Segmental fed
+  * <span style="color:red"> Run the Segmental fasted
+  * <span style="color:blue"> Introduce a user defined input parameter to set the intervals between the output files (instead of defining approximate number of output files)
+  * <span style="color:blue"> Chaning Segmental geometry so that at the initial time step, the highest radius is at the center (consistent with Pristalsis) 
+  * <span style="color:blue">  Make sure the values for $C_s$, $\nu_m$ and $D_m$ are correct
+  * <span style="color:blue"> Design fed experiments and create a wiki page for it
+  * <span style="color:blue"> Remove $C_s$, $\nu_m$ and $D_m$ from Setup.f90 and add them to input.dat
+  * <span style="color:blue"> Finalize the computational cost estimation subroutines. 
+  * <span style="color:blue"> Fix the non-zero drug releas after all particles are completely dissolved (it is close to machine precision at each time step, but after tens of thousands of iterations, it becomes detectable).
+  * <span style="color:blue"> Print out the scalar as non-dimensional ($C/C_s$) for visualizations.
+  * Design fasted experiments and create a wiki page for them
+  * Add a feature for plotting the particle distribution (PDF) as a function of time.
+  * Add the feature to track particles/release drug, only after (at least) one full period of flow simulation (using restart option).
+  * Litrature review for a reasonable fed state bolus volume.
+  * Feature to plot shear PDf and strain-rate contribution to Sherwood number (at least at each 0.1 of a period)
+  * Calculate Strain rate at each node and visualize it.
+  * Add the effects of PH on solubility
 
 &nbsp;
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 # Outline of the Project (Fasted)
 

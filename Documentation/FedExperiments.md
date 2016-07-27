@@ -30,17 +30,17 @@ Table (#table:study1GeomMotilityParams) describes the geometry and motility para
 
 #### Table:  {#table:study1GeomMotilityParams}
 
-| Name             |       Symbol        | Pristalsis  				             | Segmental                      | Unit |  
+| Name             |       Symbol        | Fed         				             | Fasted                         | Unit |  
 |------------------|---------------------|---------------------------------|--------------------------------|------|
-| Max diameter     | $D_{max}$           | <span style="color:black">22.4  | <span style="color:black">22.4 |$mm$  |
-| Wavelength       | $\lambda$           | <span style="color:black">60	   | <span style="color:black">60	  |$mm$  |
-| Volume of bolus  | $V_C$		           | <span style="color:red">11.82   | <span style="color:red"> 11.82 |$cm^3$|
-| Wave speed       | $s_1$               | <span style="color:black">2     | <span style="color:red"> -     |$mm/s$|
-| Number of waves  | -                   | 1                      				 | 1                              |-     |
-| Occlusion ratio  | $\epsilon/R_{max}$  | 0.5         				             | 0.5                            |-     |
+| Motility type    | -                   | Peristalsis                     |                Peristalsis     |      |
+| Max diameter     | $D_{max}$           | <span style="color:red">22.4    | <span style="color:red">20     |$mm$  |
+| Wavelength       | $\lambda$           | <span style="color:red">60	     | <span style="color:red">30	    |$mm$  |
+| Volume of bolus  | $V_C$		           | <span style="color:red">11.82   | <span style="color:red"> 3.67  |$cm^3$|
+| Occlusion ratio  | $\epsilon/R_{max}$  | <span style="color:red"> 0.5    | <span style="color:red"> 0.1   |-     |
 
 Caption: Geometry and motility properties for the first computational study.
 
+#| Number of waves  | -                   | 1                      				 | 1                              |-     |
 
 
 
@@ -91,20 +91,20 @@ Table (#table:study1ParticleParameters) shows the particles parameters for the f
 
 ####Table:  {#table:study1ParticleParameters}
 
-| Name                  	|    Symbol          	| Choice                						|  Units     |
-|-------------------------------|-----------------------|-----------------------------------------------------------------------|------------|
-|	-			| $C_{tot}/C_s$        	| <span style="color:red"  >   0.20185		 			| -          |
-|Total concentration   		| $C_{tot}$           	| <span style="color:red"  > $6.661   \times 10^{-8}$			| $mol/cm^3$ |
-|Total volume of the particles  | $V_P$                 | <span style="color:red"  > $2.11007 \times 10^{-4}$ 			| $cm^3$     | 
-|Toal drug in the domain 	|                       | <span style="color:red"  > $7.8734  \times 10^{-7}$                 	| $mol$      |
-|Maximum particle diameter	| $D_P^{max}$          	| <span style="color:black"> 195	 		 		| $\mu m$    |
-|Average particle diameter      | $D_P^{ave}$           | <span style="color:black"> 100                			| $\mu m$    |
-|Minimum particle diameter      | $D_P^{min}$           | <span style="color:black"> 5      	   	 			| $\mu m$    |
-|Number of particles		| $N_P$			| <span style="color:red"  > 1175 (Figure [#fig:Particle_Distribution_16])	| -	     |
-|Distribution function shape	|	-		| <span style="color:black"> Normal	        			| -	     |
-|Standard deviation	 	| $\sigma$		| <span style="color:red"  > 25						| $\mu m$    |		
-|Number of the bins		| $N_{bins}$		| <span style="color:black"> 20						| -	     |
-|Initial particle locations	|	-		| randomly distributed in a sphere 						| -	     |	
+| Name                        	|    Symbol          	  | Choice                                       			                 			|  Units     |
+|-------------------------------|-----------------------|-------------------------------------------------------------------------|------------|
+|	-		                        	| $C_{tot}/C_s$        	| <span style="color:black"  > (Fed: 0.20185),  (Fasted: 0.64)            | -          |
+|Total volume of the particles  | $V_P$                 | <span style="color:black"  > $2.11   \times 10^{-4}$                  	| $cm^3$     | 
+|Toal drug in the domain      	|                       | <span style="color:black"  > 0.78734                                  	| $\mu mol$  |
+|Toal drug in the domain      	|                       | <span style="color:black"  > 162.2                	                    | $\mu g$    |
+|Maximum particle diameter    	| $D_P^{max}$          	| <span style="color:black"> 195	 		 		                                | $\mu m$    |
+|Average particle diameter      | $D_P^{ave}$           | <span style="color:black"> 100                			                    | $\mu m$    |
+|Minimum particle diameter      | $D_P^{min}$           | <span style="color:black"> 5      	   	 			                          | $\mu m$    |
+|Number of particles	         	| $N_P$			            | <span style="color:black"> 1175 (Figure [#fig:Particle_Distribution_16])| -	         |
+|Distribution function shape	  |	-	                   	| <span style="color:black"> Normal	        			                        | -	         |
+|Standard deviation	 	          | $\sigma$		          | <span style="color:black"  > 25						                              | $\mu m$    |		
+|Number of the bins		          | $N_{bins}$        		| <span style="color:black"> 20				                                   	| -	         |
+|Initial particle locations	    |	-		                  | randomly distributed in a sphere 						                            | -	         |	
 
 Caption: Drug particle properties for the first computational study.
 
