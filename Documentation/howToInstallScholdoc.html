@@ -16,7 +16,6 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.7.1/modernizr.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.js"></script>
   <style type="text/css">
-div.sourceCode { overflow-x: auto; }
 table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
   margin: 0; padding: 0; vertical-align: baseline; border: none; }
 table.sourceCode { width: 100%; line-height: 100%; }
@@ -52,13 +51,13 @@ Ganesh Vijayakumar
 <ul>
 <li>I had to install <code>cabal-install</code> and <code>ghc</code> (apparently stands for Glasgow Haskell Interpreter). You might need to be <code>root</code> for this</li>
 </ul>
-<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">apt-get</span> install cabal-install ghc</code></pre></div>
+<pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">apt-get</span> install cabal-install ghc</code></pre>
 <ul>
 <li>Then, as a normal user, I used them to install scholdoc as</li>
 </ul>
-<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">cabal</span> update
+<pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">cabal</span> update
 <span class="kw">cabal</span> install scholdoc
-<span class="kw">cabal</span> install scholdoc-citeproc</code></pre></div>
+<span class="kw">cabal</span> install scholdoc-citeproc</code></pre>
 <ul>
 <li>Download the supporting files from the example folder. Type <code>make</code>. If you followed all steps so far, this should work.</li>
 </ul>
@@ -73,9 +72,9 @@ Ganesh Vijayakumar
 <ul>
 <li>It turns out, it’s not quite easy to get this theme recompiled. I followed instructions on the wiki. I had to install more stuff.. yay!</li>
 </ul>
-<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">apt-get</span> install npm
+<pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">apt-get</span> install npm
 <span class="kw">npm</span> install -g grunt-cli
-<span class="kw">npm</span> install -g bower</code></pre></div>
+<span class="kw">npm</span> install -g bower</code></pre>
 <ul>
 <li>Also, I <strong>hate</strong> the Heuristica font. I prefer the default <code>serif</code> font on my computer, the beautiful Georgia. So I just removed any mention of it from the css file it generated. Did I mention that the font and the theme on the <a href="http://www.pandoc.org">Pandoc website</a> are <strong>awesome</strong> ? Hint: It uses the default serif <strong>Georgia</strong> on my firefox!</li>
 </ul>

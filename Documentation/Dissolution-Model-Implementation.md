@@ -2,7 +2,7 @@
 title: How to implement the dissolution model in GI code - Dissolution from small particles in numerical simulation
 author: Farhad Behafarid and Ganesh Vijayakumar
 date: 15 Oct 2015
-bibliography: ../References/references.bib
+bibliography: References/references.bib
 ---
 
 

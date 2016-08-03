@@ -1,6 +1,6 @@
 ---
 title: Particle Tracking and Dissolution Model in  Couette Flow Code
-bibliography: ../References/references.bib
+bibliography: References/references.bib
 ---
 ## ICBC.f90
 

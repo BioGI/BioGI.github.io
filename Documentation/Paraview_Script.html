@@ -48,12 +48,64 @@ WriteImage(&#39;tmp2.png&#39;, view=RenderView2)
 WriteImage(&#39;tmp3.png&#39;, view=RenderView3)
 WriteImage(&#39;tmp4.png&#39;, view=RenderView4)
 commands.getoutput(&quot;convert -border 1x1 +append tmp*.png T{}.jpg&quot;.format(sys.argv[1]))</code></pre>
+<p>Note: if one bolus is visualized and for example 4 consecutive sections are desired:</p>
+<pre><code>viewLayout = GetLayout()
+WriteImage(&#39;tmp1.jpg&#39;, view=RenderView1)
+WriteImage(&#39;tmp2.jpg&#39;, view=RenderView3)
+commands.getoutput(&quot;convert -border 1x1 +append tmp1.jpg tmp1.jpg tmp1.jpg tmp1.jpg TEMP1.jpg&quot;.format(sys.argv[1]))
+commands.getoutput(&quot;convert -border 1x1 +append tmp2.jpg tmp2.jpg tmp2.jpg tmp2.jpg TEMP2.jpg&quot;.format(sys.argv[1]))
+commands.getoutput(&quot;convert -border 1x1 -append TEMP* T{}.jpg&quot;.format(sys.argv[1]))</code></pre>
 <h1 id="define-the-desired-time-steps">Define the desired time steps:</h1>
 <p>Create a file called TimeSteps with all desired steps in one line, separated by “Tab” or “Space”.</p>
 <h1 id="create-snapshots">Create snapshots:</h1>
-<pre><code>for i in `cat TimeSteps`; do pvpython state.py $i ; done    </code></pre>
+<p>for i in <code>cat TimeSteps</code>; do pvpython state.py $i ; done</p>
 <h1 id="make-a-movie-out-of-the-snapshots">Make a movie out of the snapshots:</h1>
 <pre><code>ffmpeg -framerate 10 -pattern_type glob -i &quot;*.jpg&quot; -vf &quot;fps=25,format=yuv420p&quot; Movie.mp4</code></pre>
+<h1 id="advanced-creating-plot-snapshots-with-a-moving-time-indicator-line">ADVANCED: Creating Plot snapshots with a moving time indicator line</h1>
+<p>in creating the plots, “axvline” option should be used.</p>
+<p>An example file called Plot.py can be found below:</p>
+<pre><code>import numpy as np
+import matplotlib as mpl
+mpl.use(&#39;TkAgg&#39;)
+import matplotlib.pyplot as plt
+import commands
+from matplotlib.patches import Ellipse, Polygon
+from matplotlib import rc_file
+from pylab import loadtxt
+from pylab import rcParams
+import pickle, sys, os
+os.chdir(&#39;../Fasted&#39;)
+import Fasted as Case1
+os.chdir(&#39;../Plots&#39;)
+rcParams[&#39;figure.figsize&#39;] = 12.86, 5
+axis_font  = {&#39;fontname&#39;:&#39;Arial&#39;, &#39;size&#39;:&#39;16&#39;}
+
+tcf = 2.6041666666666665E-003 
+Cs_mol =0.33000
+Cs_gram= 68
+alfa= Cs_gram/Cs_mol
+IC_solid_drug= alfa * 0.78734  
+IT = Case1.IterationNo
+
+for i in IT:
+    fig = plt.figure()
+    plt.axes([0.13,0.18,0.97-0.13,0.92-0.18])
+    plt.plot(Case1.time, Case1.scalarAbsorbtionRate,&#39;-&#39;, color= &#39;blue&#39;, label=&#39;&#39;) 
+    plt.grid(b=True, which=&#39;major&#39;,  axis=&#39;y&#39;, linewidth=1)
+    plt.ylim(0,6)
+    plt.xlim(0,160)
+    plt.xlabel(&#39;Time (s)&#39;,**axis_font)
+    plt.ylabel(&#39;Drug Absorbtion Rate ($\mu g/s$)&#39;,**axis_font)
+    plt.axvline(linewidth=2, color=&#39;red&#39;, x=i*tcf)
+    plt.legend(loc=0)
+    plt.savefig(&#39;DrugAbsRate-{:07d}.jpg&#39;.format(int(i)),dpi=300)</code></pre>
+<p>To create the plot snapshots using plot.py:</p>
+<pre><code>for i in `cat Times`; do echo &quot;import Plot&quot; | python ; done</code></pre>
+<p>After creating the plot snapshots, use the below command to atttach the plot snapshots to the paraview snapshots:</p>
+<pre><code>for i in `cat Times`; do convert ../../&quot;T$i.jpg&quot; &quot;DrugAbsRate-$i.jpg&quot; -append &quot;Viz-Plot-$i.jpg&quot; ; done</code></pre>
+<h1 id="make-a-movie-out-of-the-snapshots-1">Make a movie out of the snapshots:</h1>
+<pre><code>ffmpeg -framerate 10 -pattern_type glob -i &quot;*.jpg&quot; -vf &quot;fps=25,format=yuv420p&quot; Movie.mp4
+ffmpeg -framerate 6  -pattern_type glob -i &quot;*.jpg&quot; -vf &quot;fps=5, format=yuv420p&quot; Movie.mp4 </code></pre>
 <div class="references">
 
 </div>

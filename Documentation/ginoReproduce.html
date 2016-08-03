@@ -16,7 +16,6 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.7.1/modernizr.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.js"></script>
   <style type="text/css">
-div.sourceCode { overflow-x: auto; }
 table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
   margin: 0; padding: 0; vertical-align: baseline; border: none; }
 table.sourceCode { width: 100%; line-height: 100%; }
@@ -69,7 +68,7 @@ w_s + w_p &amp;= 1
 <div class="scholmd-float-caption"><figcaption><span class="scholmd-caption-head"><span class="scholmd-caption-head-prefix">Figure</span><span class="scholmd-caption-head-label">1</span></span><span class="scholmd-caption-text">Segmentation and Peristalsis modes as defined by Gino Banco <span class="scholmd-citation" data-cites="Banco2010">[1]</span>.</span></figcaption></div>
 </figure>
 <p>This is effectively implemented in the code in <a href="https://github.com/gantech/GI/blob/intestine3D/Geometry.f90">Geometry.f90</a> as follows</p>
-<div class="sourceCode"><pre class="sourceCode fortran"><code class="sourceCode fortran"><span class="co">! Mode 1 - Peristalsis</span>
+<pre class="sourceCode fortran"><code class="sourceCode fortran"><span class="co">! Mode 1 - Peristalsis</span>
 s1                                                        <span class="co">! Peristaltic wave speed</span>
 a1        <span class="kw">=</span> (<span class="fl">0.5_dbl</span><span class="kw">*</span>D)<span class="kw">/</span>(<span class="fl">2.0_dbl</span> <span class="kw">-</span> epsOVERa1)             <span class="co">! mean half-width of wave1    </span>
 eps1      <span class="kw">=</span> epsOVERa1<span class="kw">*</span>a1                                  <span class="co">! occlusional distance</span>
@@ -90,7 +89,7 @@ Re1       <span class="kw">=</span> ((s1<span class="kw">*</span>(<span class="f
 <span class="co">! set h1(nz) to h1(0) and h1(nz+1) to h(1) to ensure periodicity</span>
 
 h1(nz)  <span class="kw">=</span> h1(<span class="dv">0</span>)
-h1(nz<span class="kw">+</span><span class="dv">1</span>)<span class="kw">=</span> h1(<span class="dv">1</span>)</code></pre></div>
+h1(nz<span class="kw">+</span><span class="dv">1</span>)<span class="kw">=</span> h1(<span class="dv">1</span>)</code></pre>
 <p>Translating this into readable code, the input parameters are 
 <span class="math scholmd-math-display" style="display: block;">\[
 \begin{equation*}
@@ -120,7 +119,7 @@ h_1(z,t) &amp;= amp_1 \times cos(k_{w1} \; (z - (s_1 \; t)) \; ) + (0.5 \; D - a
 \end{equation*}
 \]</span>
  The segmentation part seems to be more complicated</p>
-<div class="sourceCode"><pre class="sourceCode fortran"><code class="sourceCode fortran"><span class="co">! Mode 2 - Segmental Contractions</span>
+<pre class="sourceCode fortran"><code class="sourceCode fortran"><span class="co">! Mode 2 - Segmental Contractions</span>
 a2        <span class="kw">=</span> (<span class="fl">0.5_dbl</span><span class="kw">*</span>D)<span class="kw">/</span>(<span class="fl">2.0_dbl</span> <span class="kw">-</span> epsOVERa2)     <span class="co">! mean half-width of wave1 (based on peristalsis definition)</span>
 eps2      <span class="kw">=</span> epsOVERa2<span class="kw">*</span>a2                          <span class="co">! occlusional distance</span>
 lambda2   <span class="kw">=</span> L<span class="kw">/</span>numw2                               <span class="co">! wavelength (physical units)</span>
@@ -176,7 +175,7 @@ shiftC  <span class="kw">=</span> <span class="fl">0.5_dbl</span><span class="kw
 
   h2(i) <span class="kw">=</span> Ac<span class="kw">*COS</span>((<span class="fl">2.0_dbl</span><span class="kw">*</span>PI<span class="kw">/</span>lambdaC)<span class="kw">*</span>(zz(i)<span class="kw">-</span>zz(seg2L))) <span class="kw">+</span> shiftC
 
-<span class="kw">END DO</span></code></pre></div>
+<span class="kw">END DO</span></code></pre>
 <h1 id="analysis-of-the-effect-of-intestinal-motility-on-the-absorption-rate">Analysis of the effect of intestinal motility on the absorption rate</h1>
 <p>Using the 2D model, Gino conducted a preliminary sensitivity analysis to relevant geometric parameters: length scale, time scale, weighted mix of motility modes, and occlusion ratio. Gino found that length scale (wavelength) and time scale (period of contraction) within a reasonable extension of the physiological range played a negligible role in overall characteristics of absorption. The weighted mix of segmentation and peristalsis and the occlusion ratio however, have a much more significant and interesting impact on the absorption. Hence he focused his 3D numerical experiments on varying these two parameters.</p>
 <h2 id="numerical-experiments">Numerical experiments</h2>
@@ -219,7 +218,7 @@ s_1 &amp; \rightarrow \textrm{ Wave speed}\\
 <div class="scholmd-float-caption"><figcaption><span class="scholmd-caption-head"><span class="scholmd-caption-head-prefix">Figure</span><span class="scholmd-caption-head-label">3</span></span><span class="scholmd-caption-text">Average power requirement for the different intestinal motility modes</span></figcaption></div>
 </figure>
 <div class="references">
-<h1>References</h1>
+<h1 id="references" class="unnumbered">References</h1>
 <p>1. Banco G (2010) Multi-scale fluid mechanics of nutrient absorption in the small intestine analyzed with 2D and 3D lattice boltzmann models [PhD thesis]. Pennsylvania State University.</p>
 </div>
 </div>

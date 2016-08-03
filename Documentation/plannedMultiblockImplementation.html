@@ -15,7 +15,6 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.7.1/modernizr.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.js"></script>
   <style type="text/css">
-div.sourceCode { overflow-x: auto; }
 table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
   margin: 0; padding: 0; vertical-align: baseline; border: none; }
 table.sourceCode { width: 100%; line-height: 100%; }
@@ -128,14 +127,14 @@ a &amp;= \frac{0.5 \; D}{ 2 - (\epsilon/a)} \\
 <h2 id="diagrams-that-help-understanding-the-basics-of-the-intestine-3d-code">Diagrams that help understanding the basics of the intestine 3D code</h2>
 <p>This will probably belong in it’s own section. But I’ll just make a brief description of the Intestine 3D code here.</p>
 <p>Most of the LBM algorithm is fairly straight forward. The complicated parts involve the communication between processors to exchange information. This is first done by creating local arrays that are padded on the boundaries in each direction like so in <code>Setup.f90</code></p>
-<div class="sourceCode"><pre class="sourceCode fortran"><code class="sourceCode fortran"><span class="co">! Distribution Functions</span>
+<pre class="sourceCode fortran"><code class="sourceCode fortran"><span class="co">! Distribution Functions</span>
 <span class="kw">ALLOCATE</span>(f(<span class="dv">0</span>:NumDistDirs,<span class="dv">0</span>:nxSub<span class="kw">+</span><span class="dv">1</span>,<span class="dv">0</span>:nySub<span class="kw">+</span><span class="dv">1</span>,<span class="dv">0</span>:nzSub<span class="kw">+</span><span class="dv">1</span>),                        <span class="kw">&amp;</span>
 fplus(<span class="dv">0</span>:NumDistDirs,<span class="dv">0</span>:nxSub<span class="kw">+</span><span class="dv">1</span>,<span class="dv">0</span>:nySub<span class="kw">+</span><span class="dv">1</span>,<span class="dv">0</span>:nzSub<span class="kw">+</span><span class="dv">1</span>))
 <span class="co">! Velocity, Density</span>
 <span class="kw">ALLOCATE</span>(u(<span class="dv">0</span>:nxSub<span class="kw">+</span><span class="dv">1</span>,<span class="dv">0</span>:nySub<span class="kw">+</span><span class="dv">1</span>,<span class="dv">0</span>:nzSub<span class="kw">+</span><span class="dv">1</span>),                                                      <span class="kw">&amp;</span>
 v(<span class="dv">0</span>:nxSub<span class="kw">+</span><span class="dv">1</span>,<span class="dv">0</span>:nySub<span class="kw">+</span><span class="dv">1</span>,<span class="dv">0</span>:nzSub<span class="kw">+</span><span class="dv">1</span>),                                                      <span class="kw">&amp;</span>
 w(<span class="dv">0</span>:nxSub<span class="kw">+</span><span class="dv">1</span>,<span class="dv">0</span>:nySub<span class="kw">+</span><span class="dv">1</span>,<span class="dv">0</span>:nzSub<span class="kw">+</span><span class="dv">1</span>))
-<span class="kw">ALLOCATE</span>(rho(<span class="dv">0</span>:nxSub<span class="kw">+</span><span class="dv">1</span>,<span class="dv">0</span>:nySub<span class="kw">+</span><span class="dv">1</span>,<span class="dv">0</span>:nzSub<span class="kw">+</span><span class="dv">1</span>))</code></pre></div>
+<span class="kw">ALLOCATE</span>(rho(<span class="dv">0</span>:nxSub<span class="kw">+</span><span class="dv">1</span>,<span class="dv">0</span>:nySub<span class="kw">+</span><span class="dv">1</span>,<span class="dv">0</span>:nzSub<span class="kw">+</span><span class="dv">1</span>))</code></pre>
 <p>The numbering scheme for the density distribution function and the lattice velocity vectors are shown in Figure <span class="scholmd-crossref"><a href="#densityDistribution">(2)</a></span>.</p>
 <figure class="scholmd-float scholmd-figure" id="densityDistribution">
 <div class="scholmd-float-content"><figure class="scholmd-subfig" style="display: inline-block; width: ">
@@ -200,7 +199,7 @@ w(<span class="dv">0</span>:nxSub<span class="kw">+</span><span class="dv">1</sp
 <p>The progress on this can be tracked on the <a href="https://github.com/BioGI/Codes/commits/attemptedMultigrid">attemptedMultiGrid</a> branch of the Github repository.</p>
 <h2 id="psuedo-code-for-multigrid-implementation-in-the-main-algorithm">Psuedo-code for multigrid implementation in the Main algorithm</h2>
 <p>The current outline of the time-stepping in Main.f90 looks like this</p>
-<div class="sourceCode"><pre class="sourceCode fortran"><code class="sourceCode fortran"><span class="kw">DO</span> iter <span class="kw">=</span> iter0<span class="kw">-</span><span class="dv">0_lng</span>,nt
+<pre class="sourceCode fortran"><code class="sourceCode fortran"><span class="kw">DO</span> iter <span class="kw">=</span> iter0<span class="kw">-</span><span class="dv">0_lng</span>,nt
 
       <span class="kw">CALL</span> AdvanceGeometry            <span class="co">! advance the geometry to the next time step [MODULE: Geometry]</span>
       <span class="kw">CALL</span> Collision                  <span class="co">! collision step [MODULE: Algorithm]</span>
@@ -225,7 +224,7 @@ w(<span class="dv">0</span>:nxSub<span class="kw">+</span><span class="dv">1</sp
 
       <span class="kw">CALL</span> MPI_BARRIER(MPI_COMM_WORLD,mpierr)       <span class="co">! synchronize all processing units before next loop [Intrinsic]</span>
 
-<span class="kw">END DO</span></code></pre></div>
+<span class="kw">END DO</span></code></pre>
 <p>Figure <span class="scholmd-crossref"><a href="#multiGridAlgorithm">(4)</a></span> shows the schematic of the multiblock algorithm for <code>gridRatio = 4</code>, i.e., the fine mesh has a resolution that is four times finer than the coarse mesh.</p>
 <figure class="scholmd-float scholmd-figure" id="multiGridAlgorithm">
 <div class="scholmd-float-content"><figure class="scholmd-subfig" style="display: inline-block; width: 65%">

@@ -14,7 +14,6 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.7.1/modernizr.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.js"></script>
   <style type="text/css">
-div.sourceCode { overflow-x: auto; }
 table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
   margin: 0; padding: 0; vertical-align: baseline; border: none; }
 table.sourceCode { width: 100%; line-height: 100%; }
@@ -204,7 +203,7 @@ dR= - \nu_m D_m Sh (C_s-C_b) dt
 </ul>
 <h1 id="some-code-samples">Some Code Samples</h1>
 <p>All the particle tracking action is controlled from <code>Main.f90</code> as follows</p>
-<div class="sourceCode"><pre class="sourceCode fortran"><code class="sourceCode fortran">    <span class="co">!Before start of time iteration</span>
+<pre class="sourceCode fortran"><code class="sourceCode fortran">    <span class="co">!Before start of time iteration</span>
 
     <span class="kw">IF</span>(ParticleTrack<span class="kw">.EQ.</span>ParticleOn) <span class="kw">THEN</span>    <span class="co">! If particle tracking is &#39;on&#39; then do the following</span>
         <span class="kw">CALL</span> IniParticles
@@ -232,7 +231,7 @@ dR= - \nu_m D_m Sh (C_s-C_b) dt
 
      <span class="kw">IF</span>(ParticleTrack<span class="kw">.EQ.</span>ParticleOn <span class="kw">.AND.</span> iter <span class="kw">.GE.</span> phiStart) <span class="kw">THEN</span>                                      <span class="co">! If particle tracking is &#39;on&#39; then do the following</span>
             <span class="kw">CALL</span> PrintParticles                                         <span class="co">! output the particle velocity, radius, position and con. [MODULE: Output]</span>
-     <span class="kw">ENDIF</span></code></pre></div>
+     <span class="kw">ENDIF</span></code></pre>
 <p>The particles in each processor domain are controlled through a doubly linked list. This allows for the particles that are in the middle of the list to be chucked out and transferred to another processor. Some elaborate data type is defined to contain the information for each particle along with a whole host of other variables in <a href="#particleDataStructure">Setup.f90</a>.</p>
 <p>The subroutine <a href="#IniParticles">IniParticles</a> is in <code>LBM.f90</code>. Doesn’t seem to have a restart capability yet. If the code is starting from scratch, then it reads the particle.dat for all particles, determines if each particle is in the current processor domain and assigns it’s properties.</p>
 <p>The subroutine <a href="#ParticleSetup">Particle_Setup</a> is in <code>LBM.f90</code>. It seems to interpolate the velocities to the particles using trilinear interpolation.</p>
@@ -260,7 +259,7 @@ dR= - \nu_m D_m Sh (C_s-C_b) dt
 <p><a href="#particleMPItransfer">Particle_MPI_Transfer</a> does the transfer of particles from one processor to another in <code>Parallel.f90</code>.</p>
 <p>The subroutine <a href="#scalar">Scalar</a> just adds the drug release and the SGS terms to the scalar advection/diffusion equation.</p>
 <h1 id="particleDataStructure">Particle Data Structure</h1>
-<div class="sourceCode"><pre class="sourceCode fortran"><code class="sourceCode fortran"><span class="co">!~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Particle Tracking Variables ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~</span>
+<pre class="sourceCode fortran"><code class="sourceCode fortran"><span class="co">!~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Particle Tracking Variables ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~</span>
 
 <span class="dt">INTEGER(lng)</span>    <span class="dt">::</span> ParticleTrack            <span class="co">! a flag to denote if particle track is on (1) or off (0) </span>
 <span class="dt">INTEGER(lng)</span>, <span class="dt">PARAMETER</span> <span class="dt">::</span> ParticleOn<span class="kw">=</span><span class="dv">1</span>         <span class="co">! flag to signify Particle Tracking is on</span>
@@ -333,14 +332,14 @@ dR= - \nu_m D_m Sh (C_s-C_b) dt
 <span class="dt">INTEGER(lng)</span>    <span class="dt">::</span> parfileCount             <span class="co">! current output file number (out of total number of output files)</span>
 
 
-<span class="co">!************************************************</span></code></pre></div>
+<span class="co">!************************************************</span></code></pre>
 <p>While the above is where most of the major action happens for the particles, 4 other arrays are defined earlier in <code>Setup.f90</code> as</p>
-<div class="sourceCode"><pre class="sourceCode fortran"><code class="sourceCode fortran"><span class="dt">REAL(dbl)</span>, <span class="dt">ALLOCATABLE</span> <span class="dt">::</span> delphi_particle(:,:,:)    <span class="co">! passive scalar contribution from particles</span>
+<pre class="sourceCode fortran"><code class="sourceCode fortran"><span class="dt">REAL(dbl)</span>, <span class="dt">ALLOCATABLE</span> <span class="dt">::</span> delphi_particle(:,:,:)    <span class="co">! passive scalar contribution from particles</span>
 <span class="dt">REAL(dbl)</span>, <span class="dt">ALLOCATABLE</span> <span class="dt">::</span> tausgs_particle_x(:,:,:)  <span class="co">! passive scalar contribution from particles</span>
 <span class="dt">REAL(dbl)</span>, <span class="dt">ALLOCATABLE</span> <span class="dt">::</span> tausgs_particle_y(:,:,:)  <span class="co">! passive scalar contribution from particles</span>
-<span class="dt">REAL(dbl)</span>, <span class="dt">ALLOCATABLE</span> <span class="dt">::</span> tausgs_particle_z(:,:,:)  <span class="co">! passive scalar contribution from particles</span></code></pre></div>
+<span class="dt">REAL(dbl)</span>, <span class="dt">ALLOCATABLE</span> <span class="dt">::</span> tausgs_particle_z(:,:,:)  <span class="co">! passive scalar contribution from particles</span></code></pre>
 <h1 id="IniParticles">IniParticles</h1>
-<div class="sourceCode"><pre class="sourceCode fortran"><code class="sourceCode fortran"><span class="kw">SUBROUTINE</span> IniParticles
+<pre class="sourceCode fortran"><code class="sourceCode fortran"><span class="kw">SUBROUTINE</span> IniParticles
 <span class="co">!-----------------------------------------------</span>
 <span class="kw">IMPLICIT</span> <span class="kw">NONE</span>
 <span class="dt">INTEGER(lng)</span>   <span class="dt">::</span> i, parid,particle_partition,ipartition
@@ -418,9 +417,9 @@ dR= - \nu_m D_m Sh (C_s-C_b) dt
     <span class="fu">CLOSE(</span><span class="dv">60</span><span class="fu">)</span>
 <span class="kw">ENDIF</span>
 <span class="co">!------------------------------------------------</span>
-<span class="kw">END SUBROUTINE</span> IniParticles</code></pre></div>
+<span class="kw">END SUBROUTINE</span> IniParticles</code></pre>
 <h1 id="ParticleSetup">Particle Setup</h1>
-<div class="sourceCode"><pre class="sourceCode fortran"><code class="sourceCode fortran"><span class="kw">SUBROUTINE</span> Particle_Setup
+<pre class="sourceCode fortran"><code class="sourceCode fortran"><span class="kw">SUBROUTINE</span> Particle_Setup
 <span class="co">!------------------------------------------------</span>
 <span class="kw">IMPLICIT</span> <span class="kw">NONE</span>
 <span class="kw">IF</span> (restart) <span class="kw">THEN</span>
@@ -513,9 +512,9 @@ dR= - \nu_m D_m Sh (C_s-C_b) dt
     current <span class="kw">=&gt;</span> next
     <span class="co">!write(*,*) i</span>
 
-<span class="kw">ENDDO</span></code></pre></div>
+<span class="kw">ENDDO</span></code></pre>
 <h1 id="calcGlobalScalarConc">Calc Global Scalar Conc</h1>
-<div class="sourceCode"><pre class="sourceCode fortran"><code class="sourceCode fortran"><span class="kw">SUBROUTINE</span> Calc_Global_Bulk_Scalar_Conc<span class="co">! Calculate Global Bulk SCalar COnc for use in the scalar drug relese model </span>
+<pre class="sourceCode fortran"><code class="sourceCode fortran"><span class="kw">SUBROUTINE</span> Calc_Global_Bulk_Scalar_Conc<span class="co">! Calculate Global Bulk SCalar COnc for use in the scalar drug relese model </span>
 <span class="co">!------------------------------------------------</span>
 <span class="kw">IMPLICIT</span> <span class="kw">NONE</span>
 <span class="dt">INTEGER(lng)</span>  <span class="dt">::</span> i,j,k
@@ -532,9 +531,9 @@ dR= - \nu_m D_m Sh (C_s-C_b) dt
     <span class="kw">END DO</span>
   <span class="kw">END DO</span>
 <span class="kw">END DO</span>
-<span class="kw">END SUBROUTINE</span> Calc_Global_Bulk_Scalar_Conc</code></pre></div>
+<span class="kw">END SUBROUTINE</span> Calc_Global_Bulk_Scalar_Conc</code></pre>
 <p><code>Collect_Distribute_Global_Bulk_Scalar_Conc</code> from <code>Parallel.f90</code> then averages it over all the processors.</p>
-<div class="sourceCode"><pre class="sourceCode fortran"><code class="sourceCode fortran"><span class="kw">SUBROUTINE</span>  Collect_Distribute_Global_Bulk_Scalar_Conc
+<pre class="sourceCode fortran"><code class="sourceCode fortran"><span class="kw">SUBROUTINE</span>  Collect_Distribute_Global_Bulk_Scalar_Conc
 <span class="co">! This subroutine does the</span>
 <span class="co">!parallel communication needed to collect all the bulk concentration in each of</span>
 <span class="co">!the processes and computeѕ an average, which is the distributed to the various</span>
@@ -559,9 +558,9 @@ dR= - \nu_m D_m Sh (C_s-C_b) dt
 <span class="co">!write(*,*) &#39;In Collect and Distribute after Bcast&#39;,iter,mySub,Cb_global,Cb_numFluids,Cb_numFluids*xcf*ycf*zcf,Cb_numFluids_temp</span>
 
 <span class="co">!--------------------------------------------------------------------------------------------------</span>
-<span class="kw">END SUBROUTINE</span>  Collect_Distribute_Global_Bulk_Scalar_Conc</code></pre></div>
+<span class="kw">END SUBROUTINE</span>  Collect_Distribute_Global_Bulk_Scalar_Conc</code></pre>
 <h1 id="particleTrack">Particle Track</h1>
-<div class="sourceCode"><pre class="sourceCode fortran"><code class="sourceCode fortran"><span class="kw">SUBROUTINE</span> Particle_Track
+<pre class="sourceCode fortran"><code class="sourceCode fortran"><span class="kw">SUBROUTINE</span> Particle_Track
 <span class="co">!------------------------------------------------</span>
 <span class="kw">IMPLICIT</span> <span class="kw">NONE</span>
 <span class="dt">INTEGER(lng)</span>   <span class="dt">::</span> i,ipartition,ii,jj,kk
@@ -727,9 +726,9 @@ tausgs_particle_z <span class="kw">=</span> <span class="fl">0.0_dbl</span>
     current <span class="kw">=&gt;</span> next
 <span class="kw">ENDDO</span>
 
-<span class="kw">END SUBROUTINE</span> Particle_Track</code></pre></div>
+<span class="kw">END SUBROUTINE</span> Particle_Track</code></pre>
 <h1 id="particleMPItransfer">Particle MPI Transfer</h1>
-<div class="sourceCode"><pre class="sourceCode fortran"><code class="sourceCode fortran"><span class="kw">SUBROUTINE</span> Particle_MPI_Transfer        <span class="co">! transfer the particles to neighbouring partitions</span>
+<pre class="sourceCode fortran"><code class="sourceCode fortran"><span class="kw">SUBROUTINE</span> Particle_MPI_Transfer        <span class="co">! transfer the particles to neighbouring partitions</span>
 <span class="co">!--------------------------------------------------------------------------------------------------</span>
 <span class="kw">IMPLICIT</span> <span class="kw">NONE</span>
 <span class="dt">TYPE(ParRecord)</span>, <span class="dt">POINTER</span> <span class="dt">::</span> current  <span class="kw">=&gt;</span> NULL()
@@ -903,13 +902,13 @@ numparticlesSub <span class="kw">=</span> <span class="dv">0_lng</span>
 <span class="co">! UNPACK DATA AND ADD DATA TO THE PARTICLE LINKED LIST</span>
 
 <span class="co">!------------------------------------------------</span>
-<span class="kw">END SUBROUTINE</span> Particle_MPI_Transfer</code></pre></div>
+<span class="kw">END SUBROUTINE</span> Particle_MPI_Transfer</code></pre>
 <h1 id="scalar">Scalar</h1>
-<div class="sourceCode"><pre class="sourceCode fortran"><code class="sourceCode fortran">    phi(i,j,k) <span class="kw">=</span> phi(i,j,k)<span class="kw">+</span> delphi_particle(i,j,k) <span class="co">! Balaji added to introduce drug concentration release</span>
+<pre class="sourceCode fortran"><code class="sourceCode fortran">    phi(i,j,k) <span class="kw">=</span> phi(i,j,k)<span class="kw">+</span> delphi_particle(i,j,k) <span class="co">! Balaji added to introduce drug concentration release</span>
     tausgs <span class="kw">=</span> ((tausgs_particle_x(i<span class="kw">+</span><span class="dv">1</span>,j,k)<span class="kw">-</span>tausgs_particle_x(i<span class="kw">-</span><span class="dv">1</span>,j,k)) <span class="kw">+</span> <span class="kw">&amp;</span>
          (tausgs_particle_y(i,j<span class="kw">+</span><span class="dv">1</span>,k)<span class="kw">-</span>tausgs_particle_y(i,j<span class="kw">-</span><span class="dv">1</span>,k)) <span class="kw">+</span> <span class="kw">&amp;</span>
          (tausgs_particle_z(i,j,k<span class="kw">+</span><span class="dv">1</span>)<span class="kw">-</span>tausgs_particle_z(i,j,k<span class="kw">-</span><span class="dv">1</span>)))<span class="kw">*</span><span class="fl">0.5_dbl</span>
-    phi(i,j,k) <span class="kw">=</span> phi(i,j,k)<span class="kw">+</span> tausgs <span class="co">! Balaji added - to handle SGS particle effects.</span></code></pre></div>
+    phi(i,j,k) <span class="kw">=</span> phi(i,j,k)<span class="kw">+</span> tausgs <span class="co">! Balaji added - to handle SGS particle effects.</span></code></pre>
 <div class="references">
 
 </div>

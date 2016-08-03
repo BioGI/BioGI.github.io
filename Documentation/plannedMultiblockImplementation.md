@@ -2,7 +2,7 @@
 title: My attempt at implementing a multi-block method in the intestine code
 author: Ganesh Vijayakumar
 date: 21 Oct 2015 - present
-bibliography: ../References/references.bib
+bibliography: References/references.bib
 ---
 
 I'll document my attempts at implementing a multi-block method in the intestine code.
