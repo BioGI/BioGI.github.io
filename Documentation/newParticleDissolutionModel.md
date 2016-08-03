@@ -10,7 +10,7 @@ Yanxing had performed a series of computational experiments with drug releasing 
 
 #### Figure: {#yanxingCasesetup}
 
-![](./yanxingCasesetup.png)
+![](./Figures/yanxingCasesetup.png)
 
 Caption: Setup of Yanxing's cases.
 

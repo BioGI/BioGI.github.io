@@ -145,31 +145,31 @@ Meaning approximately  406 particles ($N_P$ = 406) with $R=50 \mu m$ are needed 
 
 #### Figure: {#fig:Particle_Distribution_1}
 
-![](./Particle_Distribution_1.png){width=99%}
+![](./Figures/Particle_Distribution_1.png){width=99%}
 
 Caption: $\frac{C_{tot}}{C_s}$=0.1 ,  $D_{min}$= 5$\mu m$ ,   $D_{max}$= 195$\mu m$ ,   $\sigma$= 30$\mu m$ ,   $N_P$=1725
 
 #### Figure: {#fig:Particle_Distribution_2}
 
-![](./Particle_Distribution_2.png){width=99%}
+![](./Figures/Particle_Distribution_2.png){width=99%}
 
 Caption: $\frac{C_{tot}}{C_s}$=0.1 ,  $D_{min}$= 10$\mu m$ ,   $D_{max}$= 190$\mu m$ ,   $\sigma$= 30$\mu m$ ,   $N_P$=658
 
 #### Figure: {#fig:Particle_Distribution_3}
 
-![](./Particle_Distribution_3.png){width=99%}
+![](./Figures/Particle_Distribution_3.png){width=99%}
 
 Caption: $\frac{C_{tot}}{C_s}$=0.1 ,  $D_{min}$= 20$\mu m$ ,   $D_{max}$= 180$\mu m$ ,   $\sigma$= 30$\mu m$ ,   $N_P$=410
 
 #### Figure: {#fig:Particle_Distribution_4}
 
-![](./Particle_Distribution_4.png){width=99%}
+![](./Figures/Particle_Distribution_4.png){width=99%}
 
 Caption: $\frac{C_{tot}}{C_s}$=0.1 ,  $D_{min}$= 10$\mu m$ ,   $D_{max}$= 190$\mu m$ ,   $\sigma$= 20$\mu m$ ,   $N_P$=222
 
 #### Figure: {#fig:Particle_Distribution_5}
 
-![](./Particle_Distribution_5.png){width=99%}
+![](./Figures/Particle_Distribution_5.png){width=99%}
 
 Caption: $\frac{C_{tot}}{C_s}$=0.1 ,  $D_{min}$= 10$\mu m$ ,   $D_{max}$= 190$\mu m$ ,   $\sigma$= 40$\mu m$ ,   $N_P$=2026
 
@@ -181,7 +181,7 @@ For $\sigma$= 30$\mu m$:
 
 #### Figure: {#fig:Particle_Distribution_6}
 
-![](./Particle_Distribution_6.png){width=99%}
+![](./Figures/Particle_Distribution_6.png){width=99%}
 
 Caption: $\frac{C_{tot}}{C_s}$=2.0 ,  $D_{min}$= 10$\mu m$ ,   $D_{max}$= 190$\mu m$ ,   $\sigma$= 30$\mu m$ ,   $N_P$=13182
 
@@ -192,31 +192,31 @@ If we choose $\frac{C_{tot}}{C_s}$=0.1 and  $\sigma$= 20$\mu m$ we get:
 
 #### Figure: {#fig:Particle_Distribution_7}
 
-![](./Particle_Distribution_7.png){width=99%}
+![](./Figures/Particle_Distribution_7.png){width=99%}
 
 Caption: $\frac{C_{tot}}{C_s}$=0.1 ,  $D_{min}$=50$\mu m$ ,   $D_{max}$=150 $\mu m$ ,   $\sigma$=20$\mu m$ ,   $N_P$=211
 
 #### Figure: {#fig:Particle_Distribution_8}
 
-![](./Particle_Distribution_8.png){width=99%}
+![](./Figures/Particle_Distribution_8.png){width=99%}
 
 Caption: $\frac{C_{tot}}{C_s}$=0.1 ,  $D_{min}$=10$\mu m$ ,   $D_{max}$=190$\mu m$ ,   $\sigma$=20$\mu m$ ,   $N_P$=222
 
 #### Figure: {#fig:Particle_Distribution_9}
 
-![](./Particle_Distribution_9.png){width=99%}
+![](./Figures/Particle_Distribution_9.png){width=99%}
 
 Caption: $\frac{C_{tot}}{C_s}$=0.1 ,  $D_{min}$=5$\mu m$ ,   $D_{max}$=195$\mu m$ ,   $\sigma$=20$\mu m$ ,   $N_P$=224
 
 #### Figure: {#fig:Particle_Distribution_10}
 
-![](./Particle_Distribution_10.png){width=99%}
+![](./Figures/Particle_Distribution_10.png){width=99%}
 
 Caption: $\frac{C_{tot}}{C_s}$=0.1 ,  $D_{min}$=2$\mu m$ ,   $D_{max}$=198$\mu m$ ,   $\sigma$=20$\mu m$ ,   $N_P$=249
 
 #### Figure: {#fig:Particle_Distribution_11}
 
-![](./Particle_Distribution_11.png){width=99%}
+![](./Figures/Particle_Distribution_11.png){width=99%}
 
 Caption: $\frac{C_{tot}}{C_s}$=0.1 ,  $D_{min}$=1$\mu m$ ,   $D_{max}$=199$\mu m$ ,   $\sigma$=20$\mu m$ ,   $N_P$=408
 -->
@@ -230,25 +230,25 @@ For $\sigma$= 25$\mu m$:
 
 #### Figure: {#fig:Particle_Distribution_12}
 
-![](./Particle_Distribution_12.png){width=99%}
+![](./Figures/Particle_Distribution_12.png){width=99%}
 
 Caption: $\frac{C_{tot}}{C_s}$=0.2 ,  $D_{min}$=10$\mu m$ ,   $D_{max}$=190$\mu m$ , $N_{bin}$=20,  $\sigma$=25$\mu m$ ,   $N_P$= 660
 
 #### Figure: {#fig:Particle_Distribution_13}
 
-![](./Particle_Distribution_13.png){width=99%}
+![](./Figures/Particle_Distribution_13.png){width=99%}
 
 Caption: $\frac{C_{tot}}{C_s}$=0.2 ,  $D_{min}$=10$\mu m$ ,   $D_{max}$=190$\mu m$ ,  $N_{bin}$=30,  $\sigma$=25$\mu m$ ,   $N_P$= 637
 
 #### Figure: {#fig:Particle_Distribution_14}
 
-![](./Particle_Distribution_14.png){width=99%}
+![](./Figures/Particle_Distribution_14.png){width=99%}
 
 Caption: $\frac{C_{tot}}{C_s}$=0.2 ,  $D_{min}$=5$\mu m$ ,   $D_{max}$=195$\mu m$ ,  $N_{bin}$=20  , $\sigma$=25$\mu m$ ,   $N_P$= 936
 
 #### Figure: {#fig:Particle_Distribution_15}
 
-![](./Particle_Distribution_15.png){width=99%}
+![](./Figures/Particle_Distribution_15.png){width=99%}
 
 Caption: $\frac{C_{tot}}{C_s}$=0.2 ,  $D_{min}$=5$\mu m$ ,   $D_{max}$=195$\mu m$ ,   $N_{bin}$=30,   $\sigma$=25$\mu m$ ,   $N_P$= 823
 

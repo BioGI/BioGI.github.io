@@ -227,7 +227,7 @@ The scalar boundary condition is a little different from the typical bounce back
 
 #### Figure: {#fig:scalarBC}
 
-![](./scalarBoundaryCondition.png){width=75%}
+![](./Figures/scalarBoundaryCondition.png){width=75%}
 
 Caption: Node system used in developing the boundary conditions for scalar concentration by Wang et. al. [@Wang2010].
 
@@ -277,7 +277,7 @@ The main puupose of the multiple grid scheme is to preseve the required resoluti
 
 #### Figure: {#fig:coarseToFineGridInterface}
 
-![](./coarseToFineGridInterface.png){width=75%}
+![](./Figures/coarseToFineGridInterface.png){width=75%}
 
 Caption: Interface structure betwee two blocks of different lattice spacing as shown by Yu et. al. [@Yu2002].
 
@@ -367,7 +367,7 @@ Figure (#fig:coarseToFineGridAlgorithm) shows the LBM Algorithm using multiple g
    
 #### Figure: {#fig:coarseToFineGridAlgorithm}
 
-![](./coarseToFineGridAlgorithm.png){width=75%}
+![](./Figures/coarseToFineGridAlgorithm.png){width=75%}
 
 Caption: LBM Algorithm using multiple grids as shown in Wang et. al. [@Wang2010]
 

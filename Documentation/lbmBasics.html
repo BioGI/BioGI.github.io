@@ -264,7 +264,7 @@ Re_1 &amp;= \frac{s_1 (0.5 \; D)}{ \nu} \frac{0.5 \; D}{\lambda_1} = \frac{0.004
 <p>The scalar boundary condition is a little different from the typical bounce back boundary conditions because, unlike momentum, scalar does not bounce back from the wall. The wall could have a fixed value of the scalar or a fixed flux or a combination of both. Within the framework of the moment propagation method, the difficulty lies in finding the contribution <span class="math scholmd-math-inline">\(P_k(\vec{x} - \vec{e}_k \, \delta t, t + \delta t)\)</span> at the node adjacent to the wall. We first consider the case of a specified value of scalar at the wall (Dirichlet boundary condition).</p>
 <figure class="scholmd-float scholmd-figure" id="fig:scalarBC">
 <div class="scholmd-float-content"><figure class="scholmd-subfig" style="display: inline-block; width: 75%">
-<img src="./scalarBoundaryCondition.png" />
+<img src="./Figures/scalarBoundaryCondition.png" />
 </figure></div>
 <div class="scholmd-float-caption"><figcaption><span class="scholmd-caption-head"><span class="scholmd-caption-head-prefix">Figure</span><span class="scholmd-caption-head-label">2</span></span><span class="scholmd-caption-text">Node system used in developing the boundary conditions for scalar concentration by Wang et. al. <span class="scholmd-citation" data-cites="Wang2010">[4]</span>.</span></figcaption></div>
 </figure>
@@ -320,7 +320,7 @@ P_k(\vec{x} - \vec{e}_k \, \delta t, t + \delta t)_A = (P_k)_{A^* \rightarrow B^
 <p>The main puupose of the multiple grid scheme is to preseve the required resolution near complicated boundaries without paying the penalty of using the same resolution away from these boundaries. While this strategy could be generalized to a series of smaller and smaller grids until the required resolution is reached, the implementation is discussed only for one level of refinement between a coarse and fine grid. The overlap between the coarse and the fine grids is no more than 1 coarse lattice unit as shown in Figure <span class="scholmd-crossref"><a href="#fig:coarseToFineGridInterface">(3)</a></span>.</p>
 <figure class="scholmd-float scholmd-figure" id="fig:coarseToFineGridInterface">
 <div class="scholmd-float-content"><figure class="scholmd-subfig" style="display: inline-block; width: 75%">
-<img src="./coarseToFineGridInterface.png" />
+<img src="./Figures/coarseToFineGridInterface.png" />
 </figure></div>
 <div class="scholmd-float-caption"><figcaption><span class="scholmd-caption-head"><span class="scholmd-caption-head-prefix">Figure</span><span class="scholmd-caption-head-label">3</span></span><span class="scholmd-caption-text">Interface structure betwee two blocks of different lattice spacing as shown by Yu et. al. <span class="scholmd-citation" data-cites="Yu2002">[6]</span>.</span></figcaption></div>
 </figure>
@@ -424,7 +424,7 @@ f_{\alpha}^{(eq,c)}(\vec{x},t) = f_{\alpha}^{(eq,f)}(\vec{x},t)
 </ol>
 <figure class="scholmd-float scholmd-figure" id="fig:coarseToFineGridAlgorithm">
 <div class="scholmd-float-content"><figure class="scholmd-subfig" style="display: inline-block; width: 75%">
-<img src="./coarseToFineGridAlgorithm.png" />
+<img src="./Figures/coarseToFineGridAlgorithm.png" />
 </figure></div>
 <div class="scholmd-float-caption"><figcaption><span class="scholmd-caption-head"><span class="scholmd-caption-head-prefix">Figure</span><span class="scholmd-caption-head-label">4</span></span><span class="scholmd-caption-text">LBM Algorithm using multiple grids as shown in Wang et. al. <span class="scholmd-citation" data-cites="Wang2010">[4]</span></span></figcaption></div>
 </figure>

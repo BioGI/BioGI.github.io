@@ -22,10 +22,10 @@ Here are some photos from the tour.
 
 #### Figure: {#janusTour}
 
-![](./janusSupercomputerTour1.jpg){width=49%}
-![](./janusSupercomputerTour2.jpg){width=49%} \
-![](./janusSupercomputerTour3.jpg){width=49%}
-![](./janusSupercomputerTour4.jpg){width=49%}
+![](./Figures/janusSupercomputerTour1.jpg){width=49%}
+![](./Figures/janusSupercomputerTour2.jpg){width=49%} \
+![](./Figures/janusSupercomputerTour3.jpg){width=49%}
+![](./Figures/janusSupercomputerTour4.jpg){width=49%}
 
 Caption: Photos from the tour of Janus supercomputer
 

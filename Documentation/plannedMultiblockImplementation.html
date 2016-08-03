@@ -138,14 +138,14 @@ w(<span class="dv">0</span>:nxSub<span class="kw">+</span><span class="dv">1</sp
 <p>The numbering scheme for the density distribution function and the lattice velocity vectors are shown in Figure <span class="scholmd-crossref"><a href="#densityDistribution">(2)</a></span>.</p>
 <figure class="scholmd-float scholmd-figure" id="densityDistribution">
 <div class="scholmd-float-content"><figure class="scholmd-subfig" style="display: inline-block; width: ">
-<img src="./densityDistribution.png" />
+<img src="./Figures/densityDistribution.png" />
 </figure></div>
 <div class="scholmd-float-caption"><figcaption><span class="scholmd-caption-head"><span class="scholmd-caption-head-prefix">Figure</span><span class="scholmd-caption-head-label">2</span></span><span class="scholmd-caption-text">Numbering scheme of the density distribution directions and lattice velocity vectors in the Intestine 3D code.</span></figcaption></div>
 </figure>
 <p>Now for the complicated second part. The nodes on the boundaries of each processor could potentially interact with another processor in a variety of directions. To understand this, simply think of the information that a node on the faces, edges and corners of the processor boundaries. This is controlled by the temporary arrays <code>CDx, CDy and CDz</code> in the subroutine <code>SubDomainSetup</code> inside <code>Setup.f90</code>. Figure <span class="scholmd-crossref"><a href="#commDirs">(3)</a></span> shows the communication direction vector numbering scheme.</p>
 <figure class="scholmd-float scholmd-figure" id="commDirs">
 <div class="scholmd-float-content"><figure class="scholmd-subfig" style="display: inline-block; width: ">
-<img src="./commDirs.png" />
+<img src="./Figures/commDirs.png" />
 </figure></div>
 <div class="scholmd-float-caption"><figcaption><span class="scholmd-caption-head"><span class="scholmd-caption-head-prefix">Figure</span><span class="scholmd-caption-head-label">3</span></span><span class="scholmd-caption-text">Numbering scheme of the communication direction vectors in the Intestine 3D code.</span></figcaption></div>
 </figure>

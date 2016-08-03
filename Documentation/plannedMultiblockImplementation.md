@@ -68,7 +68,7 @@ The numbering scheme for the density distribution function and the lattice veloc
 
 #### Figure: {#densityDistribution}
 
-![](./densityDistribution.png)
+![](./Figures/densityDistribution.png)
 
 Caption: Numbering scheme of the density distribution directions and lattice velocity vectors in the Intestine 3D code.
 
@@ -78,7 +78,7 @@ Now for the complicated second part. The nodes on the boundaries of each process
 
 #### Figure: {#commDirs}
 
-![](./commDirs.png)
+![](./Figures/commDirs.png)
 
 Caption: Numbering scheme of the communication direction vectors in the Intestine 3D code.
 

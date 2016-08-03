@@ -37,10 +37,10 @@ Table (#table:study1GeomMotilityParams) describes the geometry and motility para
 | Wavelength       | $\lambda$           | <span style="color:red">60	     | <span style="color:red">30	    |$mm$  |
 | Volume of bolus  | $V_C$		           | <span style="color:red">11.82   | <span style="color:red"> 3.67  |$cm^3$|
 | Occlusion ratio  | $\epsilon/R_{max}$  | <span style="color:red"> 0.5    | <span style="color:red"> 0.1   |-     |
+| Number of waves  | -                   | 1                      				 | 1                              |-     |
 
 Caption: Geometry and motility properties for the first computational study.
 
-#| Number of waves  | -                   | 1                      				 | 1                              |-     |
 
 
 
@@ -116,7 +116,7 @@ For $\sigma$= 25$\mu m$:
 
 #### Figure: {#fig:Particle_Distribution_16}
 
-![](./Particle_Distribution_16.png){width=99%}
+![](./Figures/Particle_Distribution_16.png){width=99%}
 
 Caption: $\frac{C_{tot}}{C_s}$=0.2 ,  $D_{min}$=5$\mu m$ ,   $D_{max}$=195$\mu m$ ,  $N_{bin}$=20  , $\sigma$=25$\mu m$ ,   $N_P$= 1175 
 
@@ -193,7 +193,7 @@ Using 8 processors on Janus.
 
 #### Figure: {#fig:Results_Case1}
 
-![](./Drug_Case1.png){width=70%}
+![](./Figures/Drug_Case1.png){width=70%}
 
 Caption: Results of the case 1 experiment
 

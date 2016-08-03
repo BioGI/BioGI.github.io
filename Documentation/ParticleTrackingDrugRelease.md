@@ -117,7 +117,7 @@ Figure [#ParticlTrackingCodeSchematic] presents a simple diagram of the subrouti
 
 #### Figure: {#ParticlTrackingCodeSchematic}
 
-![](ParticleTrackingCodeSchematic.png)
+![](./Figures/ParticleTrackingCodeSchematic.png)
  
 Caption: Schematic of particl tracking and drug dissolution subroutines 
 
