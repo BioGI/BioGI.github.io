@@ -41,14 +41,14 @@ S =\frac{1}{2}  \sqrt{\big[E_{11} E_{22} + E_{11} E_{33} + E_{22} E_{33}\big]  -
 
 ## Computing the strain rate for use in corelations:
 ~~~math
-S =  \sqrt{E_{11}^2 + E_{22}^2 + E_{33}^2  + 2 \big[ E_{12}^2 + E_{13}^2 + E_{23}^2\big] }
+S =  \sqrt{2 \bigg[ E_{11}^2 + E_{22}^2 + E_{33}^2  + 2 \big( E_{12}^2 + E_{13}^2 + E_{23}^2 \big) \bigg] }
 ~~~
 
 
 ~~~math
-S= \sqrt{         \big(\frac{\partial u}{\partial x}\big)^2 
+S= \sqrt{2 \bigg[ \big(\frac{\partial u}{\partial x}\big)^2 
                 + \big(\frac{\partial v}{\partial y}\big)^2
-                + \big(\frac{\partial w}{\partial z}\big)^2   
+                + \big(\frac{\partial w}{\partial z}\big)^2   \bigg]
                 + \big( \frac{\partial u}{\partial y}+ \frac{\partial v}{\partial x} \big)^2                 
                 + \big( \frac{\partial u}{\partial z}+ \frac{\partial w}{\partial x} \big)^2 
                 + \big( \frac{\partial w}{\partial y}+ \frac{\partial v}{\partial z} \big)^2 
