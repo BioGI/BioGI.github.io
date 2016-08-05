@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="generator" content="scholpandoc">
+  <meta name="viewport" content="width=device-width">
+  
+  <title></title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.7.1/modernizr.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.js"></script>
+  <link rel="stylesheet" href="css/ScholarlyMarkdown-BS3.css">
+</head>
+<body>
+<div class="scholmd-container">
+<div class="scholmd-main">
+<div class="scholmd-content">
+<h2 id="boundary-position">Boundary Position</h2>
+<p>In defining the equations to describe the time-varying boundary position (geometry evolution in time), it is essential to make sure that the volume (and mass) is conserved.</p>
+<p>Two z-dependent curves (zero summation) at initial time step: 
+<span class="math scholmd-math-display" style="display: block;">\[
+\begin{equation*}
+\begin{split}
+A_{1(z)} = A_{base} +A_{amp}  \bigg[ cos \big( 2\pi \frac{z}{L} + \pi \big) \bigg] \\
+A_{2(z)} = A_{base} +A_{amp}  \bigg[ cos \big( 2\pi \frac{z}{L} +2\pi \big) \bigg] \\
+\end{split}
+\end{equation*}
+\]</span>
+ Time dependent parameters: 
+<span class="math scholmd-math-display" style="display: block;">\[
+\begin{equation*}
+\begin{split}
+\alpha_{(t)} = \frac{time}{T_s} \\
+\beta_{(t)} = cos^2 \big( \alpha_{(t)} \pi \big) \\
+\end{split}
+\end{equation*}
+\]</span>
+ The area (function of time and z) can be computed as: 
+<span class="math scholmd-math-display" style="display: block;">\[
+\begin{equation*}
+\begin{split}
+A_{(z,t)} = \beta_{(t)} A_{1(z)} + \big[ 1-\beta_{(t)} \big] A_{2(z)} \\
+\end{split}
+\end{equation*}
+\]</span>
+ And having the area, time varying local radius is: 
+<span class="math scholmd-math-display" style="display: block;">\[
+\begin{equation*}
+\begin{split}
+R_{(z,t)}    = \sqrt{\frac{A_{(z,t)}}{\pi} } \\
+R_{(z,t)}    = \sqrt{\frac{ \beta_{(t)} A_{1(z)} + \big[ 1-\beta_{(t)} \big] A_{2(z)}      }{\pi} } \\
+\boxed{R_{(z,t)}    = \sqrt{\frac{ \beta_{(t)} \big[ A_{1(z)} -  A_{2(z)} \big]  +  A_{2(z)}      }{\pi} }} \\
+\end{split}
+\end{equation*}
+\]</span>
+</p>
+<h2 id="boundary-velocity">Boundary Velocity</h2>
+<p>
+<span class="math scholmd-math-display" style="display: block;">\[
+\begin{equation*}
+\frac{d R_{(z,t)}}{dt} = \bigg( \frac{A_{1(z)}- A_{2(z)} }{\pi} \bigg)   \bigg( \frac{d\beta}{dt} \bigg)      \bigg[ \frac{ \beta_{(t)} A_{1(z)} + \big[ 1-\beta_{(t)} \big] A_{2(z)}      }{\pi}    \bigg]^{\frac{-1}{2}}                   
+\end{equation*}
+\]</span>
+ 
+<span class="math scholmd-math-display" style="display: block;">\[
+\begin{equation*}
+\frac{d\alpha}{dt} =\frac{1}{T_s}
+\end{equation*}
+\]</span>
+ 
+<span class="math scholmd-math-display" style="display: block;">\[
+\begin{equation*}
+\begin{split}
+\frac{d\beta}{dt} = -2 \pi \bigg( \frac{d\alpha}{dt} \bigg) sin(\alpha \pi) cos(\alpha \pi) \\
+\frac{d\beta}{dt} = \frac{-2 \pi}{T_s} sin(\alpha \pi) cos(\alpha \pi)
+\end{split}
+\end{equation*}
+\]</span>
+ Finally: 
+<span class="math scholmd-math-display" style="display: block;">\[
+\begin{equation*}
+\boxed{V_{(z,t)}= \frac{d R_{(z,t)}}{dt} = \frac{-2 \pi}{T_s} sin(\alpha \pi) cos(\alpha \pi) \bigg( \frac{A_{1(z)}- A_{2(z)} }{\pi} \bigg) \bigg[ \frac{ \beta_{(t)} A_{1(z)} + \big[ 1-\beta_{(t)} \big] A_{2(z)}      }{\pi}    \bigg]^{\frac{-1}{2}}    }               
+\end{equation*}
+\]</span>
+</p>
+<div class="references">
+
+</div>
+</div>
+</div>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+      processClass: "math"
+    },
+    TeX: {
+        TagSide: "left",
+        TagIndent: "1.2em",
+        equationNumbers: {
+            autoNumber: "AMS"
+        },
+        Macros: {
+            ensuremath: ["#1",1],
+            textsf: ["\\mathsf{\\text{#1}}",1],
+            texttt: ["\\mathtt{\\text{#1}}",1]
+        }
+    },
+    "HTML-CSS": { 
+        scale: 100,
+        availableFonts: ["TeX"], 
+        preferredFont: "TeX",
+        webFont: "TeX",
+        imageFont: "TeX",
+        EqnChunk: 1000
+    }
+});
+</script>
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML-full" type="text/javascript"></script>
+</div>
+</body>
+</html>

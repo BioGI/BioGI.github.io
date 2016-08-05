@@ -29,4 +29,4 @@ This page is intended to be a home page for the documentation of the Bio-GI proj
 * [Motility and concentration data](Documentation/Motility_Concentration_Data.html)
 * [Project short term outline](Documentation/Outline.html)
 * [Fed experiments' design](Documentation/FedExperiments.html)
-
+* [Segmental motility equations](Documentation/Segmental-Motility-Equations.html)
