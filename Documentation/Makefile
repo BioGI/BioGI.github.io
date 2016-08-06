@@ -20,6 +20,7 @@ html:
 #	scholdoc webpage-settings.yml Outline.md --citeproc --output=Outline.html
 #	scholdoc webpage-settings.yml FedExperiments.md --citeproc --output=FedExperiments.html
 	scholdoc webpage-settings.yml Segmental-Motility-Equations.md --citeproc --output=Segmental-Motility-Equations.html
+	scholdoc webpage-settings.yml Fed-Fasted-Experiments.md --citeproc --output=Fed-Fasted-Experiments.html
 
 latex:
 	scholdoc plos-one-settings.yml lbmBasics.md --natbib --output=lbmBasics.tex
