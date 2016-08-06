@@ -60,17 +60,18 @@ Table (#table:study1DrugFluidParams) shows the drug and fluid properties for the
 
 | Name                 		   | Symbol  | Choice                        |  Unit          |  
 |----------------------------|---------|-------------------------------|----------------|
-| Drug                 		   | 		     | Ibuprofen	   			           | 	     	        |
+| Drug                 		   | 		     | ibuprofen	   			           | 	     	        |
 | Fluid                		   |         | Water                         |                |
 | Fluid's temperature  		   | $T_w$	 | 20                            | $^{\circ}C$    |
-| Fluid's PH			           | $PH_w$	 | <span style="color:red">5.5 |                |
+| Fluid's PH			           | $PH_w$	 | <span style="color:red">5.5   |                |
 | Fluid's density            | $\rho_w$| 1000			                     | $kg/m^3$       |
 | Fluid's dynamic viscosity  | $\mu_w$ | $1$ 			                     | $cp$   	      |
 | Fluid's kinematic viscosity| $\nu_w$ | $1.0e-6$ 		                 | $m^2/s$       	|
 | Drug's density             | $\rho_m$| ?			                       | $kg/m^3$	      |	    	
 | Drug's molar volume        | $\nu_m$ | 268                           | $cm^3/mol$     |
 | Drug's diffusivity         | $D_m$   | $7.5 \times 10^{-6}$          | $cm^2/s$       |
-| Saturation concentration   | $C_S$   | <span style="color:red">0.33| $\mu mol/cm^3$ |
+| Drug's pKa                 | pKa     | <span style="color:red">4.4   | -              |
+| Saturation concentration   | $C_S$   | <span style="color:red">4.485 | $\mu mol/cm^3$ |
 
 Caption: Drug and fluid properties for computational studies.
 
@@ -97,16 +98,16 @@ Table (#table:study1ParticleParameters) shows the particles parameters for the f
 
 | Name                        	|    Symbol          	  | Choice                                       			                 			|  Units     |
 |-------------------------------|-----------------------|-------------------------------------------------------------------------|------------|
-|	-		                        	| $C_{tot}/C_s$        	| <span style="color:black"  > (Fed: 1),  (Fasted: 3.22)            | -          |
-|Total volume of the particles  | $V_P$                 | <span style="color:black"  > $2.11   \times 10^{-4}$                  	| $cm^3$     | 
-|Toal drug in the domain      	|                       | <span style="color:black"  > 0.78734                                  	| $\mu mol$  |
-|Toal drug in the domain      	|                       | <span style="color:black"  > 162.2                	                    | $\mu g$    |
-|Maximum particle diameter    	| $D_P^{max}$          	| <span style="color:black"> 195	 		 		                                | $\mu m$    |
+|	-		                        	| $C_{tot}/C_s$        	| <span style="color:black"> (Fed: 0.2), (Fasted: 0.621)                  | -          |
+|Total volume of the particles  | $V_P$                 | <span style="color:red"  > $28.425 \times 10^{-4}$                   	| $cm^3$     | 
+|Toal drug in the domain      	|                       | <span style="color:red"  > 10.6992                                    	| $\mu mol$  |
+|Toal drug in the domain      	|                       | <span style="color:red"  > 2204.1358                                    | $\mu g$    |
+|Maximum particle diameter    	| $D_P^{max}$          	| <span style="color:red"  > 190	 		 		                                | $\mu m$    |
 |Average particle diameter      | $D_P^{ave}$           | <span style="color:black"> 100                			                    | $\mu m$    |
-|Minimum particle diameter      | $D_P^{min}$           | <span style="color:black"> 5      	   	 			                          | $\mu m$    |
-|Number of particles	         	| $N_P$			            | <span style="color:black"> 1175 (Figure [#fig:Particle_Distribution_16])| -	         |
+|Minimum particle diameter      | $D_P^{min}$           | <span style="color:red"  > 10      	   	 			                          | $\mu m$    |
+|Number of particles	         	| $N_P$			            | <span style="color:red"  > 11285 (Figure[#fig:Particle_Distribution_16])| -	         |
 |Distribution function shape	  |	-	                   	| <span style="color:black"> Normal	        			                        | -	         |
-|Standard deviation	 	          | $\sigma$		          | <span style="color:black"  > 25						                              | $\mu m$    |		
+|Standard deviation	 	          | $\sigma$		          | <span style="color:black"> 25		  				                              | $\mu m$    |		
 |Number of the bins		          | $N_{bins}$        		| <span style="color:black"> 20				                                   	| -	         |
 |Initial particle locations	    |	-		                  | randomly distributed in a sphere 						                            | -	         |	
 
@@ -120,9 +121,9 @@ For $\sigma$= 25$\mu m$:
 
 #### Figure: {#fig:Particle_Distribution_16}
 
-![](./Figures/Particle_Distribution_16.png){width=99%}
+![](./Figures/Particles-11285.png){width=99%}
 
-Caption: $\frac{C_{tot}}{C_s}$=0.2 ,  $D_{min}$=5$\mu m$ ,   $D_{max}$=195$\mu m$ ,  $N_{bin}$=20  , $\sigma$=25$\mu m$ ,   $N_P$= 1175 
+Caption: $\frac{C_{tot}}{C_s}$=0.2 ,  $D_{min}$=10$\mu m$ ,   $D_{max}$=190$\mu m$ ,  $N_{bin}$=20  , $\sigma$=25$\mu m$ ,   $N_P$= 11285 
 
 
 
@@ -175,29 +176,18 @@ Caption: Modeling and computational parameters for the first computational study
 #Computational Cost Estimation
 #### Table:  {#table:ComputationalCost}
 
-| Name                                  	| Symbol          | Choice      | Units |
-|-----------------------------------------------|-----------------|-------------|-------|
-| Mesh resolution		        	| $\Delta x$      | 0.2		| mm    |
-| Total number of nodes		        	| $N_{nodes}$     | 3 000 000	|       |
-| Number of Particles                   	| $N_{particles}$ | 1175        |       |
-| Time steps		               	 	| $\Delta t$      | 6.66 e-3	| s     |
-| Total number of waves simulated       	| 	          | 20	        |       |
-| Wave's charactristice time scale      	| $t_{wave}$      | 30		| s     |
-| Total physical time		        	| $t_{tot}$       | 600         | s     |
-| Total number of iterations           		| $N_{iter}$      | 90 000      |       |
-| Computational time at each iteration (8 CPU)	|		  | 1		| s     |
-| Total computational time			|		  | 25         	| hour  |
+| Name                                  	    | Symbol         | Fed      | Fasted   | Units|
+|---------------------------------------------|----------------|----------|----------|------|
+| Mesh resolution		                          | $\Delta x$     | 0.2	    | 1.25     | mm   |
+| Total number of nodes		        	          | $N_{nodes}$    | 3 000 000| 6 250 000|      |
+| Number of Particles                   	    | $N_{particles}$| 11285    | 11285    |      |
+| Time steps		               	 	            | $\Delta t$     | 6.66 e-3 | 2.6 e-3  | s    |
+| Total number of waves simulated       	    |     	         | 20	      | 20       |      |
+| Wave's charactristice time scale      	    | $t_{wave}$     | 30		    | 15       | s    |
+| Total physical time		        	            | $t_{tot}$      | 600      | 300      | s    |
+| Total number of iterations           		    | $N_{iter}$     | 90 000   | 115384   |      |
+| Computational time at each iteration (8 CPU)|		             | ?		    | ?        | s    |
+| Total computational time			              |		             | ?        | ?        |      |
 
 Caption: Computational cost estimation
-
-
-# Results: Case 1
-
-Using 8 processors on Janus.
-
-#### Figure: {#fig:Results_Case1}
-
-![](./Figures/Drug_Case1.png){width=70%}
-
-Caption: Results of the case 1 experiment
 
