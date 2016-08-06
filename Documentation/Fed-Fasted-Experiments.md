@@ -34,14 +34,16 @@ Table (#table:study1GeomMotilityParams) describes the geometry and motility para
 
 #### Table:  {#table:study1GeomMotilityParams}
 
-| Name           |       Symbol      |          	   |              |                   |                 | Unit  |  
-|----------------|-------------------|---------------|--------------|-------------------|-----------------|-------|
-| Motility type  | -                 |Fed-Peristalsis| Fed/Segmental| Fasted/Peristalsis| Fasted/Segmental|       |
-| Max diameter   | $D_{max}$         |22.4           | 22.4         | 20                | 20              | $mm$  |
-| Wavelength     | $\lambda$         |60	           | 60	          | 30                | 30              | $mm$  |
-| Volume of bolus| $V_C$		         |11.82          | 11.82        | 3.67              | 3.67            | $cm^3$|
-| Occlusion ratio| $\epsilon/R_{ave}$|0.5            | 0.5          | 0.1               | 0.1             | -     |
-| Number of waves| -                 |1              | 1            | 1                 | 1               | -     |
+| Name              |       Symbol      |          	    |              |                   |                 | Unit  |  
+|-------------------|-------------------|---------------|--------------|-------------------|-----------------|-------|
+| Motility type     | -                 |Fed-Peristalsis| Fed/Segmental| Fasted/Peristalsis| Fasted/Segmental|       |
+| Max diameter      | $D_{max}$         |22.4           | 22.4         | 20                | 20              | $mm$  |
+| Wavelength        | $\lambda$         |60	            | 60	         | 30                | 30              | $mm$  |
+| Wave speed        | $s_1$             | 2             | -            | 2                 | -               | $mm/s$|
+|Charachtristic time| $T_s$             | 30            | 30           | 30                | 30              | s     |
+| Volume of bolus   | $V_C$		          |11.82          | 11.82        | 3.67              | 3.67            | $cm^3$|
+| Occlusion ratio   | $\epsilon/R_{ave}$|0.5            | 0.5          | 0.1               | 0.1             | -     |
+| Number of waves   | -                 |1              | 1            | 1                 | 1               | -     |
 
 Caption: Geometry and motility properties for the first computational study.
 
