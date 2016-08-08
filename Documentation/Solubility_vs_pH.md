@@ -15,7 +15,7 @@ For ibuprofen:
 ~~~math
 S_o = 68 \frac{\mu g}{cm^3} \\
 
-pKa \approx 3.4
+pKa \approx 4.4
 ~~~
 
 For ibuprofen:
