@@ -15,7 +15,7 @@ html:
 #	scholdoc webpage-settings.yml firstStudy.md --citeproc --output=firstStudy.html
 #	scholdoc webpage-settings.yml Janus_Runs.md --citeproc --output=Janus_Runs.html
 #	scholdoc webpage-settings.yml Paraview_Script.md --citeproc --output=Paraview_Script.html
-#	scholdoc webpage-settings.yml Strain_Rate_Correlations.md --citeproc --output=Strain_Rate_Correlations.html
+	scholdoc webpage-settings.yml Strain_Rate_Correlations.md --citeproc --output=Strain_Rate_Correlations.html
 #	scholdoc webpage-settings.yml Motility_Concentration_Data.md --citeproc --output=Motility_Concentration_Data.html
 #	scholdoc webpage-settings.yml Outline.md --citeproc --output=Outline.html
 #	scholdoc webpage-settings.yml FedExperiments.md --citeproc --output=FedExperiments.html

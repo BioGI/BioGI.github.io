@@ -19,42 +19,26 @@
 <div class="scholmd-container">
 <div class="scholmd-main">
 <div class="scholmd-content">
-<h2 id="strain-rate-tensor">Strain rate tensor</h2>
+<h2 id="velocity-gradients">Velocity Gradients</h2>
+<p>All 36 velocity gradinet components are computed usingvelocity values at 8 nodes around the particle as shown in fi gure <span class="scholmd-crossref"><a href="#fig:U_Gradient">1</a></span>:</p>
+<figure class="scholmd-float scholmd-figure" id="fig:U_Gradient">
+<div class="scholmd-float-content"><figure class="scholmd-subfig" style="display: inline-block; width: 40%">
+<img src="./Figures/U_Gradient.jpg" />
+</figure></div>
+<div class="scholmd-float-caption"><figcaption><span class="scholmd-caption-head"><span class="scholmd-caption-head-prefix">Figure</span><span class="scholmd-caption-head-label">1</span></span><span class="scholmd-caption-text">Velocity gradient (36 components) computed using velocity values at 8 nodes around each particle.</span></figcaption></div>
+</figure>
+<p>Then, velocity gradients are bilinearly interpolated to the location of the particle to get the 9 components of the velocity gradients in 3D.</p>
+<h2 id="strain-rate-tensor">Strain Rate Tensor</h2>
 <p>Defined as half the sum of the velocity gradient tensor and its transpose:</p>
 <p>E = <span class="math scholmd-math-inline">\(\begin{bmatrix} \frac{\partial u}{\partial x} &amp; \frac{1}{2}(\frac{\partial u}{\partial y} + \frac{\partial v}{\partial x}) &amp; \frac{1}{2}(\frac{\partial u}{\partial z} + \frac{\partial w}{\partial x}) \\ \frac{1}{2}(\frac{\partial v}{\partial x} + \frac{\partial u}{\partial y}) &amp; \frac{\partial v}{\partial y} &amp; \frac{1}{2}(\frac{\partial v}{\partial z} + \frac{\partial w}{\partial y}) \\ \frac{1}{2}(\frac{\partial w}{\partial x} + \frac{\partial u}{\partial z}) &amp; \frac{1}{2}(\frac{\partial w}{\partial y} + \frac{\partial v}{\partial z}) &amp; \frac{\partial w}{\partial z} \end{bmatrix}\)</span></p>
-<!---
-
-## Second Invariant of the Symmetrical Strain Rate Tensor; E:
-
-~~~math
-II_E =\frac{1}{2} (E_{ii} E_{jj} - E_{ij} E_{ij})
-~~~
-
-~~~math
-II_E =\frac{1}{2} \Big( \big[E_{11} E_{22} + E_{11} E_{33} + E_{22} E_{33} \big]  - \big[ E_{12} E_{12} + E_{13} E_{13} + E_{23} E_{23} \big] \Big)
-~~~
-
-Computing S to be used in Sherwood number correlations:
-
-~~~math
-S = \sqrt{\frac{II_E}{2}}
-~~~
-
-Summerizing:
-~~~math
-S =\frac{1}{2}  \sqrt{\big[E_{11} E_{22} + E_{11} E_{33} + E_{22} E_{33}\big]  - \big[E_{12} E_{12} + E_{13} E_{13} + E_{23} E_{23} \big]} 
-~~~
-
---->
-<h2 id="computing-the-strain-rate-for-use-in-corelations">Computing the strain rate for use in corelations:</h2>
+<h2 id="computing-the-strain-rate-magnitude-scalar-for-use-in-corelations">Computing the Strain Rate Magnitude (scalar) for Use in Corelations:</h2>
 <p>
 <span class="math scholmd-math-display" style="display: block;">\[
 \begin{equation*}
 S =  \sqrt{2 \bigg[ E_{11}^2 + E_{22}^2 + E_{33}^2  + 2 \big( E_{12}^2 + E_{13}^2 + E_{23}^2 \big) \bigg] }
 \end{equation*}
 \]</span>
-</p>
-<p>
+ 
 <span class="math scholmd-math-display" style="display: block;">\[
 \begin{equation*}
 S= \sqrt{2 \bigg[ \big(\frac{\partial u}{\partial x}\big)^2 
@@ -66,8 +50,7 @@ S= \sqrt{2 \bigg[ \big(\frac{\partial u}{\partial x}\big)^2
                  }
 \end{equation*}
 \]</span>
-</p>
-<p>Look at this: <a href="http://www.cfd-online.com/Forums/fluent-udf/90818-strain-rate-magnitude.html">Link</a></p>
+ Look at this: <a href="http://www.cfd-online.com/Forums/fluent-udf/90818-strain-rate-magnitude.html">Link</a></p>
 <div class="references">
 
 </div>
