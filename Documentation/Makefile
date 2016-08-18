@@ -22,6 +22,7 @@ html:
 	scholdoc webpage-settings.yml Segmental-Motility-Equations.md --citeproc --output=Segmental-Motility-Equations.html
 	scholdoc webpage-settings.yml Fed-Fasted-Experiments.md --citeproc --output=Fed-Fasted-Experiments.html
 	scholdoc webpage-settings.yml Solubility_vs_pH.md --citeproc --output=Solubility_vs_pH.html
+	scholdoc webpage-settings.yml Fed-Fasted-Motility.md --citeproc --output=Fed-Fasted-Motility.html
 
 latex:
 	scholdoc plos-one-settings.yml lbmBasics.md --natbib --output=lbmBasics.tex
