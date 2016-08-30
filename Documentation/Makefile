@@ -23,7 +23,7 @@ html:
 	scholdoc webpage-settings.yml Fed-Fasted-Experiments.md --citeproc --output=Fed-Fasted-Experiments.html
 	scholdoc webpage-settings.yml Solubility_vs_pH.md --citeproc --output=Solubility_vs_pH.html
 	scholdoc webpage-settings.yml Fed-Fasted-Motility.md --citeproc --output=Fed-Fasted-Motility.html
-	scholdoc webpage-settings.yml In_Vivo_Validation.md --citeproc --output=In_Vivo_Validation.html
+	scholdoc webpage-settings.yml In_Vitro_Validation.md --citeproc --output=In_Vitro_Validation.html
 
 latex:
 	scholdoc plos-one-settings.yml lbmBasics.md --natbib --output=lbmBasics.tex

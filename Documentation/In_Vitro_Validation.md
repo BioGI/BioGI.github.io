@@ -11,29 +11,18 @@ The Couette experiments were desined to investigate the influence of shear effec
 <!----------------------------------------------------------------------------------------------------------------------------------------------------------->
 # Geometry and Flow 
 
-Table (#table:CouetteGeometry) describes the geometry of the in vivo experiment.
+Table (#table:CouetteGeometry) describes the geometry and the flow for the in vivo experiment.
 
 #### Table:  {#table:CouetteGeometry}
 
-| Name             |       Symbol        | value   | Unit |  
-|------------------|---------------------|---------|------|
-| Outer diameter   | R_1                 | 13.81   |$mm$  |
-| Inner diameter   | R_2                 | 12.575  |$mm$  |
-| Gap              | $\delta$            | 1.235   |$mm$  |
+|Parameter        |Symbol   | value     |Unit|  
+|-----------------|---------|-----------|----|
+|Outer diameter   |R_1      | 13.81     |$mm$|
+|Inner diameter   |R_2      | 12.575    |$mm$|
+|Gap              |$\delta$ | 1.235     |$mm$|
+|Rotational speed |$\omega$ |0.5,10,100 |RPM |
 
-Caption: In vivo Geometry.
-
-
-Table (#table:CouetteRotation) describes the rotational speed of the on vivo experiment.
-
-#### Table:  {#table:CouetteGeometry}
-
-| Name             |       Symbol        | value       | Unit |  
-|------------------|---------------------|-------------|------|
-| Rotational speed | $\omega$            |0.5, 10, 100 |RPM   |
-
-
-Caption: In vivo flow.
+Caption: In vivo Geometry and flow.
 
 
 
@@ -61,7 +50,7 @@ Table (#table:study1DrugFluidParams) shows the drug and fluid properties for the
 | Drug's molar volume          |$\nu_m$ |92.73                         | $cm^3/mol$    |
 | Drug's diffusivity           |$D_m$   |$8.47 \times 10^{-7}$         | $cm^2/s$  	   |
 | Solubility in DMS            |$C_S$   |0.368                         | $mg/cm^3$     |
-| Solubility in DMS            |$C_S$   |3.013                         | $\mu mol/cm^3$|
+| Solubility in DMS            |$C_S$   |3.149                         | $\mu mol/cm^3$|
 
 Caption: Drug and fluid properties in the vivo experiment.
 
@@ -78,6 +67,7 @@ Total dose: Choose $C_{tot}/C_s =0.2$ to be such that we are in sink conditions 
 We choose this even though that singularity is only for the case without absorption and we do have absorption in the intestine case.
 
 "BOLUS DOSE": mass or moles of drug in a bolus segment. To estimate we will collect data from the literature and from UM on concentration of extracted fluids -- statistics. From MRI (Nottingham) we will estimate bolus volume. These two will give us dose in moles from which bolus $C_{tot}$ can be estimated. To this end, we need to estimate solid content along with fluid concentration in the extracted segments. Once we have ranges of $C_{tot}$ we can estimate ranges of  $C_{tot}/C_s$ -- our critical parameter.
+
 
 Choice of where to locate the particles at the initial condition.
 
@@ -170,25 +160,16 @@ Caption: Modeling and computational parameters for the first computational study
 |-----------------------------------------------|-----------------|-------------|-------|
 | Mesh resolution		        	| $\Delta x$      | 0.2		| mm    |
 | Total number of nodes		        	| $N_{nodes}$     | 3 000 000	|       |
-| Number of Particles                   	| $N_{particles}$ | 1175        |       |
-| Time steps		               	 	| $\Delta t$      | 6.66 e-3	| s     |
-| Total number of waves simulated       	| 	          | 20	        |       |
-| Wave's charactristice time scale      	| $t_{wave}$      | 30		| s     |
-| Total physical time		        	| $t_{tot}$       | 600         | s     |
-| Total number of iterations           		| $N_{iter}$      | 90 000      |       |
+| Number of Particles                   	      | $N_{particles}$ | 1175        |       |
+| Time steps		               	                | $\Delta t$      | 6.66 e-3	| s     |
+| Total number of waves simulated             	| 	          | 20	        |       |
+| Wave's charactristice time scale             	| $t_{wave}$      | 30		| s     |
+| Total physical time		                      	| $t_{tot}$       | 600         | s     |
+| Total number of iterations           		      | $N_{iter}$      | 90 000      |       |
 | Computational time at each iteration (8 CPU)	|		  | 1		| s     |
-| Total computational time			|		  | 25         	| hour  |
+| Total computational time			                |		  | 25         	| hour  |
 
 Caption: Computational cost estimation
 
 
-# Results: Case 1
-
-Using 8 processors on Janus.
-
-#### Figure: {#fig:Results_Case1}
-
-![](./Figures/Drug_Case1.png){width=70%}
-
-Caption: Results of the case 1 experiment
 
