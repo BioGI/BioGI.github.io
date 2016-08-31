@@ -15,12 +15,13 @@ Table (#table:CouetteGeometry) describes the geometry and the flow for the in vi
 
 #### Table:  {#table:CouetteGeometry}
 
-|Parameter        |Symbol   | value     |Unit|  
-|-----------------|---------|-----------|----|
-|Outer diameter   |R_1      | 13.81     |$mm$|
-|Inner diameter   |R_2      | 12.575    |$mm$|
-|Gap              |$\delta$ | 1.235     |$mm$|
-|Rotational speed |$\omega$ |0.5,10,100 |RPM |
+|Parameter             |Symbol   | value     |Unit  |  
+|----------------------|---------|-----------|------|
+|Outer diameter        |R_1      | 13.81     |$mm$  |
+|Inner diameter        |R_2      | 12.575    |$mm$  |
+|Gap                   |$\delta$ | 1.235     |$mm$  |
+|Total volume (Fluid)  |$V_f$    | 12        |$cm^3$|
+|Rotational speed      |$\omega$ |0.5,10,100 |RPM   |
 
 Caption: In vivo Geometry and flow.
 
