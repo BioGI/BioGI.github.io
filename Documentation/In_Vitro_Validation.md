@@ -11,7 +11,7 @@ The Couette experiments were desined to investigate the influence of shear effec
 <!----------------------------------------------------------------------------------------------------------------------------------------------------------->
 # Geometry and Flow 
 
-Table (#table:CouetteGeometry) describes the geometry and the flow for the in vivo experiment.
+Table (#table:CouetteGeometry) describes the geometry and the flow for the in vitro experiment.
 
 #### Table:  {#table:CouetteGeometry}
 
@@ -23,9 +23,21 @@ Table (#table:CouetteGeometry) describes the geometry and the flow for the in vi
 |Total volume (Fluid)  |$V_f$    | 12        |$cm^3$|
 |Rotational speed      |$\omega$ |0.5,10,100 |RPM   |
 
-Caption: In vivo Geometry and flow.
+Caption: In vitro Geometry and flow.
 
 
+
+Table (#table:CouetteGeometryV) shows the wall velocities and strain rates for different in vivo experiment.
+
+#### Table:  {#table:CouetteGeometryV}
+
+|Rotational speed (RPM) | Rotational speed (RPM) |$V_{wall}$| S (1/s) |
+|-----------------------|------------------------|----------|---------|
+|0.5                    | 0.006666               |0.55285   |0.448    |
+|10                     | 0.133333               |11.057    |8.95     |
+|100                    | 1.333333               |110.57    |89.5     |
+
+Caption: In vitro wall velocities and strain rates.
 
 
 <!----------------------------------------------------------------------------------------------------------------------------------------------------------->
@@ -62,15 +74,48 @@ Caption: Drug and fluid properties in the vivo experiment.
 
 <!----------------------------------------------------------------------------------------------------------------------------------------------------------->
 <!----------------------------------------------------------------------------------------------------------------------------------------------------------->
-# Particles
-
-Total dose: Choose $C_{tot}/C_s =0.2$ to be such that we are in sink conditions and far from the singularity near $C_{tot}/C_s = 1$. 
-We choose this even though that singularity is only for the case without absorption and we do have absorption in the intestine case.
-
-"BOLUS DOSE": mass or moles of drug in a bolus segment. To estimate we will collect data from the literature and from UM on concentration of extracted fluids -- statistics. From MRI (Nottingham) we will estimate bolus volume. These two will give us dose in moles from which bolus $C_{tot}$ can be estimated. To this end, we need to estimate solid content along with fluid concentration in the extracted segments. Once we have ranges of $C_{tot}$ we can estimate ranges of  $C_{tot}/C_s$ -- our critical parameter.
+# Dosage and numerical domain dimensions (Sieve cut of 45-75 micron)
 
 
-Choice of where to locate the particles at the initial condition.
+Total dose and domain volume for numerical simulation is presented in (#table:Dosage_DomainVolume): 
+
+#### Table:  {#table:Dosage_DomainVolume}
+
+|item                                                       | value   |unit      |
+|-----------------------------------------------------------|---------|----------|
+| Sieve cut                                                 | 45-75   |$\mu m$   |
+| Total number of particles measured in this siev cut       | 376     |-         |
+| Toal volume of particles measured in this siev cut        | 0.13025 |$mm^3$    |
+| Drug density                                              | 1.29    |$mg/mm^3$ |
+| Total weight of particles measured                        | 0.168   |$mg$      |
+| Toal dose used in experiment                              | 5       |$mg$      |
+| Total volume of container in experiment                   | 12      |$cm^3$    |
+| Volume of container in simulation (matching $C_{tot}$)    | 403.3   |$mm^3$    |
+
+Caption: Numerical simulation's dosage and domain volume 
+
+Domain dimensions for numerical simulation is presented in (#table:Domain_Dimensions): 
+
+#### Table:  {#table:Domain_Dimensions}
+
+|item                                                       | value   |unit      |
+|-----------------------------------------------------------|---------|----------|
+| Volume of container in simulation (matching $C_{tot}$)    | 403.3   |$mm^3$    |
+| Simulation domain width (identical to experiment)         | 1.235   |$mm$      |
+| Simulation domain Length (identical to experiment)        | 82.89   |$mm$      |
+| Simulation domain height (around 0.03 of the experiment)  | 3.93    |$mm$      |        
+| Elemet size used for dicretizing                          | 0.137222|$mm$      | 
+| Discretizing simulation domain's  width                   | 10      |nodes     | 
+| Discretizing simulation domain's  width (including solids)| 13      |nodes     | 
+| Discretizing simulation domain's  length                  | 30      |nodes     | 
+| Discretizing simulation domain's  height                  | 605     |nodes     | 
+| Simulation domain width (adjusted after discretization)   | 1.235   |$mm$      |
+| Simulation domain width with solids (after discretization)| 1.647   |$mm$      |
+| Simulation domain length (after discretization)           | 3.979   |$mm$      |
+| Simulation domain height (after discretization)           | 82.88   |$mm$      |
+| Simulation domain volume (after discretization)           | 407.3   |$mm$      |  
+
+Caption: Numerical simulation's domain dimensions 
 
 Table (#table:study1ParticleParameters) shows the particles parameters for the first computational study.
 

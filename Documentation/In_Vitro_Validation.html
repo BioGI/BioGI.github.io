@@ -32,7 +32,7 @@ Farhad Behafarid
 <!----------------------------------------------------------------------------------------------------------------------------------------------------------->
 <!----------------------------------------------------------------------------------------------------------------------------------------------------------->
 <h1 id="geometry-and-flow">Geometry and Flow</h1>
-<p>Table <span class="scholmd-crossref"><a href="#table:CouetteGeometry">(1)</a></span> describes the geometry and the flow for the in vivo experiment.</p>
+<p>Table <span class="scholmd-crossref"><a href="#table:CouetteGeometry">(1)</a></span> describes the geometry and the flow for the in vitro experiment.</p>
 <figure class="scholmd-float scholmd-table-float" id="table:CouetteGeometry">
 <div class="scholmd-float-content"><table>
 <thead>
@@ -76,12 +76,46 @@ Farhad Behafarid
 </tr>
 </tbody>
 </table></div>
-<div class="scholmd-float-caption"><figcaption><span class="scholmd-caption-head"><span class="scholmd-caption-head-prefix">Table</span><span class="scholmd-caption-head-label">1</span></span><span class="scholmd-caption-text">In vivo Geometry and flow.</span></figcaption></div>
+<div class="scholmd-float-caption"><figcaption><span class="scholmd-caption-head"><span class="scholmd-caption-head-prefix">Table</span><span class="scholmd-caption-head-label">1</span></span><span class="scholmd-caption-text">In vitro Geometry and flow.</span></figcaption></div>
+</figure>
+<p>Table <span class="scholmd-crossref"><a href="#table:CouetteGeometryV">(2)</a></span> shows the wall velocities and strain rates for different in vivo experiment.</p>
+<figure class="scholmd-float scholmd-table-float" id="table:CouetteGeometryV">
+<div class="scholmd-float-content"><table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Rotational speed (RPM)</th>
+<th style="text-align: left;">Rotational speed (RPM)</th>
+<th style="text-align: left;"><span class="math scholmd-math-inline">\(V_{wall}\)</span></th>
+<th style="text-align: left;">S (1/s)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">0.5</td>
+<td style="text-align: left;">0.006666</td>
+<td style="text-align: left;">0.55285</td>
+<td style="text-align: left;">0.448</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">10</td>
+<td style="text-align: left;">0.133333</td>
+<td style="text-align: left;">11.057</td>
+<td style="text-align: left;">8.95</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">100</td>
+<td style="text-align: left;">1.333333</td>
+<td style="text-align: left;">110.57</td>
+<td style="text-align: left;">89.5</td>
+</tr>
+</tbody>
+</table></div>
+<div class="scholmd-float-caption"><figcaption><span class="scholmd-caption-head"><span class="scholmd-caption-head-prefix">Table</span><span class="scholmd-caption-head-label">2</span></span><span class="scholmd-caption-text">In vitro wall velocities and strain rates.</span></figcaption></div>
 </figure>
 <!----------------------------------------------------------------------------------------------------------------------------------------------------------->
 <!----------------------------------------------------------------------------------------------------------------------------------------------------------->
 <h1 id="drug-and-fluid-properties">Drug and Fluid properties</h1>
-<p>Table <span class="scholmd-crossref"><a href="#table:study1DrugFluidParams">(2)</a></span> shows the drug and fluid properties for the first computational study.</p>
+<p>Table <span class="scholmd-crossref"><a href="#table:study1DrugFluidParams">(3)</a></span> shows the drug and fluid properties for the first computational study.</p>
 <figure class="scholmd-float scholmd-table-float" id="table:study1DrugFluidParams">
 <div class="scholmd-float-content"><table>
 <thead>
@@ -179,15 +213,152 @@ Farhad Behafarid
 </tr>
 </tbody>
 </table></div>
-<div class="scholmd-float-caption"><figcaption><span class="scholmd-caption-head"><span class="scholmd-caption-head-prefix">Table</span><span class="scholmd-caption-head-label">2</span></span><span class="scholmd-caption-text">Drug and fluid properties in the vivo experiment.</span></figcaption></div>
+<div class="scholmd-float-caption"><figcaption><span class="scholmd-caption-head"><span class="scholmd-caption-head-prefix">Table</span><span class="scholmd-caption-head-label">3</span></span><span class="scholmd-caption-text">Drug and fluid properties in the vivo experiment.</span></figcaption></div>
 </figure>
 <!----------------------------------------------------------------------------------------------------------------------------------------------------------->
 <!----------------------------------------------------------------------------------------------------------------------------------------------------------->
-<h1 id="particles">Particles</h1>
-<p>Total dose: Choose <span class="math scholmd-math-inline">\(C_{tot}/C_s =0.2\)</span> to be such that we are in sink conditions and far from the singularity near <span class="math scholmd-math-inline">\(C_{tot}/C_s = 1\)</span>. We choose this even though that singularity is only for the case without absorption and we do have absorption in the intestine case.</p>
-<p>“BOLUS DOSE”: mass or moles of drug in a bolus segment. To estimate we will collect data from the literature and from UM on concentration of extracted fluids – statistics. From MRI (Nottingham) we will estimate bolus volume. These two will give us dose in moles from which bolus <span class="math scholmd-math-inline">\(C_{tot}\)</span> can be estimated. To this end, we need to estimate solid content along with fluid concentration in the extracted segments. Once we have ranges of <span class="math scholmd-math-inline">\(C_{tot}\)</span> we can estimate ranges of <span class="math scholmd-math-inline">\(C_{tot}/C_s\)</span> – our critical parameter.</p>
-<p>Choice of where to locate the particles at the initial condition.</p>
-<p>Table <span class="scholmd-crossref"><a href="#table:study1ParticleParameters">(3)</a></span> shows the particles parameters for the first computational study.</p>
+<h1 id="dosage-and-numerical-domain-dimensions-sieve-cut-of-45-75-micron">Dosage and numerical domain dimensions (Sieve cut of 45-75 micron)</h1>
+<p>Total dose and domain volume for numerical simulation is presented in <span class="scholmd-crossref"><a href="#table:Dosage_DomainVolume">(4)</a></span>:</p>
+<figure class="scholmd-float scholmd-table-float" id="table:Dosage_DomainVolume">
+<div class="scholmd-float-content"><table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">item</th>
+<th style="text-align: left;">value</th>
+<th style="text-align: left;">unit</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Sieve cut</td>
+<td style="text-align: left;">45-75</td>
+<td style="text-align: left;"><span class="math scholmd-math-inline">\(\mu m\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Total number of particles measured in this siev cut</td>
+<td style="text-align: left;">376</td>
+<td style="text-align: left;">-</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Toal volume of particles measured in this siev cut</td>
+<td style="text-align: left;">0.13025</td>
+<td style="text-align: left;"><span class="math scholmd-math-inline">\(mm^3\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Drug density</td>
+<td style="text-align: left;">1.29</td>
+<td style="text-align: left;"><span class="math scholmd-math-inline">\(mg/mm^3\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Total weight of particles measured</td>
+<td style="text-align: left;">0.168</td>
+<td style="text-align: left;"><span class="math scholmd-math-inline">\(mg\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Toal dose used in experiment</td>
+<td style="text-align: left;">5</td>
+<td style="text-align: left;"><span class="math scholmd-math-inline">\(mg\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Total volume of container in experiment</td>
+<td style="text-align: left;">12</td>
+<td style="text-align: left;"><span class="math scholmd-math-inline">\(cm^3\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Volume of container in simulation (matching <span class="math scholmd-math-inline">\(C_{tot}\)</span>)</td>
+<td style="text-align: left;">403.3</td>
+<td style="text-align: left;"><span class="math scholmd-math-inline">\(mm^3\)</span></td>
+</tr>
+</tbody>
+</table></div>
+<div class="scholmd-float-caption"><figcaption><span class="scholmd-caption-head"><span class="scholmd-caption-head-prefix">Table</span><span class="scholmd-caption-head-label">4</span></span><span class="scholmd-caption-text">Numerical simulation’s dosage and domain volume</span></figcaption></div>
+</figure>
+<p>Domain dimensions for numerical simulation is presented in <span class="scholmd-crossref"><a href="#table:Domain_Dimensions">(5)</a></span>:</p>
+<figure class="scholmd-float scholmd-table-float" id="table:Domain_Dimensions">
+<div class="scholmd-float-content"><table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">item</th>
+<th style="text-align: left;">value</th>
+<th style="text-align: left;">unit</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Volume of container in simulation (matching <span class="math scholmd-math-inline">\(C_{tot}\)</span>)</td>
+<td style="text-align: left;">403.3</td>
+<td style="text-align: left;"><span class="math scholmd-math-inline">\(mm^3\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Simulation domain width (identical to experiment)</td>
+<td style="text-align: left;">1.235</td>
+<td style="text-align: left;"><span class="math scholmd-math-inline">\(mm\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Simulation domain Length (identical to experiment)</td>
+<td style="text-align: left;">82.89</td>
+<td style="text-align: left;"><span class="math scholmd-math-inline">\(mm\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Simulation domain height (around 0.03 of the experiment)</td>
+<td style="text-align: left;">3.93</td>
+<td style="text-align: left;"><span class="math scholmd-math-inline">\(mm\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Elemet size used for dicretizing</td>
+<td style="text-align: left;">0.137222</td>
+<td style="text-align: left;"><span class="math scholmd-math-inline">\(mm\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Discretizing simulation domain’s width</td>
+<td style="text-align: left;">10</td>
+<td style="text-align: left;">nodes</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Discretizing simulation domain’s width (including solids)</td>
+<td style="text-align: left;">13</td>
+<td style="text-align: left;">nodes</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Discretizing simulation domain’s length</td>
+<td style="text-align: left;">30</td>
+<td style="text-align: left;">nodes</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Discretizing simulation domain’s height</td>
+<td style="text-align: left;">605</td>
+<td style="text-align: left;">nodes</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Simulation domain width (adjusted after discretization)</td>
+<td style="text-align: left;">1.235</td>
+<td style="text-align: left;"><span class="math scholmd-math-inline">\(mm\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Simulation domain width with solids (after discretization)</td>
+<td style="text-align: left;">1.647</td>
+<td style="text-align: left;"><span class="math scholmd-math-inline">\(mm\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Simulation domain length (after discretization)</td>
+<td style="text-align: left;">3.979</td>
+<td style="text-align: left;"><span class="math scholmd-math-inline">\(mm\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Simulation domain height (after discretization)</td>
+<td style="text-align: left;">82.88</td>
+<td style="text-align: left;"><span class="math scholmd-math-inline">\(mm\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Simulation domain volume (after discretization)</td>
+<td style="text-align: left;">407.3</td>
+<td style="text-align: left;"><span class="math scholmd-math-inline">\(mm\)</span></td>
+</tr>
+</tbody>
+</table></div>
+<div class="scholmd-float-caption"><figcaption><span class="scholmd-caption-head"><span class="scholmd-caption-head-prefix">Table</span><span class="scholmd-caption-head-label">5</span></span><span class="scholmd-caption-text">Numerical simulation’s domain dimensions</span></figcaption></div>
+</figure>
+<p>Table <span class="scholmd-crossref"><a href="#table:study1ParticleParameters">(6)</a></span> shows the particles parameters for the first computational study.</p>
 <figure class="scholmd-float scholmd-table-float" id="table:study1ParticleParameters">
 <div class="scholmd-float-content"><table>
 <thead>
@@ -273,7 +444,7 @@ Farhad Behafarid
 </tr>
 </tbody>
 </table></div>
-<div class="scholmd-float-caption"><figcaption><span class="scholmd-caption-head"><span class="scholmd-caption-head-prefix">Table</span><span class="scholmd-caption-head-label">3</span></span><span class="scholmd-caption-text">Drug particle properties for the first computational study.</span></figcaption></div>
+<div class="scholmd-float-caption"><figcaption><span class="scholmd-caption-head"><span class="scholmd-caption-head-prefix">Table</span><span class="scholmd-caption-head-label">6</span></span><span class="scholmd-caption-text">Drug particle properties for the first computational study.</span></figcaption></div>
 </figure>
 <h2 id="particle-distributions">Particle Distributions</h2>
 <p>For <span class="math scholmd-math-inline">\(\sigma\)</span>= 25<span class="math scholmd-math-inline">\(\mu m\)</span>:</p>
@@ -287,7 +458,7 @@ Farhad Behafarid
 <!----------------------------------------------------------------------------------------------------------------------------------------------------------->
 <!----------------------------------------------------------------------------------------------------------------------------------------------------------->
 <h1 id="boundary-conditions">Boundary conditions</h1>
-<p>Table <span class="scholmd-crossref"><a href="#table:study1BC">(4)</a></span> shows the boundary condition choices:</p>
+<p>Table <span class="scholmd-crossref"><a href="#table:study1BC">(7)</a></span> shows the boundary condition choices:</p>
 <figure class="scholmd-float scholmd-table-float" id="table:study1BC">
 <div class="scholmd-float-content"><table>
 <thead>
@@ -313,13 +484,13 @@ Farhad Behafarid
 </tr>
 </tbody>
 </table></div>
-<div class="scholmd-float-caption"><figcaption><span class="scholmd-caption-head"><span class="scholmd-caption-head-prefix">Table</span><span class="scholmd-caption-head-label">4</span></span><span class="scholmd-caption-text">Boundary Conditions</span></figcaption></div>
+<div class="scholmd-float-caption"><figcaption><span class="scholmd-caption-head"><span class="scholmd-caption-head-prefix">Table</span><span class="scholmd-caption-head-label">7</span></span><span class="scholmd-caption-text">Boundary Conditions</span></figcaption></div>
 </figure>
 <!----------------------------------------------------------------------------------------------------------------------------------------------------------->
 <!----------------------------------------------------------------------------------------------------------------------------------------------------------->
 <!----------------------------------------------------------------------------------------------------------------------------------------------------------->
 <h1 id="modeling-parameters">Modeling Parameters</h1>
-<p>Table <span class="scholmd-crossref"><a href="#table:study1ModelingParameters">(5)</a></span> shows the modeling and computational parameters</p>
+<p>Table <span class="scholmd-crossref"><a href="#table:study1ModelingParameters">(8)</a></span> shows the modeling and computational parameters</p>
 <figure class="scholmd-float scholmd-table-float" id="table:study1ModelingParameters">
 <div class="scholmd-float-content"><table>
 <thead>
@@ -362,7 +533,7 @@ Farhad Behafarid
 </tr>
 </tbody>
 </table></div>
-<div class="scholmd-float-caption"><figcaption><span class="scholmd-caption-head"><span class="scholmd-caption-head-prefix">Table</span><span class="scholmd-caption-head-label">5</span></span><span class="scholmd-caption-text">Modeling and computational parameters for the first computational study.</span></figcaption></div>
+<div class="scholmd-float-caption"><figcaption><span class="scholmd-caption-head"><span class="scholmd-caption-head-prefix">Table</span><span class="scholmd-caption-head-label">8</span></span><span class="scholmd-caption-text">Modeling and computational parameters for the first computational study.</span></figcaption></div>
 </figure>
 <!----------------------------------------------------------------------------------------------------------------------------------------------------------->
 <!----------------------------------------------------------------------------------------------------------------------------------------------------------->
@@ -441,7 +612,7 @@ Farhad Behafarid
 </tr>
 </tbody>
 </table></div>
-<div class="scholmd-float-caption"><figcaption><span class="scholmd-caption-head"><span class="scholmd-caption-head-prefix">Table</span><span class="scholmd-caption-head-label">6</span></span><span class="scholmd-caption-text">Computational cost estimation</span></figcaption></div>
+<div class="scholmd-float-caption"><figcaption><span class="scholmd-caption-head"><span class="scholmd-caption-head-prefix">Table</span><span class="scholmd-caption-head-label">9</span></span><span class="scholmd-caption-text">Computational cost estimation</span></figcaption></div>
 </figure>
 <div class="references">
 
