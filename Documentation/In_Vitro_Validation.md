@@ -31,11 +31,11 @@ Table (#table:CouetteGeometryV) shows the wall velocities and strain rates for d
 
 #### Table:  {#table:CouetteGeometryV}
 
-|Rotational speed (RPM) | Rotational speed (RPM) |$V_{wall}$| S (1/s) |
+|Rotational speed (RPM) | Rotational speed (RPS) |$V_{wall}$| S (1/s) |
 |-----------------------|------------------------|----------|---------|
-|0.5                    | 0.006666               |0.55285   |0.448    |
-|10                     | 0.133333               |11.057    |8.95     |
-|100                    | 1.333333               |110.57    |89.5     |
+|0.5                    | 0.008333               |0.658     |0.53     |
+|10                     | 0.166666               |13.17     |10.66    |
+|100                    | 1.666666               |131.7     |106.6    |
 
 Caption: In vitro wall velocities and strain rates.
 
@@ -117,39 +117,8 @@ Domain dimensions for numerical simulation is presented in (#table:Domain_Dimens
 
 Caption: Numerical simulation's domain dimensions 
 
-Table (#table:study1ParticleParameters) shows the particles parameters for the first computational study.
 
 
-####Table:  {#table:study1ParticleParameters}
-
-| Name                        	|    Symbol          	  | Choice                                       			                 			|  Units     |
-|-------------------------------|-----------------------|-------------------------------------------------------------------------|------------|
-|	-		                        	| $C_{tot}/C_s$        	| 1.08                                                                    | -          |
-|Total volume of the particles  | $V_P$                 | <span style="color:black"  > $2.11   \times 10^{-4}$                  	| $cm^3$     | 
-|Toal drug in the domain      	|                       | <span style="color:black"  > 0.78734                                  	| $\mu mol$  |
-|Toal drug in the domain      	|                       | <span style="color:black"  > 162.2                	                    | $\mu g$    |
-|Maximum particle diameter    	| $D_P^{max}$          	| <span style="color:black"> 195	 		 		                                | $\mu m$    |
-|Average particle diameter      | $D_P^{ave}$           | <span style="color:black"> 100                			                    | $\mu m$    |
-|Minimum particle diameter      | $D_P^{min}$           | <span style="color:black"> 5      	   	 			                          | $\mu m$    |
-|Number of particles	         	| $N_P$			            | <span style="color:black"> 1175 (Figure [#fig:Particle_Distribution_16])| -	         |
-|Distribution function shape	  |	-	                   	| <span style="color:black"> Normal	        			                        | -	         |
-|Standard deviation	 	          | $\sigma$		          | <span style="color:black"  > 25						                              | $\mu m$    |		
-|Number of the bins		          | $N_{bins}$        		| <span style="color:black"> 20				                                   	| -	         |
-|Initial particle locations	    |	-		                  | randomly distributed in a sphere 						                            | -	         |	
-
-Caption: Drug particle properties for the first computational study.
-
-
-
-## Particle Distributions
-
-For $\sigma$= 25$\mu m$:
-
-#### Figure: {#fig:Particle_Distribution_16}
-
-![](./Figures/Particle_Distribution_16.png){width=99%}
-
-Caption: $\frac{C_{tot}}{C_s}$=0.2 ,  $D_{min}$=5$\mu m$ ,   $D_{max}$=195$\mu m$ ,  $N_{bin}$=20  , $\sigma$=25$\mu m$ ,   $N_P$= 1175 
 
 
 
@@ -167,8 +136,6 @@ Table (#table:study1BC) shows the boundary condition choices:
 | Scalar  Boundary Condition   	| $\phi_{BC} = 0.0$    	| Immidiate uptake 			| -           |
 
 Caption: Boundary Conditions
-
-
 
 
 
