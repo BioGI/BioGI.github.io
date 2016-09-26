@@ -31,11 +31,11 @@ Table (#table:CouetteGeometryV) shows the wall velocities and strain rates for d
 
 #### Table:  {#table:CouetteGeometryV}
 
-|Rotational speed (RPM) | Rotational speed (RPS) |$V_{wall}$| S (1/s) |
-|-----------------------|------------------------|----------|---------|
-|0.5                    | 0.008333               |0.658     |0.53     |
-|10                     | 0.166666               |13.17     |10.66    |
-|100                    | 1.666666               |131.7     |106.6    |
+|Rotational speed (RPM) | Rotational speed (RPS) |$V_{wall}$| Strain rate (1/s) |
+|-----------------------|------------------------|----------|-------------------|
+|0.5                    | 0.008333               |0.658     |0.53               |
+|10                     | 0.166666               |13.17     |10.66              |
+|100                    | 1.666666               |131.7     |106.6              |
 
 Caption: In vitro wall velocities and strain rates.
 
@@ -62,7 +62,7 @@ Table (#table:study1DrugFluidParams) shows the drug and fluid properties for the
 | Drug's density               |$\rho_m$|1.29		                       | $g/cm^3$	     |	    	
 | Drug's molar volume          |$\nu_m$ |92.73                         | $cm^3/mol$    |
 | Drug's diffusivity           |$D_m$   |$8.47 \times 10^{-7}$         | $cm^2/s$  	   |
-| Solubility in DMS            |$C_S$   |0.368                         | $mg/cm^3$     |
+| Solubility in DMS            |$C_S$   |384.5                         | $\mu g/cm^3$  |
 | Solubility in DMS            |$C_S$   |3.149                         | $\mu mol/cm^3$|
 
 Caption: Drug and fluid properties in the vivo experiment.
