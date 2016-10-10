@@ -252,10 +252,10 @@ Caption: Sherwood number calculation for different particles (based on rotationa
 
 #### Table:  {#table:Results}
 
-| Data                               | value       |Units                  |
-|------------------------------------|-------------|-----------------------|
-| Experimental data (estimated)      |  3.47	     |$10^{-8} \dfrac{g}{s}$ |
-| Numerical simulation (LBM method)	 |  1.976    	 |$10^{-8} \dfrac{g}{s}$ |
-| Simplified model estimation        |  1.977      |$10^{-8} \dfrac{g}{s}$ |
+| Data                               | Drug Release Rate |Units                  |
+|------------------------------------|-------------------|-----------------------|
+| Experimental data (estimated)      |  3.47	           |$10^{-8} \dfrac{g}{s}$ |
+| Numerical simulation (LBM method)	 |  1.976          	 |$10^{-8} \dfrac{g}{s}$ |
+| Simplified model estimation        |  1.977            |$10^{-8} \dfrac{g}{s}$ |
 
 Caption: Drug release rate at initial time step
