@@ -1,7 +1,7 @@
 ---
 title: Validation using in vitro experimental data
 author: Farhad Behafarid
-date: 18 Aug 2016
+date: 7 OCT 2016
 ---
 
 The Couette experiments were desined to investigate the influence of shear effects on drug release from a distribution of particles. 
@@ -76,6 +76,31 @@ Caption: Drug and fluid properties in the vivo experiment.
 <!----------------------------------------------------------------------------------------------------------------------------------------------------------->
 # Dosage and numerical domain dimensions (Sieve cut of 45-75 micron)
 
+Sieve cut of 45-75 micron was selected for verification/validation case.
+
+Figurs below show the particle sizes for this sieve cut as measured by Greg and Deana:
+
+#### Figure: {#fig:Particle_Sizes_Histogram}
+
+![](./Figures/InVitro-Validation-Particle-Histogram.png){width=60%}
+
+Caption: Histogram of particle sizes as measured by Greg and Deana
+
+#### Figure: {#fig:Particle_Sizes}
+
+![](./Figures/InVitro-Validation-Particle-Sizes.png){width=60%}
+
+Caption: Particle sizes as measured by Greg and Deana
+
+
+
+
+
+
+
+
+
+
 
 Total dose and domain volume for numerical simulation is presented in (#table:Dosage_DomainVolume): 
 
@@ -119,6 +144,19 @@ Caption: Numerical simulation's domain dimensions
 
 
 
+Figure beklow shows the schematics of the experimental container and the numerical domain used (resulting in the same $c_{tot}$.
+#### Figure: {#fig:Geometry_schamtics}
+
+![](./Figures/Geometry-Schematics.png){width=60%}
+
+Caption:  schematics of the experimental container and the numerical domain 
+
+
+
+
+
+
+
 
 
 
@@ -130,10 +168,10 @@ Table (#table:study1BC) shows the boundary condition choices:
 
 #### Table:  {#table:study1BC}
 
-| Name      			| Symbol                | Choice                                |  Units      |
+| Name      			| Symbol      | Choice                                |  Units      |
 |-------------------------------|-----------------------|---------------------------------------|-------------|
-| Momentum Boundary Condition	| BounceBack2           | Second order Bounce Back		| -           |
-| Scalar  Boundary Condition   	| $\phi_{BC} = 0.0$    	| Immidiate uptake 			| -           |
+| Momentum Boundary Condition	  | BounceBack2           | Second order Bounce Back		| -           |
+| Scalar  Boundary Condition   	| zero flux           	| No absorption         			| -           |
 
 Caption: Boundary Conditions
 
@@ -152,9 +190,10 @@ Table (#table:study1ModelingParameters) shows the modeling and computational par
 |---------------------------------------|-------|-----------------------------------------------------------------------------------------------------------------------------------------------|
 | Partitioning modeling parameter       |$n_d$	| <span style="color:black"> 3 															|
 | Bulk concentration modeling parameter	|$n_b$  | <span style="color:black"> 2 															|     
-| Schmidt number       	 		|$Sc$   | <span style="color:black"> 20    														|             		           
-| LBM Relaxation parameter		|$\tau$	| <span style="color:black"> 1 															| 
-| Mass conservation fix                 |       | <span style="color:black"> in BC:$\rho$=1, $\rho_{uncov}=\rho_{ave}$, Fix [$\rho, f, f^+$]  							|  
+| Schmidt number                  	 		|$Sc$   | <span style="color:black"> 20    													|             		           
+| LBM Relaxation parameter	          	|$\tau$	| <span style="color:black"> 1 															| 
+| bulk concentration                    |$C_b$  | Local (using effective volume based on $n_b$, independant of Sh number)|     
+| Mass conservation fix                 |       | Not needed (no node uncovering)							|  
 | Directional drug release partitioning |     	| <span style="color:black"> $\Delta \phi_{(i,j,k)} = Overlap_{(i,j,k)} \Big[ \frac{C_s-C_{i,j,k}}{C_s} \Big] \frac{\Delta N_b}{ (\Delta x) ^3}$  |
 
 Caption: Modeling and computational parameters for the first computational study.
@@ -169,20 +208,26 @@ Caption: Modeling and computational parameters for the first computational study
 #Computational Cost Estimation
 #### Table:  {#table:ComputationalCost}
 
-| Name                                  	| Symbol          | Choice      | Units |
+| Name                                         	| Symbol          | Choice      | Units |
 |-----------------------------------------------|-----------------|-------------|-------|
-| Mesh resolution		        	| $\Delta x$      | 0.2		| mm    |
-| Total number of nodes		        	| $N_{nodes}$     | 3 000 000	|       |
-| Number of Particles                   	      | $N_{particles}$ | 1175        |       |
-| Time steps		               	                | $\Delta t$      | 6.66 e-3	| s     |
-| Total number of waves simulated             	| 	          | 20	        |       |
-| Wave's charactristice time scale             	| $t_{wave}$      | 30		| s     |
-| Total physical time		                      	| $t_{tot}$       | 600         | s     |
-| Total number of iterations           		      | $N_{iter}$      | 90 000      |       |
-| Computational time at each iteration (8 CPU)	|		  | 1		| s     |
+| Mesh resolution		                          	| $\Delta x$      | 0.137	    	| mm    |
+| Total number of nodes		                    	| $N_{nodes}$     | 230 000   	|       |
+| Number of Particles                   	      | $N_{particles}$ | 377        |       |
+| Time steps		               	                | $\Delta t$      | 6. e-4	| s     |
+| Total physical time		                      	| $t_{tot}$       | 1800         | s     |
+| Total number of iterations           		      | $N_{iter}$      | 3000 000      |       |
 | Total computational time			                |		  | 25         	| hour  |
 
 Caption: Computational cost estimation
 
 
+<!----------------------------------------------------------------------------------------------------------------------------------------------------------->
+<!----------------------------------------------------------------------------------------------------------------------------------------------------------->
+<!----------------------------------------------------------------------------------------------------------------------------------------------------------->
+# Results
 
+#### Figure: {#fig:Results_Case1}
+
+![](./Figures/Drug_InVitro_Validation.png){width=70%}
+
+Caption: Results of the case 1 experiment

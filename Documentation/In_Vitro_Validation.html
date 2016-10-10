@@ -10,7 +10,6 @@
   <meta name="viewport" content="width=device-width">
   
   <meta name="author" content="Farhad Behafarid">
-  <meta name="dcterms.date" content="2016-08-18">
   <title>Validation using in vitro experimental data</title>
   <style type="text/css">code{white-space: pre;}</style>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.7.1/modernizr.min.js"></script>
@@ -26,7 +25,7 @@
 <div class="scholmd-author">
 Farhad Behafarid
 </div>
-<div class="scholmd-date">18 Aug 2016</div>
+<div class="scholmd-date">7 OCT 2016</div>
 </header>
 <p>The Couette experiments were desined to investigate the influence of shear effects on drug release from a distribution of particles.</p>
 <!----------------------------------------------------------------------------------------------------------------------------------------------------------->
@@ -218,6 +217,20 @@ Farhad Behafarid
 <!----------------------------------------------------------------------------------------------------------------------------------------------------------->
 <!----------------------------------------------------------------------------------------------------------------------------------------------------------->
 <h1 id="dosage-and-numerical-domain-dimensions-sieve-cut-of-45-75-micron">Dosage and numerical domain dimensions (Sieve cut of 45-75 micron)</h1>
+<p>Sieve cut of 45-75 micron was selected for verification/validation case.</p>
+<p>Figurs below show the particle sizes for this sieve cut as measured by Greg and Deana:</p>
+<figure class="scholmd-float scholmd-figure" id="fig:Particle_Sizes_Histogram">
+<div class="scholmd-float-content"><figure class="scholmd-subfig" style="display: inline-block; width: 60%">
+<img src="./Figures/InVitro-Validation-Particle-Histogram.png" />
+</figure></div>
+<div class="scholmd-float-caption"><figcaption><span class="scholmd-caption-head"><span class="scholmd-caption-head-prefix">Figure</span><span class="scholmd-caption-head-label">1</span></span><span class="scholmd-caption-text">Histogram of particle sizes as measured by Greg and Deana</span></figcaption></div>
+</figure>
+<figure class="scholmd-float scholmd-figure" id="fig:Particle_Sizes">
+<div class="scholmd-float-content"><figure class="scholmd-subfig" style="display: inline-block; width: 60%">
+<img src="./Figures/InVitro-Validation-Particle-Sizes.png" />
+</figure></div>
+<div class="scholmd-float-caption"><figcaption><span class="scholmd-caption-head"><span class="scholmd-caption-head-prefix">Figure</span><span class="scholmd-caption-head-label">2</span></span><span class="scholmd-caption-text">Particle sizes as measured by Greg and Deana</span></figcaption></div>
+</figure>
 <p>Total dose and domain volume for numerical simulation is presented in <span class="scholmd-crossref"><a href="#table:Dosage_DomainVolume">(4)</a></span>:</p>
 <figure class="scholmd-float scholmd-table-float" id="table:Dosage_DomainVolume">
 <div class="scholmd-float-content"><table>
@@ -358,6 +371,13 @@ Farhad Behafarid
 </table></div>
 <div class="scholmd-float-caption"><figcaption><span class="scholmd-caption-head"><span class="scholmd-caption-head-prefix">Table</span><span class="scholmd-caption-head-label">5</span></span><span class="scholmd-caption-text">Numerical simulation’s domain dimensions</span></figcaption></div>
 </figure>
+<p>Figure beklow shows the schematics of the experimental container and the numerical domain used (resulting in the same <span class="math scholmd-math-inline">\(c_{tot}\)</span>. #### Figure: {#fig:Geometry_schamtics}</p>
+<figure class="scholmd-float scholmd-figure">
+<div class="scholmd-float-content"><figure class="scholmd-subfig" style="display: inline-block; width: 60%">
+<img src="./Figures/Geometry-Schematics.png" />
+</figure></div>
+</figure>
+<p>Caption: schematics of the experimental container and the numerical domain</p>
 <!----------------------------------------------------------------------------------------------------------------------------------------------------------->
 <!----------------------------------------------------------------------------------------------------------------------------------------------------------->
 <!----------------------------------------------------------------------------------------------------------------------------------------------------------->
@@ -382,8 +402,8 @@ Farhad Behafarid
 </tr>
 <tr class="even">
 <td style="text-align: left;">Scalar Boundary Condition</td>
-<td style="text-align: left;"><span class="math scholmd-math-inline">\(\phi_{BC} = 0.0\)</span></td>
-<td style="text-align: left;">Immidiate uptake</td>
+<td style="text-align: left;">zero flux</td>
+<td style="text-align: left;">No absorption</td>
 <td style="text-align: left;">-</td>
 </tr>
 </tbody>
@@ -426,11 +446,16 @@ Farhad Behafarid
 <td style="text-align: left;"><span style="color:black"> 1</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">Mass conservation fix</td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"><span style="color:black"> in BC:<span class="math scholmd-math-inline">\(\rho\)</span>=1, <span class="math scholmd-math-inline">\(\rho_{uncov}=\rho_{ave}\)</span>, Fix [<span class="math scholmd-math-inline">\(\rho, f, f^+\)</span>]</td>
+<td style="text-align: left;">bulk concentration</td>
+<td style="text-align: left;"><span class="math scholmd-math-inline">\(C_b\)</span></td>
+<td style="text-align: left;">Local (using effective volume based on <span class="math scholmd-math-inline">\(n_b\)</span>, independant of Sh number)</td>
 </tr>
 <tr class="even">
+<td style="text-align: left;">Mass conservation fix</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Not needed (no node uncovering)</td>
+</tr>
+<tr class="odd">
 <td style="text-align: left;">Directional drug release partitioning</td>
 <td style="text-align: left;"></td>
 <td style="text-align: left;"><span style="color:black"> <span class="math scholmd-math-inline">\(\Delta \phi_{(i,j,k)} = Overlap_{(i,j,k)} \Big[ \frac{C_s-C_{i,j,k}}{C_s} \Big] \frac{\Delta N_b}{ (\Delta x) ^3}\)</span></td>
@@ -457,58 +482,40 @@ Farhad Behafarid
 <tr class="odd">
 <td style="text-align: left;">Mesh resolution</td>
 <td style="text-align: left;"><span class="math scholmd-math-inline">\(\Delta x\)</span></td>
-<td style="text-align: left;">0.2</td>
+<td style="text-align: left;">0.137</td>
 <td style="text-align: left;">mm</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Total number of nodes</td>
 <td style="text-align: left;"><span class="math scholmd-math-inline">\(N_{nodes}\)</span></td>
-<td style="text-align: left;">3 000 000</td>
+<td style="text-align: left;">230 000</td>
 <td style="text-align: left;"></td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Number of Particles</td>
 <td style="text-align: left;"><span class="math scholmd-math-inline">\(N_{particles}\)</span></td>
-<td style="text-align: left;">1175</td>
+<td style="text-align: left;">377</td>
 <td style="text-align: left;"></td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Time steps</td>
 <td style="text-align: left;"><span class="math scholmd-math-inline">\(\Delta t\)</span></td>
-<td style="text-align: left;">6.66 e-3</td>
-<td style="text-align: left;">s</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Total number of waves simulated</td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;">20</td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Wave’s charactristice time scale</td>
-<td style="text-align: left;"><span class="math scholmd-math-inline">\(t_{wave}\)</span></td>
-<td style="text-align: left;">30</td>
+<td style="text-align: left;">6. e-4</td>
 <td style="text-align: left;">s</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Total physical time</td>
 <td style="text-align: left;"><span class="math scholmd-math-inline">\(t_{tot}\)</span></td>
-<td style="text-align: left;">600</td>
+<td style="text-align: left;">1800</td>
 <td style="text-align: left;">s</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Total number of iterations</td>
 <td style="text-align: left;"><span class="math scholmd-math-inline">\(N_{iter}\)</span></td>
-<td style="text-align: left;">90 000</td>
+<td style="text-align: left;">3000 000</td>
 <td style="text-align: left;"></td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">Computational time at each iteration (8 CPU)</td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;">1</td>
-<td style="text-align: left;">s</td>
-</tr>
-<tr class="even">
 <td style="text-align: left;">Total computational time</td>
 <td style="text-align: left;"></td>
 <td style="text-align: left;">25</td>
@@ -517,6 +524,16 @@ Farhad Behafarid
 </tbody>
 </table></div>
 <div class="scholmd-float-caption"><figcaption><span class="scholmd-caption-head"><span class="scholmd-caption-head-prefix">Table</span><span class="scholmd-caption-head-label">8</span></span><span class="scholmd-caption-text">Computational cost estimation</span></figcaption></div>
+</figure>
+<!----------------------------------------------------------------------------------------------------------------------------------------------------------->
+<!----------------------------------------------------------------------------------------------------------------------------------------------------------->
+<!----------------------------------------------------------------------------------------------------------------------------------------------------------->
+<h1 id="results">Results</h1>
+<figure class="scholmd-float scholmd-figure" id="fig:Results_Case1">
+<div class="scholmd-float-content"><figure class="scholmd-subfig" style="display: inline-block; width: 70%">
+<img src="./Figures/Drug_InVitro_Validation.png" />
+</figure></div>
+<div class="scholmd-float-caption"><figcaption><span class="scholmd-caption-head"><span class="scholmd-caption-head-prefix">Figure</span><span class="scholmd-caption-head-label">3</span></span><span class="scholmd-caption-text">Results of the case 1 experiment</span></figcaption></div>
 </figure>
 <div class="references">
 
