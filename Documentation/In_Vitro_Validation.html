@@ -535,6 +535,47 @@ Farhad Behafarid
 </figure></div>
 <div class="scholmd-float-caption"><figcaption><span class="scholmd-caption-head"><span class="scholmd-caption-head-prefix">Figure</span><span class="scholmd-caption-head-label">3</span></span><span class="scholmd-caption-text">Results of the case 1 experiment</span></figcaption></div>
 </figure>
+<!----------------------------------------------------------------------------------------------------------------------------------------------------------->
+<!----------------------------------------------------------------------------------------------------------------------------------------------------------->
+<!----------------------------------------------------------------------------------------------------------------------------------------------------------->
+<h1 id="simple-drug-release-estimation">Simple Drug Release Estimation</h1>
+<p>Knowing hte particle sizes, shear rate (constant for all particles) and drug properties, the drug release rate can be estimated at the begining of the simulation (independent of the bulk concentration calculation method or drug release partitioning method)</p>
+<p>Figure below shows the estimated Sherwood number for different particles:</p>
+<figure class="scholmd-float scholmd-figure" id="fig:Sherwood_Number_Estimation">
+<div class="scholmd-float-content"><figure class="scholmd-subfig" style="display: inline-block; width: 55%">
+<img src="./Figures/InVitro-Validation-Sherwood-Number.png" />
+</figure></div>
+<div class="scholmd-float-caption"><figcaption><span class="scholmd-caption-head"><span class="scholmd-caption-head-prefix">Figure</span><span class="scholmd-caption-head-label">4</span></span><span class="scholmd-caption-text">Sherwood number calculation for different particles (based on rotational speed of 10rpm corresponding to strain rate of 10.66 1/s)</span></figcaption></div>
+</figure>
+<figure class="scholmd-float scholmd-table-float" id="table:Results">
+<div class="scholmd-float-content"><table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Data</th>
+<th style="text-align: left;">value</th>
+<th style="text-align: left;">Units</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Experimental data (estimated)</td>
+<td style="text-align: left;">3.47</td>
+<td style="text-align: left;"><span class="math scholmd-math-inline">\(10^{-8} \dfrac{g}{s}\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Numerical simulation (LBM method)</td>
+<td style="text-align: left;">1.976</td>
+<td style="text-align: left;"><span class="math scholmd-math-inline">\(10^{-8} \dfrac{g}{s}\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Simplified model estimation</td>
+<td style="text-align: left;">1.977</td>
+<td style="text-align: left;"><span class="math scholmd-math-inline">\(10^{-8} \dfrac{g}{s}\)</span></td>
+</tr>
+</tbody>
+</table></div>
+<div class="scholmd-float-caption"><figcaption><span class="scholmd-caption-head"><span class="scholmd-caption-head-prefix">Table</span><span class="scholmd-caption-head-label">9</span></span><span class="scholmd-caption-text">Drug release rate at initial time step</span></figcaption></div>
+</figure>
 <div class="references">
 
 </div>

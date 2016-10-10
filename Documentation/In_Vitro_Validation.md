@@ -231,3 +231,31 @@ Caption: Computational cost estimation
 ![](./Figures/Drug_InVitro_Validation.png){width=70%}
 
 Caption: Results of the case 1 experiment
+
+
+
+
+<!----------------------------------------------------------------------------------------------------------------------------------------------------------->
+<!----------------------------------------------------------------------------------------------------------------------------------------------------------->
+<!----------------------------------------------------------------------------------------------------------------------------------------------------------->
+# Simple Drug Release Estimation
+
+Knowing hte particle sizes, shear rate (constant for all particles) and drug properties, the drug release rate can be estimated at the begining of the simulation (independent of the bulk concentration calculation method or drug release partitioning method)
+
+Figure below shows the estimated Sherwood number for different particles:
+
+#### Figure: {#fig:Sherwood_Number_Estimation}
+
+![](./Figures/InVitro-Validation-Sherwood-Number.png){width=55%}
+
+Caption: Sherwood number calculation for different particles (based on rotational speed of 10rpm corresponding to strain rate of 10.66 1/s)
+
+#### Table:  {#table:Results}
+
+| Data                               | value       |Units                  |
+|------------------------------------|-------------|-----------------------|
+| Experimental data (estimated)      |  3.47	     |$10^{-8} \dfrac{g}{s}$ |
+| Numerical simulation (LBM method)	 |  1.976    	 |$10^{-8} \dfrac{g}{s}$ |
+| Simplified model estimation        |  1.977      |$10^{-8} \dfrac{g}{s}$ |
+
+Caption: Drug release rate at initial time step
