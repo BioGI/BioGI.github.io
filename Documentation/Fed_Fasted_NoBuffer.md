@@ -122,10 +122,9 @@ For $\sigma$= 25$\mu m$:
 
 #### Figure: {#fig:Particle_Distribution_16}
 
-![](./Figures/Particle_Distribution_16.png){width=99%}
+![](./Figures/Particle_Distribution_NoBuffer_7286_particles.png){width=99%}
 
-Caption: $\frac{C_{tot}}{C_s}$=0.2 ,  $D_{min}$=5$\mu m$ ,   $D_{max}$=195$\mu m$ ,  $N_{bin}$=20  , $\sigma$=25$\mu m$ ,   $N_P$= 1175 
-
+Caption: $\frac{C_{tot}}{C_s}$=0.0098 ,  $D_{min}$=5$\mu m$ ,   $D_{max}$=195$\mu m$ ,  $N_{bin}$=20  , $\sigma$=25$\mu m$ ,   $N_P$= 7286 
 
 
 <!----------------------------------------------------------------------------------------------------------------------------------------------------------->
