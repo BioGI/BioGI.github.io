@@ -104,7 +104,7 @@ Table (#table:study1ParticleParameters) shows the particles parameters for the f
 |Maximum particle diameter    	|$D_P^{max}$  	|195	 		 		                             |$\mu m$       |
 |Average particle diameter      |$D_P^{ave}$    |100                			                 |$\mu m$       |
 |Minimum particle diameter      |$D_P^{min}$    |5      	   	 			                       |$\mu m$       |
-|Number of particles	         	|$N_P$			    |? (Figure [#fig:Particle_Distribution_16])|-	            |
+|Number of particles	         	|$N_P$			    |7286 (Figure [#fig:Particle_Distribution_16])|-	            |
 |Distribution function shape	  |-	           	|Normal	        			                     |-	            |
 |Standard deviation	 	          |$\sigma$	      |25						                             |$\mu m$       |		
 |Number of the bins		          |$N_{bins}$   	|20				                                 |-	            |
