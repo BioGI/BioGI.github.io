@@ -28,14 +28,16 @@ Table (#table:study1GeomMotilityParams) describes the geometry and motility para
 
 #### Table:  {#table:study1GeomMotilityParams}
 
-|Name            |Symbol            | Fed        | Fasted     | Unit |  
-|----------------|------------------|------------|------------|------|
-|Motility type   |-                 |Peristalsis |Peristalsis |      |
-|Max diameter    |$D_{max}$         |22.4        |20          |$mm$  |
-|Wavelength      |$\lambda$         |60	         |30	        |$mm$  |
-|Volume of bolus |$V_C$		          |11.82       |3.67        |$cm^3$|
-|Occlusion ratio |$\epsilon/R_{max}$|0.5         |0.1         |-     |
-|Number of waves |-                 |1           |1           |-     |
+|Name            |Symbol            | Fed                      |Fasted                     | Unit |  
+|----------------|------------------|--------------------------|---------------------------|------|
+|Motility type   |-                 |Peristalsis               |Peristalsis                |      |
+|Max diameter    |$D_{max}$         |23.5                      |21                         |$mm$  |
+|Wavelength      |$\lambda$         |60	                       |30	                       |$mm$  |
+|Volume of bolus |$V_C$		          |13.01                     |4.044                      |$cm^3$|
+|Occlusion ratio |$\epsilon/R_{max}$|0.5                       |0.1                        |-     |
+|Mesh            |                  |$95 \times 95 \times 240$ |$113 \times 113 \times 160$|      |
+|Mesh size       | $\Delta x$       |0.25                      |0.1875                     |$mm$  |   
+|Number of waves |-                 |1                         |1                          |-     |
 
 Caption: Geometry and motility properties for the first computational study.
 
