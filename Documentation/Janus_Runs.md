@@ -12,6 +12,10 @@ date: 17 June 2016
 
 * [Webpage for Running:](https://www.rc.colorado.edu/support/user-guide/batch-queueing.html)
 
+# Allocations:
+To find out how much CPU-hour remained in your allocation :
+
+  sreport -n -t hours -P cluster AccountUtilizationByUser start=2016-01-01 tree user=fabe134
 
 # Login:	
 	ssh fabe1343@login.rc.colorado.edu 
