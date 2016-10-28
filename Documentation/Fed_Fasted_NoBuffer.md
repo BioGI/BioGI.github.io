@@ -28,16 +28,16 @@ Table (#table:study1GeomMotilityParams) describes the geometry and motility para
 
 #### Table:  {#table:study1GeomMotilityParams}
 
-|Name            |Symbol            | Fed                      |Fasted                     | Unit |  
-|----------------|------------------|--------------------------|---------------------------|------|
-|Motility type   |-                 |Peristalsis               |Peristalsis                |      |
-|Max diameter    |$D_{max}$         |23.5                      |21                         |$mm$  |
-|Wavelength      |$\lambda$         |60	                       |30	                       |$mm$  |
-|Volume of bolus |$V_C$		          |13.01                     |4.044                      |$cm^3$|
-|Occlusion ratio |$\epsilon/R_{max}$|0.5                       |0.1                        |-     |
-|Mesh            |                  |$95 \times 95 \times 240$ |$113 \times 113 \times 160$|      |
-|Mesh size       | $\Delta x$       |0.25                      |0.1875                     |$mm$  |   
-|Number of waves |-                 |1                         |1                          |-     |
+|Name            |Symbol            | Fed                        |Fasted                     | Unit |  
+|----------------|------------------|----------------------------|---------------------------|------|
+|Motility type   |-                 |Peristalsis                 |Peristalsis                |      |
+|Max diameter    |$D_{max}$         |24                          |19.82                      |$mm$  |
+|Wavelength      |$\lambda$         |60	                         |30	                       |$mm$  |
+|Volume of bolus |$V_C$		          |13.57                       |3.77                       |$cm^3$|
+|Occlusion ratio |$\epsilon/R_{max}$|0.5                         |0.2                        |-     |
+|Mesh            |                  |$121 \times 121 \times 300$ |$149 \times 149 \times 224$|      |
+|Mesh size       | $\Delta x$       |0.2                         |0.13393                    |$mm$  |   
+|Number of waves |-                 |1                           |1                          |-     |
 
 Caption: Geometry and motility properties for the first computational study.
 
@@ -69,6 +69,8 @@ Table (#table:study1DrugFluidParams) shows the drug and fluid properties for the
 | Drug's  density                                            |$\rho_d$ |<span style="color:red">1.03 |$g/cm^3$       |
 | Interinsic solubility                                      |$S_o$    | $0.33$                      |$\mu mol/cm^3$ |
 | Interinsic Solubility                                      |$S_o$    | $68$                        |$\mu g/cm^3$   |
+| Particle's surface solubility                              |$S_s$    | $0.759649$                  |$\mu mol/cm^3$ |
+| Particle's surface solubility                              |$S_s$    | $156.5338$                  |$\mu g/cm^3$   |
 | Bulk solubility over interinsic solubility ($pH_{,b}$=6.5) |$S_b/S_o$| 126.893                     | -             |
 | Bulk solubility ($pH_{,b}$=6.5)                            |$S_b$    | 41.87                       |$\mu mol/cm^3$ |
 | Bulk solubility ($pH_{,b}$=6.5)                            |$S_b$    | 8628.7                      |$\mu g/cm^3$   |
@@ -98,20 +100,19 @@ Table (#table:study1ParticleParameters) shows the particles parameters for the f
 
 | Name                        	|    Symbol     | Choice                                   | Units        |
 |-------------------------------|---------------|------------------------------------------|--------------|
-|Toal drug in the domain      	|               |1.0                 	                     |$mg$          |
-|Toal drug in the domain      	|               |4.848                                     |$\mu mol$     |
-|Total volume of the particles  |$V^{tot}_d$    |$1.299 \times 10^{-3}$                    |$cm^3$        | 
+|Toal drug in the domain      	|               |162.417                  	               |$\mu g$       |
+|Total volume of the particles  |$V^{tot}_d$    |$2.11 \times 10^{-4}$                     |$cm^3$        | 
 |Maximum particle diameter    	|$D_P^{max}$  	|195	 		 		                             |$\mu m$       |
 |Average particle diameter      |$D_P^{ave}$    |100                			                 |$\mu m$       |
 |Minimum particle diameter      |$D_P^{min}$    |5      	   	 			                       |$\mu m$       |
-|Number of particles	         	|$N_P$			    |7286 (Figure [#fig:Particle_Distribution_16])|-	            |
+|Number of particles	         	|$N_P$			    |1176 (Figure [#fig:Particle_Distribution_16])|-	            |
 |Distribution function shape	  |-	           	|Normal	        			                     |-	            |
 |Standard deviation	 	          |$\sigma$	      |25						                             |$\mu m$       |		
 |Number of the bins		          |$N_{bins}$   	|20				                                 |-	            |
 |Initial particle locations	    |-		          |Randomly distributed in a sphere 				 |-	            |	
-|Total concentration            |$C_{tot}$      |Fed:84.6, Fasted:272.5                    |$\mu g/cm^3$  | 
-|Total concentration            |$C_{tot}$      |Fed:0.41, Fasted:1.32                     |$\mu mol/cm^3$| 
-|Total concentration            |$C_{tot}/C_o$  |Fed:0.01, Fasted:0.03                     |$\mu mol/cm^3$| 
+|Total concentration            |$C_{tot}$      |Fed:, Fasted:                    |$\mu g/cm^3$  | 
+|Total concentration            |$C_{tot}$      |Fed:, Fasted:                     |$\mu mol/cm^3$| 
+|Total concentration            |$C_{tot}/C_o$  |Fed:, Fasted:                     |$\mu mol/cm^3$| 
 
 
 Caption: Drug particle properties for the first computational study.
