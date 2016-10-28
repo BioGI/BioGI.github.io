@@ -23,6 +23,12 @@ To find out how much CPU-hour remained in your allocation :
 #Password:
 	4 digit pin + 6 digit OTP
 
+#Spaces:
+	2GB:   /home/user1234 
+
+	250GB:     /projects/user1234
+  
+	Unlimited (will be purged every 180 days):    /lustre/janus_scratch/user1234
 
 # Compiling: 	
 
