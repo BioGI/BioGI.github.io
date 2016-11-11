@@ -58,9 +58,16 @@ commands.getoutput(&quot;convert -border 1x1 -append TEMP* T{}.jpg&quot;.format(
 <h1 id="define-the-desired-time-steps">Define the desired time steps:</h1>
 <p>Create a file called TimeSteps with all desired steps in one line, separated by “Tab” or “Space”.</p>
 <h1 id="create-snapshots">Create snapshots:</h1>
-<p>for i in <code>cat TimeSteps</code>; do pvpython state.py $i ; done</p>
+<figure class="scholmd-float scholmd-figure" id="fig:Bash_Loop_pvpython">
+<div class="scholmd-float-content"><figure class="scholmd-subfig" style="display: inline-block; width: 40%">
+<img src="./Figures/Bash_Loop_pvpython.png" />
+</figure></div>
+<div class="scholmd-float-caption"><figcaption><span class="scholmd-caption-head"><span class="scholmd-caption-head-prefix">Figure</span><span class="scholmd-caption-head-label">1</span></span></figcaption></div>
+</figure>
 <h1 id="make-a-movie-out-of-the-snapshots">Make a movie out of the snapshots:</h1>
 <pre><code>ffmpeg -framerate 10 -pattern_type glob -i &quot;*.jpg&quot; -vf &quot;fps=25,format=yuv420p&quot; Movie.mp4</code></pre>
+<h1 id="scaling-the-movie-size">Scaling the movie size:</h1>
+<pre><code>ffmpeg -i Movie.mp4 -s 524x440 -c:a copy Movie_mall.mp4</code></pre>
 <h1 id="advanced-creating-plot-snapshots-with-a-moving-time-indicator-line">ADVANCED: Creating Plot snapshots with a moving time indicator line</h1>
 <p>in creating the plots, “axvline” option should be used.</p>
 <p>An example file called Plot.py can be found below:</p>

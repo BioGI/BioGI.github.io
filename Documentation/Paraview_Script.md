@@ -63,11 +63,16 @@ Create a file called TimeSteps with all desired  steps in one line, separated by
 
 
 # Create snapshots:
-  for i in `cat TimeSteps`; do pvpython state.py $i ; done	
+
+#### Figure: {#fig:Bash_Loop_pvpython}
+
+![](./Figures/Bash_Loop_pvpython.png){width=40%}
 
 # Make a movie out of the snapshots:
     ffmpeg -framerate 10 -pattern_type glob -i "*.jpg" -vf "fps=25,format=yuv420p" Movie.mp4
 
+# Scaling the movie size:
+    ffmpeg -i Movie.mp4 -s 524x440 -c:a copy Movie_mall.mp4
 
 # ADVANCED: Creating Plot snapshots with a moving time indicator line
 in creating the plots, "axvline" option should be used. 
