@@ -24,22 +24,24 @@ This page is intended to be a home page for the documentation of the Bio-GI proj
 * [Paraview: Python scripts to create snapshots and movies](Documentation/Paraview_Script.html)
 
 # Sccientific Wiki Pages
-* [Basics of Lattice-Boltzmann method](Documentation/lbmBasics.html)
+* [Basics of lattice-Boltzmann method](Documentation/lbmBasics.html)
 * [Multi-grid implementations](Documentation/plannedMultiblockImplementation.html)
-* [Understanding of Mono vs. Polydisperse dissolution models](Documentation/monoVsPolydisperse.html)
-* [Particle Dissolution model implementations](Documentation/Dissolution-Model-Implementation.html)
-* [New Particle Dissolution model](Documentation/Dissolution-Model-Implementation.html)
+* [Understanding of mono vs. polydisperse dissolution models](Documentation/monoVsPolydisperse.html)
+* [Particle dissolution model implementations](Documentation/Dissolution-Model-Implementation.html)
+* [New Particle dissolution model](Documentation/Dissolution-Model-Implementation.html)
 * [Generalized boundary condition and book-keeping](Documentation/fluxBC/fluxBC.html)
 * [Strain rate calculations to be used in Sherwood number correlations](Documentation/Strain_Rate_Correlations.html)
-* [Motility Descriptions for Fed and Fasted](Documentation/Fed-Fasted-Motility.html)
-* [Data: Motility and concentration](Documentation/Motility_Concentration_Data.html)
-* [Segmental motility equations](Documentation/Segmental-Motility-Equations.html)
 * [Solubity as a function of pH](Documentation/Solubility_vs_pH.html)
 
-# Experiments:
+# Motility
+* [Motility descriptions for Fed and Fasted](Documentation/Fed-Fasted-Motility.html)
+* [Segmental motility equations](Documentation/Segmental-Motility-Equations.html)
+* [Data: Motility and concentration](Documentation/Motility_Concentration_Data.html)
+
+# Numerical Experiments
 * [Project short term outline](Documentation/Outline.html)
+* [Experiments: Fed-Fasted, peristalsis-segmental, shear effects](Documentation/Fed-Fasted-Experiments.html)
 * [First experiment design (Peristalsis, Fed-State, 936 particles)](Documentation/firstStudy.html)
 * [Fed experiments' design](Documentation/FedExperiments.html)
 * [In vitro Validation](Documentation/In_Vitro_Validation.html)
-* [Experiments: Fed-Fasted, Peristalsis-Segmental, Shear Effects](Documentation/Fed-Fasted-Experiments.html)
-* [Zero Buffer Fed and Fasted](Documentation/Fed_Fasted_NoBuffer.html)
+* [Zero buffer Fed and Fasted](Documentation/Fed_Fasted_NoBuffer.html)
