@@ -10,8 +10,8 @@
   <meta name="viewport" content="width=device-width">
   
   <meta name="author" content="Farhad Behafarid">
-  <meta name="dcterms.date" content="2016-06-30">
-  <title>Fed Experiments</title>
+  <meta name="dcterms.date" content="2016-11-23">
+  <title>Investigating Effects of Hydrodynamic Shear and Volume (no buffer)</title>
   <style type="text/css">code{white-space: pre;}</style>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.7.1/modernizr.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.js"></script>
@@ -22,13 +22,13 @@
 <div class="scholmd-main">
 <div class="scholmd-content">
 <header>
-<h1 class="scholmd-title">Fed Experiments</h1>
+<h1 class="scholmd-title">Investigating Effects of Hydrodynamic Shear and Volume (no buffer)</h1>
 <div class="scholmd-author">
 Farhad Behafarid
 </div>
-<div class="scholmd-date">30 June 2016</div>
+<div class="scholmd-date">23 Nov 2016</div>
 </header>
-<p>The 4 experiments are summerized in Table <span class="scholmd-crossref"><a href="#table:FedExperiments">(1)</a></span>:</p>
+<p>Four experiments are summerized in Table <span class="scholmd-crossref"><a href="#table:FedExperiments">(1)</a></span>:</p>
 <figure class="scholmd-float scholmd-table-float" id="table:FedExperiments">
 <div class="scholmd-float-content"><table>
 <thead>
@@ -43,26 +43,26 @@ Farhad Behafarid
 <tr class="odd">
 <td style="text-align: left;">1</td>
 <td style="text-align: left;">Peristalsis, Fed</td>
-<td style="text-align: left;">Yes</td>
+<td style="text-align: left;">No</td>
 <td style="text-align: left;">0 mM</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">2</td>
 <td style="text-align: left;">Peristalsis, Fasted</td>
-<td style="text-align: left;">Yes</td>
+<td style="text-align: left;">No</td>
 <td style="text-align: left;">0 mM</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">3</td>
 <td style="text-align: left;">Peristalsis, Fed</td>
 <td style="text-align: left;">Yes</td>
-<td style="text-align: left;">10.5 mM</td>
+<td style="text-align: left;">0 mM</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">4</td>
 <td style="text-align: left;">Peristalsis, Fasted</td>
 <td style="text-align: left;">Yes</td>
-<td style="text-align: left;">10.5 mM</td>
+<td style="text-align: left;">0 mM</td>
 </tr>
 </tbody>
 </table></div>
@@ -71,8 +71,8 @@ Farhad Behafarid
 <p>The input parameters that need to be specified for the different experiments fall into different categories, viz., geometry and motility, drug and fluid properties, particle information, boundary conditions and the correlations for shear and hydrodynamic effects.</p>
 <!----------------------------------------------------------------------------------------------------------------------------------------------------------->
 <!----------------------------------------------------------------------------------------------------------------------------------------------------------->
-<h1 id="geometry-and-motility">Geometry and Motility</h1>
-<p>Table <span class="scholmd-crossref"><a href="#table:study1GeomMotilityParams">(2)</a></span> describes the geometry and motility parameters of the first computational study.</p>
+<h1 id="geometry-motility-and-discretization">Geometry, Motility and discretization</h1>
+<p>Table <span class="scholmd-crossref"><a href="#table:study1GeomMotilityParams">(2)</a></span> describes the geometry, motility and discretization parameters for first computational experiments.</p>
 <figure class="scholmd-float scholmd-table-float" id="table:study1GeomMotilityParams">
 <div class="scholmd-float-content"><table>
 <thead>
@@ -107,6 +107,20 @@ Farhad Behafarid
 <td style="text-align: left;"><span class="math scholmd-math-inline">\(mm\)</span></td>
 </tr>
 <tr class="even">
+<td style="text-align: left;">Wave speed</td>
+<td style="text-align: left;"><span class="math scholmd-math-inline">\(w\)</span></td>
+<td style="text-align: left;">2</td>
+<td style="text-align: left;">2</td>
+<td style="text-align: left;"><span class="math scholmd-math-inline">\(mm/s\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Number of waves</td>
+<td style="text-align: left;">-</td>
+<td style="text-align: left;">1</td>
+<td style="text-align: left;">1</td>
+<td style="text-align: left;">-</td>
+</tr>
+<tr class="even">
 <td style="text-align: left;">Volume of bolus</td>
 <td style="text-align: left;"><span class="math scholmd-math-inline">\(V_C\)</span></td>
 <td style="text-align: left;">13.57</td>
@@ -115,17 +129,17 @@ Farhad Behafarid
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Occlusion ratio</td>
-<td style="text-align: left;"><span class="math scholmd-math-inline">\(\epsilon/R_{max}\)</span></td>
+<td style="text-align: left;"><span class="math scholmd-math-inline">\(\epsilon/R_{ave}\)</span></td>
 <td style="text-align: left;">0.5</td>
 <td style="text-align: left;">0.2</td>
 <td style="text-align: left;">-</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">Mesh</td>
+<td style="text-align: left;">Mesh dimensions</td>
 <td style="text-align: left;"></td>
-<td style="text-align: left;"><span class="math scholmd-math-inline">\(121 \times 121 \times 300\)</span></td>
-<td style="text-align: left;"><span class="math scholmd-math-inline">\(149 \times 149 \times 224\)</span></td>
-<td style="text-align: left;"></td>
+<td style="text-align: left;">(<span class="math scholmd-math-inline">\(121 \times 121 \times 300\)</span>)</td>
+<td style="text-align: left;">(<span class="math scholmd-math-inline">\(149 \times 149 \times 224\)</span>)</td>
+<td style="text-align: left;">-</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Mesh size</td>
@@ -135,11 +149,11 @@ Farhad Behafarid
 <td style="text-align: left;"><span class="math scholmd-math-inline">\(mm\)</span></td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">Number of waves</td>
-<td style="text-align: left;">-</td>
-<td style="text-align: left;">1</td>
-<td style="text-align: left;">1</td>
-<td style="text-align: left;">-</td>
+<td style="text-align: left;">Time step</td>
+<td style="text-align: left;"><span class="math scholmd-math-inline">\(\Delta t\)</span></td>
+<td style="text-align: left;">6.666</td>
+<td style="text-align: left;">2.989</td>
+<td style="text-align: left;"><span class="math scholmd-math-inline">\(m s\)</span></td>
 </tr>
 </tbody>
 </table></div>
@@ -173,96 +187,102 @@ Farhad Behafarid
 <td style="text-align: left;"><span class="math scholmd-math-inline">\(^{\circ}C\)</span></td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">Fluid’s PH</td>
-<td style="text-align: left;"><span class="math scholmd-math-inline">\(pH_{,b}\)</span></td>
-<td style="text-align: left;">6.5</td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="even">
 <td style="text-align: left;">Fluid’s density</td>
 <td style="text-align: left;"><span class="math scholmd-math-inline">\(\rho_w\)</span></td>
 <td style="text-align: left;">1000</td>
 <td style="text-align: left;"><span class="math scholmd-math-inline">\(kg/m^3\)</span></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;">Fluid’s dynamic viscosity</td>
 <td style="text-align: left;"><span class="math scholmd-math-inline">\(\mu_w\)</span></td>
 <td style="text-align: left;"><span class="math scholmd-math-inline">\(1\)</span></td>
 <td style="text-align: left;"><span class="math scholmd-math-inline">\(cp\)</span></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;">Fluid’s kinematic viscosity</td>
 <td style="text-align: left;"><span class="math scholmd-math-inline">\(\nu_w\)</span></td>
 <td style="text-align: left;"><span class="math scholmd-math-inline">\(1.0e-6\)</span></td>
 <td style="text-align: left;"><span class="math scholmd-math-inline">\(m^2/s\)</span></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;">Drug</td>
 <td style="text-align: left;"></td>
 <td style="text-align: left;">Ibuprofen</td>
 <td style="text-align: left;"></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;">Drug’s molar volume</td>
 <td style="text-align: left;"><span class="math scholmd-math-inline">\(\nu_d\)</span></td>
 <td style="text-align: left;">268</td>
 <td style="text-align: left;"><span class="math scholmd-math-inline">\(cm^3/mol\)</span></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;">Drug’s molecular wight</td>
 <td style="text-align: left;"><span class="math scholmd-math-inline">\(M_d\)</span></td>
 <td style="text-align: left;">206.285</td>
 <td style="text-align: left;"><span class="math scholmd-math-inline">\(g/mol\)</span></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;">Drug’s diffusivity</td>
 <td style="text-align: left;"><span class="math scholmd-math-inline">\(D_d\)</span></td>
 <td style="text-align: left;"><span class="math scholmd-math-inline">\(7.5 \times 10^{-6}\)</span></td>
 <td style="text-align: left;"><span class="math scholmd-math-inline">\(cm^2/s\)</span></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;">Drug’s density</td>
 <td style="text-align: left;"><span class="math scholmd-math-inline">\(\rho_d\)</span></td>
 <td style="text-align: left;"><span style="color:red">1.03</td>
 <td style="text-align: left;"><span class="math scholmd-math-inline">\(g/cm^3\)</span></td>
 </tr>
+<tr class="odd">
+<td style="text-align: left;">pH: Bulk</td>
+<td style="text-align: left;"><span class="math scholmd-math-inline">\(pH_{,b}\)</span></td>
+<td style="text-align: left;">6.5</td>
+<td style="text-align: left;">-</td>
+</tr>
 <tr class="even">
+<td style="text-align: left;">pH: Particle surface</td>
+<td style="text-align: left;"><span class="math scholmd-math-inline">\(pH_s\)</span></td>
+<td style="text-align: left;">4.5</td>
+<td style="text-align: left;">-</td>
+</tr>
+<tr class="odd">
 <td style="text-align: left;">Interinsic solubility</td>
 <td style="text-align: left;"><span class="math scholmd-math-inline">\(S_o\)</span></td>
 <td style="text-align: left;"><span class="math scholmd-math-inline">\(0.33\)</span></td>
 <td style="text-align: left;"><span class="math scholmd-math-inline">\(\mu mol/cm^3\)</span></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;">Interinsic Solubility</td>
 <td style="text-align: left;"><span class="math scholmd-math-inline">\(S_o\)</span></td>
 <td style="text-align: left;"><span class="math scholmd-math-inline">\(68\)</span></td>
 <td style="text-align: left;"><span class="math scholmd-math-inline">\(\mu g/cm^3\)</span></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;">Particle’s surface solubility</td>
 <td style="text-align: left;"><span class="math scholmd-math-inline">\(S_s\)</span></td>
 <td style="text-align: left;"><span class="math scholmd-math-inline">\(0.759649\)</span></td>
 <td style="text-align: left;"><span class="math scholmd-math-inline">\(\mu mol/cm^3\)</span></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;">Particle’s surface solubility</td>
 <td style="text-align: left;"><span class="math scholmd-math-inline">\(S_s\)</span></td>
 <td style="text-align: left;"><span class="math scholmd-math-inline">\(156.5338\)</span></td>
 <td style="text-align: left;"><span class="math scholmd-math-inline">\(\mu g/cm^3\)</span></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;">Bulk solubility over interinsic solubility (<span class="math scholmd-math-inline">\(pH_{,b}\)</span>=6.5)</td>
 <td style="text-align: left;"><span class="math scholmd-math-inline">\(S_b/S_o\)</span></td>
 <td style="text-align: left;">126.893</td>
 <td style="text-align: left;">-</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;">Bulk solubility (<span class="math scholmd-math-inline">\(pH_{,b}\)</span>=6.5)</td>
 <td style="text-align: left;"><span class="math scholmd-math-inline">\(S_b\)</span></td>
 <td style="text-align: left;">41.87</td>
 <td style="text-align: left;"><span class="math scholmd-math-inline">\(\mu mol/cm^3\)</span></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;">Bulk solubility (<span class="math scholmd-math-inline">\(pH_{,b}\)</span>=6.5)</td>
 <td style="text-align: left;"><span class="math scholmd-math-inline">\(S_b\)</span></td>
 <td style="text-align: left;">8628.7</td>
@@ -270,14 +290,12 @@ Farhad Behafarid
 </tr>
 </tbody>
 </table></div>
-<div class="scholmd-float-caption"><figcaption><span class="scholmd-caption-head"><span class="scholmd-caption-head-prefix">Table</span><span class="scholmd-caption-head-label">3</span></span><span class="scholmd-caption-text">Drug and fluid properties for the first computational study.</span></figcaption></div>
+<div class="scholmd-float-caption"><figcaption><span class="scholmd-caption-head"><span class="scholmd-caption-head-prefix">Table</span><span class="scholmd-caption-head-label">3</span></span><span class="scholmd-caption-text">Drug and fluid properties for the first computational experiments.</span></figcaption></div>
 </figure>
 <!----------------------------------------------------------------------------------------------------------------------------------------------------------->
 <!----------------------------------------------------------------------------------------------------------------------------------------------------------->
 <h1 id="particles">Particles</h1>
-<p>Total dose: Choose <span class="math scholmd-math-inline">\(C_{tot}/C_s =0.2\)</span> to be such that we are in sink conditions and far from the singularity near <span class="math scholmd-math-inline">\(C_{tot}/C_s = 1\)</span>. We choose this even though that singularity is only for the case without absorption and we do have absorption in the intestine case.</p>
-<p>“BOLUS DOSE”: mass or moles of drug in a bolus segment. To estimate we will collect data from the literature and from UM on concentration of extracted fluids – statistics. From MRI (Nottingham) we will estimate bolus volume. These two will give us dose in moles from which bolus <span class="math scholmd-math-inline">\(C_{tot}\)</span> can be estimated. To this end, we need to estimate solid content along with fluid concentration in the extracted segments. Once we have ranges of <span class="math scholmd-math-inline">\(C_{tot}\)</span> we can estimate ranges of <span class="math scholmd-math-inline">\(C_{tot}/C_s\)</span> – our critical parameter.</p>
-<p>Choice of where to locate the particles at the initial condition.</p>
+<p>“BOLUS DOSE”: mass or moles of drug in a bolus segment. To estimate we will collect data from the literature and from UM on concentration of extracted fluids – statistics. From MRI (Nottingham) we will estimate bolus volume. These two will give us dose in moles from which bolus <span class="math scholmd-math-inline">\(C_{tot}\)</span> can be estimated. To this end, we need to estimate solid content along with fluid concentration in the extracted segments.</p>
 <p>Table <span class="scholmd-crossref"><a href="#table:study1ParticleParameters">(4)</a></span> shows the particles parameters for the first computational study.</p>
 <figure class="scholmd-float scholmd-table-float" id="table:study1ParticleParameters">
 <div class="scholmd-float-content"><table>
@@ -293,19 +311,19 @@ Farhad Behafarid
 <tr class="odd">
 <td style="text-align: left;">Toal drug in the domain</td>
 <td style="text-align: left;"></td>
-<td style="text-align: left;">162.417</td>
+<td style="text-align: left;">160.948</td>
 <td style="text-align: left;"><span class="math scholmd-math-inline">\(\mu g\)</span></td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Total volume of the particles</td>
 <td style="text-align: left;"><span class="math scholmd-math-inline">\(V^{tot}_d\)</span></td>
-<td style="text-align: left;"><span class="math scholmd-math-inline">\(2.11 \times 10^{-4}\)</span></td>
+<td style="text-align: left;"><span class="math scholmd-math-inline">\(2.091 \times 10^{-4}\)</span></td>
 <td style="text-align: left;"><span class="math scholmd-math-inline">\(cm^3\)</span></td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Maximum particle diameter</td>
 <td style="text-align: left;"><span class="math scholmd-math-inline">\(D_P^{max}\)</span></td>
-<td style="text-align: left;">195</td>
+<td style="text-align: left;">165</td>
 <td style="text-align: left;"><span class="math scholmd-math-inline">\(\mu m\)</span></td>
 </tr>
 <tr class="even">
@@ -353,20 +371,8 @@ Farhad Behafarid
 <tr class="odd">
 <td style="text-align: left;">Total concentration</td>
 <td style="text-align: left;"><span class="math scholmd-math-inline">\(C_{tot}\)</span></td>
-<td style="text-align: left;">Fed:, Fasted:</td>
+<td style="text-align: left;">Fed: 11.97 , Fasted: 43.1</td>
 <td style="text-align: left;"><span class="math scholmd-math-inline">\(\mu g/cm^3\)</span></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Total concentration</td>
-<td style="text-align: left;"><span class="math scholmd-math-inline">\(C_{tot}\)</span></td>
-<td style="text-align: left;">Fed:, Fasted:</td>
-<td style="text-align: left;"><span class="math scholmd-math-inline">\(\mu mol/cm^3\)</span></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Total concentration</td>
-<td style="text-align: left;"><span class="math scholmd-math-inline">\(C_{tot}/C_o\)</span></td>
-<td style="text-align: left;">Fed:, Fasted:</td>
-<td style="text-align: left;"><span class="math scholmd-math-inline">\(\mu mol/cm^3\)</span></td>
 </tr>
 </tbody>
 </table></div>
@@ -377,9 +383,9 @@ Farhad Behafarid
 <p>For <span class="math scholmd-math-inline">\(\sigma\)</span>= 25<span class="math scholmd-math-inline">\(\mu m\)</span>:</p>
 <figure class="scholmd-float scholmd-figure" id="fig:Particle_Distribution_16">
 <div class="scholmd-float-content"><figure class="scholmd-subfig" style="display: inline-block; width: 99%">
-<img src="./Figures/Particle_Distribution_NoBuffer_7286_particles.png" />
+<img src="./Figures/Particle_Distribution_16.png" />
 </figure></div>
-<div class="scholmd-float-caption"><figcaption><span class="scholmd-caption-head"><span class="scholmd-caption-head-prefix">Figure</span><span class="scholmd-caption-head-label">1</span></span><span class="scholmd-caption-text"><span class="math scholmd-math-inline">\(\frac{C_{tot}}{C_s}\)</span>=0.0098 , <span class="math scholmd-math-inline">\(D_{min}\)</span>=5<span class="math scholmd-math-inline">\(\mu m\)</span> , <span class="math scholmd-math-inline">\(D_{max}\)</span>=195<span class="math scholmd-math-inline">\(\mu m\)</span> , <span class="math scholmd-math-inline">\(N_{bin}\)</span>=20 , <span class="math scholmd-math-inline">\(\sigma\)</span>=25<span class="math scholmd-math-inline">\(\mu m\)</span> , <span class="math scholmd-math-inline">\(N_P\)</span>= 7286</span></figcaption></div>
+<div class="scholmd-float-caption"><figcaption><span class="scholmd-caption-head"><span class="scholmd-caption-head-prefix">Figure</span><span class="scholmd-caption-head-label">1</span></span><span class="scholmd-caption-text"><span class="math scholmd-math-inline">\(\frac{C_{tot}}{C_s}\)</span>=0.2 , <span class="math scholmd-math-inline">\(D_{min}\)</span>=5<span class="math scholmd-math-inline">\(\mu m\)</span> , <span class="math scholmd-math-inline">\(D_{max}\)</span>=195<span class="math scholmd-math-inline">\(\mu m\)</span> , <span class="math scholmd-math-inline">\(N_{bin}\)</span>=20 , <span class="math scholmd-math-inline">\(\sigma\)</span>=25<span class="math scholmd-math-inline">\(\mu m\)</span> , <span class="math scholmd-math-inline">\(N_P\)</span>= 1175</span></figcaption></div>
 </figure>
 <!----------------------------------------------------------------------------------------------------------------------------------------------------------->
 <!----------------------------------------------------------------------------------------------------------------------------------------------------------->
@@ -462,93 +468,38 @@ Farhad Behafarid
 </table></div>
 <div class="scholmd-float-caption"><figcaption><span class="scholmd-caption-head"><span class="scholmd-caption-head-prefix">Table</span><span class="scholmd-caption-head-label">6</span></span><span class="scholmd-caption-text">Modeling and computational parameters for the first computational study.</span></figcaption></div>
 </figure>
-<!----------------------------------------------------------------------------------------------------------------------------------------------------------->
-<!----------------------------------------------------------------------------------------------------------------------------------------------------------->
-<!----------------------------------------------------------------------------------------------------------------------------------------------------------->
-<h1 id="computational-cost-estimation">Computational Cost Estimation</h1>
-<figure class="scholmd-float scholmd-table-float" id="table:ComputationalCost">
-<div class="scholmd-float-content"><table>
-<thead>
-<tr class="header">
-<th style="text-align: left;">Name</th>
-<th style="text-align: left;">Symbol</th>
-<th style="text-align: left;">Choice</th>
-<th style="text-align: left;">Units</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;">Mesh resolution</td>
-<td style="text-align: left;"><span class="math scholmd-math-inline">\(\Delta x\)</span></td>
-<td style="text-align: left;">0.2</td>
-<td style="text-align: left;">mm</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Total number of nodes</td>
-<td style="text-align: left;"><span class="math scholmd-math-inline">\(N_{nodes}\)</span></td>
-<td style="text-align: left;">3 000 000</td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Number of Particles</td>
-<td style="text-align: left;"><span class="math scholmd-math-inline">\(N_{particles}\)</span></td>
-<td style="text-align: left;">?</td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Time steps</td>
-<td style="text-align: left;"><span class="math scholmd-math-inline">\(\Delta t\)</span></td>
-<td style="text-align: left;">6.66 e-3</td>
-<td style="text-align: left;">s</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Total number of waves simulated</td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;">Fed:20/Fasted:40</td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Wave’s charactristice time scale</td>
-<td style="text-align: left;"><span class="math scholmd-math-inline">\(t_{wave}\)</span></td>
-<td style="text-align: left;">Fed:30/Fasted:15</td>
-<td style="text-align: left;">s</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Total physical time</td>
-<td style="text-align: left;"><span class="math scholmd-math-inline">\(t_{tot}\)</span></td>
-<td style="text-align: left;">600</td>
-<td style="text-align: left;">s</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Total number of iterations</td>
-<td style="text-align: left;"><span class="math scholmd-math-inline">\(N_{iter}\)</span></td>
-<td style="text-align: left;">?</td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Computational time for 1 iteration (8 CPU)</td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;">?</td>
-<td style="text-align: left;">s</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Total computational time</td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;">?</td>
-<td style="text-align: left;">hour</td>
-</tr>
-</tbody>
-</table></div>
-<div class="scholmd-float-caption"><figcaption><span class="scholmd-caption-head"><span class="scholmd-caption-head-prefix">Table</span><span class="scholmd-caption-head-label">7</span></span><span class="scholmd-caption-text">Computational cost estimation</span></figcaption></div>
-</figure>
-<h1 id="results-case-1">Results: Case 1</h1>
-<p>Using 8 processors on Janus.</p>
-<figure class="scholmd-float scholmd-figure" id="fig:Results_Case1">
-<div class="scholmd-float-content"><figure class="scholmd-subfig" style="display: inline-block; width: 70%">
-<img src="./Figures/Drug_Case_0mM_Buffer.png" />
-</figure></div>
-<div class="scholmd-float-caption"><figcaption><span class="scholmd-caption-head"><span class="scholmd-caption-head-prefix">Figure</span><span class="scholmd-caption-head-label">2</span></span><span class="scholmd-caption-text">Results of the case 1 experiment</span></figcaption></div>
-</figure>
+<!---
+#Computational Cost Estimation
+#### Table:  {#table:ComputationalCost}
+
+| Name                                         |Symbol          |Choice          | Units |
+|--------------------------------------------|----------------|----------------|-------|
+| Mesh resolution                                  |$\Delta x$      |0.2                 | mm    |
+| Total number of nodes                          |$N_{nodes}$     |3 000 000         |       |
+| Number of Particles                          |$N_{particles}$ |?               |       |
+| Time steps                                     |$\Delta t$      |6.66 e-3        | s     |
+| Total number of waves simulated              |                  |Fed:20/Fasted:40|       |
+| Wave's charactristice time scale             |$t_{wave}$      |Fed:30/Fasted:15| s     |
+| Total physical time                            |$t_{tot}$       |600             | s     |
+| Total number of iterations                   |$N_{iter}$      |?               |       |
+| Computational time for 1 iteration (8 CPU) |                  |?                 | s     |
+| Total computational time                     |                    |?               | hour  |
+
+Caption: Computational cost estimation
+
+
+# Results: Case 1
+
+Using 8 processors on Janus.
+
+#### Figure: {#fig:Results_Case1}
+
+![](./Figures/Drug_Case_0mM_Buffer.png){width=70%}
+
+Caption: Results of the case 1 experiment
+
+
+--->
 <div class="references">
 
 </div>

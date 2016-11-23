@@ -1,19 +1,19 @@
 ---
-title: Fed Experiments
+title: Investigating Effects of Hydrodynamic Shear and Volume (no buffer)
 author: Farhad Behafarid
-date: 30 June 2016
+date: 23 Nov 2016
 ---
 
-The 4 experiments are summerized in Table (#table:FedExperiments):
+Four experiments are summerized in Table (#table:FedExperiments):
 
 #### Table:  {#table:FedExperiments}
 
 |Exp. No.|State/Motility      |Shear Effects |Buffer |
 |--------|--------------------|--------------|-------|
-|1       |Peristalsis, Fed    |Yes           |0 mM   |
-|2       |Peristalsis, Fasted |Yes           |0 mM   |
-|3       |Peristalsis, Fed    |Yes           |10.5 mM|
-|4       |Peristalsis, Fasted |Yes           |10.5 mM|
+|1       |Peristalsis, Fed    |No            |0 mM   |
+|2       |Peristalsis, Fasted |No            |0 mM   |
+|3       |Peristalsis, Fed    |Yes           |0 mM   |
+|4       |Peristalsis, Fasted |Yes           |0 mM   |
 
 Caption: Experiments
 
@@ -22,22 +22,24 @@ The input parameters that need to be specified for the different experiments fal
 
 <!----------------------------------------------------------------------------------------------------------------------------------------------------------->
 <!----------------------------------------------------------------------------------------------------------------------------------------------------------->
-# Geometry and Motility
+# Geometry, Motility and discretization
 
-Table (#table:study1GeomMotilityParams) describes the geometry and motility parameters of the first computational study.
+Table (#table:study1GeomMotilityParams) describes the geometry, motility and discretization parameters for first computational experiments.
 
 #### Table:  {#table:study1GeomMotilityParams}
 
-|Name            |Symbol            | Fed                        |Fasted                     | Unit |  
-|----------------|------------------|----------------------------|---------------------------|------|
-|Motility type   |-                 |Peristalsis                 |Peristalsis                |      |
-|Max diameter    |$D_{max}$         |24                          |19.82                      |$mm$  |
-|Wavelength      |$\lambda$         |60	                         |30	                       |$mm$  |
-|Volume of bolus |$V_C$		          |13.57                       |3.77                       |$cm^3$|
-|Occlusion ratio |$\epsilon/R_{max}$|0.5                         |0.2                        |-     |
-|Mesh            |                  |$121 \times 121 \times 300$ |$149 \times 149 \times 224$|      |
-|Mesh size       | $\Delta x$       |0.2                         |0.13393                    |$mm$  |   
-|Number of waves |-                 |1                           |1                          |-     |
+|Name            |Symbol            | Fed                          |Fasted                       | Unit |  
+|----------------|------------------|------------------------------|-----------------------------|------|
+|Motility type   |-                 |Peristalsis                   |Peristalsis                  |      |
+|Max diameter    |$D_{max}$         |24                            |19.82                        |$mm$  |
+|Wavelength      |$\lambda$         |60	                           |30	                         |$mm$  |
+|Wave speed      |$w$               |2                             |2                            |$mm/s$| 
+|Number of waves |-                 |1                             |1                            |-     |
+|Volume of bolus |$V_C$		          |13.57                         |3.77                         |$cm^3$|
+|Occlusion ratio |$\epsilon/R_{ave}$|0.5                           |0.2                          |-     |
+|Mesh dimensions |                  |($121 \times 121 \times 300$) |($149 \times 149 \times 224$)|-     |
+|Mesh size       | $\Delta x$       |0.2                           |0.13393                      |$mm$  |   
+|Time step       | $\Delta t$       |6.666                         |2.989                        |$m s$ |  
 
 Caption: Geometry and motility properties for the first computational study.
 
@@ -54,28 +56,29 @@ Table (#table:study1DrugFluidParams) shows the drug and fluid properties for the
 
 #### Table:  {#table:study1DrugFluidParams}
 
-| Name                 	             |Symbol   |Choice           	           |Unit    	     |  
-|------------------------------------|---------|-----------------------------|---------------|
-| Fluid                		           |         |Water                        |               |
-| Fluid's temperature                |$T_w$    |20                           |$^{\circ}C$    |
-| Fluid's PH                         |$pH_{,b}$|6.5					                 |               |
-| Fluid's density                    |$\rho_w$ |1000	                       |$kg/m^3$       |
-| Fluid's dynamic viscosity          |$\mu_w$  |$1$                          |$cp$   	       |
-| Fluid's kinematic viscosity        |$\nu_w$  |$1.0e-6$                     |$m^2/s$   	   |
-| Drug                 		           |	       |Ibuprofen	   			           | 	     	       |
-| Drug's molar volume                |$\nu_d$  |268                          |$cm^3/mol$     |
-| Drug's molecular wight             |$M_d$    |206.285                      |$g/mol$        |  
+| Name                 	                                     |Symbol   |Choice           	           |Unit    	     |  
+|------------------------------------------------------------|---------|-----------------------------|---------------|
+| Fluid                		                                   |         |Water                        |               |
+| Fluid's temperature                                        |$T_w$    |20                           |$^{\circ}C$    |
+| Fluid's density                                            |$\rho_w$ |1000	                       |$kg/m^3$       |
+| Fluid's dynamic viscosity                                  |$\mu_w$  |$1$                          |$cp$   	       |
+| Fluid's kinematic viscosity                                |$\nu_w$  |$1.0e-6$                     |$m^2/s$   	   |
+| Drug                 		                                   |	       |Ibuprofen	   			           | 	     	       |
+| Drug's molar volume                                        |$\nu_d$  |268                          |$cm^3/mol$     |
+| Drug's molecular wight                                     |$M_d$    |206.285                      |$g/mol$        |  
 | Drug's diffusivity                                         |$D_d$    |$7.5 \times 10^{-6}$         |$cm^2/s$       |
 | Drug's  density                                            |$\rho_d$ |<span style="color:red">1.03 |$g/cm^3$       |
-| Interinsic solubility                                      |$S_o$    | $0.33$                      |$\mu mol/cm^3$ |
-| Interinsic Solubility                                      |$S_o$    | $68$                        |$\mu g/cm^3$   |
-| Particle's surface solubility                              |$S_s$    | $0.759649$                  |$\mu mol/cm^3$ |
-| Particle's surface solubility                              |$S_s$    | $156.5338$                  |$\mu g/cm^3$   |
-| Bulk solubility over interinsic solubility ($pH_{,b}$=6.5) |$S_b/S_o$| 126.893                     | -             |
-| Bulk solubility ($pH_{,b}$=6.5)                            |$S_b$    | 41.87                       |$\mu mol/cm^3$ |
-| Bulk solubility ($pH_{,b}$=6.5)                            |$S_b$    | 8628.7                      |$\mu g/cm^3$   |
+| pH: Bulk                                                   |$pH_{,b}$|6.5					                 |-              |
+| pH: Particle surface                                       |$pH_s$   |4.5                          |-              |  
+| Interinsic solubility                                      |$S_o$    |$0.33$                       |$\mu mol/cm^3$ |
+| Interinsic Solubility                                      |$S_o$    |$68$                         |$\mu g/cm^3$   |
+| Particle's surface solubility                              |$S_s$    |$0.759649$                   |$\mu mol/cm^3$ |
+| Particle's surface solubility                              |$S_s$    |$156.5338$                   |$\mu g/cm^3$   |
+| Bulk solubility over interinsic solubility ($pH_{,b}$=6.5) |$S_b/S_o$|126.893                      | -             |
+| Bulk solubility ($pH_{,b}$=6.5)                            |$S_b$    |41.87                        |$\mu mol/cm^3$ |
+| Bulk solubility ($pH_{,b}$=6.5)                            |$S_b$    |8628.7                       |$\mu g/cm^3$   |
 
-Caption: Drug and fluid properties for the first computational study.
+Caption: Drug and fluid properties for the first computational experiments.
 
 
 
@@ -86,33 +89,26 @@ Caption: Drug and fluid properties for the first computational study.
 <!----------------------------------------------------------------------------------------------------------------------------------------------------------->
 # Particles
 
-Total dose: Choose $C_{tot}/C_s =0.2$ to be such that we are in sink conditions and far from the singularity near $C_{tot}/C_s = 1$. 
-We choose this even though that singularity is only for the case without absorption and we do have absorption in the intestine case.
-
-"BOLUS DOSE": mass or moles of drug in a bolus segment. To estimate we will collect data from the literature and from UM on concentration of extracted fluids -- statistics. From MRI (Nottingham) we will estimate bolus volume. These two will give us dose in moles from which bolus $C_{tot}$ can be estimated. To this end, we need to estimate solid content along with fluid concentration in the extracted segments. Once we have ranges of $C_{tot}$ we can estimate ranges of  $C_{tot}/C_s$ -- our critical parameter.
-
-Choice of where to locate the particles at the initial condition.
+"BOLUS DOSE": mass or moles of drug in a bolus segment. To estimate we will collect data from the literature and from UM on concentration of extracted fluids -- statistics. From MRI (Nottingham) we will estimate bolus volume. These two will give us dose in moles from which bolus $C_{tot}$ can be estimated. To this end, we need to estimate solid content along with fluid concentration in the extracted segments. 
 
 Table (#table:study1ParticleParameters) shows the particles parameters for the first computational study.
 
 
 ####Table:  {#table:study1ParticleParameters}
 
-| Name                        	|    Symbol     | Choice                                   | Units        |
-|-------------------------------|---------------|------------------------------------------|--------------|
-|Toal drug in the domain      	|               |162.417                  	               |$\mu g$       |
-|Total volume of the particles  |$V^{tot}_d$    |$2.11 \times 10^{-4}$                     |$cm^3$        | 
-|Maximum particle diameter    	|$D_P^{max}$  	|195	 		 		                             |$\mu m$       |
-|Average particle diameter      |$D_P^{ave}$    |100                			                 |$\mu m$       |
-|Minimum particle diameter      |$D_P^{min}$    |5      	   	 			                       |$\mu m$       |
-|Number of particles	         	|$N_P$			    |1176 (Figure [#fig:Particle_Distribution_16])|-	            |
-|Distribution function shape	  |-	           	|Normal	        			                     |-	            |
-|Standard deviation	 	          |$\sigma$	      |25						                             |$\mu m$       |		
-|Number of the bins		          |$N_{bins}$   	|20				                                 |-	            |
-|Initial particle locations	    |-		          |Randomly distributed in a sphere 				 |-	            |	
-|Total concentration            |$C_{tot}$      |Fed:, Fasted:                    |$\mu g/cm^3$  | 
-|Total concentration            |$C_{tot}$      |Fed:, Fasted:                     |$\mu mol/cm^3$| 
-|Total concentration            |$C_{tot}/C_o$  |Fed:, Fasted:                     |$\mu mol/cm^3$| 
+| Name                        	|    Symbol     | Choice                                       | Units        |
+|-------------------------------|---------------|----------------------------------------------|--------------|
+|Toal drug in the domain      	|               |160.948                  	                   |$\mu g$       |
+|Total volume of the particles  |$V^{tot}_d$    |$2.091 \times 10^{-4}$                         |$cm^3$        | 
+|Maximum particle diameter    	|$D_P^{max}$  	|165	 		 		                                 |$\mu m$       |
+|Average particle diameter      |$D_P^{ave}$    |100                			                     |$\mu m$       |
+|Minimum particle diameter      |$D_P^{min}$    |5      	   	 			                           |$\mu m$       |
+|Number of particles	         	|$N_P$			    |1176 (Figure [#fig:Particle_Distribution_16]) |-	            |
+|Distribution function shape	  |-	           	|Normal	        			                         |-	            |
+|Standard deviation	 	          |$\sigma$	      |25						                                 |$\mu m$       |		
+|Number of the bins		          |$N_{bins}$   	|20				                                     |-	            |
+|Initial particle locations	    |-		          |Randomly distributed in a sphere 				     |-	            |	
+|Total concentration            |$C_{tot}$      |Fed: 11.97 ,   Fasted: 43.1                   |$\mu g/cm^3$  | 
 
 
 Caption: Drug particle properties for the first computational study.
@@ -120,14 +116,13 @@ Caption: Drug particle properties for the first computational study.
 
 
 ## Particle Distributions
-
 For $\sigma$= 25$\mu m$:
 
 #### Figure: {#fig:Particle_Distribution_16}
 
-![](./Figures/Particle_Distribution_NoBuffer_7286_particles.png){width=99%}
+![](./Figures/Particle_Distribution_16.png){width=99%}
 
-Caption: $\frac{C_{tot}}{C_s}$=0.0098 ,  $D_{min}$=5$\mu m$ ,   $D_{max}$=195$\mu m$ ,  $N_{bin}$=20  , $\sigma$=25$\mu m$ ,   $N_P$= 7286 
+Caption: $\frac{C_{tot}}{C_s}$=0.2 ,  $D_{min}$=5$\mu m$ ,   $D_{max}$=195$\mu m$ ,  $N_{bin}$=20  , $\sigma$=25$\mu m$ ,   $N_P$= 1175 
 
 
 <!----------------------------------------------------------------------------------------------------------------------------------------------------------->
@@ -172,10 +167,7 @@ Caption: Modeling and computational parameters for the first computational study
 
 
 
-
-<!----------------------------------------------------------------------------------------------------------------------------------------------------------->
-<!----------------------------------------------------------------------------------------------------------------------------------------------------------->
-<!----------------------------------------------------------------------------------------------------------------------------------------------------------->
+<!---
 #Computational Cost Estimation
 #### Table:  {#table:ComputationalCost}
 
@@ -204,4 +196,7 @@ Using 8 processors on Janus.
 ![](./Figures/Drug_Case_0mM_Buffer.png){width=70%}
 
 Caption: Results of the case 1 experiment
+
+
+--->
 
