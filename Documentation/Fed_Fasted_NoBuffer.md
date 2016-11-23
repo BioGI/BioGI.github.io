@@ -19,9 +19,25 @@ Caption: Experiments
 
 The input parameters that need to be specified for the different experiments fall into different categories, viz., geometry and motility, drug and fluid properties, particle information, boundary conditions and the correlations for shear and hydrodynamic effects. 
 
+&nbsp;
+
+&nbsp;
+
+&nbsp;
+
+&nbsp;
+
+&nbsp;
+
+&nbsp;
+
+&nbsp;
+
+&nbsp;
 
 <!----------------------------------------------------------------------------------------------------------------------------------------------------------->
 <!----------------------------------------------------------------------------------------------------------------------------------------------------------->
+
 # Geometry, Motility and discretization
 
 Table (#table:study1GeomMotilityParams) describes the geometry, motility and discretization parameters for first computational experiments.
@@ -43,8 +59,15 @@ Table (#table:study1GeomMotilityParams) describes the geometry, motility and dis
 
 Caption: Geometry and motility properties for the first computational study.
 
+&nbsp;
 
+&nbsp;
 
+&nbsp;
+
+&nbsp;
+
+&nbsp;
 
 
 
@@ -113,7 +136,15 @@ Table (#table:study1ParticleParameters) shows the particles parameters for the f
 
 Caption: Drug particle properties for the first computational study.
 
+&nbsp;
 
+&nbsp;
+
+&nbsp;
+
+&nbsp;
+
+&nbsp;
 
 ## Particle Distributions
 For $\sigma$= 25$\mu m$:
@@ -124,6 +155,7 @@ For $\sigma$= 25$\mu m$:
 
 Caption: $\frac{C_{tot}}{C_s}$=0.2 ,  $D_{min}$=5$\mu m$ ,   $D_{max}$=195$\mu m$ ,  $N_{bin}$=20  , $\sigma$=25$\mu m$ ,   $N_P$= 1175 
 
+&nbsp;
 
 <!----------------------------------------------------------------------------------------------------------------------------------------------------------->
 <!----------------------------------------------------------------------------------------------------------------------------------------------------------->
@@ -141,9 +173,13 @@ Table (#table:study1BC) shows the boundary condition choices:
 Caption: Boundary Conditions
 
 
+&nbsp;
 
+&nbsp;
 
+&nbsp;
 
+&nbsp;
 
 <!----------------------------------------------------------------------------------------------------------------------------------------------------------->
 <!----------------------------------------------------------------------------------------------------------------------------------------------------------->
