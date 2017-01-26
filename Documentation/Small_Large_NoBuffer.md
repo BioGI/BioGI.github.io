@@ -52,8 +52,8 @@ Table (#table:study1GeomMotilityParams) describes the geometry, motility and dis
 |Number of waves   |-                         |1                             |1                            |-     |
 |Volume of bolus   |$V_C$		                  |15.22                         |2.67                         |$cm^3$|
 |Occlusion ratio   |$\epsilon/R_{ave}$        |0.3                           |0.3                          |-     |
-|Mesh dimensions   |                          |($198 \times 198 \times 330$) |($151 \times 151 \times 250$)|-     |
-|Mesh size         | $\Delta x$               |0.1515                        |0.112                        |$mm$  |   
+|Mesh dimensions   |                          |($216 \times 216 \times 360$) |($151 \times 151 \times 250$)|-     |
+|Mesh size         | $\Delta x$               |0.138                         |0.112                        |$mm$  |   
 |Time step         | $\Delta t$               |3.826                         |2.091                        |$m s$ |  
 |Period Time       | $T_{period}$             |10                            |5.6                          |$s$   |
 |Period iterations | $iter_{period}$          |2614                          |2678                         |--    |
