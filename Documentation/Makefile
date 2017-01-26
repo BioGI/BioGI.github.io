@@ -25,6 +25,7 @@ html:
 	scholdoc webpage-settings.yml Fed-Fasted-Motility.md --citeproc --output=Fed-Fasted-Motility.html
 	scholdoc webpage-settings.yml In_Vitro_Validation.md --citeproc --output=In_Vitro_Validation.html
 	scholdoc webpage-settings.yml Fed_Fasted_NoBuffer.md  --citeproc --output=Fed_Fasted_NoBuffer.html
+	scholdoc webpage-settings.yml Small_Large_NoBuffer.md  --citeproc --output=Small_Large_NoBuffer.html
 
 latex:
 	scholdoc plos-one-settings.yml lbmBasics.md --natbib --output=lbmBasics.tex
