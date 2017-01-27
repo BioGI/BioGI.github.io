@@ -123,17 +123,17 @@ Table (#table:study1ParticleParameters) shows the particles parameters for the f
 |-------------------------------|---------------|----------------------------------------------|--------------|
 |Bolus dosage desired          	|               |1000                     	                   |$\mu g$       |
 |Bolus dosage entered           |               |1006.76                                       |$\mu g$       |                  
-|Total volume of the particles  |$V^{tot}_d$    |$----- \times 10^{-4}$                        |$cm^3$        | 
+|Total volume of the particles  |$V^{tot}_d$    |$i1.299 \times 10^{-3}$                       |$cm^3$        | 
 |Max particle diameter cut-off  |               |500                                           |$\mu m$       |
 |Max particle diameter        	|$D_P^{max}$  	|236	 		  	                                 |$\mu m$       |
 |Average particle diameter      |$D_P^{ave}$    |124.184            			                     |$\mu m$       |
 |Min particle diameter          |$D_P^{min}$    |5      	   	 			                           |$\mu m$       |
 |Number of particles	         	|$N_P$			    |6326 (Figure [#fig:Particle_Distribution_16]) |-	            |
 |Distribution function shape	  |-	           	|Normal	        			                         |-	            |
-|Standard deviation	 	          |$\sigma$	      |43.9157	                                 |$\mu m$       |		
+|Standard deviation	 	          |$\sigma$	      |43.9157	                                     |$\mu m$       |		
 |Initial particle locations	    |-		          |Randomly distributed in a whole domain 	     |-	            |	
-|Total concentration            |$C_{tot}$      |Large: ----, Small ----                   |$\mu g/cm^3$  | 
-
+|Total concentration            |$C_{tot}$      |Large: 65.7, Small: 374.5                     |$\mu g/cm^3$  | 
+|                              |$C_{tot}/C_s$   |Large:0.42 , Small:2.4   
 
 Caption: Drug particle properties for the first computational study.
 
