@@ -33,6 +33,7 @@ The input parameters that need to be specified for the different experiments fal
 
 &nbsp;
 
+&nbsp;
 <!----------------------------------------------------------------------------------------------------------------------------------------------------------->
 <!----------------------------------------------------------------------------------------------------------------------------------------------------------->
 
@@ -52,12 +53,12 @@ Table (#table:study1GeomMotilityParams) describes the geometry, motility and dis
 |Number of waves   |-                         |1                             |1                            |-     |
 |Volume of bolus   |$V_C$		                  |15.22                         |2.67                         |$cm^3$|
 |Occlusion ratio   |$\epsilon/R_{ave}$        |0.3                           |0.3                          |-     |
-|Mesh dimensions   |                          |($216 \times 216 \times 360$) |($151 \times 151 \times 250$)|-     |
-|Totoal meshnumbers|                          |14 million                    |5.7 million                  |      |
-|Mesh size         | $\Delta x$               |0.138                         |0.112                        |$mm$  |   
-|Time step         | $\Delta t$               |3.215                         |2.091                        |$m s$ |  
+|Mesh dimensions   |                          |($252 \times 252 \times 420$) |($150 \times 150 \times 250$)|-     |
+|Totoal meshnumbers|                          |26.7 million                  |5.7 million                  |      |
+|Mesh size         | $\Delta x$               |0.119                         |0.112                        |$mm$  |   
+|Time step         | $\Delta t$               |2.36                          |2.091                        |$m s$ |  
 |Period Time       | $T_{period}$             |10                            |5.6                          |$s$   |
-|Period iterations | $iter_{period}$          |3110                          |2678                         |--    |
+|Period iterations | $iter_{period}$          |4237                          |2678                         |--    |
 
 Caption: Geometry and motility properties for the first computational study.
 
@@ -67,7 +68,7 @@ Caption: Geometry and motility properties for the first computational study.
 
 &nbsp;
 
-
+&nbsp;
 
 
 <!----------------------------------------------------------------------------------------------------------------------------------------------------------->
@@ -140,17 +141,12 @@ Caption: Drug particle properties for the first computational study.
 
 &nbsp;
 
-&nbsp;
-
-&nbsp;
-
-&nbsp;
 
 For $\sigma$= 43.9157$\mu m$:
 
 #### Figure: {#fig:Particle_Distribution_16}
 
-![](./Figures/Particles_Measured_Fitted.png){width=50%}
+![](./Figures/Particles_Measured_Fitted.png){width=75%}
 
 Caption: $\frac{C_{tot}}{C_s}$=--- ,  $D_{min}$=5$\mu m$ ,   $D_{max}$=236$\mu m$ , $\sigma$=43.9157$\mu m$ ,   $N_P$= 6326 
 
