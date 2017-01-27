@@ -67,9 +67,6 @@ Caption: Geometry and motility properties for the first computational study.
 
 &nbsp;
 
-&nbsp;
-
-&nbsp;
 
 
 
@@ -150,12 +147,11 @@ Caption: Drug particle properties for the first computational study.
 
 &nbsp;
 
-## Particle Distributions
 For $\sigma$= 43.9157$\mu m$:
 
 #### Figure: {#fig:Particle_Distribution_16}
 
-![](./Figures/Particle_Distribution_16.png){width=99%}
+![](./Figures/Particles_Measured_Fitted.png){width=50%}
 
 Caption: $\frac{C_{tot}}{C_s}$=--- ,  $D_{min}$=5$\mu m$ ,   $D_{max}$=236$\mu m$ , $\sigma$=43.9157$\mu m$ ,   $N_P$= 6326 
 
