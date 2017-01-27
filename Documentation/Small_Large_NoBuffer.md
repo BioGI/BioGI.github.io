@@ -46,13 +46,13 @@ Table (#table:study1GeomMotilityParams) describes the geometry, motility and dis
 |Name              |Symbol                    | Large                        |Small                        | Unit |  
 |------------------|--------------------------|------------------------------|-----------------------------|------|
 |Motility type     |-                         |Peristalsis                   |Peristalsis                  |      |
-|Max diameter      |$D_{max}$                 |30                            |16.8                         |$mm$  |
-|Wavelength        |$\lambda$                 |50	                           |28	                         |$mm$  |
+|Max diameter      |$D_{max}$                 |2.7                           |1.5                          |$cm$  |
+|Wavelength        |$\lambda$                 |4.5	                         |2.5	                         |$cm$  |
 |Dimension Ratio   |$\frac{\lambda}{D_{max}}$ |1.66                          | 1.66                        | --   |
 |Wave speed        |$w$                       |5                             |5                            |$mm/s$| 
 |Number of waves   |-                         |1                             |1                            |-     |
-|Volume of bolus   |$V_C$		                  |15.22                         |2.67                         |$cm^3$|
-|Occlusion ratio   |$\epsilon/R_{ave}$        |0.3                           |0.3                          |-     |
+|Volume of bolus   |$V_C$		                  |11.87                         |2.03                         |$cm^3$|
+|Occlusion ratio   |$\epsilon/R_{ave}$        |0.4                           |0.4                          |-     |
 |Mesh dimensions   |                          |($252 \times 252 \times 420$) |($150 \times 150 \times 250$)|-     |
 |Totoal meshnumbers|                          |26.7 million                  |5.7 million                  |      |
 |Mesh size         | $\Delta x$               |0.119                         |0.112                        |$mm$  |   
