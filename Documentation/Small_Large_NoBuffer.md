@@ -130,7 +130,6 @@ Table (#table:study1ParticleParameters) shows the particles parameters for the f
 |Number of particles	         	|$N_P$			    |6326 (Figure [#fig:Particle_Distribution_16]) |-	            |
 |Distribution function shape	  |-	           	|Normal	        			                         |-	            |
 |Standard deviation	 	          |$\sigma$	      |43.9157	                                 |$\mu m$       |		
-|Number of the bins		          |$N_{bins}$   	|20				                                     |-	            |
 |Initial particle locations	    |-		          |Randomly distributed in a whole domain 	     |-	            |	
 |Total concentration            |$C_{tot}$      |Large: ----, Small ----                   |$\mu g/cm^3$  | 
 
@@ -192,7 +191,7 @@ Table (#table:study1ModelingParameters) shows the modeling and computational par
 | Name                              		|Symbol | Choice                												               			|
 |---------------------------------------|-------|-----------------------------------------------------------------------------------------------------------------------------------------------|
 | Partitioning modeling parameter       |$n_d$	| <span style="color:black"> 3 															|
-| Bulk concentration modeling parameter	|$n_b$  | <span style="color:black"> 3 															|     
+| Bulk concentration modeling parameter	|$n_b$  | <span style="color:black"> 2 															|     
 | Schmidt number       	            		|$Sc$   | <span style="color:black"> 20  														|             		           
 | LBM Relaxation parameter	           	|$\tau$	| <span style="color:black"> 1 															| 
 | Mass conservation fix                 |       | <span style="color:black"> in BC:$\rho$=1, $\rho_{uncov}=\rho_{ave}$, Fix [$\rho, f, f^+$]  							|  
