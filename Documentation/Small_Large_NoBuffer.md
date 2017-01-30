@@ -46,16 +46,16 @@ Table (#table:study1GeomMotilityParams) describes the geometry, motility and dis
 |Name              |Symbol                    | Large                        |Small                        | Unit |  
 |------------------|--------------------------|------------------------------|-----------------------------|------|
 |Motility type     |-                         |Peristalsis                   |Peristalsis                  |      |
-|Max diameter      |$D_{max}$                 |2.7                           |1.5                          |$cm$  |
-|Wavelength        |$\lambda$                 |4.5	                         |2.5	                         |$cm$  |
-|Dimension Ratio   |$\frac{\lambda}{D_{max}}$ |1.66                          | 1.66                        | --   |
+|Max diameter      |$D_{max}$                 |2.71                          |1.49                         |$cm$  |
+|Wavelength        |$\lambda$                 |4.51	                         |2.48                         |$cm$  |
+|Dimension Ratio   |$\frac{\lambda}{D_{max}}$ |1.66                          |1.66                         | --   |
 |Wave speed        |$w$                       |5                             |5                            |$mm/s$| 
 |Number of waves   |-                         |1                             |1                            |-     |
-|Volume of bolus   |$V_C$		                  |11.87                         |2.03                         |$cm^3$|
+|Volume of bolus   |$V_C$		                  |11.99077                      |1.9932                       |$cm^3$|
 |Occlusion ratio   |$\epsilon/R_{ave}$        |0.4                           |0.4                          |-     |
-|Mesh dimensions   |                          |($252 \times 252 \times 420$) |($150 \times 150 \times 250$)|-     |
-|Totoal meshnumbers|                          |26.7 million                  |5.7 million                  |      |
-|Mesh size         | $\Delta x$               |0.119                         |0.112                        |$mm$  |   
+|Mesh dimensions   |                          |($217 \times 217 \times 361$) |($119 \times 119 \times 198$)|-     |
+|Totoal meshnumbers|                          |17 million                    |2.8 million                  |      |
+|Mesh size         | $\Delta x$               |0.125                         |0.125                        |$mm$  |   
 |Time step         | $\Delta t$               |2.36                          |2.091                        |$m s$ |  
 |Period Time       | $T_{period}$             |10                            |5.6                          |$s$   |
 |Period iterations | $iter_{period}$          |4237                          |2678                         |--    |
