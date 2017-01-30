@@ -54,8 +54,8 @@ Table (#table:study1GeomMotilityParams) describes the geometry, motility and dis
 |Volume of bolus   |$V_C$		                  |11.99077                      |1.9932                       |$cm^3$|
 |Occlusion ratio   |$\epsilon/R_{ave}$        |0.4                           |0.4                          |-     |
 |Mesh dimensions   |                          |($217 \times 217 \times 361$) |($119 \times 119 \times 198$)|-     |
-|Totoal meshnumbers|                          |17 million                    |2.8 million                  |      |
-|Mesh size         | $\Delta x$               |0.125                         |0.125                        |$mm$  |   
+|Totoal meshnumbers|                          |13.9 million                  |2.4 million                  |      |
+|Mesh size         | $\Delta x$               |0.133                         |0.133                        |$mm$  |   
 |Time step         | $\Delta t$               |2.36                          |2.091                        |$m s$ |  
 |Period Time       | $T_{period}$             |10                            |5.6                          |$s$   |
 |Period iterations | $iter_{period}$          |4237                          |2678                         |--    |
@@ -121,19 +121,19 @@ Table (#table:study1ParticleParameters) shows the particles parameters for the f
 
 | Name                        	|    Symbol     | Choice                                       | Units        |
 |-------------------------------|---------------|----------------------------------------------|--------------|
-|Bolus dosage desired          	|               |1000                     	                   |$\mu g$       |
-|Bolus dosage entered           |               |1006.76                                       |$\mu g$       |                  
-|Total volume of the particles  |$V^{tot}_d$    |$i1.299 \times 10^{-3}$                       |$cm^3$        | 
+|Bolus dosage desired          	|               |666                      	                   |$\mu g$       |
+|Bolus dosage entered           |               |670.501                                       |$\mu g$       |                  
+|Total volume of the particles  |$V^{tot}_d$    |$- \times 10^{-3}$                       |$cm^3$        | 
 |Max particle diameter cut-off  |               |500                                           |$\mu m$       |
-|Max particle diameter        	|$D_P^{max}$  	|236	 		  	                                 |$\mu m$       |
+|Max particle diameter        	|$D_P^{max}$  	|231.2		  	                                 |$\mu m$       |
 |Average particle diameter      |$D_P^{ave}$    |124.184            			                     |$\mu m$       |
 |Min particle diameter          |$D_P^{min}$    |5      	   	 			                           |$\mu m$       |
-|Number of particles	         	|$N_P$			    |6326 (Figure [#fig:Particle_Distribution_16]) |-	            |
+|Number of particles	         	|$N_P$			    |4216 (Figure [#fig:Particle_Distribution_16]) |-	            |
 |Distribution function shape	  |-	           	|Normal	        			                         |-	            |
 |Standard deviation	 	          |$\sigma$	      |43.9157	                                     |$\mu m$       |		
 |Initial particle locations	    |-		          |Randomly distributed in a whole domain 	     |-	            |	
-|Total concentration            |$C_{tot}$      |Large: 65.7, Small: 374.5                     |$\mu g/cm^3$  | 
-|                              |$C_{tot}/C_s$   |Large:0.42 , Small:2.4   
+|Total concentration            |$C_{tot}$      |Large: 55.54, Small: 334.17                   |$\mu g/cm^3$  | 
+|                              |$C_{tot}/C_s$   |Large: 0.35  , Small: 2.135   
 
 Caption: Drug particle properties for the first computational study.
 
