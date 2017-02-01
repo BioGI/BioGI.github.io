@@ -47,12 +47,12 @@ Table (#table:study1GeomMotilityParams) describes the geometry, motility and dis
 |------------------|--------------------------|------------------------------|-----------------------------|------|
 |Motility type     |-                         |Peristalsis                   |Peristalsis                  |      |
 |Max diameter      |$D_{max}$                 |2.8175                        |1.541                        |$cm$  |
-|Wavelength        |$\lambda$                 |4.508	                         |2.484                        |$cm$  |
+|Wavelength        |$\lambda$                 |4.508                         |2.484                        |$cm$  |
 |Dimension Ratio   |$\frac{\lambda}{D_{max}}$ |1.6                           |1.6                          | --   |
 |Wave speed        |$w$                       |5                             |5                            |$mm/s$| 
 |Number of waves   |-                         |1                             |1                            |-     |
-|Volume of bolus   |$V_C$		                  |12.108                        |1.9958                       |$cm^3$|
-|Occlusion ratio   |$\epsilon/R_{ave}$        |0.4                           |0.4                          |-     |
+|Volume of bolus   |$V_C$		                  |12.1                          |2                            |$cm^3$|
+|Occlusion ratio   |$\epsilon/R_{ave}$        |0.3                           |0.3                          |-     |
 |Mesh dimensions   |                          |($245 \times 245 \times 392$) |($134 \times 134 \times 216$)|-     |
 |Totoal meshnumbers|                          |23.5 million                  |3.9 million                  |      |
 |Mesh size         | $\Delta x$               |0.115                         |0.115                        |$mm$  |   
@@ -132,8 +132,8 @@ Table (#table:study1ParticleParameters) shows the particles parameters for the f
 |Distribution function shape	  |-	           	|Normal	        			                         |-	            |
 |Standard deviation	 	          |$\sigma$	      |43.9157	                                     |$\mu m$       |		
 |Initial particle locations	    |-		          |Randomly distributed in a whole domain 	     |-	            |	
-|Total concentration            |$C_{tot}$      |Large: 55.54, Small: 334.17                   |$\mu g/cm^3$  | 
-|                              |$C_{tot}/C_s$   |Large: 0.35  , Small: 2.135   
+|Total concentration            |$C_{tot}$      |Large: 55, Small: 333.7                       |$\mu g/cm^3$  | 
+|                              |$C_{tot}/C_s$   |Large: 0.35  , Small: 2.132                   |-             |     
 
 Caption: Drug particle properties for the first computational study.
 
