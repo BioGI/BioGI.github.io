@@ -87,10 +87,10 @@ Table (#table:study1DrugFluidParams) shows the drug and fluid properties for the
 | Fluid's dynamic viscosity                                  |$\mu_w$  |$1$                          |$cp$   	       |
 | Fluid's kinematic viscosity                                |$\nu_w$  |$1.0e-6$                     |$m^2/s$   	   |
 | Drug                 		                                   |	       |Ibuprofen	   			           | 	     	       |
-| Drug's molar volume                                        |$\nu_d$  |268                          |$cm^3/mol$     |
+| Drug's molar volume                                        |$\nu_d$  |<span style="color:red">268  |$cm^3/mol$     |
 | Drug's molecular wight                                     |$M_d$    |206.285                      |$g/mol$        |  
 | Drug's diffusivity                                         |$D_d$    |$7.5 \times 10^{-6}$         |$cm^2/s$       |
-| Drug's  density                                            |$\rho_d$ |0.77                         |$g/cm^3$       |
+| Drug's  density                                            |$\rho_d$ |1.029                        |$g/cm^3$       |
 | pH: Bulk                                                   |$pH_{,b}$|6.5					                 |-              |
 | pH: Particle surface                                       |$pH_s$   |4.5                          |-              |  
 | Interinsic solubility                                      |$S_o$    |$0.33$                       |$\mu mol/cm^3$ |
