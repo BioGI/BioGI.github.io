@@ -4,11 +4,30 @@ author: Farhad Behafarid
 date: 10 March 2017
 ---
 
+Figures [#fig:Slip_Equation_1] and  [#fig:Slip_Equation_2] show the Equations to compute the slip velocity and corresponding  Sherwood number enhancement:
+
+
+#### Figure: {#fig:Slip_Equation_2}
+
+![](./Figures/Slip_Equation_2.JPG){width=70%}
+
+Caption: Hydrodynamic sip velocity calculations
+
+#### Figure: {#fig:Slip_Equation_1}
+
+![](./Figures/Slip_Equation_1.JPG){width=70%}
+
+Caption: Hydrodynamic Convection Sherwood number enhancement.
+
 ## Velocity Gradients
 
-All 36 velocity gradinet components are computed using velocity values at all nodes 
+For each node, 36 parameter should be calculated using velocity values at thos nodes and the nodes surounding them.
 
-## Material Derivatives of the Velocity
+The calculations are done only before the Restart files are created.
+
+
+
+## Material Derivatives of the Velocity (moving frame of reference, steady state)
 
 ~~~math
 
@@ -32,7 +51,7 @@ All 36 velocity gradinet components are computed using velocity values at all no
 ~~~
 
 
-## Material Derivatives of the Laplacian
+## Material Derivatives of the Laplacian (moving frame of refence, steady state)
 
 ~~~math
 
@@ -42,6 +61,23 @@ All 36 velocity gradinet components are computed using velocity values at all no
 
 ~~~
 
+## Recorded parameters (used for interpolations)
 
-Look at this: [Link](http://www.cfd-online.com/Forums/fluent-udf/90818-strain-rate-magnitude.html)
+Out of 36 parametrers calculated only 9 are recorded to be interpolated to the particles' locations as liste below:
+
+~~~math
+
+[\frac{D\vec{U}}{Dt}]_x  \\
+[\frac{D\vec{U}}{Dt}]_y  \\
+[\frac{D\vec{U}}{Dt}]_z  \\ 
+[\nabla^2(\vec{U})]_x    \\
+[\nabla^2(\vec{U})]_y    \\
+[\nabla^2(\vec{U})]_z    \\
+\big[\frac{D}{Dt} (\nabla^2 \vec{U})\big]_x \\
+\big[\frac{D}{Dt} (\nabla^2 \vec{U})\big]_y \\
+\big[\frac{D}{Dt} (\nabla^2 \vec{U})\big]_z \\
+
+~~~
+
+
 

@@ -19,9 +19,23 @@
 <div class="scholmd-container">
 <div class="scholmd-main">
 <div class="scholmd-content">
+<p>Figures <span class="scholmd-crossref"><a href="#fig:Slip_Equation_1">2</a></span> and <span class="scholmd-crossref"><a href="#fig:Slip_Equation_2">1</a></span> show the Equations to compute the slip velocity and corresponding Sherwood number enhancement:</p>
+<figure class="scholmd-float scholmd-figure" id="fig:Slip_Equation_2">
+<div class="scholmd-float-content"><figure class="scholmd-subfig" style="display: inline-block; width: 70%">
+<img src="./Figures/Slip_Equation_2.JPG" />
+</figure></div>
+<div class="scholmd-float-caption"><figcaption><span class="scholmd-caption-head"><span class="scholmd-caption-head-prefix">Figure</span><span class="scholmd-caption-head-label">1</span></span><span class="scholmd-caption-text">Hydrodynamic sip velocity calculations</span></figcaption></div>
+</figure>
+<figure class="scholmd-float scholmd-figure" id="fig:Slip_Equation_1">
+<div class="scholmd-float-content"><figure class="scholmd-subfig" style="display: inline-block; width: 70%">
+<img src="./Figures/Slip_Equation_1.JPG" />
+</figure></div>
+<div class="scholmd-float-caption"><figcaption><span class="scholmd-caption-head"><span class="scholmd-caption-head-prefix">Figure</span><span class="scholmd-caption-head-label">2</span></span><span class="scholmd-caption-text">Hydrodynamic Convection Sherwood number enhancement.</span></figcaption></div>
+</figure>
 <h2 id="velocity-gradients">Velocity Gradients</h2>
-<p>All 36 velocity gradinet components are computed using velocity values at all nodes</p>
-<h2 id="material-derivatives-of-the-velocity">Material Derivatives of the Velocity</h2>
+<p>For each node, 36 parameter should be calculated using velocity values at thos nodes and the nodes surounding them.</p>
+<p>The calculations are done only before the Restart files are created.</p>
+<h2 id="material-derivatives-of-the-velocity-moving-frame-of-reference-steady-state">Material Derivatives of the Velocity (moving frame of reference, steady state)</h2>
 <p>
 <span class="math scholmd-math-display" style="display: block;">\[
 \begin{equation*}
@@ -45,7 +59,7 @@
 \end{equation*}
 \]</span>
 </p>
-<h2 id="material-derivatives-of-the-laplacian">Material Derivatives of the Laplacian</h2>
+<h2 id="material-derivatives-of-the-laplacian-moving-frame-of-refence-steady-state">Material Derivatives of the Laplacian (moving frame of refence, steady state)</h2>
 <p>
 <span class="math scholmd-math-display" style="display: block;">\[
 \begin{equation*}
@@ -57,7 +71,24 @@
 \end{equation*}
 \]</span>
 </p>
-<p>Look at this: <a href="http://www.cfd-online.com/Forums/fluent-udf/90818-strain-rate-magnitude.html">Link</a></p>
+<h2 id="recorded-parameters-used-for-interpolations">Recorded parameters (used for interpolations)</h2>
+<p>Out of 36 parametrers calculated only 9 are recorded to be interpolated to the particles’ locations as liste below: 
+<span class="math scholmd-math-display" style="display: block;">\[
+\begin{equation*}
+\begin{split}
+[\frac{D\vec{U}}{Dt}]_x  \\
+[\frac{D\vec{U}}{Dt}]_y  \\
+[\frac{D\vec{U}}{Dt}]_z  \\ 
+[\nabla^2(\vec{U})]_x    \\
+[\nabla^2(\vec{U})]_y    \\
+[\nabla^2(\vec{U})]_z    \\
+\big[\frac{D}{Dt} (\nabla^2 \vec{U})\big]_x \\
+\big[\frac{D}{Dt} (\nabla^2 \vec{U})\big]_y \\
+\big[\frac{D}{Dt} (\nabla^2 \vec{U})\big]_z \\
+\end{split}
+\end{equation*}
+\]</span>
+</p>
 <div class="references">
 
 </div>
