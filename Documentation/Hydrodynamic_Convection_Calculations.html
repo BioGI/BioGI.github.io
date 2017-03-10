@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="generator" content="scholpandoc">
+  <meta name="viewport" content="width=device-width">
+  
+  <title></title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.7.1/modernizr.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.js"></script>
+  <link rel="stylesheet" href="css/ScholarlyMarkdown-BS3.css">
+</head>
+<body>
+<div class="scholmd-container">
+<div class="scholmd-main">
+<div class="scholmd-content">
+<h2 id="velocity-gradients">Velocity Gradients</h2>
+<p>All 36 velocity gradinet components are computed using velocity values at all nodes</p>
+<h2 id="material-derivatives-of-the-velocity">Material Derivatives of the Velocity</h2>
+<p>
+<span class="math scholmd-math-display" style="display: block;">\[
+\begin{equation*}
+\begin{split}
+[\frac{D\vec{U}}{Dt}]_x = u \frac{\partial u}{\partial x}+ v  \frac{\partial u}{\partial y}+ (w+w_{frame}) \frac{\partial u}{\partial z} \\
+[\frac{D\vec{U}}{Dt}]_y = u \frac{\partial v}{\partial x}+ v  \frac{\partial v}{\partial y}+ (w+w_{frame}) \frac{\partial v}{\partial z} \\
+[\frac{D\vec{U}}{Dt}]_z = u \frac{\partial w}{\partial x}+ v  \frac{\partial w}{\partial y}+ (w+w_{frame}) \frac{\partial w}{\partial z} \\
+\end{split}
+\end{equation*}
+\]</span>
+</p>
+<h2 id="laplacian">Laplacian</h2>
+<p>
+<span class="math scholmd-math-display" style="display: block;">\[
+\begin{equation*}
+\begin{split}
+[\nabla^2(\vec{U})]_x = \frac{\partial^2 u}{\partial x^2}+ \frac{\partial^2 u}{\partial y^2}+\frac{\partial^2 u}{\partial z^2} = A_1\\
+[\nabla^2(\vec{U})]_y = \frac{\partial^2 v}{\partial x^2}+ \frac{\partial^2 v}{\partial y^2}+\frac{\partial^2 v}{\partial z^2} = A_2\\ 
+[\nabla^2(\vec{U})]_z = \frac{\partial^2 w}{\partial x^2}+ \frac{\partial^2 w}{\partial y^2}+\frac{\partial^2 w}{\partial z^2} = A_3 
+\end{split}
+\end{equation*}
+\]</span>
+</p>
+<h2 id="material-derivatives-of-the-laplacian">Material Derivatives of the Laplacian</h2>
+<p>
+<span class="math scholmd-math-display" style="display: block;">\[
+\begin{equation*}
+\begin{split}
+\big[\frac{D}{Dt} (\nabla^2 \vec{U})\big]_x = u \frac{\partial A_1}{\partial x}+ v  \frac{\partial A_1}{\partial y}+ (w+w_{frame}) \frac{\partial A_1}{\partial z} \\
+\big[\frac{D}{Dt} (\nabla^2 \vec{U})\big]_y = u \frac{\partial A_2}{\partial x}+ v  \frac{\partial A_2}{\partial y}+ (w+w_{frame}) \frac{\partial A_2}{\partial z} \\
+\big[\frac{D}{Dt} (\nabla^2 \vec{U})\big]_z = u \frac{\partial A_3}{\partial x}+ v  \frac{\partial A_3}{\partial y}+ (w+w_{frame}) \frac{\partial A_3}{\partial z} \\
+\end{split}
+\end{equation*}
+\]</span>
+</p>
+<p>Look at this: <a href="http://www.cfd-online.com/Forums/fluent-udf/90818-strain-rate-magnitude.html">Link</a></p>
+<div class="references">
+
+</div>
+</div>
+</div>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+      processClass: "math"
+    },
+    TeX: {
+        TagSide: "left",
+        TagIndent: "1.2em",
+        equationNumbers: {
+            autoNumber: "AMS"
+        },
+        Macros: {
+            ensuremath: ["#1",1],
+            textsf: ["\\mathsf{\\text{#1}}",1],
+            texttt: ["\\mathtt{\\text{#1}}",1]
+        }
+    },
+    "HTML-CSS": { 
+        scale: 100,
+        availableFonts: ["TeX"], 
+        preferredFont: "TeX",
+        webFont: "TeX",
+        imageFont: "TeX",
+        EqnChunk: 1000
+    }
+});
+</script>
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML-full" type="text/javascript"></script>
+</div>
+</body>
+</html>
