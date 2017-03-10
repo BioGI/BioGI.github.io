@@ -4,18 +4,20 @@ author: Farhad Behafarid
 date: 10 March 2017
 ---
 
+## Correlations to compute slip velocity and Sherwood number enhancement
+
 Figures [#fig:Slip_Equation_1] and  [#fig:Slip_Equation_2] show the Equations to compute the slip velocity and corresponding  Sherwood number enhancement:
 
 
 #### Figure: {#fig:Slip_Equation_2}
 
-![](./Figures/Slip_Equation_2.JPG){width=70%}
+![](./Figures/Slip_Equation_2.JPG){width=90%}
 
 Caption: Hydrodynamic sip velocity calculations
 
 #### Figure: {#fig:Slip_Equation_1}
 
-![](./Figures/Slip_Equation_1.JPG){width=70%}
+![](./Figures/Slip_Equation_1.JPG){width=90%}
 
 Caption: Hydrodynamic Convection Sherwood number enhancement.
 
@@ -50,6 +52,11 @@ The calculations are done only before the Restart files are created.
 [\nabla^2(\vec{U})]_z = \frac{\partial^2 w}{\partial x^2}+ \frac{\partial^2 w}{\partial y^2}+\frac{\partial^2 w}{\partial z^2} = A_3 
 ~~~
 
+&nbsp;
+
+&nbsp;
+
+&nbsp;
 
 ## Material Derivatives of the Laplacian (moving frame of refence, steady state)
 
