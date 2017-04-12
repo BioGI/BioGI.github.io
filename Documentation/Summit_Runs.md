@@ -47,7 +47,6 @@ Load proper modules:
 
 	. /curc/tools/utils/switch_lmod.sh
 	. /etc/profile.d/modules.sh
-  module load spider
 	module load gcc
 	module load openmpi
 

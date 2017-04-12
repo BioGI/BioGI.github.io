@@ -47,8 +47,9 @@ Unlimited (will be purged every 180 days):    /lustre/janus_scratch/user1234</co
 <pre><code>ssh scompile</code></pre>
 <p>Load proper modules:</p>
 <pre><code>. /curc/tools/utils/switch_lmod.sh
-. /etc/profile.d/modules.sh</code></pre>
-<p>module load spider module load gcc module load openmpi</p>
+. /etc/profile.d/modules.sh
+module load gcc
+module load openmpi</code></pre>
 <p>Compile the code:</p>
 <pre><code>make</code></pre>
 <h1 id="running">Running:</h1>
