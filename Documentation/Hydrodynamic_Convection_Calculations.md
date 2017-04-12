@@ -45,11 +45,11 @@ The calculations are done only before the Restart files are created.
 
 ~~~math
 
-[\nabla^2(\vec{U})]_x = \frac{\partial^2 u}{\partial x^2}+ \frac{\partial^2 u}{\partial y^2}+\frac{\partial^2 u}{\partial z^2} = A_1\\
+[\nabla^2 \vec{U}]_x = \frac{\partial^2 u}{\partial x^2}+ \frac{\partial^2 u}{\partial y^2}+\frac{\partial^2 u}{\partial z^2} = A_1\\
 
-[\nabla^2(\vec{U})]_y = \frac{\partial^2 v}{\partial x^2}+ \frac{\partial^2 v}{\partial y^2}+\frac{\partial^2 v}{\partial z^2} = A_2\\ 
+[\nabla^2 \vec{U}]_y = \frac{\partial^2 v}{\partial x^2}+ \frac{\partial^2 v}{\partial y^2}+\frac{\partial^2 v}{\partial z^2} = A_2\\ 
 
-[\nabla^2(\vec{U})]_z = \frac{\partial^2 w}{\partial x^2}+ \frac{\partial^2 w}{\partial y^2}+\frac{\partial^2 w}{\partial z^2} = A_3 
+[\nabla^2 \vec{U}]_z = \frac{\partial^2 w}{\partial x^2}+ \frac{\partial^2 w}{\partial y^2}+\frac{\partial^2 w}{\partial z^2} = A_3 
 ~~~
 
 &nbsp;

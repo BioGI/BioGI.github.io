@@ -14,6 +14,7 @@ html:
 #	scholdoc webpage-settings.yml newParticleDissolutionModel.md --citeproc --output=newParticleDissolutionModel.html
 #	scholdoc webpage-settings.yml firstStudy.md --citeproc --output=firstStudy.html
 	scholdoc webpage-settings.yml Janus_Runs.md --citeproc --output=Janus_Runs.html
+	scholdoc webpage-settings.yml Summit_Runs.md --citeproc --output=Summit_Runs.html
 	scholdoc webpage-settings.yml Paraview_Script.md --citeproc --output=Paraview_Script.html
 	scholdoc webpage-settings.yml Strain_Rate_Correlations.md --citeproc --output=Strain_Rate_Correlations.html
 #	scholdoc webpage-settings.yml Motility_Concentration_Data.md --citeproc --output=Motility_Concentration_Data.html

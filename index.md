@@ -21,6 +21,7 @@ This page is intended to be a home page for the documentation of the Bio-GI proj
 
 # Computing Scripts
 * [Janus: Compiling and running](Documentation/Janus_Runs.html)
+* [Summit: Compiling and running](Documentation/Summit_Runs.html)
 * [Paraview: Python scripts to create snapshots and movies](Documentation/Paraview_Script.html)
 
 # Sccientific Wiki Pages

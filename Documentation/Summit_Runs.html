@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="generator" content="scholpandoc">
+  <meta name="viewport" content="width=device-width">
+  
+  <title></title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.7.1/modernizr.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.js"></script>
+  <link rel="stylesheet" href="css/ScholarlyMarkdown-BS3.css">
+</head>
+<body>
+<div class="scholmd-container">
+<div class="scholmd-main">
+<div class="scholmd-content">
+<h1 id="webpages">webpages:</h1>
+<ul>
+<li><p><a href="https://www.rc.colorado.edu/support/getting-started.html">Main Webpage:</a></p></li>
+<li><p><a href="https://www.rc.colorado.edu/support/getting-started.html">Summit info</a></p></li>
+<li><p><a href="https://www.rc.colorado.edu/support/user-guide/software-compilation.html">Webpage for Compiling:</a></p></li>
+<li><p><a href="https://www.rc.colorado.edu/support/user-guide/batch-queueing.html">Webpage for Running:</a></p></li>
+<li><p><a href="https://www.rc.colorado.edu/support/user-guide/software-compilation.html">Compiling:</a></p></li>
+<li><p><a href="https://www.rc.colorado.edu/support/user-guide/batch-queueing.html">Submitting Jobs</a></p></li>
+</ul>
+<h1 id="allocations">Allocations:</h1>
+<p>To find out how much CPU-hour remained in your allocation :</p>
+<p>sreport -n -t hours -P cluster AccountUtilizationByUser start=2016-01-01 tree user=fabe134</p>
+<h1 id="login">Login:</h1>
+<pre><code>ssh fabe1343@login.rc.colorado.edu </code></pre>
+<h1 id="password">Password:</h1>
+<pre><code>4 digit pin + 6 digit OTP</code></pre>
+<h1 id="spaces">Spaces:</h1>
+<pre><code>2GB:       /home/user1234 
+
+250GB:     /projects/user1234
+
+Unlimited (will be purged every 180 days):    /lustre/janus_scratch/user1234</code></pre>
+<h1 id="compiling">Compiling:</h1>
+<p>All softwares compiled on JAnus should be re-compiled on Summit</p>
+<p>login to one of the compiling nodes (form a login node):</p>
+<pre><code>ssh scompile</code></pre>
+<p>Load proper modules:</p>
+<pre><code>. /curc/tools/utils/switch_lmod.sh
+. /etc/profile.d/modules.sh</code></pre>
+<p>module load spider module load gcc module load openmpi</p>
+<p>Compile the code:</p>
+<pre><code>make</code></pre>
+<h1 id="running">Running:</h1>
+<p>Exit from compiling node and Load slurm module:</p>
+<pre><code>module load slurm/summit</code></pre>
+<p>Create the JobScript.sh following the example below:</p>
+<pre><code>#!/bin/bash                                                               
+#SBATCH -J testJob                      # Job name                                     
+#SBATCH --output myjob.%j.out           # stdout; %j expands to jobid                 
+#SBATCH --qos janus-debug               # queue (you can ask for Janus, janus-debug or janus-long
+#SBATCH --nodes 1                                                             
+#SBATCH --ntasks-per-node 8             # Requesting 8 processors 
+#SBATCH -t 00:30:00                     # max time (half an hour) 
+. /curc/tools/utils/switch_lmod.sh
+. /etc/profile.d/modules.sh
+module load gcc                         # Loading modules
+module load openmpi
+srun ./Intestine.exe                    # Intestine.exe is the executable</code></pre>
+<h1 id="submitting-the-job-to-the-queue">Submitting the job to the queue:</h1>
+<pre><code>sbatch JobScript.sh</code></pre>
+<h1 id="installing-tmux-in-janus">Installing tmux in Janus</h1>
+<pre><code>mkdir local
+mkdir tmp
+mv tmux-1.4 tmp
+mv ncurses-5.7 tmp
+mv libevent-2.0.10-stable tmp
+cd tmp
+
+cd libevent-2.0.10-stable
+./configure --prefix=$HOME/local
+make
+make install
+
+cd ../ncureses-5.7
+./configure --prefix=$HOME/local
+make
+make install
+
+cd ../tmux-1.4
+./configure CPPFLAGS=&quot;-I$HOME/local/include -I$HOME/local/include/ncurses&quot; LDFLAGS=&quot;-static -L$HOME/local/include -L$HOME/local/include/ncurses -L$HOME/local/lib&quot; make
+cp tmux ~/local/bin
+export PATH=$HOME/local/bin:$PATH   </code></pre>
+<div class="references">
+
+</div>
+</div>
+</div>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+      processClass: "math"
+    },
+    TeX: {
+        TagSide: "left",
+        TagIndent: "1.2em",
+        equationNumbers: {
+            autoNumber: "AMS"
+        },
+        Macros: {
+            ensuremath: ["#1",1],
+            textsf: ["\\mathsf{\\text{#1}}",1],
+            texttt: ["\\mathtt{\\text{#1}}",1]
+        }
+    },
+    "HTML-CSS": { 
+        scale: 100,
+        availableFonts: ["TeX"], 
+        preferredFont: "TeX",
+        webFont: "TeX",
+        imageFont: "TeX",
+        EqnChunk: 1000
+    }
+});
+</script>
+</div>
+</body>
+</html>
