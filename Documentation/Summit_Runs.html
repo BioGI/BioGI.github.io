@@ -40,7 +40,7 @@
 
 250GB:     /projects/user1234
 
-Unlimited (will be purged every 180 days):    /lustre/janus_scratch/user1234</code></pre>
+Unlimited (will be purged every 90 days): /scratch/summit/user1234</code></pre>
 <h1 id="compiling">Compiling:</h1>
 <p>All softwares compiled on JAnus should be re-compiled on Summit</p>
 <p>login to one of the compiling nodes (form a login node):</p>
@@ -49,7 +49,7 @@ Unlimited (will be purged every 180 days):    /lustre/janus_scratch/user1234</co
 <pre><code>. /curc/tools/utils/switch_lmod.sh
 . /etc/profile.d/modules.sh
 module load gcc
-module load openmpi</code></pre>
+module load openmpi/2.0.1</code></pre>
 <p>Compile the code:</p>
 <pre><code>make</code></pre>
 <h1 id="running">Running:</h1>

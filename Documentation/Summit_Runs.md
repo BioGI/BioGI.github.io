@@ -34,7 +34,7 @@ To find out how much CPU-hour remained in your allocation :
 
 	250GB:     /projects/user1234
   
-	Unlimited (will be purged every 180 days):    /lustre/janus_scratch/user1234
+	Unlimited (will be purged every 90 days): /scratch/summit/user1234
 
 # Compiling: 	
 All softwares compiled on JAnus should be re-compiled on Summit
@@ -48,7 +48,7 @@ Load proper modules:
 	. /curc/tools/utils/switch_lmod.sh
 	. /etc/profile.d/modules.sh
 	module load gcc
-	module load openmpi
+	module load openmpi/2.0.1
 
 Compile the code:
       
