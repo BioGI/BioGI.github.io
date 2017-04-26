@@ -52,9 +52,14 @@ module load gcc
 module load openmpi/2.0.1</code></pre>
 <p>Compile the code:</p>
 <pre><code>make</code></pre>
+<h1 id="used-allocation-report">Used Allocation Report</h1>
+<pre><code>sreport cluster AccountUtilizationByUser -t hours user=fabe1343</code></pre>
 <h1 id="running">Running:</h1>
 <p>Exit from compiling node and Load slurm module:</p>
-<pre><code>module load slurm/summit</code></pre>
+<pre><code>module load slurm/summit
+module load gcc
+module load openmpi/1.8.5
+module load slurm/summit</code></pre>
 <p>Create the JobScript.sh following the example below:</p>
 <pre><code>#!/bin/bash                                                               
 #SBATCH -J testJob                      # Job name                                     

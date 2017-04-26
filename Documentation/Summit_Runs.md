@@ -54,11 +54,16 @@ Compile the code:
       
 	make
 
+#Used Allocation Report
+	sreport cluster AccountUtilizationByUser -t hours user=fabe1343
 
 #Running:
 
 Exit from compiling node and Load slurm module:
 
+	module load slurm/summit
+	module load gcc
+	module load openmpi/1.8.5
 	module load slurm/summit
 
 
