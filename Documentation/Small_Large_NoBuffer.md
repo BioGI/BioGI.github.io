@@ -186,7 +186,7 @@ Table (#table:study1ModelingParameters) shows the modeling and computational par
 
 | Name                              		|Symbol | Choice                												               			|
 |---------------------------------------|-------|-----------------------------------------------------------------------------------------------------------------------------------------------|
-| Partitioning modeling parameter       |$n_d$	| <span style="color:black"> 3 															|
+| Partitioning modeling parameter       |$n_d$	| <span style="color:black"> 2.5														|
 | Bulk concentration modeling parameter	|$n_b$  | <span style="color:black"> 2 															|     
 | Schmidt number       	            		|$Sc$   | <span style="color:black"> 20  														|             		           
 | LBM Relaxation parameter	           	|$\tau$	| <span style="color:black"> 1 															| 
