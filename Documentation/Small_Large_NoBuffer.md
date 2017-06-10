@@ -1,5 +1,5 @@
 ---
-title: Investigating Effects of Hydrodynamic Shear and Volume (no buffer)
+title: Baseline Experiments' Designs, Investigating Effects of Hydrodynamic Shear, Volume, Dosage, Drug Solubility and Peristaltic Wave Speed (No Buffer)
 author: Farhad Behafarid
 date: 25 Jan 2016
 ---
@@ -15,25 +15,6 @@ Four experiments are summerized in Table (#table:FedExperiments):
 
 Caption: Experiments
 
-The input parameters that need to be specified for the different experiments fall into different categories, viz., geometry and motility, drug and fluid properties, particle information, boundary conditions and the correlations for shear and hydrodynamic effects. 
-
-&nbsp;
-
-&nbsp;
-
-&nbsp;
-
-&nbsp;
-
-&nbsp;
-
-&nbsp;
-
-&nbsp;
-
-&nbsp;
-
-&nbsp;
 <!----------------------------------------------------------------------------------------------------------------------------------------------------------->
 <!----------------------------------------------------------------------------------------------------------------------------------------------------------->
 
@@ -62,13 +43,6 @@ Table (#table:study1GeomMotilityParams) describes the geometry, motility and dis
 
 Caption: Geometry and motility properties for the first computational study.
 
-&nbsp;
-
-&nbsp;
-
-&nbsp;
-
-&nbsp;
 
 
 <!----------------------------------------------------------------------------------------------------------------------------------------------------------->
@@ -103,13 +77,24 @@ Table (#table:study1DrugFluidParams) shows the drug and fluid properties for the
 
 Caption: Drug and fluid properties for the first computational experiments.
 
+&nbsp;
 
+&nbsp;
 
+&nbsp;
 
+&nbsp;
 
+&nbsp;
 
+&nbsp;
+
+&nbsp;
+
+&nbsp;
 <!----------------------------------------------------------------------------------------------------------------------------------------------------------->
 <!----------------------------------------------------------------------------------------------------------------------------------------------------------->
+
 # Particles
 
 "BOLUS DOSE": mass or moles of drug in a bolus segment. To estimate we will collect data from the literature and from UM on concentration of extracted fluids -- statistics. From MRI (Nottingham) we will estimate bolus volume. These two will give us dose in moles from which bolus $C_{tot}$ can be estimated. To this end, we need to estimate solid content along with fluid concentration in the extracted segments. 
@@ -136,10 +121,6 @@ Table (#table:study1ParticleParameters) shows the particles parameters for the f
 |                              |$C_{tot}/C_s$   |Large: 0.35  , Small: 2.132                   |-             |     
 
 Caption: Drug particle properties for the first computational study.
-
-&nbsp;
-
-&nbsp;
 
 
 For $\sigma$= 43.9157$\mu m$:
