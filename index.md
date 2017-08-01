@@ -45,6 +45,7 @@ This page is intended to be a home page for the documentation of the Bio-GI proj
 * [Experiments: Fed-Fasted, peristalsis-segmental, shear effects](Documentation/Fed-Fasted-Experiments.html)
 * [First experiment design (Peristalsis, Fed-State, 936 particles)](Documentation/firstStudy.html)
 * [Fed experiments' design](Documentation/FedExperiments.html)
-* [In vitro Validation](Documentation/In_Vitro_Validation.html)
+* [In vitro Validation: Raw particle data](Documentation/In_Vitro_Validation.html)
+* [In vitro Validation: Fitted Continous Particle Distribution](Documentation/In_Vitro_Validation_Continuous_ParDist.html)
 * [Zero buffer Fed and Fasted](Documentation/Fed_Fasted_NoBuffer.html)
 * [Zero buffer: Large and Small](Documentation/Small_Large_NoBuffer.html)
